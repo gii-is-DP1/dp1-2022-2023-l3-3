@@ -33,14 +33,22 @@
     </properties>
 <developers>
     <developer>
-         <id>Sergio</id>
-         <name>Sergio</name>
-         <email>sergiosantiago0403@gmail.com</email>
-         <roles>
-           <role>leader</role>
-         </roles>
-         
-       </developer>
+        <id>Sergio</id>
+        <name>Sergio</name>
+        <email>sergiosantiago0403@gmail.com</email>
+        <roles>
+            <role>leader</role>
+        </roles>
+    </developer>
+    <developer>
+        <id>marvicmar</id>
+        <name>María</name>
+        <email>maria.vico21@gmail.com</email>
+        <roles>
+            <role>leader</role>
+        </roles>
+    </developer>
+
 </developers>
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
