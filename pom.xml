@@ -39,16 +39,23 @@
          <roles>
            <role>leader</role>
          </roles>
-       </developer>
-       
-       <developer>
-        <id>Ale</id>
-        <name>Alejandro</name>
-        <email>alepv1603@gmail.com</email>
-        <roles>
-          <role>leader</role>
-        </roles>
-      </developer>
+    </developer>
+    <developer>
+         <id>Ale</id>
+         <name>Alejandro</name>
+         <email>alepv1603@gmail.com</email>
+         <roles>
+           <role>leader</role>
+         </roles>
+     </developer>
+     <developer>
+         <id>Albertoperleo</id>
+         <name>Alberto</name>
+         <email>albperleo@alum.us.es</email>
+         <roles>
+           <role>leader</role>
+         </roles>
+    </developer>
 </developers>
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
