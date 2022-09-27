@@ -32,32 +32,7 @@
 
     </properties>
 <developers>
-    <developer>
-         <id>Sergio</id>
-         <name>Sergio</name>
-         <email>sergiosantiago0403@gmail.com</email>
-         <roles>
-           <role>leader</role>
-         </roles>
-       </developer>
-       
-       <developer>
-        <id>Ale</id>
-        <name>Alejandro</name>
-        <email>alepv1603@gmail.com</email>
-        <roles>
-          <role>leader</role>
-        </roles>
-      </developer>
-
-      <developer>
-        <id>Javier</id>
-        <name>Javier</name>
-        <email>javiernr02@gmail.com</email>
-        <roles>
-          <role>leader</role>
-        </roles>
-      </developer>
+    
 </developers>
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
