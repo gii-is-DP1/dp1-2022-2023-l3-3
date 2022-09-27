@@ -28,6 +28,10 @@ public class WelcomeController {
 		person3.setFirstName("Maria");
 		person3.setLastName("Vico");
 		persons.add(person3);
+		Person person4=new Person();
+		person4.setFirstName("Juan Carlos");
+		person4.setLastName("Ramírez");
+		persons.add(person4);
 		model.put("persons", persons);
 		model.put("title", "Lab1");
 		model.put("group", "Teachers");
