@@ -39,8 +39,15 @@
          <roles>
            <role>leader</role>
          </roles>
-         
-       </developer>
+    </developer>
+    <developer>
+        <id>JuanCarlos</id>
+        <name>Juan Carlos</name>
+        <email>juancarlosralop@gmail.com</email>
+        <roles>
+          <role>developer</role>
+        </roles>
+      </developer>
 </developers>
     <dependencies>
         <!-- Spring and Spring Boot dependencies -->
