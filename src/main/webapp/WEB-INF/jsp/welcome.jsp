@@ -24,7 +24,7 @@
         </div>
     </div>
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-5">
             <spring:url value="/resources/images/logo_7_islas.png" htmlEscape="true" var="logo7IslasImage"/>
             <img class="img-responsive" src="${logo7IslasImage}"/>
         </div>
