@@ -23,4 +23,10 @@
             <img class="img-responsive" src="${petsImage}"/>
         </div>
     </div>
+    <div class="row">
+        <div class="col-md-12">
+            <spring:url value="/resources/images/logo_7_islas.png" htmlEscape="true" var="logo7IslasImage"/>
+            <img class="img-responsive" src="${logo7IslasImage}"/>
+        </div>
+    </div>
 </petclinic:layout>
