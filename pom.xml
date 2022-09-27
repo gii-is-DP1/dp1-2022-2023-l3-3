@@ -41,6 +41,14 @@
          </roles>
     </developer>
     <developer>
+        <id>JuanCarlos</id>
+        <name>Juan Carlos</name>
+        <email>juancarlosralop@gmail.com</email>
+        <roles>
+          <role>developer</role>
+        </roles>
+      </developer>
+      <developer>
          <id>Ale</id>
          <name>Alejandro</name>
          <email>alepv1603@gmail.com</email>
