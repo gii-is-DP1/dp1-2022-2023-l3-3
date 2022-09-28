@@ -13,7 +13,9 @@
     <p><ul>
         
     <c:forEach items="${persons}" var="person">
-        <li>${person.firstName}&nbsp${person.lastName}</li>
+        <li>
+            <c:out value = "${person.firstName} ${person.lastName}" />
+        </li>
     </c:forEach>
     </ul></p>
     </div>  
@@ -21,6 +23,12 @@
         <div class="col-md-12">
             <spring:url value="/resources/images/pets.png" htmlEscape="true" var="petsImage"/>
             <img class="img-responsive" src="${petsImage}"/>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-5">
+            <spring:url value="/resources/images/logo_7_islas.png" htmlEscape="true" var="logo7IslasImage"/>
+            <img class="img-responsive" src="${logo7IslasImage}"/>
         </div>
     </div>
 </petclinic:layout>
