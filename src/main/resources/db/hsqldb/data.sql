@@ -22,7 +22,7 @@ INSERT INTO users(username,password,enabled) VALUES ('juaramlop2',';)',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (7,'juaramlop2','owner');
 
 
--- Lab 1- owner insertion Alepervaz
+-- owner insertion Alepervaz
 INSERT INTO users(username,password,enabled) VALUES ('alepervaz','1234',TRUE);
 INSERT INTO authorities(id,username,authority) VALUES (8,'alepervaz','owner');
 
@@ -64,7 +64,7 @@ INSERT INTO owners VALUES (10, 'Carlos', 'Estaban', '2335 Independence La.', 'Wa
 -- Lab1 - owner insertion Albertoperleo
 INSERT INTO owners VALUES (11, 'Alberto', 'Perea', 'C/Isadora Duncan, 35', 'Sevilla', '6085555123', 'albperleo');
 
---lab 1 owner insertion alepervaz
+-- owner insertion alepervaz
 INSERT INTO owners VALUES (15, 'Alejandro', 'Perez', 'C/Segre', 'Sevilla', '608961639', 'alepervaz');
 
 -- owner insertion javnunrui
@@ -93,7 +93,7 @@ INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (13, 'Sly', '2012-0
 -- Lab1 - owner insertion Albertoperleo
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (14, 'Croqueta de jamon', '2002-03-13', 7, 11);
 
--- Lab1 - owner insertion alepervaz
+-- owner insertion alepervaz
 INSERT INTO pets(id,name,birth_date,type_id,owner_id) VALUES (18, 'Bobby', '2012-03-16', 2, 15);
 
 -- owner insertion javnunrui
