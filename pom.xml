@@ -57,20 +57,20 @@
          </roles>
      </developer>
      <developer>
-         <id>Albertoperleo</id>
-         <name>Alberto</name>
-         <email>albperleo@alum.us.es</email>
-         <roles>
-           <role>leader</role>
-         </roles>
-    </developer>
-    <developer>
         <id>marvicmar</id>
         <name>María</name>
         <email>maria.vico21@gmail.com</email>
         <roles>
             <role>leader</role>
         </roles>
+    </developer>
+     <developer>
+         <id>Albertoperleo</id>
+         <name>Alberto</name>
+         <email>albperleo@alum.us.es</email>
+         <roles>
+           <role>leader</role>
+         </roles>
     </developer>
     <developer>
          <id>Javier</id>
