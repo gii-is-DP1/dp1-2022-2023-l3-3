@@ -10,21 +10,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class WelcomeController {
-<<<<<<< HEAD
-	
-	
-	  @GetMapping({"/","/welcome"})
-	  public String welcome(Map<String, Object> model) {	
-		List<Person> persons = new ArrayList<Person>();
-		Person sergio = new Person();
-		sergio.setFirstName("Sergio"); 
-		sergio.setLastName("Santiago");
-		persons.add(sergio);
-		model.put("persons", persons);
-		model.put("title", "L3-3");
-		model.put("group", "G2 L3-3");
-=======
->>>>>>> 4f9fa771fce97aa2bf2ea553cd7eae6f98daf1db
 
 	@GetMapping({ "/", "/welcome" })
 	public String welcome(Map<String, Object> model) {
