@@ -37,7 +37,7 @@ public class WelcomeController {
 		persons.add(person5);
 		Person person6 = new Person();
 		person6.setFirstName("Javier");
-		person6.setLastName("Nuñez");
+		person6.setLastName("Nunes");
 		persons.add(person6);
 		model.put("persons", persons);
 		model.put("title", "Lab1");
