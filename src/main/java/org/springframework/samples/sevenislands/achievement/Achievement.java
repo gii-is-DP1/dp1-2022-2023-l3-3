@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.achievement;
+package org.springframework.samples.sevenislands.achievement;
 
 import java.util.Collection;
 
