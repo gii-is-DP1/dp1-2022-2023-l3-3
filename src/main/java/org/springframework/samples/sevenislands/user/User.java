@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.user;
+package org.springframework.samples.sevenislands.user;
 
 import java.time.LocalDate;
 
@@ -8,6 +8,9 @@ import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.validation.constraints.Past;
 
 import org.springframework.samples.petclinic.model.Person;
 
@@ -30,6 +33,8 @@ public class User extends Person {
 	@Column(unique = true, nullable = false)
 	private String password;
 
+	@Past
+	@Temporal(TemporalType.DATE)
 	private LocalDate creationDate;
 
 }
