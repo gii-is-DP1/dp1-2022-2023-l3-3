@@ -1,11 +1,11 @@
-package org.springframework.samples.petclinic.game;
+package org.springframework.samples.sevenislands.game;
 
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.samples.petclinic.model.BaseEntity;
+import org.springframework.samples.sevenislands.model.BaseEntity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -14,11 +14,11 @@ import lombok.Setter;
 @Setter
 @Entity
 public class Game extends BaseEntity {
-        
+
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDateTime creationDate;
 
-    @DateTimeFormat(pattern = "yyyy/MM/dd")
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDateTime endingDate;
-    
+
 }
