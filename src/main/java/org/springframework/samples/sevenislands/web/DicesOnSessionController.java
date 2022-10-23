@@ -1,4 +1,4 @@
-package org.springframework.samples.petclinic.web;
+package org.springframework.samples.sevenislands.web;
 
 import javax.servlet.http.HttpSession;
 

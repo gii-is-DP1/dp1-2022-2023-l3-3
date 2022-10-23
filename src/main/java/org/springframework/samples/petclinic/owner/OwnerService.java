@@ -33,37 +33,37 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class OwnerService {
 
-	private OwnerRepository ownerRepository;	
-	
-	@Autowired
-	private UserService userService;
-	
-	@Autowired
-	private AuthoritiesService authoritiesService;
+    private OwnerRepository ownerRepository;
 
-	@Autowired
-	public OwnerService(OwnerRepository ownerRepository) {
-		this.ownerRepository = ownerRepository;
-	}	
+    @Autowired
+    private UserService userService;
 
-	@Transactional(readOnly = true)
-	public Owner findOwnerById(int id) throws DataAccessException {
-		return ownerRepository.findById(id);
-	}
+    @Autowired
+    private AuthoritiesService authoritiesService;
 
-	@Transactional(readOnly = true)
-	public Collection<Owner> findOwnerByLastName(String lastName) throws DataAccessException {
-		return ownerRepository.findByLastName(lastName);
-	}
+    @Autowired
+    public OwnerService(OwnerRepository ownerRepository) {
+        this.ownerRepository = ownerRepository;
+    }
 
-	@Transactional
-	public void saveOwner(Owner owner) throws DataAccessException {
-		//creating owner
-		ownerRepository.save(owner);		
-		//creating user
-		userService.saveUser(owner.getUser());
-		//creating authorities
-		authoritiesService.saveAuthorities(owner.getUser().getUsername(), "owner");
-	}		
+    @Transactional(readOnly = true)
+    public Owner findOwnerById(int id) throws DataAccessException {
+        return ownerRepository.findById(id);
+    }
+
+    @Transactional(readOnly = true)
+    public Collection<Owner> findOwnerByLastName(String lastName) throws DataAccessException {
+        return ownerRepository.findByLastName(lastName);
+    }
+
+    @Transactional
+    public void saveOwner(Owner owner) throws DataAccessException {
+        // creating owner
+        ownerRepository.save(owner);
+        // creating user
+        userService.saveUser(owner.getUser());
+        // creating authorities
+        authoritiesService.saveAuthorities(owner.getUser().getUsername(), "owner");
+    }
 
 }

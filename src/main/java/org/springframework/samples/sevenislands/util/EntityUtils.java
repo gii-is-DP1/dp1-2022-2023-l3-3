@@ -14,12 +14,12 @@
  * limitations under the License.
  */
 
-package org.springframework.samples.petclinic.util;
+package org.springframework.samples.sevenislands.util;
 
 import java.util.Collection;
 
 import org.springframework.orm.ObjectRetrievalFailureException;
-import org.springframework.samples.petclinic.model.BaseEntity;
+import org.springframework.samples.sevenislands.model.BaseEntity;
 
 /**
  * Utility methods for handling entities. Separate from the BaseEntity class
