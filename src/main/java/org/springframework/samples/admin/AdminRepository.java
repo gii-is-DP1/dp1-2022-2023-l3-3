@@ -1,4 +1,4 @@
-package org.springframework.samples.player;
+package org.springframework.samples.admin;
 
 import java.util.Collection;
 
@@ -7,16 +7,16 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
 
-public interface PlayerRepository extends Repository<Player, Integer>{
+public interface AdminRepository extends Repository<Admin, Integer>{
     
-    void save(Player player) throws DataAccessException;
+    void save(Admin admin) throws DataAccessException;
 
-    @Query("SELECT DISTINCT player FROM Player player WHERE player.name LIKE :name%")
-	public Collection<Player> findByName(@Param("name") String name);
+    @Query("SELECT DISTINCT admin FROM Admin admin WHERE admin.name LIKE :name%")
+	public Collection<Admin> findByName(@Param("name") String name);
 
-    @Query("SELECT player FROM Player player WHERE player.id = :id")
-	public Player findById(@Param("id") Integer id);
+    @Query("SELECT admin FROM Admin player WHERE admin.id = :id")
+	public Admin findById(@Param("id") Integer id);
 
-    @Query("SELECT DISTINCT player FROM Player player WHERE player.email = :email")
-	public Collection<Player> findEmail(@Param("email") String email);
+    @Query("SELECT DISTINCT admin FROM Admin admin WHERE admin.email = :email")
+	public Collection<Admin> findEmail(@Param("email") String email);
 }

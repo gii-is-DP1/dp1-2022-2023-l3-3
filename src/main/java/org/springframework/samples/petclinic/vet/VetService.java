@@ -31,17 +31,16 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class VetService {
 
-	private VetRepository vetRepository;
+    private VetRepository vetRepository;
 
+    @Autowired
+    public VetService(VetRepository vetRepository) {
+        this.vetRepository = vetRepository;
+    }
 
-	@Autowired
-	public VetService(VetRepository vetRepository) {
-		this.vetRepository = vetRepository;
-	}		
-
-	@Transactional(readOnly = true)	
-	public Collection<Vet> findVets() throws DataAccessException {
-		return vetRepository.findAll();
-	}	
+    @Transactional(readOnly = true)
+    public Collection<Vet> findVets() throws DataAccessException {
+        return vetRepository.findAll();
+    }
 
 }
