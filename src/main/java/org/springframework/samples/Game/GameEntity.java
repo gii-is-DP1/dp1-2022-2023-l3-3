@@ -3,6 +3,7 @@ package org.springframework.samples.petclinic.model;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -15,9 +16,11 @@ import lombok.Setter;
 public class GameEntity extends BaseEntity {
         
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@NotNull
 	private LocalDateTime creationDate;
 
     @DateTimeFormat(pattern = "yyyy/MM/dd")
+	@NotNull
 	private LocalDateTime endingDate;
     
 }

@@ -50,6 +50,11 @@ import org.springframework.samples.petclinic.user.User;
 @Table(name = "owners")
 public class Owner extends Person {
 
+	public Owner(String name, String nickname, String email, String password) {
+		super(name, nickname, email, password);
+		//TODO Auto-generated constructor stub
+	}
+
 	@Column(name = "address")
 	@NotEmpty
 	private String address;
@@ -174,8 +179,8 @@ public class Owner extends Person {
 	public String toString() {
 		return new ToStringCreator(this)
 
-				.append("id", this.getId()).append("new", this.isNew()).append("lastName", this.getLastName())
-				.append("firstName", this.getFirstName()).append("address", this.address).append("city", this.city)
+				.append("id", this.getId()).append("new", this.isNew()).append("lastName", this.getEmail())
+				.append("firstName", this.getName()).append("address", this.address).append("city", this.city)
 				.append("telephone", this.telephone).toString();
 	}
 
