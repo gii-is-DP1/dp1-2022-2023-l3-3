@@ -1,4 +1,4 @@
-package org.springframework.samples.Goal;
+package org.springframework.samples.sevenislands.Goal;
 
 import java.util.Collection;
 
