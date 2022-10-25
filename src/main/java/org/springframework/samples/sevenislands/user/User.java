@@ -30,7 +30,7 @@ public class User extends Person {
 	@Column(unique = true, nullable = false, length = 50)
 	private String email;
 
-	@Column(unique = true, nullable = false)
+	@Column(unique = false, nullable = false)
 	private String password;
 
 	@Past
