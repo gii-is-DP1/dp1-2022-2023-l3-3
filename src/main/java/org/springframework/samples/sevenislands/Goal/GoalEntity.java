@@ -3,8 +3,8 @@ package org.springframework.samples.sevenislands.Goal;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotEmpty;
 
-import org.springframework.samples.petclinic.model.BaseEntity;
 import org.springframework.samples.sevenislands.Enums.TipoLogro;
+import org.springframework.samples.sevenislands.model.BaseEntity;
 
 import lombok.Getter;
 import lombok.Setter;

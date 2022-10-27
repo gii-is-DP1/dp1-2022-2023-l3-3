@@ -20,8 +20,7 @@ import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.Size;
 
 /**
- * Simple JavaBean domain object adds a name property to
- * <code>BaseEntity</code>. Used as
+ * Simple JavaBean domain object adds a name property to <code>BaseEntity</code>. Used as
  * a base class for objects needing these properties.
  *
  * @author Ken Krebs
@@ -30,7 +29,7 @@ import javax.validation.constraints.Size;
 @MappedSuperclass
 public class NamedEntity extends BaseEntity {
 
-	@Size(min = 3, max = 50)
+    @Size(min = 3, max = 50)
 	@Column(name = "name")
 	private String name;
 

@@ -3,7 +3,7 @@ package org.springframework.samples.sevenislands.lobby;
 import javax.persistence.Entity;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.samples.petclinic.model.BaseEntity;
+import org.springframework.samples.sevenislands.model.BaseEntity;
 
 import lombok.Getter;
 import lombok.Setter;

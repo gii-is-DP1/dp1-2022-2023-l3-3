@@ -21,10 +21,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.repository.Repository;
 
 /**
- * Repository class for <code>Vet</code> domain objects All method names are
- * compliant
- * with Spring Data naming conventions so this interface can easily be extended
- * for Spring
+ * Repository class for <code>Vet</code> domain objects All method names are compliant
+ * with Spring Data naming conventions so this interface can easily be extended for Spring
  * Data See here:
  * http://static.springsource.org/spring-data/jpa/docs/current/reference/html/jpa.repositories.html#jpa.query-methods.query-creation
  *
@@ -33,13 +31,12 @@ import org.springframework.data.repository.Repository;
  * @author Sam Brannen
  * @author Michael Isvy
  */
-public interface VetRepository extends Repository<Vet, Integer> {
+public interface VetRepository extends Repository<Vet, Integer>{
 
-    /**
-     * Retrieve all <code>Vet</code>s from the data store.
-     * 
-     * @return a <code>Collection</code> of <code>Vet</code>s
-     */
-    Collection<Vet> findAll() throws DataAccessException;
+	/**
+	 * Retrieve all <code>Vet</code>s from the data store.
+	 * @return a <code>Collection</code> of <code>Vet</code>s
+	 */
+	Collection<Vet> findAll() throws DataAccessException;
 
 }
