@@ -12,7 +12,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Past;
 
-import org.springframework.samples.sevenislands.model.Person;
+import org.springframework.samples.petclinic.model.Person;
 
 import lombok.Getter;
 import lombok.Setter;
