@@ -13,6 +13,7 @@ import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Past;
 
 import org.springframework.samples.sevenislands.user.User;
+import org.springframework.samples.sevenislands.achievement.Achievement;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -33,8 +34,6 @@ public class Player extends User {
     @NotEmpty
     private String avatar;
 
-    /*
-     * @ManyToMany
-     * private Collection<Achivement> achivements;
-     */
+    @ManyToMany
+    private Collection<Achievement> achievements;
 }
