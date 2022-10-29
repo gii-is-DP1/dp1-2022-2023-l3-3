@@ -10,7 +10,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotEmpty;
 
-import org.springframework.samples.petclinic.model.NamedEntity;
+import org.springframework.samples.sevenislands.model.NamedEntity;
 import org.springframework.samples.sevenislands.player.Player;
 
 import lombok.Getter;
@@ -20,8 +20,8 @@ import lombok.Setter;
 @Setter
 @Entity
 @Table(name = "achievements")
-public class Achievement extends NamedEntity{
-    
+public class Achievement extends NamedEntity {
+
     @Column(name = "description")
     @NotEmpty
     private String description;
@@ -33,5 +33,4 @@ public class Achievement extends NamedEntity{
 
     @ManyToMany(mappedBy = "achievements")
     private Collection<Player> players;
-
 }
