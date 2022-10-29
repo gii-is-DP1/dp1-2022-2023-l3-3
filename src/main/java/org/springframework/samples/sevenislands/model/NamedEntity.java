@@ -13,14 +13,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.petclinic.model;
+package org.springframework.samples.sevenislands.model;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
 import javax.validation.constraints.Size;
 
 /**
- * Simple JavaBean domain object adds a name property to <code>BaseEntity</code>. Used as
+ * Simple JavaBean domain object adds a name property to
+ * <code>BaseEntity</code>. Used as
  * a base class for objects needing these properties.
  *
  * @author Ken Krebs
@@ -29,7 +30,7 @@ import javax.validation.constraints.Size;
 @MappedSuperclass
 public class NamedEntity extends BaseEntity {
 
-    @Size(min = 3, max = 50)
+	@Size(min = 3, max = 50)
 	@Column(name = "name")
 	private String name;
 
