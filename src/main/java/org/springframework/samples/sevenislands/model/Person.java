@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.springframework.samples.sevenislands.model;
+package org.springframework.samples.petclinic.model;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
@@ -26,8 +26,6 @@ import javax.validation.constraints.NotEmpty;
  */
 @MappedSuperclass
 public class Person extends BaseEntity {
-
-	
 
 	@Column(name = "first_name")
 	@NotEmpty

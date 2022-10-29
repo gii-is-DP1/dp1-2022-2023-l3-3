@@ -22,6 +22,12 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+/**
+ * Mostly used as a facade for all Petclinic controllers Also a placeholder
+ * for @Transactional and @Cacheable annotations
+ *
+ * @author Michael Isvy
+ */
 @Service
 public class UserService {
 
@@ -32,39 +38,15 @@ public class UserService {
 		this.userRepository = userRepository;
 	}
 
-	@Transactional
-	public void saveUser(User user) throws DataAccessException {
-		// creating user
-		userRepository.save(user);
-	}
+	/*
+	 * @Transactional
+	 * public void saveUser(User user) throws DataAccessException {
+	 * user.setEnabled(true);
+	 * userRepository.save(user);
+	 * }
+	 */
 
-	@Transactional(readOnly = true)
-	public Optional<User> findUser(Integer id) {
-		// retrieving user by id
-		return userRepository.findById(id);
+	public Optional<User> findUser(String username) {
+		return userRepository.findById(username);
 	}
-
-	@Transactional(readOnly = true)
-	public User findUser(String nickname) {
-		// retrieving user by nickname
-		return userRepository.findByNickname(nickname);
-	}
-
-	@Transactional(readOnly = true)
-	public Iterable<User> findAll() {
-		return userRepository.findAll();
-	}
-
-	@Transactional
-	public void deleteUser(Integer id) {
-		// deleting user by id
-		userRepository.deleteById(id);
-	}
-
-	@Transactional
-	public void deleteUser(String nickname) {
-		// deleting user by nickname
-		userRepository.delete(nickname);
-	}
-
 }
