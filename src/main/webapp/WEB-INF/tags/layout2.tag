@@ -10,7 +10,6 @@
 <sevenislands:htmlHeader/>
 
 <body>
-<sevenislands:bodyHeader menuName="${pageName}"/>
 
 <div class="container-fluid">
     <div class="container xd-container">

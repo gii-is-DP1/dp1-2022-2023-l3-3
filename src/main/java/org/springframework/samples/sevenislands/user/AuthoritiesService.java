@@ -30,48 +30,34 @@ import org.springframework.transaction.annotation.Transactional;
  * @author Michael Isvy
  */
 @Service
-public class UserService {
+public class AuthoritiesService {
 
-	private UserRepository userRepository;
+	private AuthoritiesRepository authoritiesRepository;
+	private UserService userService;
 
 	@Autowired
-	public UserService(UserRepository userRepository) {
-		this.userRepository = userRepository;
+	public AuthoritiesService(AuthoritiesRepository authoritiesRepository,UserService userService) {
+		this.authoritiesRepository = authoritiesRepository;
+		this.userService = userService;
 	}
 
 	@Transactional
-	public void saveUser(User user) throws DataAccessException {
-		// creating user
-		userRepository.save(user);
+	public void saveAuthorities(Authorities authorities) throws DataAccessException {
+		authoritiesRepository.save(authorities);
 	}
-
-	@Transactional(readOnly = true)
-	public Optional<User> findUser(Integer id) {
-		// retrieving user by id
-		return userRepository.findById(id);
-	}
-
-	@Transactional(readOnly = true)
-	public Optional<User> findUser(String nickname) {
-		// retrieving user by nickname
-		return userRepository.findByNickname(nickname);
-	}
-
-	@Transactional(readOnly = true)
-	public Iterable<User> findAll() {
-		return userRepository.findAll();
-	}
-
+	
 	@Transactional
-	public void deleteUser(Integer id) {
-		// deleting user by id
-		userRepository.deleteById(id);
+	public void saveAuthorities(String nickname, String role) throws DataAccessException {
+		Authorities authority = new Authorities();
+		Optional<User> user = userService.findUser(nickname);
+		if(user.isPresent()) {
+			authority.setUser(user.get());
+			authority.setAuthority(role);
+			//user.get().getAuthorities().add(authority);
+			authoritiesRepository.save(authority);
+		}else
+			throw new DataAccessException("El usuario '"+nickname+"' no ha sido encontrado") {};
 	}
 
-	@Transactional
-	public void deleteUser(String nickname) {
-		// deleting user by nickname
-		userRepository.delete(nickname);
-	}
 
 }

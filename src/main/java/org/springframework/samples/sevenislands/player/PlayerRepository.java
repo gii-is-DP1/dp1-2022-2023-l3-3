@@ -1,42 +1,28 @@
 package org.springframework.samples.sevenislands.player;
 
+import java.util.Collection;
+
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.Repository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.samples.sevenislands.model.BaseEntity;
+import org.springframework.samples.sevenislands.player.PlayerRepository;
 
-public interface PlayerRepository extends CrudRepository<Player, String> {
+public interface PlayerRepository extends Repository<Player, Integer> {
 
-    /**
-     * Retrieve an 'User' from the data store by id.
-     * 
-     * @param id
-     * @return an 'User' if found
-     */
-    @Query("SELECT user FROM User user WHERE user.id =: id")
-    public Player findById(@Param("id") int id);
+	/**
+	 * Save an <code>Owner</code> to the data store, either inserting or updating it.
+	 * @param owner the <code>Owner</code> to save
+	 * @see BaseEntity#isNew
+	 */
+	void save(Player player) throws DataAccessException;
 
-    /**
-     * Retrieve an 'User' from the data store by nickname.
-     * 
-     * @param id
-     * @return an 'User' if found
-     */
-    @Query("SELECT user FROM User user WHERE user.nickname =: nickname")
-    public Player findByNickname(@Param("nickname") String nickname);
-
-    /**
-     * Delete an 'User' from the data store by id.
-     * 
-     * @param id
-     */
-    @Query("DELETE FROM User user WHERE user.id =: id")
-    public void deleteById(@Param("id") int id);
-
-    /**
-     * Delete an 'User' from the data store by nickname.
-     * 
-     * @param nickname
-     */
-    @Query("DELETE FROM User user WHERE user.nickname =: nickname")
-    public void delete(@Param("nickname") String nickname);
+	/**
+	 * Retrieve <code>Owner</code>s from the data store by last name, returning all owners
+	 * whose last name <i>starts</i> with the given name.
+	 * @param lastName Value to search for
+	 * @return a <code>Collection</code> of matching <code>Owner</code>s (or an empty
+	 * <code>Collection</code> if none found)
+	 */	
 }
