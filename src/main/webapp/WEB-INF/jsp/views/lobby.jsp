@@ -5,7 +5,9 @@
 <%@ taglib prefix="sevenislands" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 
-<sevenislands:layout pageName="vets">
+
+<sevenislands:layout pageName="lobby">
     <h1>Código de la partida:</h1>
+    <c:out value="${lobby.code}"/>
 
 </sevenislands:layout>

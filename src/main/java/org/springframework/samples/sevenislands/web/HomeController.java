@@ -8,7 +8,7 @@ import org.springframework.samples.sevenislands.user.User;
 public class HomeController {
 
 	@GetMapping({ "/home" })
-	public String welcome(User user) {
+	public String home(User user) {
 		return "views/home";
 	}
 }

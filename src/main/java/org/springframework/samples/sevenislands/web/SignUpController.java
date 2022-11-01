@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class SignUpController {
 
 	@GetMapping({ "/signup" })
-	public String welcome(Map<String, Object> model) {
+	public String signup(Map<String, Object> model) {
 		return "views/signup";
 	}
 }
