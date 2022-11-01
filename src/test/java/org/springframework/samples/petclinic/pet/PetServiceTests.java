@@ -29,6 +29,10 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.samples.petclinic.owner.Owner;
 import org.springframework.samples.petclinic.owner.OwnerService;
+import org.springframework.samples.petclinic.pet.Pet;
+import org.springframework.samples.petclinic.pet.PetService;
+import org.springframework.samples.petclinic.pet.PetType;
+import org.springframework.samples.petclinic.pet.Visit;
 import org.springframework.samples.petclinic.pet.exceptions.DuplicatedPetNameException;
 import org.springframework.samples.petclinic.util.EntityUtils;
 import org.springframework.stereotype.Service;
@@ -37,30 +41,22 @@ import org.springframework.transaction.annotation.Transactional;
 /**
  * Integration test of the Service and the Repository layer.
  * <p>
- * ClinicServiceSpringDataJpaTests subclasses benefit from the following
- * services provided
+ * ClinicServiceSpringDataJpaTests subclasses benefit from the following services provided
  * by the Spring TestContext Framework:
  * </p>
  * <ul>
- * <li><strong>Spring IoC container caching</strong> which spares us unnecessary
- * set up
+ * <li><strong>Spring IoC container caching</strong> which spares us unnecessary set up
  * time between test execution.</li>
- * <li><strong>Dependency Injection</strong> of test fixture instances, meaning
- * that we
+ * <li><strong>Dependency Injection</strong> of test fixture instances, meaning that we
  * don't need to perform application context lookups. See the use of
  * {@link Autowired @Autowired} on the <code>{@link
- * ClinicServiceTests#clinicService clinicService}</code> instance variable,
- * which uses
+ * ClinicServiceTests#clinicService clinicService}</code> instance variable, which uses
  * autowiring <em>by type</em>.
- * <li><strong>Transaction management</strong>, meaning each test method is
- * executed in
- * its own transaction, which is automatically rolled back by default. Thus,
- * even if tests
- * insert or otherwise change database state, there is no need for a teardown or
- * cleanup
+ * <li><strong>Transaction management</strong>, meaning each test method is executed in
+ * its own transaction, which is automatically rolled back by default. Thus, even if tests
+ * insert or otherwise change database state, there is no need for a teardown or cleanup
  * script.
- * <li>An {@link org.springframework.context.ApplicationContext
- * ApplicationContext} is
+ * <li>An {@link org.springframework.context.ApplicationContext ApplicationContext} is
  * also inherited and can be used for explicit bean lookup if necessary.</li>
  * </ul>
  *
@@ -73,12 +69,12 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 @DataJpaTest(includeFilters = @ComponentScan.Filter(Service.class))
-class PetServiceTests {
-	@Autowired
+class PetServiceTests {        
+        @Autowired
 	protected PetService petService;
-
-	@Autowired
-	protected OwnerService ownerService;
+        
+        @Autowired
+	protected OwnerService ownerService;	
 
 	@Test
 	void shouldFindPetWithCorrectId() {
@@ -112,11 +108,11 @@ class PetServiceTests {
 		owner6.addPet(pet);
 		assertThat(owner6.getPets().size()).isEqualTo(found + 1);
 
-		try {
-			this.petService.savePet(pet);
-		} catch (DuplicatedPetNameException ex) {
-			Logger.getLogger(PetServiceTests.class.getName()).log(Level.SEVERE, null, ex);
-		}
+            try {
+                this.petService.savePet(pet);
+            } catch (DuplicatedPetNameException ex) {
+                Logger.getLogger(PetServiceTests.class.getName()).log(Level.SEVERE, null, ex);
+            }
 		this.ownerService.saveOwner(owner6);
 
 		owner6 = this.ownerService.findOwnerById(6);
@@ -124,7 +120,7 @@ class PetServiceTests {
 		// checks that id has been generated
 		assertThat(pet.getId()).isNotNull();
 	}
-
+	
 	@Test
 	@Transactional
 	public void shouldThrowExceptionInsertingPetsWithTheSameName() {
@@ -136,20 +132,20 @@ class PetServiceTests {
 		pet.setBirthDate(LocalDate.now());
 		owner6.addPet(pet);
 		try {
-			petService.savePet(pet);
+			petService.savePet(pet);		
 		} catch (DuplicatedPetNameException e) {
 			// The pet already exists!
 			e.printStackTrace();
 		}
-
-		Pet anotherPetWithTheSameName = new Pet();
+		
+		Pet anotherPetWithTheSameName = new Pet();		
 		anotherPetWithTheSameName.setName("wario");
 		anotherPetWithTheSameName.setType(EntityUtils.getById(types, PetType.class, 1));
 		anotherPetWithTheSameName.setBirthDate(LocalDate.now().minusWeeks(2));
-		Assertions.assertThrows(DuplicatedPetNameException.class, () -> {
+		Assertions.assertThrows(DuplicatedPetNameException.class, () ->{
 			owner6.addPet(anotherPetWithTheSameName);
 			petService.savePet(anotherPetWithTheSameName);
-		});
+		});		
 	}
 
 	@Test
@@ -165,7 +161,7 @@ class PetServiceTests {
 		pet7 = this.petService.findPetById(7);
 		assertThat(pet7.getName()).isEqualTo(newName);
 	}
-
+	
 	@Test
 	@Transactional
 	public void shouldThrowExceptionUpdatingPetsWithTheSameName() {
@@ -176,25 +172,25 @@ class PetServiceTests {
 		pet.setType(EntityUtils.getById(types, PetType.class, 2));
 		pet.setBirthDate(LocalDate.now());
 		owner6.addPet(pet);
-
-		Pet anotherPet = new Pet();
+		
+		Pet anotherPet = new Pet();		
 		anotherPet.setName("waluigi");
 		anotherPet.setType(EntityUtils.getById(types, PetType.class, 1));
 		anotherPet.setBirthDate(LocalDate.now().minusWeeks(2));
 		owner6.addPet(anotherPet);
-
+		
 		try {
 			petService.savePet(pet);
 			petService.savePet(anotherPet);
 		} catch (DuplicatedPetNameException e) {
 			// The pets already exists!
 			e.printStackTrace();
-		}
-
-		Assertions.assertThrows(DuplicatedPetNameException.class, () -> {
+		}				
+			
+		Assertions.assertThrows(DuplicatedPetNameException.class, () ->{
 			anotherPet.setName("wario");
 			petService.savePet(anotherPet);
-		});
+		});		
 	}
 
 	@Test
@@ -206,11 +202,11 @@ class PetServiceTests {
 		pet7.addVisit(visit);
 		visit.setDescription("test");
 		this.petService.saveVisit(visit);
-		try {
-			this.petService.savePet(pet7);
-		} catch (DuplicatedPetNameException ex) {
-			Logger.getLogger(PetServiceTests.class.getName()).log(Level.SEVERE, null, ex);
-		}
+            try {
+                this.petService.savePet(pet7);
+            } catch (DuplicatedPetNameException ex) {
+                Logger.getLogger(PetServiceTests.class.getName()).log(Level.SEVERE, null, ex);
+            }
 
 		pet7 = this.petService.findPetById(7);
 		assertThat(pet7.getVisits().size()).isEqualTo(found + 1);
