@@ -23,7 +23,7 @@ public class LobbyController {
 	public LobbyController(LobbyService lobbyService) {
 		this.lobbyService = lobbyService;
 	}
-
+/* 
 	@GetMapping("/lobby")
 	public String createLobby(Model model) {
 		Lobby lobby = new Lobby();
@@ -32,5 +32,16 @@ public class LobbyController {
 		model.addAttribute("lobby", lobby);
 		lobbyService.save(lobby);
 		return VIEWS_LOBBY;
+	}*/
+	@GetMapping("/lobby")
+	public ModelAndView createLobby(){
+		ModelAndView result=new ModelAndView(VIEWS_LOBBY);
+		Lobby lobby = new Lobby();
+		lobby.setCode(lobbyService.generatorCode());
+		lobby.setActive(true);
+		result.addObject("lobby", lobby);
+		lobbyService.save(lobby);
+		return result;
 	}
+
 }

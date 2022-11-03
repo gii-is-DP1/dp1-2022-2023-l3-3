@@ -6,8 +6,8 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 
 
-<sevenislands:layout pageName="lobby">
-    <h1>Código de la partida:</h1>
-    <c:out value="${lobby.code}"/>
+<sevenislands:layout2 >
+    <h1>Código de la partida: <c:out value="${lobby.code}"/></h1>
+    
 
-</sevenislands:layout>
+</sevenislands:layout2>
