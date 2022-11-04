@@ -1,19 +1,26 @@
 package org.springframework.samples.sevenislands.lobby;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.validation.constraints.NotNull;
+
+import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
 
 import org.springframework.samples.sevenislands.model.BaseEntity;
 
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity
-@Setter
 @Getter
-public class Lobby extends BaseEntity{
-    
+@Setter
+@Entity
+@Table(name="lobby")
 
-    @NotNull
-    protected boolean active;
+public class Lobby extends BaseEntity{
+
+    @Column(name = "code", unique = true, nullable = false)
+    private Integer code;
+
+    @Column(name="active", unique = false, nullable = false)
+    private boolean active;
 }
