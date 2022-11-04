@@ -7,7 +7,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <!-- %@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %-->  
 
-<sevenislands:layout2 pageName="home">
+<sevenislands:layout2>
     <h2><fmt:message key="welcome"/></h2>
 
     <a class="btn btn-default" href='<spring:url value="/login" htmlEscape="true"/>'>Iniciar sesión</a>

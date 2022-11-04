@@ -9,5 +9,5 @@
 <sevenislands:layout2 >
     <h1>Código de la partida: <c:out value="${lobby.code}"/></h1>
     
-
+    <a class="btn btn-default" href='<spring:url value="/home" htmlEscape="true"/>'>EMPEZAR PARTIDA</a>
 </sevenislands:layout2>
