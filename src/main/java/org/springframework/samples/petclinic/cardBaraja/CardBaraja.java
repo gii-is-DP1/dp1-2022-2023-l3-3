@@ -1,4 +1,4 @@
-package org.springframework.samples.sevenisland.cardBaraja;
+package org.springframework.samples.petclinic.cardBaraja;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -8,7 +8,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import org.springframework.samples.sevenisland.model.BaseEntity;
+import org.springframework.samples.petclinic.model.BaseEntity;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -21,14 +21,14 @@ public class CardBaraja extends BaseEntity{
 
     @NotNull
     @OneToOne
-    protected CardType cardType;
+    private CardType cardType;
 
     @NotNull
     @Min(0)
-    protected Integer multiplicity;
+    private Integer multiplicity;
 
     @NotNull
     @ManyToOne
-    protected CardPurpose cardPurpose;
+    private CardPurpose cardPurpose;
 
 }

@@ -110,18 +110,17 @@ INSERT INTO visits(id,pet_id,visit_date,description) VALUES (2, 8, '2013-01-02',
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (3, 8, '2013-01-03', 'neutered');
 INSERT INTO visits(id,pet_id,visit_date,description) VALUES (4, 7, '2013-01-04', 'spayed');
 
-/*
-INSERT INTO Card_Type(id, name) VALUES (1, 'Doblón');
-INSERT INTO Card_Type(id, name) VALUES (2, 'Cáliz');
-INSERT INTO Card_Type(id, name) VALUES (3, 'Rubí');
-INSERT INTO Card_Type(id, name) VALUES (4, 'Diamante');
-INSERT INTO Card_Type(id, name) VALUES (5, 'Collares');
-INSERT INTO Card_Type(id, name) VALUES (6, 'Mapa');
-INSERT INTO Card_Type(id, name) VALUES (7, 'Corona');
-INSERT INTO Card_Type(id, name) VALUES (8, 'Revolver');
-INSERT INTO Card_Type(id, name) VALUES (9, 'Espada');
-INSERT INTO Card_Type(id, name) VALUES (10,'Barril');
 
-INSERT INTO Card_Purpose(id, purpose) VALUES (1, 'Tesoro');
-INSERT INTO Card_Purpose(id, purpose) VALUES (2, 'Moneda');
-*/
+INSERT INTO Card_Types(id, name) VALUES (1, 'Doblón');
+INSERT INTO Card_Types(id, name) VALUES (2, 'Cáliz');
+INSERT INTO Card_Types(id, name) VALUES (3, 'Rubí');
+INSERT INTO Card_Types(id, name) VALUES (4, 'Diamante');
+INSERT INTO Card_Types(id, name) VALUES (5, 'Collares');
+INSERT INTO Card_Types(id, name) VALUES (6, 'Mapa');
+INSERT INTO Card_Types(id, name) VALUES (7, 'Corona');
+INSERT INTO Card_Types(id, name) VALUES (8, 'Revolver');
+INSERT INTO Card_Types(id, name) VALUES (9, 'Espada');
+INSERT INTO Card_Types(id, name) VALUES (10,'Barril');
+
+INSERT INTO Card_Purposes(id, purpose) VALUES (1, 'Tesoro');
+INSERT INTO Card_Purposes(id, purpose) VALUES (2, 'Moneda');

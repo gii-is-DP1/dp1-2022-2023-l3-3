@@ -1,4 +1,4 @@
-package org.springframework.samples.sevenisland.lobby;
+package org.springframework.samples.petclinic.lobby;
 
 import java.util.Collection;
 

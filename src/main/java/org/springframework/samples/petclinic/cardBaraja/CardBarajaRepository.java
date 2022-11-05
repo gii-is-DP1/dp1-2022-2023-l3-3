@@ -1,4 +1,4 @@
-package org.springframework.samples.sevenisland.cardBaraja;
+package org.springframework.samples.petclinic.cardBaraja;
 
 import java.util.Collection;
 
@@ -21,4 +21,3 @@ public interface CardBarajaRepository extends CrudRepository<CardBaraja, Integer
     public Collection<CardPurpose> findAllCardPurposes();
 
 }
-
