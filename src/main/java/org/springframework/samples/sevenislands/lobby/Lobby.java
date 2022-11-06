@@ -18,7 +18,7 @@ import lombok.Setter;
 @Entity
 @Table(name="lobby")
 
-public class Lobby extends BaseEntity{
+public class Lobby extends BaseEntity {
 
     @Column(name = "code", unique = true, nullable = false)
     private Integer code;

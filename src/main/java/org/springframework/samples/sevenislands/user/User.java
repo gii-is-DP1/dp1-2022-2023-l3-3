@@ -43,9 +43,8 @@ import lombok.Setter;
 //@JsonSubTypes({@JsonSubTypes.Type(value = Player.class, name = "player")
 //,@JsonSubTypes.Type(value = Admin.class, name = "admin")
 //})
-public class User{
+public class User extends BaseEntity{
 
-	@Id
 	@Column(name = "nickname", unique = true, nullable = false, length = 30)
 	String nickname;
 
