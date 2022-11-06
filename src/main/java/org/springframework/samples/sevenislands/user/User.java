@@ -45,6 +45,7 @@ import lombok.Setter;
 //})
 public class User extends BaseEntity{
 
+	
 	@Column(name = "nickname", unique = true, nullable = false, length = 30)
 	String nickname;
 

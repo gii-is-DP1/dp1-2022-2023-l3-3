@@ -12,6 +12,5 @@ import lombok.Setter;
 @Entity
 @DiscriminatorValue("admin")
 public class Admin extends User {
-    /*@Column(name = "avatar", unique = false, nullable = true)
-	String avatar;*/
+
 }
