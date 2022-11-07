@@ -1,7 +1,6 @@
 package org.springframework.samples.sevenislands.user;
 
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Size;
@@ -18,7 +17,6 @@ import lombok.Setter;
 public class Authorities extends BaseEntity{
 	
 	@ManyToOne
-	@JoinColumn(name = "nickname")
 	User user;
 	
 	@Size(min = 3, max = 50)

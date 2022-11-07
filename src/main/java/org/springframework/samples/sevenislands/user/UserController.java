@@ -60,7 +60,7 @@ public class UserController {
 		}
 		else {
 			//creating player, user, and authority
-			this.playerService.savePlayer(player);
+			this.playerService.save(player);
 			return "redirect:/";
 		}
 	}

@@ -1,23 +1,27 @@
 package org.springframework.samples.sevenislands.lobby;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.core.EntityInformation;
+import org.springframework.samples.sevenislands.player.Player;
 import org.springframework.stereotype.Service;
 
 
 @Service
 public class LobbyService {
     
-    private LobbyRepository LobbyRepository;
+    private LobbyRepository lobbyRepository;
 
     @Autowired
     public LobbyService(LobbyRepository LobbyRepository){
-        this.LobbyRepository=LobbyRepository;
+        this.lobbyRepository=LobbyRepository;
     }
 
    //creacion del codigo de la lobby
-    public Integer generatorCode(){
+    public String generatorCode() {
         Integer codigo=0;
 		String code="";
 		for (int j = 0; j < 7; j++) {
@@ -25,17 +29,33 @@ public class LobbyService {
 			code+=random.toString();
 		}
 		codigo=Integer.parseInt(code);
-        return codigo;
+        return code;
     }
     
     @Transactional
-    public long numPartidas(){
-        long partidas=LobbyRepository.count();
+    public long numPartidas() {
+        long partidas=lobbyRepository.count();
         return partidas;
     }
 
     @Transactional 
-	public void save(Lobby r) {
-	    LobbyRepository.save(r);
+	public void save(Lobby lobby) {
+	    lobbyRepository.save(lobby);
 	}
+
+    @Transactional 
+	public void update(Lobby lobby) {
+	    lobbyRepository.updatePlayers(lobby, lobby.getId());
+	}
+
+    @Transactional
+    public Lobby findLobbyByCode(String code) {
+        return lobbyRepository.findByCode(code);
+    }
+
+    @Transactional
+    public Lobby findLobbyByPlayer(Integer player_id) {
+        return lobbyRepository.findByLobbyId(lobbyRepository.findByPlayer(player_id));
+    }
+
 }

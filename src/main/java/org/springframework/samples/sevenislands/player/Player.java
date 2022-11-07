@@ -8,6 +8,7 @@ import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotEmpty;
@@ -15,6 +16,7 @@ import javax.validation.constraints.Past;
 
 import org.springframework.samples.sevenislands.user.User;
 import org.springframework.samples.sevenislands.achievement.Achievement;
+import org.springframework.samples.sevenislands.lobby.Lobby;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -24,18 +26,5 @@ import lombok.Setter;
 @Entity
 @DiscriminatorValue("player")
 public class Player extends User {
-	/* 
-    @Column(nullable = false)
-    @NotEmpty
-    @Past
-    @Temporal(TemporalType.DATE)
-    private LocalDate bornDate;*/
 
-    @Column(nullable = false)
-    @NotEmpty
-    private String avatar;
-
-    @ManyToMany()
-	@JoinColumn(name = "achievements")
-    private Collection<Achievement> achievements;
 }
