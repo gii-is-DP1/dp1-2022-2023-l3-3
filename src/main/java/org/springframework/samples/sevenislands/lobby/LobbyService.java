@@ -1,8 +1,11 @@
 package org.springframework.samples.sevenislands.lobby;
 
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.sevenislands.lobby.LobbyExceptions.NotExistLobbyException;
+import org.springframework.samples.sevenislands.lobby.LobbyExceptions.NotExitPlayerException;
 import org.springframework.samples.sevenislands.player.Player;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -41,19 +44,35 @@ public class LobbyService {
 	    lobbyRepository.save(r);
 	}
 
-    @Transactional(readOnly = true)
-    public Lobby getByCode(Integer code){
-        return lobbyRepository.findByCode(code).orElse(null);
+    @Transactional(readOnly = true, rollbackFor = NotExistLobbyException.class)
+    public Lobby getByCode(Integer code) throws NotExistLobbyException{
+        Optional<Lobby> lobby = lobbyRepository.findByCode(code);
+        if(lobby.isPresent()){
+            return lobby.get();
+        } else {
+            throw new NotExistLobbyException();
+        }
     }
 
     @Transactional(rollbackFor = NotExistLobbyException.class)
     public void addPlayerToLobby(Integer code, Player player) throws NotExistLobbyException{
         Lobby lobby = getByCode(code);
-        if(lobby != null){
-            lobby.getMembers().add(player);
+        lobby.getMembers().add(player);
+        lobbyRepository.save(lobby);
+    }
+
+    @Transactional(rollbackFor = NotExitPlayerException.class)
+    public Boolean deleteplayerLobby(Integer code, Player player) throws NotExistLobbyException, NotExitPlayerException{
+        Lobby lobby = getByCode(code);
+        Boolean res = false;
+        if(lobby.getMembers().contains(player)){
+            lobby.getMembers().remove(player);
             lobbyRepository.save(lobby);
+            res = true;
         } else {
-            throw new NotExistLobbyException();
+            throw new NotExitPlayerException();
         }
+      
+        return res;
     }
 }
