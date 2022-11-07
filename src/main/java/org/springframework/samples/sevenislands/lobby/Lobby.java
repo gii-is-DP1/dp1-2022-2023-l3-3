@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Size;
 
 import org.springframework.samples.sevenislands.model.BaseEntity;
 import org.springframework.samples.sevenislands.player.Player;
@@ -27,5 +28,6 @@ public class Lobby extends BaseEntity {
     private boolean active;
 
     @ManyToMany
+    @Size(max = 4)
     private List<Player> members;
 }

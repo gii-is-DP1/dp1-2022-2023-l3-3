@@ -1,19 +1,21 @@
 package org.springframework.samples.sevenislands.lobby;
 
-import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.sevenislands.lobby.LobbyExceptions.NotExistLobbyException;
+import org.springframework.samples.sevenislands.player.Player;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
 public class LobbyService {
     
-    private LobbyRepository LobbyRepository;
+    private LobbyRepository lobbyRepository;
 
     @Autowired
     public LobbyService(LobbyRepository LobbyRepository){
-        this.LobbyRepository=LobbyRepository;
+        this.lobbyRepository=LobbyRepository;
     }
 
    //creacion del codigo de la lobby
@@ -28,14 +30,30 @@ public class LobbyService {
         return codigo;
     }
     
-    @Transactional
+    @Transactional(readOnly = true)
     public long numPartidas(){
-        long partidas=LobbyRepository.count();
+        long partidas=lobbyRepository.count();
         return partidas;
     }
 
     @Transactional 
 	public void save(Lobby r) {
-	    LobbyRepository.save(r);
+	    lobbyRepository.save(r);
 	}
+
+    @Transactional(readOnly = true)
+    public Lobby getByCode(Integer code){
+        return lobbyRepository.findByCode(code).orElse(null);
+    }
+
+    @Transactional(rollbackFor = NotExistLobbyException.class)
+    public void addPlayerToLobby(Integer code, Player player) throws NotExistLobbyException{
+        Lobby lobby = getByCode(code);
+        if(lobby != null){
+            lobby.getMembers().add(player);
+            lobbyRepository.save(lobby);
+        } else {
+            throw new NotExistLobbyException();
+        }
+    }
 }
