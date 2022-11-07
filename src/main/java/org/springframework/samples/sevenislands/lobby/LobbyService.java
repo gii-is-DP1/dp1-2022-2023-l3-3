@@ -1,13 +1,14 @@
 package org.springframework.samples.sevenislands.lobby;
 
 import java.util.Optional;
-
-import javax.transaction.Transactional;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.core.EntityInformation;
+import org.springframework.samples.sevenislands.lobby.lobbyExceptions.noExistPlayerException;
 import org.springframework.samples.sevenislands.player.Player;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 
 @Service
@@ -22,14 +23,16 @@ public class LobbyService {
 
    //creacion del codigo de la lobby
     public String generatorCode() {
-        Integer codigo=0;
-		String code="";
-		for (int j = 0; j < 8; j++) {
-			Integer random=(int)(Math.random()*10+1);
-			code+=random.toString();
-		}
-		codigo=Integer.parseInt(code);
-        return code;
+        String CHAR_LIST = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Integer RANDOM_STRING_LENGTH = 8;
+        StringBuffer randomString = new StringBuffer();
+        
+        for(int i = 0; i<RANDOM_STRING_LENGTH; i++) {
+            Random randomGenerator = new Random();
+            char ch = CHAR_LIST.charAt(randomGenerator.nextInt(CHAR_LIST.length()-1));
+            randomString.append(ch);
+        }
+        return randomString.toString();
     }
     
     @Transactional
@@ -38,9 +41,10 @@ public class LobbyService {
         return partidas;
     }
 
-    @Transactional 
+    @Transactional
 	public void save(Lobby lobby) {
-	    lobbyRepository.save(lobby);
+	    //lobbyRepository.save(lobby);
+        lobbyRepository.save(lobby);
 	}
 
     @Transactional 
@@ -53,7 +57,7 @@ public class LobbyService {
         return lobbyRepository.findByCode(code);
     }
 
-    @Transactional
+    @Transactional(rollbackFor = noExistPlayerException.class)
     public Lobby findLobbyByPlayer(Integer player_id) {
         return lobbyRepository.findByLobbyId(lobbyRepository.findByPlayer(player_id));
     }

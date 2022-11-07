@@ -5,6 +5,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
@@ -30,7 +31,7 @@ public class Lobby extends BaseEntity{
     @Column(name="active", unique = false, nullable = false)
     private boolean active;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.PERSIST)
     private List<Player> players;
 
     protected List<Player> getPlayerInternal() {
