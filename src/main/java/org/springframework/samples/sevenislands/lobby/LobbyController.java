@@ -73,7 +73,7 @@ public class LobbyController {
 		
 		Integer players = lobby.getPlayers().size();
 		ModelAndView result = new ModelAndView("redirect:/lobby");
-		ModelAndView result2 = new ModelAndView("redirect:/home");
+		ModelAndView result2 = new ModelAndView("redirect:/oups");
 		if(lobby.isActive()==true && players>0 && players<4){
 			Player player = playerService.findPlayersByName(principal.getName());
 			lobby.addPlayer(player);

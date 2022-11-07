@@ -24,7 +24,7 @@ public class LobbyService {
     public String generatorCode() {
         Integer codigo=0;
 		String code="";
-		for (int j = 0; j < 7; j++) {
+		for (int j = 0; j < 8; j++) {
 			Integer random=(int)(Math.random()*10+1);
 			code+=random.toString();
 		}

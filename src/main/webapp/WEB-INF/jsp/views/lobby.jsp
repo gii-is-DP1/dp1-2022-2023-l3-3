@@ -12,8 +12,5 @@
         <a class="btn btn-default" href='<spring:url value="/home" htmlEscape="true"/>'>EMPEZAR PARTIDA</a>
         <a class="btn btn-default" href='<spring:url value="/home" htmlEscape="true"/>'>LISTA DE JUGADORES</a>
     </c:if>
-    <sql:query>
-
-    </sql:query>
     <a class="btn btn-default" id="leave_game" href='<spring:url value="/home" htmlEscape="true"/>'>ABANDONAR PARTIDA</a>
 </sevenislands:layout2>
