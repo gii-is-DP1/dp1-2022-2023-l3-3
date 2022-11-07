@@ -3,9 +3,11 @@ package org.springframework.samples.sevenislands.game;
 import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.samples.sevenislands.lobby.Lobby;
 import org.springframework.samples.sevenislands.model.BaseEntity;
 
 import lombok.Getter;
@@ -21,7 +23,10 @@ public class Game extends BaseEntity {
 	private LocalDateTime creationDate;
 
     @DateTimeFormat(pattern = "yyyy/MM/dd")
-	@NotNull
 	private LocalDateTime endingDate;
+
+	@OneToOne
+	@NotNull
+	private Lobby lobby;
 
 }
