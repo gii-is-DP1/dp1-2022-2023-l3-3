@@ -3,6 +3,7 @@ package org.springframework.samples.sevenislands.lobby;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.sevenislands.lobby.LobbyExceptions.NotExistLobbyException;
+import org.springframework.samples.sevenislands.lobby.LobbyExceptions.NotExitPlayerException;
 import org.springframework.samples.sevenislands.player.Player;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -55,5 +56,23 @@ public class LobbyService {
         } else {
             throw new NotExistLobbyException();
         }
+    }
+
+    @Transactional
+    public Boolean deleteplayerLobby(Integer code, Player player) throws NotExistLobbyException, NotExitPlayerException{
+       Lobby lobby = getByCode(code);
+       Boolean res = false;
+        if (lobby != null){
+            if(lobby.getMembers().contains(player)){
+                lobby.getMembers().remove(player);
+                lobbyRepository.save(lobby);
+                res = true;
+            } else {
+                throw new NotExitPlayerException();
+            }
+        } else {
+            throw new NotExistLobbyException();
+        }
+        return res;
     }
 }
