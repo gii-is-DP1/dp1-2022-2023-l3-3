@@ -52,6 +52,11 @@ public class LobbyService {
 	    lobbyRepository.updatePlayers(lobby, lobby.getId());
 	}
 
+    @Transactional 
+	public void delete(Lobby lobby) {
+	    lobbyRepository.delete(lobby);
+	}
+
     @Transactional
     public Lobby findLobbyByCode(String code) {
         return lobbyRepository.findByCode(code);

@@ -5,6 +5,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.ui.Model;
 
@@ -82,6 +83,39 @@ public class LobbyController {
 			return result;
 		}
 		return result2;
+	}
+//hay que ver que ocurre si todos abandonan la lobby
+//cambiar relacion onetoOne entre jugador y lobby
+//cuando hay que usar lo del post mapping o put mapping
+//actualmenet si todos abandonan la lobby se desactiva el atributo active
+	@GetMapping("/lobby/delete")
+	public String leaveLobby(Principal principal){
+		Player player=playerService.findPlayersByName(principal.getName());
+		Lobby LobbyID=lobbyService.findLobbyByPlayer(player.getId());
+		List<Player> players=LobbyID.getPlayerInternal();
+		if(players.size()==1){
+			boolean active=false;
+			players.remove(player);
+			LobbyID.setPlayers(players);
+			LobbyID.setActive(active);
+			lobbyService.update(LobbyID);	
+		}else{
+			players.remove(player);
+			LobbyID.setPlayers(players);
+			lobbyService.update(LobbyID);
+		
+		}
+		return "redirect:/home";
+	}
+
+
+	@GetMapping("/lobby/players")
+	public ModelAndView listaPlayer(Principal principal){
+		ModelAndView result = new ModelAndView("views/lobbyPlayers");
+		Player player=playerService.findPlayersByName(principal.getName());
+		Lobby LobbyID=lobbyService.findLobbyByPlayer(player.getId());
+		result.addObject("players", LobbyID.getPlayerInternal());
+		return result;
 	}
 
 }

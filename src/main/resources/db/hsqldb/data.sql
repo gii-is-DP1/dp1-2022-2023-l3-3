@@ -17,6 +17,8 @@ INSERT INTO users(nickname,password,enabled,first_name,last_name,email,creation_
 INSERT INTO authorities(user_id,authority) VALUES (7,'player');
 INSERT INTO users(nickname,password,enabled,first_name,last_name,email,creation_date,type,birth_date,avatar) VALUES ('player2','player','TRUE','Player FN','Player LN','player2@sevenislands.com','2022-10-29','player','2022-10-29','avatar1.jpg');
 INSERT INTO authorities(user_id,authority) VALUES (8,'player');
+INSERT INTO users(nickname,password,enabled,first_name,last_name,email,creation_date,type,birth_date,avatar) VALUES ('player3','player','TRUE','Player FN','Player LN','player3@sevenislands.com','2022-10-29','player','2022-10-29','avatar1.jpg');
+INSERT INTO authorities(user_id,authority) VALUES (9,'player');
 
 -- LOBBY --
 --INSERT INTO lobby(code,active) VALUES('00000000','TRUE');
