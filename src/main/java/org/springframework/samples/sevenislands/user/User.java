@@ -1,7 +1,5 @@
 package org.springframework.samples.sevenislands.user;
 
-import java.io.Serializable;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.Set;
 
@@ -10,25 +8,17 @@ import javax.persistence.Column;
 import javax.persistence.DiscriminatorColumn;
 import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
-import javax.persistence.MappedSuperclass;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Past;
-import javax.persistence.Id;
 
-import org.ehcache.shadow.org.terracotta.offheapstore.paging.OffHeapStorageArea.Owner;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.sevenislands.model.BaseEntity;
-import org.springframework.samples.sevenislands.player.Player;
 
-import com.fasterxml.jackson.annotation.JsonSubTypes;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -45,14 +35,13 @@ import lombok.Setter;
 //})
 public class User extends BaseEntity{
 
-	
 	@Column(name = "nickname", unique = true, nullable = false, length = 30)
 	String nickname;
 
 	@Column(name = "password", unique = false, nullable = false)
 	String password;
 
-	@Column(name = "enabled", unique = false, nullable = false)
+	@Column(name = "enabled", unique = false, nullable = true, columnDefinition = "boolean default true")
 	boolean enabled;
 
 	@Column(name = "first_name", unique = false, nullable = false)
@@ -61,17 +50,18 @@ public class User extends BaseEntity{
 	@Column(name = "last_name", unique = false, nullable = false)
 	protected String lastName;
 
-	@Column(name = "email", unique = true, nullable = true, length = 50)
+	@Column(name = "email", unique = true, nullable = false, length = 50)
 	String email;
 
 	@Past
 	@Temporal(TemporalType.DATE)
-	@Column(name = "creation_date", unique = false, nullable = true)
+	@Column(name = "creation_date", unique = false, nullable = true, columnDefinition = "date default now()")
 	Date creationDate;
 	
 	@Past
 	@Temporal(TemporalType.DATE)
-	@Column(name = "birth_date", unique = false, nullable = true)
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@Column(name = "birth_date", unique = false, nullable = false)
 	Date birthDate;
 
 	@Column(name = "avatar", unique = false, nullable = true)
