@@ -8,8 +8,30 @@
 <!-- %@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %-->  
 
 <sevenislands:layout2>
-    <h2><fmt:message key="welcome"/></h2>
+    <body style="background: url(resources/images/fondo1920x1080.jpg)">   
+        <div>
+            <center>
+                <img src="/resources/images/letras_7_islas.png" width="700" height="200">
+            </center>
+        </div>
 
-    <a class="btn btn-default" href='<spring:url value="/login" htmlEscape="true"/>'>Iniciar sesión</a>
-    <a class="btn btn-default" href='<spring:url value="/signup" htmlEscape="true"/>'>Registrarse</a>
+        <div>
+            <center>
+                <img src="/resources/images/palmera.gif" width="256" height="256">
+            </center>
+        </div>
+    
+        <div>
+            <center>
+                <a class="btn btn-default" href='<spring:url value="/login" htmlEscape="true"/>'>Iniciar sesión</a>
+            </center>
+        </div>
+    
+        <br/>
+        <div>
+            <center>
+                <a class="btn btn-default" href='<spring:url value="/signup" htmlEscape="true"/>'>Registrarse</a>
+            </center>
+        </div>
+    </body>
 </sevenislands:layout2>
