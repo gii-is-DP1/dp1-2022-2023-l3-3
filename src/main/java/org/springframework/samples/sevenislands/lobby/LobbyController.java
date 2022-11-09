@@ -10,6 +10,8 @@ import org.springframework.web.servlet.ModelAndView;
 import java.security.Principal;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.sevenislands.lobby.exceptions.NotExistLobbyException;
 import org.springframework.samples.sevenislands.player.Player;
@@ -109,7 +111,8 @@ public class LobbyController {
 
 
 	@GetMapping("/lobby/players")
-	public ModelAndView listaPlayer(Principal principal){
+	public ModelAndView listaPlayer(Principal principal, HttpServletResponse response){
+		response.addHeader("Refresh", "2");
 		ModelAndView result = new ModelAndView("views/lobbyPlayers");
 		Player player=playerService.findPlayersByName(principal.getName());
 		Lobby LobbyID=lobbyService.findLobbyByPlayer(player.getId());
