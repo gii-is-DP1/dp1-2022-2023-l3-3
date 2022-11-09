@@ -38,5 +38,9 @@ public class PlayerService {
     public Player findPlayersByName(String name) {
         return playerRepository.findByName(name);
     }
-
+	@Transactional
+    public Player findPlayersById(Integer id) {
+        return playerRepository.findById(id);
+    }
+	//
 }

@@ -3,6 +3,7 @@ package org.springframework.samples.sevenislands.lobby;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -32,15 +33,23 @@ public class LobbyController {
 	}
 
 	@GetMapping("/lobby")
-	public ModelAndView joinLobby(Principal principal){
+	public ModelAndView joinLobby(Principal principal)throws NotExistLobbyException{
 		ModelAndView result = new ModelAndView(VIEWS_LOBBY);
+		ModelAndView result2 = new ModelAndView("redirect:/home");
 		Player player = playerService.findPlayersByName(principal.getName());
-		Lobby lobby = lobbyService.findLobbyByPlayer(player.getId());
-		Player host = lobby.getPlayers().get(0);
-		result.addObject("lobby", lobby);
-		result.addObject("host", host);
-		result.addObject("player", player);
-		return result;
+		try{
+			Lobby lobby = lobbyService.findLobbyByPlayer(player.getId());
+			Player host = lobby.getPlayers().get(0);
+			result.addObject("lobby", lobby);
+			result.addObject("host", host);
+			result.addObject("player", player);
+			return result;
+		}catch(Exception e){
+			return result2;
+	}
+
+
+		
 	}
 
 	@GetMapping("/lobby/create")
@@ -109,6 +118,29 @@ public class LobbyController {
 		Lobby LobbyID=lobbyService.findLobbyByPlayer(player.getId());
 		result.addObject("players", LobbyID.getPlayerInternal());
 		return result;
+	}
+
+	@GetMapping("/lobby/players/delete/{id}")
+	public String ejectPlayer(Principal principal,@PathVariable("id") Integer id){
+		Player jugador=playerService.findPlayersById(id);
+		Lobby LobbyID=lobbyService.findLobbyByPlayer(id);
+		List<Player> players=LobbyID.getPlayerInternal();
+		if(players.size()==1){
+			return "redirect:/lobby/delete";
+		}else{
+			if(jugador.getNickname().equals(principal.getName())){
+				players.remove(jugador);
+				LobbyID.setPlayers(players);
+				lobbyService.update(LobbyID);
+				return "redirect:/home";
+			}else{
+				players.remove(jugador);
+				LobbyID.setPlayers(players);
+				lobbyService.update(LobbyID);
+				return "redirect:/lobby/players";
+			}
+			
+		}
 	}
 
 }

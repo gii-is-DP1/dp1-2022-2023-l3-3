@@ -28,7 +28,8 @@
 		<c:forEach items="${players}" var="player">
 			<tr>
 				<td><c:out value="${player.id}"/></td>
-				<td><c:out value="${player.nickname}"/></td>				
+				<td><c:out value="${player.nickname}"/></td>		
+				<td><a href="/lobby/players/delete/${player.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a> </td>		
 				</tr>
 		</c:forEach>
 	</table>
