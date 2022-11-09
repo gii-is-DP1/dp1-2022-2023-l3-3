@@ -10,7 +10,7 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.sevenislands.lobby.lobbyExceptions.NotExistLobbyException;
+import org.springframework.samples.sevenislands.lobby.exceptions.NotExistLobbyException;
 import org.springframework.samples.sevenislands.player.Player;
 import org.springframework.samples.sevenislands.player.PlayerService;
 
