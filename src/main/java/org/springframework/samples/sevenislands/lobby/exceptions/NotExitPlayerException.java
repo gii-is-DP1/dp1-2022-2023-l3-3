@@ -1,4 +1,4 @@
-package org.springframework.samples.sevenislands.lobby.lobbyExceptions;
+package org.springframework.samples.sevenislands.lobby.exceptions;
 
 import lombok.Getter;
 
