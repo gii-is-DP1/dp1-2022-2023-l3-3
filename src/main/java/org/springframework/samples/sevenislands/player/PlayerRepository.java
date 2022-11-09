@@ -9,6 +9,9 @@ public interface PlayerRepository extends Repository<Player, Integer> {
 	
 	void save(Player player) throws DataAccessException;
 
-	@Query("SELECT player FROM Player player WHERE player.nickname =?1")
+	@Query("SELECT player FROM Player player WHERE player.nickname=?1")
 	public Player findByName(String name);
+	
+	@Query("SELECT player FROM Player player WHERE player.id=?1")
+	public Player findById(Integer id);
 }
