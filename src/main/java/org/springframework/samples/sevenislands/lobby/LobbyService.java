@@ -4,7 +4,7 @@ import java.util.Optional;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.sevenislands.lobby.lobbyExceptions.NotExistLobbyException;
+import org.springframework.samples.sevenislands.lobby.exceptions.NotExistLobbyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
