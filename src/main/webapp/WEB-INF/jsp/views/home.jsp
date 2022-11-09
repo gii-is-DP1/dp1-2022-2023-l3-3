@@ -7,7 +7,8 @@
 
 <sevenislands:layout2 pageName="home">
   	<h1>7 Islas</h1>
-
+	  <body style="background: url(resources/images/fondo1920x1080.jpg)">   
+        
   	<sec:authorize access="hasAuthority('player')">
 		<a class="btn btn-default" href='<spring:url value="/lobby/create" htmlEscape="true"/>'>Crear Partida</a>
 	</sec:authorize>
@@ -21,4 +22,5 @@
 	</sec:authorize>
 
 	<a class="btn btn-default" href='<spring:url value="/logout" htmlEscape="true"/>'>Cerrar Sesión</a>
+	</body>
 </sevenislands:layout2>

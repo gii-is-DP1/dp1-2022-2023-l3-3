@@ -7,7 +7,8 @@
 <%@ taglib prefix="sevenislands" tagdir="/WEB-INF/tags" %>
 
 <sevenislands:layout2 pageName="join">
-    <form:form modelAttribute="code" class="form-horizontal" id="validate-code">
+    <body style="background: url(resources/images/fondo1920x1080.jpg)">     
+        <form:form modelAttribute="code" class="form-horizontal" id="validate-code">
         <div class="form-group has-feedback">
             <sevenislands:inputField label="Code" name="code"/>
         </div>
@@ -17,4 +18,5 @@
             </div>
         </div>
     </form:form>
+    </body>
 </sevenislands:layout2>
