@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.security.Principal;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.sevenislands.lobby.lobbyExceptions.NotExistLobbyException;
@@ -74,6 +75,37 @@ public class LobbyController {
 			return result;
 		}
 		return result2;
+	}
+
+//cambiar relacion onetoOne entre jugador y lobby
+	@GetMapping("/lobby/delete")
+	public String leaveLobby(Principal principal){
+		Player player=playerService.findPlayersByName(principal.getName());
+		Lobby LobbyID=lobbyService.findLobbyByPlayer(player.getId());
+		List<Player> players=LobbyID.getPlayerInternal();
+		if(players.size()==1){
+			boolean active=false;
+			players.remove(player);
+			LobbyID.setPlayers(players);
+			LobbyID.setActive(active);
+			lobbyService.update(LobbyID);	
+		}else{
+			players.remove(player);
+			LobbyID.setPlayers(players);
+			lobbyService.update(LobbyID);
+		
+		}
+		return "redirect:/home";
+	}
+
+
+	@GetMapping("/lobby/players")
+	public ModelAndView listaPlayer(Principal principal){
+		ModelAndView result = new ModelAndView("views/lobbyPlayers");
+		Player player=playerService.findPlayersByName(principal.getName());
+		Lobby LobbyID=lobbyService.findLobbyByPlayer(player.getId());
+		result.addObject("players", LobbyID.getPlayerInternal());
+		return result;
 	}
 
 }

@@ -54,7 +54,7 @@
 			<ul class="nav navbar-nav navbar-right">
 				<sec:authorize access="!isAuthenticated()">
 					<li><a href="<c:url value="/login" />">Iniciar sesión</a></li>
-					<li><a href="<c:url value="/users/new" />">Registrarse</a></li>
+					<li><a href="<c:url value="/signup" />">Registrarse</a></li>
 				</sec:authorize>
 				<sec:authorize access="isAuthenticated()">
 					<li class="dropdown"><a href="#" class="dropdown-toggle"

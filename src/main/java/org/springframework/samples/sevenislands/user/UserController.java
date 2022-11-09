@@ -32,8 +32,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class UserController {
 
-	private static final String VIEWS_PLAYER_CREATE_FORM = "users/createPlayerForm";
-
 	private final PlayerService playerService;
 
 	@Autowired
@@ -44,25 +42,6 @@ public class UserController {
 	@InitBinder
 	public void setAllowedFields(WebDataBinder dataBinder) {
 		dataBinder.setDisallowedFields("id");
-	}
-
-	@GetMapping(value = "/users/new")
-	public String initCreationForm(Map<String, Object> model) {
-		Player player = new Player();
-		model.put("player", player);
-		return VIEWS_PLAYER_CREATE_FORM;
-	}
-
-	@PostMapping(value = "/users/new")
-	public String processCreationForm(@Valid Player player, BindingResult result) {
-		if (result.hasErrors()) {
-			return VIEWS_PLAYER_CREATE_FORM;
-		}
-		else {
-			//creating player, user, and authority
-			this.playerService.save(player);
-			return "redirect:/";
-		}
 	}
 
 }
