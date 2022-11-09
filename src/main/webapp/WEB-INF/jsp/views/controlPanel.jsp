@@ -41,7 +41,8 @@
                 <td><c:out value="${user.creationDate}"/></td>
                 <td><c:out value="${user.userType}"/></td>
                 <td><c:out value="${user.birthDate}"/></td>
-                <td><c:out value="${user.avatar}"/></td>	
+                <td><c:out value="${user.avatar}"/></td>
+                <td><a href="/controlPanel/delete/${user.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a></td>	
 			</tr>
 		</c:forEach>
 	</table>

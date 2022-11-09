@@ -6,7 +6,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sevenislands" tagdir="/WEB-INF/tags" %>
 
-<sevenislands:layout pageName="join">
+<sevenislands:layout2 pageName="join">
     <form:form modelAttribute="code" class="form-horizontal" id="validate-code">
         <div class="form-group has-feedback">
             <sevenislands:inputField label="Code" name="code"/>
@@ -17,4 +17,4 @@
             </div>
         </div>
     </form:form>
-</sevenislands:layout>
+</sevenislands:layout2>

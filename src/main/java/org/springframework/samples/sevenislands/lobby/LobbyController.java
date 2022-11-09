@@ -33,7 +33,8 @@ public class LobbyController {
 	}
 
 	@GetMapping("/lobby")
-	public ModelAndView joinLobby(Principal principal)throws NotExistLobbyException{
+	public ModelAndView joinLobby(Principal principal, HttpServletResponse response) throws NotExistLobbyException{
+		response.addHeader("Refresh", "2");
 		ModelAndView result = new ModelAndView(VIEWS_LOBBY);
 		ModelAndView result2 = new ModelAndView("redirect:/home");
 		Player player = playerService.findPlayersByName(principal.getName());

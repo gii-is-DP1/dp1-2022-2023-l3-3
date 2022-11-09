@@ -25,7 +25,7 @@ public class UserService {
 	}
 
 	@Transactional(readOnly = true)
-	public Optional<User> findUser(Integer id) {
+	public Optional<User> findUserById(Integer id) {
 		// retrieving user by id
 		return userRepository.findById(id);
 	}
@@ -51,6 +51,11 @@ public class UserService {
 	public void deleteUser(String nickname) {
 		// deleting user by nickname
 		userRepository.delete(nickname);
+	}
+
+	@Transactional
+	public Boolean checkUserByName(String nickname) {
+		return userRepository.checkUser(nickname);
 	}
 
 }
