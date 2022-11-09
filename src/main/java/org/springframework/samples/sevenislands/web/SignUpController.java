@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/signup")
 public class SignUpController {
 
-	private static final String VIEWS_PLAYER_SIGNUP = "views/signup";
+	private static final String VIEWS_PLAYER_SIGNUP = "users/signup";
 
 	@Autowired
 	private final PlayerService playerService;
