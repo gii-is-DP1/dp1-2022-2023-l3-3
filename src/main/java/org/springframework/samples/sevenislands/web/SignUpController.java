@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping({ "/signup" })
+@RequestMapping("/signup")
 public class SignUpController {
 
 	private static final String VIEWS_PLAYER_SIGNUP = "views/signup";
@@ -41,12 +41,7 @@ public class SignUpController {
 
 	@PostMapping
 	public String processCreationForm(@Valid Player player, BindingResult result) {
-		if (result.hasErrors()) {
-			return VIEWS_PLAYER_SIGNUP;
-		} else {
-			this.playerService.savePlayer(player);
-			return "redirect:/home";
-		}
-
+		this.playerService.save(player);
+		return "redirect:/home";
 	}
 }

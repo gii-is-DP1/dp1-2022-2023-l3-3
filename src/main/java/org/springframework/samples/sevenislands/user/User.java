@@ -1,5 +1,6 @@
 package org.springframework.samples.sevenislands.user;
 
+import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
@@ -10,6 +11,9 @@ import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -17,8 +21,9 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.Past;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.samples.sevenislands.achievement.Achievement;
+import org.springframework.samples.sevenislands.lobby.Lobby;
 import org.springframework.samples.sevenislands.model.BaseEntity;
-
 
 import lombok.Getter;
 import lombok.Setter;
@@ -29,10 +34,6 @@ import lombok.Setter;
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
-//@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
-//@JsonSubTypes({@JsonSubTypes.Type(value = Player.class, name = "player")
-//,@JsonSubTypes.Type(value = Admin.class, name = "admin")
-//})
 public class User extends BaseEntity{
 
 	@Column(name = "nickname", unique = true, nullable = false, length = 30)
@@ -70,4 +71,10 @@ public class User extends BaseEntity{
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private Set<Authorities> authorities;
 
+	@ManyToMany()
+	@JoinColumn(name = "achievements")
+    private Collection<Achievement> achievements;
+
+	@ManyToOne
+	private Lobby lobby;
 }

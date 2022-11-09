@@ -5,9 +5,12 @@
 <%@ taglib prefix="sevenislands" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 
-
-<sevenislands:layout2 >
+<sevenislands:layout2 pageName="lobby">
     <h1>Código de la partida: <c:out value="${lobby.code}"/></h1>
     
-    <a class="btn btn-default" href='<spring:url value="/home" htmlEscape="true"/>'>EMPEZAR PARTIDA</a>
+    <c:if test="${host==player}">
+        <a class="btn btn-default" href='<spring:url value="/home" htmlEscape="true"/>'>EMPEZAR PARTIDA</a>
+        <a class="btn btn-default" href='<spring:url value="/lobby/players" htmlEscape="true"/>'>LISTA DE JUGADORES</a>
+    </c:if>
+    <a class="btn btn-default" id="leave_game" href='<spring:url value="/lobby/delete" htmlEscape="true"/>'>ABANDONAR PARTIDA</a>
 </sevenislands:layout2>

@@ -1,6 +1,5 @@
 package org.springframework.samples.sevenislands.player;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.samples.sevenislands.user.AuthoritiesService;
@@ -25,7 +24,7 @@ public class PlayerService {
 	}	
 
 	@Transactional
-	public void savePlayer(Player player) throws DataAccessException {
+	public void save(Player player) throws DataAccessException {
 		player.setEnabled(true);
 		//creating player
 		playerRepository.save(player);
@@ -33,6 +32,11 @@ public class PlayerService {
 		userService.saveUser(player);
 		//creating authorities
 		authoritiesService.saveAuthorities(player.getNickname(), "player");
-	}		
+	}
+
+	@Transactional
+    public Player findPlayersByName(String name) {
+        return playerRepository.findByName(name);
+    }
 
 }

@@ -3,7 +3,6 @@ package org.springframework.samples.sevenislands.game;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.samples.sevenislands.lobby.Lobby;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,11 +11,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class GameService {
 
     @Autowired
-    private GameRepository gameRepo;
+    private GameRepository gameRepository;
 
     @Transactional
     public int gameCount() {
-        return (int) gameRepo.count();
+        return (int) gameRepository.count();
     }
 
     @Transactional 
@@ -24,7 +23,7 @@ public class GameService {
         Game game = new Game();
         game.setCreationDate(LocalDateTime.now());
         game.setLobby(lobby);
-        gameRepo.save(game);
+        gameRepository.save(game);
 
     }
 }

@@ -1,11 +1,9 @@
 package org.springframework.samples.sevenislands.admin;
 
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 
 public interface AdminRepository extends CrudRepository<Admin, Integer> {
 
-    /*@Query("SELECT admin FROM User user WHERE user.id =: id")
+    /*@Query("SELECT admin FROM User user WHERE user.id=:id")
     public Admin findById(@Param("id") int id);*/
 }

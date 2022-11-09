@@ -6,7 +6,7 @@ uri="http://java.sun.com/jsp/jstl/functions" %> <%@ taglib prefix="form"
 uri="http://www.springframework.org/tags/form" %> <%@ taglib
 prefix="sevenislands" tagdir="/WEB-INF/tags" %>
 
-<sevenislands:layout pageName="signup">
+<sevenislands:layout2 pageName="signup">
   <jsp:attribute name="customScript">
     <script>
       $(function () {
@@ -40,4 +40,4 @@ prefix="sevenislands" tagdir="/WEB-INF/tags" %>
       </div>
     </form:form>
   </jsp:body>
-</sevenislands:layout>
+</sevenislands:layout2>

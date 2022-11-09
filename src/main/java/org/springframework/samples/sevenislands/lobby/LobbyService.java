@@ -1,12 +1,10 @@
 package org.springframework.samples.sevenislands.lobby;
 
-
 import java.util.Optional;
+import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.sevenislands.lobby.LobbyExceptions.NotExistLobbyException;
-import org.springframework.samples.sevenislands.lobby.LobbyExceptions.NotExitPlayerException;
-import org.springframework.samples.sevenislands.player.Player;
+import org.springframework.samples.sevenislands.lobby.lobbyExceptions.NotExistLobbyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,35 +15,42 @@ public class LobbyService {
     private LobbyRepository lobbyRepository;
 
     @Autowired
-    public LobbyService(LobbyRepository LobbyRepository){
-        this.lobbyRepository=LobbyRepository;
+    public LobbyService(LobbyRepository lobbyRepository){
+        this.lobbyRepository=lobbyRepository;
     }
 
    //creacion del codigo de la lobby
-    public Integer generatorCode(){
-        Integer codigo=0;
-		String code="";
-		for (int j = 0; j < 7; j++) {
-			Integer random=(int)(Math.random()*10+1);
-			code+=random.toString();
-		}
-		codigo=Integer.parseInt(code);
-        return codigo;
+    public String generatorCode() {
+        String CHAR_LIST = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Integer RANDOM_STRING_LENGTH = 8;
+        StringBuffer randomString = new StringBuffer();
+        
+        for(int i = 0; i<RANDOM_STRING_LENGTH; i++) {
+            Random randomGenerator = new Random();
+            char ch = CHAR_LIST.charAt(randomGenerator.nextInt(CHAR_LIST.length()-1));
+            randomString.append(ch);
+        }
+        return randomString.toString();
     }
     
     @Transactional(readOnly = true)
-    public long numPartidas(){
+    public long numPartidas() {
         long partidas=lobbyRepository.count();
         return partidas;
     }
 
+    @Transactional
+	public void save(Lobby lobby) {
+        lobbyRepository.save(lobby);
+	}
+
     @Transactional 
-	public void save(Lobby r) {
-	    lobbyRepository.save(r);
+	public void update(Lobby lobby) {
+	    lobbyRepository.updatePlayers(lobby, lobby.getId());
 	}
 
     @Transactional(readOnly = true, rollbackFor = NotExistLobbyException.class)
-    public Lobby getByCode(Integer code) throws NotExistLobbyException{
+    public Lobby findLobbyByCode(String code) throws NotExistLobbyException {
         Optional<Lobby> lobby = lobbyRepository.findByCode(code);
         if(lobby.isPresent()){
             return lobby.get();
@@ -55,24 +60,15 @@ public class LobbyService {
     }
 
     @Transactional(rollbackFor = NotExistLobbyException.class)
+    public Lobby findLobbyByPlayer(Integer player_id) {
+        return lobbyRepository.findByLobbyId(lobbyRepository.findByPlayer(player_id));
+    }
+
+    /*@Transactional(rollbackFor = NotExistLobbyException.class)
     public void addPlayerToLobby(Integer code, Player player) throws NotExistLobbyException{
         Lobby lobby = getByCode(code);
         lobby.getMembers().add(player);
         lobbyRepository.save(lobby);
-    }
+    }*/
 
-    @Transactional(rollbackFor = NotExitPlayerException.class)
-    public Boolean deleteplayerLobby(Integer code, Player player) throws NotExistLobbyException, NotExitPlayerException{
-        Lobby lobby = getByCode(code);
-        Boolean res = false;
-        if(lobby.getMembers().contains(player)){
-            lobby.getMembers().remove(player);
-            lobbyRepository.save(lobby);
-            res = true;
-        } else {
-            throw new NotExitPlayerException();
-        }
-      
-        return res;
-    }
 }

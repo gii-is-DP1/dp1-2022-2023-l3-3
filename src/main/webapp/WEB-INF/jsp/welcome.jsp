@@ -7,7 +7,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 <!-- %@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %-->  
 
-<sevenislands:layout2>
+<sevenislands:layout2 pageName="welcome">
     <body style="background: url(resources/images/fondo1920x1080.jpg)">   
         <div>
             <center>
