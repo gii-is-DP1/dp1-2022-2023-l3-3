@@ -4,9 +4,7 @@ import java.util.Optional;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.repository.core.EntityInformation;
-import org.springframework.samples.sevenislands.lobby.lobbyExceptions.noExistPlayerException;
-import org.springframework.samples.sevenislands.player.Player;
+import org.springframework.samples.sevenislands.lobby.lobbyExceptions.NotExistLobbyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -17,8 +15,8 @@ public class LobbyService {
     private LobbyRepository lobbyRepository;
 
     @Autowired
-    public LobbyService(LobbyRepository LobbyRepository){
-        this.lobbyRepository=LobbyRepository;
+    public LobbyService(LobbyRepository lobbyRepository){
+        this.lobbyRepository=lobbyRepository;
     }
 
    //creacion del codigo de la lobby
@@ -35,7 +33,7 @@ public class LobbyService {
         return randomString.toString();
     }
     
-    @Transactional
+    @Transactional(readOnly = true)
     public long numPartidas() {
         long partidas=lobbyRepository.count();
         return partidas;
@@ -43,7 +41,6 @@ public class LobbyService {
 
     @Transactional
 	public void save(Lobby lobby) {
-	    //lobbyRepository.save(lobby);
         lobbyRepository.save(lobby);
 	}
 
@@ -52,14 +49,26 @@ public class LobbyService {
 	    lobbyRepository.updatePlayers(lobby, lobby.getId());
 	}
 
-    @Transactional
-    public Lobby findLobbyByCode(String code) {
-        return lobbyRepository.findByCode(code);
+    @Transactional(readOnly = true, rollbackFor = NotExistLobbyException.class)
+    public Lobby findLobbyByCode(String code) throws NotExistLobbyException {
+        Optional<Lobby> lobby = lobbyRepository.findByCode(code);
+        if(lobby.isPresent()){
+            return lobby.get();
+        } else {
+            throw new NotExistLobbyException();
+        }
     }
 
-    @Transactional(rollbackFor = noExistPlayerException.class)
+    @Transactional(rollbackFor = NotExistLobbyException.class)
     public Lobby findLobbyByPlayer(Integer player_id) {
         return lobbyRepository.findByLobbyId(lobbyRepository.findByPlayer(player_id));
     }
+
+    /*@Transactional(rollbackFor = NotExistLobbyException.class)
+    public void addPlayerToLobby(Integer code, Player player) throws NotExistLobbyException{
+        Lobby lobby = getByCode(code);
+        lobby.getMembers().add(player);
+        lobbyRepository.save(lobby);
+    }*/
 
 }

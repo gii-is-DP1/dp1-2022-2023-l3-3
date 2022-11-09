@@ -1,14 +1,11 @@
 package org.springframework.samples.sevenislands.lobby;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
@@ -41,8 +38,8 @@ public class Lobby extends BaseEntity{
 		return this.players;
 	}
 
-    public void addPlayer(Player player) {
+  public void addPlayer(Player player) {
 		getPlayerInternal().add(player);
-        player.setLobby(this);
+    player.setLobby(this);
 	}
 }

@@ -1,25 +1,17 @@
 package org.springframework.samples.sevenislands.lobby;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.ui.Model;
 
 import java.security.Principal;
-import java.util.List;
-import java.util.Optional;
-import java.util.Set;
-
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.sevenislands.lobby.lobbyExceptions.NotExistLobbyException;
 import org.springframework.samples.sevenislands.player.Player;
 import org.springframework.samples.sevenislands.player.PlayerService;
-import org.springframework.samples.sevenislands.user.User;
-import org.springframework.security.core.context.SecurityContextHolder;
 
 @Controller
 public class LobbyController {
@@ -68,7 +60,7 @@ public class LobbyController {
 	}
 
 	@PostMapping("/join")
-	public ModelAndView validateJoin(@ModelAttribute("code") String code, Principal principal) {
+	public ModelAndView validateJoin(@ModelAttribute("code") String code, Principal principal) throws NotExistLobbyException {
 		Lobby lobby = lobbyService.findLobbyByCode(code);
 		
 		Integer players = lobby.getPlayers().size();

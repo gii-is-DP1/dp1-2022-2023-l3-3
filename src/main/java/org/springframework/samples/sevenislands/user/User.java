@@ -20,6 +20,7 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Past;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.sevenislands.achievement.Achievement;
 import org.springframework.samples.sevenislands.lobby.Lobby;
 import org.springframework.samples.sevenislands.model.BaseEntity;
@@ -41,7 +42,7 @@ public class User extends BaseEntity{
 	@Column(name = "password", unique = false, nullable = false)
 	String password;
 
-	@Column(name = "enabled", unique = false, nullable = false)
+	@Column(name = "enabled", unique = false, nullable = true, columnDefinition = "boolean default true")
 	boolean enabled;
 
 	@Column(name = "first_name", unique = false, nullable = false)
@@ -50,28 +51,29 @@ public class User extends BaseEntity{
 	@Column(name = "last_name", unique = false, nullable = false)
 	protected String lastName;
 
-	@Column(name = "email", unique = true, nullable = true, length = 50)
+	@Column(name = "email", unique = true, nullable = false, length = 50)
 	String email;
 
 	@Past
 	@Temporal(TemporalType.DATE)
-	@Column(name = "creation_date", unique = false, nullable = true)
+	@Column(name = "creation_date", unique = false, nullable = true, columnDefinition = "date default now()")
 	Date creationDate;
 	
 	@Past
 	@Temporal(TemporalType.DATE)
-	@Column(name = "birth_date", unique = false, nullable = true)
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@Column(name = "birth_date", unique = false, nullable = false)
 	Date birthDate;
 
 	@Column(name = "avatar", unique = false, nullable = true)
 	String avatar;
 
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	private Set<Authorities> authorities;
+
 	@ManyToMany()
 	@JoinColumn(name = "achievements")
     private Collection<Achievement> achievements;
-
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
-	private Set<Authorities> authorities;
 
 	@ManyToOne
 	private Lobby lobby;
