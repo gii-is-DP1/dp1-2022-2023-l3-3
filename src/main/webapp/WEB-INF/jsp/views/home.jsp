@@ -6,7 +6,6 @@
 
 <sevenislands:layout2 pageName="home">
 	<body style="background: url(resources/images/fondo1920x1080.jpg)">   
-		<p class="text-right"> <strong><sec:authentication property="name" /></strong> </p>
         <div>
             <center>
                 <img src="/resources/images/letras_7_islas.png" width="700" height="200">
