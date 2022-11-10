@@ -26,6 +26,6 @@ public class Island extends BaseEntity {
     @NotNull
     private Game game;
 
-    // @ManyToMany(mappedBy = "islands")
-    // private Set<Card> cards;
+    @ManyToMany(mappedBy = "islands")
+    private Set<Card> cards;
 }
