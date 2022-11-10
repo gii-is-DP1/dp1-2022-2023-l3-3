@@ -1,5 +1,6 @@
 package org.springframework.samples.sevenislands.web;
 
+import java.sql.Date;
 import java.util.Map;
 
 import javax.validation.Valid;

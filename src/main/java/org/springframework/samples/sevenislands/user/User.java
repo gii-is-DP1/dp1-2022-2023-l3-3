@@ -71,10 +71,13 @@ public class User extends BaseEntity{
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private Set<Authorities> authorities;
 
+	@Column(name = "type", insertable = false, updatable = false)
+	protected String userType;
+
 	@ManyToMany()
 	@JoinColumn(name = "achievements")
     private Collection<Achievement> achievements;
 
-	@ManyToOne
+	@ManyToOne()
 	private Lobby lobby;
 }

@@ -7,8 +7,10 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.springframework.samples.sevenislands.game.Game;
 import org.springframework.samples.sevenislands.model.BaseEntity;
 import org.springframework.samples.sevenislands.player.Player;
 
@@ -31,7 +33,10 @@ public class Lobby extends BaseEntity{
     @OneToMany(cascade = CascadeType.PERSIST)
     private List<Player> players;
 
-    protected List<Player> getPlayerInternal() {
+    @OneToOne(cascade = CascadeType.ALL)
+    private Game game;
+
+    public List<Player> getPlayerInternal() {
 		if (this.players == null) {
 			this.players = new ArrayList<>();
 		}

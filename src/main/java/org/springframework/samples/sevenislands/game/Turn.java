@@ -1,11 +1,15 @@
 package org.springframework.samples.sevenislands.game;
 
+import java.util.Set;
+
 import javax.persistence.Entity;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Range;
+import org.springframework.samples.sevenislands.card.Card;
 import org.springframework.samples.sevenislands.model.BaseEntity;
 import org.springframework.samples.sevenislands.player.Player;
 
@@ -30,10 +34,6 @@ public class Turn extends BaseEntity {
     @NotNull
     Round round;
 
-    @ManyToOne
-    @NotNull
-    Island island;
-
-    // @OneToMany
-    // private Set<Mazo?? o lo que sea> mazos;
+    @ManyToMany(mappedBy = "turns")
+    private Set<Card> cards;
 }
