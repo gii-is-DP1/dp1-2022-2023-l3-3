@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.sevenislands.lobby.Lobby;
 import org.springframework.samples.sevenislands.lobby.LobbyService;
+import org.springframework.samples.sevenislands.lobby.exceptions.NotExitPlayerException;
 import org.springframework.samples.sevenislands.player.Player;
 import org.springframework.samples.sevenislands.player.PlayerService;
 import org.springframework.samples.sevenislands.user.User;
@@ -41,7 +42,7 @@ public class AdminController {
 	}
 
     @GetMapping("/controlPanel")
-	public ModelAndView listUsers(Principal principal, HttpServletResponse response){
+	public ModelAndView listUsers(Principal principal, HttpServletResponse response) throws NotExitPlayerException{
 		response.addHeader("Refresh", "5");
 		ModelAndView result = new ModelAndView(VIEWS_CONTROL_PANEL);
         List<User> users = StreamSupport.stream(userService.findAll().spliterator(), false).collect(Collectors.toList());      
@@ -53,7 +54,8 @@ public class AdminController {
 	public String deleteUser(Principal principal, @PathVariable("id") Integer id){
 		User user = userService.findUserById(id).get();
 		if(user.getNickname().equals(principal.getName())){
-			userService.deleteUser(id);
+			user.setEnabled(false);
+			userService.update(user);
 			return "redirect:/";
 		}else{
 			if(userService.checkUserLobbyByName(user.getNickname())!=null) {
@@ -65,7 +67,8 @@ public class AdminController {
 				lobbyService.update(Lobby);
 				player.setLobby(null);
 			}
-			userService.deleteUser(id);
+			user.setEnabled(false);
+			userService.update(user);
 			return "redirect:/controlPanel";
 		}	
 	}

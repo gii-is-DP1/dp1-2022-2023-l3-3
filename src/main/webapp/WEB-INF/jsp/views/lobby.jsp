@@ -30,7 +30,7 @@
                 <br/>
                 <div>
                     <center>
-                        <a class="btn btn-default" href='<spring:url value="/game" htmlEscape="true"/>'>EMPEZAR PARTIDA</a>
+                        <a class="btn btn-default" href='<spring:url value="/game/create" htmlEscape="true"/>'>EMPEZAR PARTIDA</a>
                     </center>
                 </div>
                 <br/>
