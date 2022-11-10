@@ -2,6 +2,7 @@ package org.springframework.samples.sevenislands.user;
 
 import java.util.Optional;
 
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -10,7 +11,7 @@ import org.springframework.samples.sevenislands.lobby.Lobby;
 
 
 public interface UserRepository extends  CrudRepository<User, Integer>{
-	
+
     @Query("SELECT user FROM User user WHERE user.id=:id")
     public Optional<User> findById(@Param("id") int id);
 

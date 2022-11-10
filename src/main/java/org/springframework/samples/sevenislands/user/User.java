@@ -77,7 +77,7 @@ public class User extends BaseEntity{
 	@ManyToMany()
 	@JoinColumn(name = "achievements")
     private Collection<Achievement> achievements;
-//
-	@ManyToOne(cascade = CascadeType.ALL)
+
+	@ManyToOne()
 	private Lobby lobby;
 }

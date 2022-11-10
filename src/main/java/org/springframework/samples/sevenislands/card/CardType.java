@@ -1,8 +1,9 @@
-package org.springframework.samples.sevenislands.cardBaraja;
+package org.springframework.samples.sevenislands.card;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.samples.sevenislands.model.BaseEntity;
@@ -13,11 +14,13 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "CardPurposes")
-public class CardPurpose extends BaseEntity{
-
-    @NotNull
-    @Column(unique = true)
-    protected String purpose;
+@Table(name = "CardTypes")
+public class CardType extends BaseEntity {
     
+     @NotNull
+     @NotBlank
+     @Column(unique = true)
+     protected String name;
+
+
 }
