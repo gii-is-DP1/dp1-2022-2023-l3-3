@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.sevenislands.lobby.Lobby;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -56,6 +57,11 @@ public class UserService {
 	@Transactional
 	public Boolean checkUserByName(String nickname) {
 		return userRepository.checkUser(nickname);
+	}
+
+	@Transactional
+	public Lobby checkUserLobbyByName(String nickname) {
+		return userRepository.checkUserLobby(nickname);
 	}
 
 }

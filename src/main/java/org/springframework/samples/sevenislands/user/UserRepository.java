@@ -5,6 +5,7 @@ import java.util.Optional;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.samples.sevenislands.lobby.Lobby;
 
 
 public interface UserRepository extends  CrudRepository<User, Integer>{
@@ -23,4 +24,7 @@ public interface UserRepository extends  CrudRepository<User, Integer>{
 
     @Query("SELECT count(user) = 1 FROM User user WHERE user.nickname=?1")
     public boolean checkUser(String nickname);
+    
+    @Query("SELECT user.lobby FROM User user WHERE user.nickname=?1")
+    public Lobby checkUserLobby(String nickname);
 }

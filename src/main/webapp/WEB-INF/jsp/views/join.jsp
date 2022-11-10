@@ -7,10 +7,12 @@
 <%@ taglib prefix="sevenislands" tagdir="/WEB-INF/tags" %>
 
 <sevenislands:layout2 pageName="join">
-    <body style="background: url(resources/images/fondo1920x1080.jpg)">     
-        <form:form modelAttribute="code" class="form-horizontal" id="validate-code">
+    <a class="btn btn-default" href='<spring:url value="/home" htmlEscape="true"/>'>Volver</a>
+    
+    <form:form modelAttribute="code" class="form-horizontal" id="validate-code">
+        <br/>
         <div class="form-group has-feedback">
-            <sevenislands:inputField label="Code" name="code"/>
+            <sevenislands:inputField label="Code" name="code" required="required"/>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
