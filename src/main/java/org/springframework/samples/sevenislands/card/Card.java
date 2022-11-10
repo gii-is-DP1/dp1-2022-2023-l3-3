@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.samples.sevenislands.game.Island;
-import org.springframework.samples.sevenislands.game.Turn;
+import org.springframework.samples.sevenislands.game.turn.Turn;
 import org.springframework.samples.sevenislands.model.BaseEntity;
 
 public class Card extends BaseEntity {
