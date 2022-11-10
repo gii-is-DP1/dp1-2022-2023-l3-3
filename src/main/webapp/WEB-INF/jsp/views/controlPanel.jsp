@@ -65,7 +65,6 @@
 					<td><c:out value="${user.email}"/></td>
 					<td><c:out value="${user.creationDate}"/></td>
 					<td><c:out value="${user.userType}"/></td>
-					<td><c:out value="${user.enabled}"/></td>
 					<td><c:out value="${user.birthDate}"/></td>
 					<td><a href="/controlPanel/enable/${user.id}"><img src="/resources/images/${user.enabled}.png" height="25" width="25"></a></td>
 					<td><a href="/controlPanel/delete/${user.id}"><img src="/resources/images/deleteIcon.png" height="30" width="30"></a></td>	
