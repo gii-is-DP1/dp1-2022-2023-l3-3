@@ -1,4 +1,4 @@
-package org.springframework.samples.sevenislands.game;
+package org.springframework.samples.sevenislands.game.turn;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -19,7 +19,7 @@ public class TurnService {
     }
 
     @Transactional(readOnly = true)
-    public Collection<Turn> findAllTurns() throws DataAccessException {
+    public Iterable<Turn> findAllTurns() throws DataAccessException {
         return turnRepository.findAll();
     }
 
@@ -33,9 +33,13 @@ public class TurnService {
         return turnRepository.findByRoundId(id);
     }
 
-    @Transactional()
+    @Transactional
     public void save(Turn turn) {
         turnRepository.save(turn);
     }
 
+    @Transactional
+    public void update(Turn turn, Integer turn_id) {
+        turnRepository.updatePlayers(turn, turn_id);
+    }
 }

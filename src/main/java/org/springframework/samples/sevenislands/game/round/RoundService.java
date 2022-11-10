@@ -1,4 +1,4 @@
-package org.springframework.samples.sevenislands.game;
+package org.springframework.samples.sevenislands.game.round;
 
 import java.util.Collection;
 import java.util.Optional;

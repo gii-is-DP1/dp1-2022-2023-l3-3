@@ -1,4 +1,4 @@
-package org.springframework.samples.sevenislands.game;
+package org.springframework.samples.sevenislands.game.island;
 
 import java.util.List;
 
@@ -11,6 +11,7 @@ import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
 import org.springframework.samples.sevenislands.card.Card;
+import org.springframework.samples.sevenislands.game.Game;
 import org.springframework.samples.sevenislands.model.BaseEntity;
 
 import lombok.Getter;

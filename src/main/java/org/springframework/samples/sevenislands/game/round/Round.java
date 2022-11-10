@@ -1,4 +1,4 @@
-package org.springframework.samples.sevenislands.game;
+package org.springframework.samples.sevenislands.game.round;
 
 import java.util.List;
 
@@ -10,6 +10,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.samples.sevenislands.game.Game;
+import org.springframework.samples.sevenislands.game.turn.Turn;
 import org.springframework.samples.sevenislands.model.BaseEntity;
 
 import lombok.Getter;
