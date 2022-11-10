@@ -15,19 +15,16 @@
  */
 package org.springframework.samples.sevenislands.user;
 
-import java.util.Map;
 
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.sevenislands.player.Player;
+
 import org.springframework.samples.sevenislands.player.PlayerService;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
+
 import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.GetMapping;
+
 import org.springframework.web.bind.annotation.InitBinder;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class UserController {

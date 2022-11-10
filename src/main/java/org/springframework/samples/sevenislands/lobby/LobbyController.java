@@ -16,7 +16,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.sevenislands.lobby.exceptions.NotExistLobbyException;
 import org.springframework.samples.sevenislands.player.Player;
 import org.springframework.samples.sevenislands.player.PlayerService;
-import org.springframework.samples.sevenislands.user.User;
 import org.springframework.samples.sevenislands.user.UserService;
 
 @Controller

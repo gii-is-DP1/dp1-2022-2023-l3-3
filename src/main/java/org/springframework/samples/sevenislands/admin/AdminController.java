@@ -12,6 +12,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.sevenislands.lobby.Lobby;
 import org.springframework.samples.sevenislands.lobby.LobbyService;
+import org.springframework.samples.sevenislands.lobby.exceptions.NotExitPlayerException;
 import org.springframework.samples.sevenislands.player.Player;
 import org.springframework.samples.sevenislands.player.PlayerService;
 import org.springframework.samples.sevenislands.user.User;
@@ -54,7 +55,7 @@ public class AdminController {
 		User user = userService.findUserById(id).get();
 		if(user.getNickname().equals(principal.getName())){
 			user.setEnabled(false);
-			userService.updatUser(user);
+			userService.update(user);
 			return "redirect:/";
 		}else{
 			if(userService.checkUserLobbyByName(user.getNickname())!=null) {
@@ -67,7 +68,7 @@ public class AdminController {
 				player.setLobby(null);
 			}
 			user.setEnabled(false);
-			userService.updatUser(user);
+			userService.update(user);
 			return "redirect:/controlPanel";
 		}	
 	}

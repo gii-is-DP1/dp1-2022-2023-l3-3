@@ -1,7 +1,6 @@
 package org.springframework.samples.sevenislands.game;
 
 import java.security.Principal;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;

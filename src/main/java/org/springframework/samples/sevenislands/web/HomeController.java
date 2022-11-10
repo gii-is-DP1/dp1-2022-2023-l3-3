@@ -4,9 +4,9 @@ import java.security.Principal;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.sevenislands.lobby.Lobby;
+
 import org.springframework.samples.sevenislands.lobby.LobbyService;
-import org.springframework.samples.sevenislands.player.Player;
+
 import org.springframework.samples.sevenislands.player.PlayerService;
 import org.springframework.samples.sevenislands.user.User;
 import org.springframework.samples.sevenislands.user.UserService;
