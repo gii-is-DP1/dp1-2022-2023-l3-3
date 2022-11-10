@@ -30,7 +30,8 @@ prefix="sevenislands" tagdir="/WEB-INF/tags" %>
     </script>
   </jsp:attribute>
   <jsp:body>
-    <h2>Sign Up</h2>
+    <a class="btn btn-default" href='<spring:url value="/" htmlEscape="true"/>'>Volver</a>
+    <h2><br/>Sign Up</h2>
     <form:form
       modelAttribute="player"
       class="form-horizontal"
