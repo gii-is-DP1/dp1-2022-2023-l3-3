@@ -6,6 +6,21 @@ uri="http://java.sun.com/jsp/jstl/functions" %> <%@ taglib prefix="form"
 uri="http://www.springframework.org/tags/form" %> <%@ taglib
 prefix="sevenislands" tagdir="/WEB-INF/tags" %>
 
+<style>
+  body {
+    background-image: url("resources/images/piratasEnIsla.jpg");
+    background-size: 100% 100%;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+  }
+  @media (max-width : 1500px) {
+    body {
+      background-size: auto 100%;
+    }
+}
+</style>
+
 <sevenislands:layout2 pageName="signup">
   <jsp:attribute name="customScript">
     <script>
@@ -22,16 +37,17 @@ prefix="sevenislands" tagdir="/WEB-INF/tags" %>
       id="add-player-form"
     >
       <div class="form-group has-feedback">
-        <sevenislands:inputField label="Nickname" name="nickname" />
+        <sevenislands:inputField label="Nickname" name="nickname" required="required"/>
         <sevenislands:inputField
           label="Password"
           type="password"
           name="password"
+          required="required"
         />
-        <sevenislands:inputField label="First Name" name="firstName" />
-        <sevenislands:inputField label="Last Name" name="lastName" />
-        <sevenislands:inputField label="Birth Date" name="birthDate" />
-        <sevenislands:inputField label="Email" name="email" />
+        <sevenislands:inputField label="First Name" name="firstName" required="required"/>
+        <sevenislands:inputField label="Last Name" name="lastName" required="required"/>
+        <sevenislands:inputField label="Birth Date" name="birthDate" required="required"/>
+        <sevenislands:inputField label="Email" name="email" required="required"/>
       </div>
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">

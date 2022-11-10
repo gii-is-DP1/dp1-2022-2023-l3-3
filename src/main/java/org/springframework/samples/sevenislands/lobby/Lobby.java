@@ -31,7 +31,7 @@ public class Lobby extends BaseEntity{
     @OneToMany(cascade = CascadeType.PERSIST)
     private List<Player> players;
 
-    protected List<Player> getPlayerInternal() {
+    public List<Player> getPlayerInternal() {
 		if (this.players == null) {
 			this.players = new ArrayList<>();
 		}

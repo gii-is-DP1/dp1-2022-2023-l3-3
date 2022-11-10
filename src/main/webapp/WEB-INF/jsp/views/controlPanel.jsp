@@ -1,6 +1,8 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-	pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="sevenislands" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ page session="false" trimDirectiveWhitespaces="true" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -10,40 +12,44 @@
 <script src="/webjars/jquery/jquery.min.js"></script>
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
-<body>
-	<h2>Users:</h2>
-	<div class="container">
-		<br />
-		<c:if test="${message != null}">
-		<div class="alert alert-${messageType}">
-			<c:out value="${message}"></c:out>
-			<a href="#" class="close" data-dismiss="alert" aria-label="close"></a>
+<sevenislands:layout2 pageName="controlPanel">
+	<body>
+		<a class="btn btn-default" href='<spring:url value="/home" htmlEscape="true"/>'>Volver</a>
+		<h2><br/>Users:</h2>
+		<div class="container">
+			<br/>
+			<c:if test="${message != null}">
+			<div class="alert alert-${messageType}">
+				<c:out value="${message}"></c:out>
+				<a href="#" class="close" data-dismiss="alert" aria-label="close"></a>
+			</div>
+			</c:if>
 		</div>
-		</c:if>
-	</div>
-	<table class="table table-striped">
-		<tr>	
-			<th>nickname</th>
-            <th>first_name</th>
-            <th>last_name</th>
-            <th>email</th>
-            <th>creation_date</th>
-            <th>type</th>
-            <th>birth_date</th>
-            <th>avatar</th>
-		</tr>
-		<c:forEach items="${users}" var="user">
+		<table class="table table-striped">
 			<tr>
-				<td><c:out value="${user.nickname}"/></td>
-				<td><c:out value="${user.firstName}"/></td>
-                <td><c:out value="${user.lastName}"/></td>
-                <td><c:out value="${user.email}"/></td>
-                <td><c:out value="${user.creationDate}"/></td>
-                <td><c:out value="${user.userType}"/></td>
-                <td><c:out value="${user.birthDate}"/></td>
-                <td><c:out value="${user.avatar}"/></td>
-                <td><a href="/controlPanel/delete/${user.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a></td>	
+				<th>Avatar</th>
+				<th>Nickname</th>
+				<th>First Name</th>
+				<th>Last Name</th>
+				<th>Email</th>
+				<th>Creation Date</th>
+				<th>Type</th>
+				<th>Birth Date</th>
+				<th>Eliminar</th>
 			</tr>
-		</c:forEach>
-	</table>
-</body>
+			<c:forEach items="${users}" var="user">
+				<tr>
+					<td><img src="/resources/images/${user.avatar}" height="25" width="25"></td>
+					<td><c:out value="${user.nickname}"/></td>
+					<td><c:out value="${user.firstName}"/></td>
+					<td><c:out value="${user.lastName}"/></td>
+					<td><c:out value="${user.email}"/></td>
+					<td><c:out value="${user.creationDate}"/></td>
+					<td><c:out value="${user.userType}"/></td>
+					<td><c:out value="${user.birthDate}"/></td>
+					<td><a href="/controlPanel/delete/${user.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a></td>	
+				</tr>
+			</c:forEach>
+		</table>
+	</body>
+</sevenislands:layout2>

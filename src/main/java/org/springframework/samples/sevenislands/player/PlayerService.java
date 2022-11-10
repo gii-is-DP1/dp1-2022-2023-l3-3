@@ -2,6 +2,7 @@ package org.springframework.samples.sevenislands.player;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.samples.sevenislands.lobby.Lobby;
 import org.springframework.samples.sevenislands.user.AuthoritiesService;
 import org.springframework.samples.sevenislands.user.UserService;
 import org.springframework.stereotype.Service;
@@ -38,9 +39,14 @@ public class PlayerService {
     public Player findPlayersByName(String name) {
         return playerRepository.findByName(name);
     }
+	
 	@Transactional
     public Player findPlayersById(Integer id) {
         return playerRepository.findById(id);
     }
-	//
+
+	@Transactional 
+	public void update(Player player) {
+	    playerRepository.updatePlayer(player, player.getId());
+	}
 }

@@ -64,6 +64,11 @@ public class LobbyService {
         return lobbyRepository.findByLobbyId(lobbyRepository.findByPlayer(player_id));
     }
 
+    @Transactional
+	public Boolean checkLobbyByCode(String code) {
+		return lobbyRepository.checkLobby(code);
+	}
+
     /*@Transactional(rollbackFor = NotExistLobbyException.class)
     public void addPlayerToLobby(Integer code, Player player) throws NotExistLobbyException{
         Lobby lobby = getByCode(code);
