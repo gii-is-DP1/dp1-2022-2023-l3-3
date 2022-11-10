@@ -26,4 +26,14 @@ public class GameService {
         gameRepository.save(game);
 
     }
+    @Transactional
+    public void save(Game game) {
+         gameRepository.save(game);
+    }
+
+    @Transactional
+    public Game findGamebByLobbyId(Integer id){
+        return gameRepository.findGamebByLobbyId(id);
+    }
+
 }

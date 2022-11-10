@@ -1,15 +1,26 @@
-package org.springframework.samples.sevenislands.game;
+package org.springframework.samples.sevenislands.game.turn;
+
+
+
+
+
+import java.time.LocalDateTime;
 
 import java.util.Set;
+
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
 import javax.validation.constraints.NotNull;
 
+
 import org.hibernate.validator.constraints.Range;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.samples.sevenislands.card.Card;
+import org.springframework.samples.sevenislands.game.Round;
 import org.springframework.samples.sevenislands.model.BaseEntity;
 import org.springframework.samples.sevenislands.player.Player;
 
@@ -33,7 +44,12 @@ public class Turn extends BaseEntity {
     @ManyToOne
     @NotNull
     Round round;
+    
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@NotNull
+	private LocalDateTime TimePress;
 
-    // @ManyToMany(mappedBy = "turns")
-    // private Set<Card> cards;
+
+    @ManyToMany(mappedBy = "turns")
+    private Set<Card> cards;
 }
