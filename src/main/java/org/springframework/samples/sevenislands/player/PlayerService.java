@@ -38,6 +38,11 @@ public class PlayerService {
 		authoritiesService.saveAuthorities(player.getNickname(), "player");
 	}
 
+	@Transactional(readOnly = true)
+	public Player findPlayerById(Integer id) throws DataAccessException{
+		return playerRepository.findById(id);
+	}
+
 	@Transactional
     public Player findPlayersByName(String name) {
         return playerRepository.findByName(name);

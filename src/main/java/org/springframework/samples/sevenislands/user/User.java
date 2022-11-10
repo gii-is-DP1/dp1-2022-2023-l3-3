@@ -34,8 +34,7 @@ import lombok.Setter;
 @Table(name = "users")
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name = "type", discriminatorType = DiscriminatorType.STRING)
-public class User extends BaseEntity{
-
+public class User extends BaseEntity {
 	@Column(name = "nickname", unique = true, nullable = false, length = 30)
 	String nickname;
 
