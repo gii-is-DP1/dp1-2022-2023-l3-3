@@ -8,7 +8,7 @@
 <style>
     body {
         background-image: url("resources/images/tablero.png");
-        background-size: auto auto;
+        background-size: cover;
         background-repeat: no-repeat;
         background-position: center center;
         background-attachment: fixed;
