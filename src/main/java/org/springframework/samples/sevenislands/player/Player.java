@@ -1,15 +1,20 @@
 package org.springframework.samples.sevenislands.player;
 
 import java.util.Collection;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.DiscriminatorValue;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.NotEmpty;
 
 import org.springframework.samples.sevenislands.user.User;
 import org.springframework.samples.sevenislands.achievement.Achievement;
+import org.springframework.samples.sevenislands.game.Turn;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -27,4 +32,6 @@ public class Player extends User {
     @JoinColumn(name = "achievements")
     private Collection<Achievement> achievements;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
+    private Set<Turn> turns;
 }
