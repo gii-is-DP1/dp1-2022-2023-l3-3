@@ -28,8 +28,4 @@ public class Round extends BaseEntity {
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "round", fetch = FetchType.LAZY)
     private Set<Turn> turns;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "round", fetch = FetchType.LAZY)
-    @Size(min = 1, max = 7)
-    private Set<Island> islands;
 }
