@@ -6,7 +6,8 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
+
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -30,7 +31,7 @@ public class Lobby extends BaseEntity{
     @Column(name="active", unique = false, nullable = false)
     private boolean active;
 
-    @OneToMany(cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = CascadeType.PERSIST)
     private List<Player> players;
 
     @OneToOne(cascade = CascadeType.ALL)

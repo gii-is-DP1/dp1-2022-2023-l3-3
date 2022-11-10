@@ -14,7 +14,7 @@ import javax.validation.constraints.NotEmpty;
 
 import org.springframework.samples.sevenislands.user.User;
 import org.springframework.samples.sevenislands.achievement.Achievement;
-import org.springframework.samples.sevenislands.game.Turn;
+import org.springframework.samples.sevenislands.game.turn.Turn;
 
 import lombok.Getter;
 import lombok.Setter;
