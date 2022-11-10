@@ -34,6 +34,6 @@ public class Turn extends BaseEntity {
     @NotNull
     Round round;
 
-    // @ManyToMany(mappedBy = "turns")
-    // private Set<Card> cards;
+    @ManyToMany(mappedBy = "turns")
+    private Set<Card> cards;
 }
