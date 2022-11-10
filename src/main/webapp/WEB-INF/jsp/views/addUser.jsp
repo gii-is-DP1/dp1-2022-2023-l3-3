@@ -6,22 +6,7 @@ uri="http://java.sun.com/jsp/jstl/functions" %> <%@ taglib prefix="form"
 uri="http://www.springframework.org/tags/form" %> <%@ taglib
 prefix="sevenislands" tagdir="/WEB-INF/tags" %>
 
-<style>
-  body {
-    background-image: url("resources/images/piratasEnIsla.jpg");
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-attachment: fixed;
-  }
-  @media (max-width : 1500px) {
-    body {
-      background-size: auto 100%;
-    }
-}
-</style>
-
-<sevenislands:layout2 pageName="signup">
+<sevenislands:layout2 pageName="addUser">
   <jsp:attribute name="customScript">
     <script>
       $(function () {
@@ -30,12 +15,12 @@ prefix="sevenislands" tagdir="/WEB-INF/tags" %>
     </script>
   </jsp:attribute>
   <jsp:body>
-    <a class="btn btn-default" href='<spring:url value="/" htmlEscape="true"/>'>Volver</a>
-    <h2><br/>Registrarse</h2>
+    <a class="btn btn-default" href='<spring:url value="/controlPanel" htmlEscape="true"/>'>Volver</a>
+    <h2><br/>Añadir Usuario</h2>
     <form:form
-      modelAttribute="player"
+      modelAttribute="user"
       class="form-horizontal"
-      id="add-player-form"
+      id="add-user-form"
     >
       <div class="form-group has-feedback">
         <sevenislands:inputField label="Nickname" name="nickname" required="required"/>
@@ -49,10 +34,11 @@ prefix="sevenislands" tagdir="/WEB-INF/tags" %>
         <sevenislands:inputField label="Last Name" name="lastName" required="required"/>
         <sevenislands:inputField label="Birth Date" name="birthDate" required="required"/>
         <sevenislands:inputField label="Email" name="email" required="required"/>
+        <sevenislands:selectField label="Type" name="userType" names="${types}" size="2" required="required"/>
       </div>
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
-          <button class="btn btn-default" type="submit">Sign up</button>
+          <button class="btn btn-default" type="submit">Add</button>
         </div>
       </div>
     </form:form>
