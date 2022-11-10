@@ -8,7 +8,7 @@
 <style>
     body {
         background-image: url("resources/images/tablero.png");
-        background-size: auto auto;
+        background-size: cover;
         background-repeat: no-repeat;
         background-position: center center;
         background-attachment: fixed;
@@ -30,7 +30,7 @@
                 <br/>
                 <div>
                     <center>
-                        <a class="btn btn-default" href='<spring:url value="/home" htmlEscape="true"/>'>EMPEZAR PARTIDA</a>
+                        <a class="btn btn-default" href='<spring:url value="/game" htmlEscape="true"/>'>EMPEZAR PARTIDA</a>
                     </center>
                 </div>
                 <br/>

@@ -20,4 +20,5 @@
             </div>
         </div>
     </form:form>
+    </body>
 </sevenislands:layout2>
