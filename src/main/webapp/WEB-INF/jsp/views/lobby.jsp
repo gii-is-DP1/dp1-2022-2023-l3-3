@@ -5,12 +5,47 @@
 <%@ taglib prefix="sevenislands" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 
+<style>
+    body {
+        background-image: url("resources/images/tablero.png");
+        background-size: auto auto;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-attachment: fixed;
+        backdrop-filter: blur(8px);
+        height: 100%;
+        width: 100%;
+    }
+
+</style>
 <sevenislands:layout2 pageName="lobby">
-    <h1>Código de la partida: <c:out value="${lobby.code}"/></h1>
+    <body>
+            <div>
+                <center>
+                    <h1>Código de la partida: <c:out value="${lobby.code}"/></h1>
+                </center>
+            </div>
+            
+            <c:if test="${host==player}">
+                <br/>
+                <div>
+                    <center>
+                        <a class="btn btn-default" href='<spring:url value="/home" htmlEscape="true"/>'>EMPEZAR PARTIDA</a>
+                    </center>
+                </div>
+                <br/>
+                <div>
+                    <center>
+                        <a class="btn btn-default" href='<spring:url value="/lobby/players" htmlEscape="true"/>'>LISTA DE JUGADORES</a>
+                    </center>
+                </div>
+            </c:if>
     
-    <c:if test="${host==player}">
-        <a class="btn btn-default" href='<spring:url value="/home" htmlEscape="true"/>'>EMPEZAR PARTIDA</a>
-        <a class="btn btn-default" href='<spring:url value="/lobby/players" htmlEscape="true"/>'>LISTA DE JUGADORES</a>
-    </c:if>
-    <a class="btn btn-default" id="leave_game" href='<spring:url value="/lobby/delete" htmlEscape="true"/>'>ABANDONAR PARTIDA</a>
+            <div>
+                <center>
+                    <br/>
+                    <a class="btn btn-default" id="leave_game" href='<spring:url value="/lobby/delete" htmlEscape="true"/>'>ABANDONAR PARTIDA</a>
+                </center>
+            </div>
+    </body>
 </sevenislands:layout2>

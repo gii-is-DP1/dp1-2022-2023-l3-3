@@ -78,6 +78,6 @@ public class User extends BaseEntity{
 	@JoinColumn(name = "achievements")
     private Collection<Achievement> achievements;
 
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	private Lobby lobby;
 }

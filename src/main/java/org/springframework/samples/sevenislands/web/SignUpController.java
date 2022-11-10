@@ -41,6 +41,7 @@ public class SignUpController {
 
 	@PostMapping
 	public String processCreationForm(@Valid Player player, BindingResult result) {
+		player.setAvatar("playerAvatar.png");
 		this.playerService.save(player);
 		return "redirect:/home";
 	}
