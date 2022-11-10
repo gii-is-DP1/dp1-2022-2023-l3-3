@@ -1,6 +1,6 @@
 package org.springframework.samples.sevenislands.game;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
@@ -35,5 +35,5 @@ public class Turn extends BaseEntity {
     Round round;
 
     @ManyToMany(mappedBy = "turns")
-    private Set<Card> cards;
+    private List<Card> cards;
 }

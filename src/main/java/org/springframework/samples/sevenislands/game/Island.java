@@ -1,14 +1,14 @@
 package org.springframework.samples.sevenislands.game;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 import org.springframework.samples.sevenislands.card.Card;
 import org.springframework.samples.sevenislands.model.BaseEntity;
@@ -22,10 +22,16 @@ import lombok.Setter;
 @Table(name = "islands")
 public class Island extends BaseEntity {
 
+    // número para saber de qué isla se trata
+    @NotNull
+    @Min(value = 1)
+    @Max(value = 7)
+    private Integer num;
+
     @ManyToOne
     @NotNull
     private Game game;
 
     @ManyToMany(mappedBy = "islands")
-    private Set<Card> cards;
+    private List<Card> cards;
 }

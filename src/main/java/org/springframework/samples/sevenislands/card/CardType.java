@@ -16,11 +16,15 @@ import lombok.Setter;
 @Entity
 @Table(name = "CardTypes")
 public class CardType extends BaseEntity {
-    
+
      @NotNull
      @NotBlank
      @Column(unique = true)
      protected String name;
 
+     @NotNull
+     protected Integer multiplicity;
+
+     // falta el enum del tipo de carta
 
 }
