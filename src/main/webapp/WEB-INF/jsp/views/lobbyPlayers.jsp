@@ -15,7 +15,7 @@
 <sevenislands:layout2 pageName="lobbyPlayers">
 	<body>
 		<a class="btn btn-default" href='<spring:url value="/lobby" htmlEscape="true"/>'>Volver</a>
-		<h2><br/>PLayers:</h2>
+		<h2><br/>Jugadores</h2>
 		<div class="container">
 			<br />
 			<c:if test="${message != null}">

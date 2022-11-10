@@ -105,8 +105,7 @@ public class LobbyController {
 		Lobby Lobby=lobbyService.findLobbyByPlayer(player.getId());
 		List<Player> players=Lobby.getPlayerInternal();
 		if(players.size()==1){
-			boolean active=false;
-			Lobby.setActive(active);	
+			Lobby.setActive(false);	
 		}
 		player.setLobby(null);
 		playerService.update(player);

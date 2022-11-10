@@ -12,9 +12,25 @@
 <script src="/webjars/jquery/jquery.min.js"></script>
 <script src="/webjars/bootstrap/js/bootstrap.min.js"></script>
 
+<style>
+	.controlPanel-menu {
+		width: 100%;
+		display: flex;
+		flex-direction: row;
+		justify-content: space-between;
+	}
+</style>
+
 <sevenislands:layout2 pageName="controlPanel">
 	<body>
-		<a class="btn btn-default" href='<spring:url value="/home" htmlEscape="true"/>'>Volver</a>
+		<div class="controlPanel-menu">
+			<div>
+				<a class="btn btn-default" href='<spring:url value="/home" htmlEscape="true"/>'>Volver</a>
+			</div>
+			<div>
+				<a class="btn btn-default" href='<spring:url value="/controlPanel/add" htmlEscape="true"/>'>Añadir Usuario</a>
+			</div>
+		</div>
 		<h2><br/>Users:</h2>
 		<div class="container">
 			<br/>
@@ -27,19 +43,21 @@
 		</div>
 		<table class="table table-striped">
 			<tr>
+				<th>Editar</th>
 				<th>Avatar</th>
 				<th>Nickname</th>
-				<th>First Name</th>
-				<th>Last Name</th>
+				<th>Nombre</th>
+				<th>Apellidos</th>
 				<th>Email</th>
-				<th>Creation Date</th>
-				<th>Type</th>
-				<th>enable</th>
-				<th>Birth Date</th>
+				<th>Fecha de Creación</th>
+				<th>Tipo</th>
+				<th>Fecha de Nacimiento</th>
+				<th>Activo</th>
 				<th>Eliminar</th>
 			</tr>
 			<c:forEach items="${users}" var="user">
 				<tr>
+					<td><a href="/controlPanel/edit/${user.id}"><img src="/resources/images/editIcon.png" height="30" width="30"></a></td>
 					<td><img src="/resources/images/${user.avatar}" height="25" width="25"></td>
 					<td><c:out value="${user.nickname}"/></td>
 					<td><c:out value="${user.firstName}"/></td>
@@ -49,7 +67,8 @@
 					<td><c:out value="${user.userType}"/></td>
 					<td><c:out value="${user.enabled}"/></td>
 					<td><c:out value="${user.birthDate}"/></td>
-					<td><a href="/controlPanel/delete/${user.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a></td>	
+					<td><a href="/controlPanel/enable/${user.id}"><img src="/resources/images/${user.enabled}.png" height="25" width="25"></a></td>
+					<td><a href="/controlPanel/delete/${user.id}"><img src="/resources/images/deleteIcon.png" height="30" width="30"></a></td>	
 				</tr>
 			</c:forEach>
 		</table>

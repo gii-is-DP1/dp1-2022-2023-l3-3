@@ -58,6 +58,4 @@ public class AuthoritiesService {
 		}else
 			throw new DataAccessException("El usuario '"+nickname+"' no ha sido encontrado") {};
 	}
-
-
 }

@@ -1,5 +1,6 @@
 package org.springframework.samples.sevenislands.web;
 
+import java.sql.Date;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -41,7 +42,6 @@ public class SignUpController {
 
 	@PostMapping
 	public String processCreationForm(@Valid Player player, BindingResult result) {
-		player.setAvatar("playerAvatar.png");
 		this.playerService.save(player);
 		return "redirect:/home";
 	}

@@ -51,6 +51,6 @@ public class Turn extends BaseEntity {
 	private LocalDateTime TimePress;
 
 
-    // @ManyToMany(mappedBy = "turns")
-    // private Set<Card> cards;
+    @ManyToMany(mappedBy = "turns")
+    private Set<Card> cards;
 }
