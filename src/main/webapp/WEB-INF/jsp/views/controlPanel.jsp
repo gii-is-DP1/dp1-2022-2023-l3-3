@@ -34,6 +34,7 @@
 				<th>Email</th>
 				<th>Creation Date</th>
 				<th>Type</th>
+				<th>enable</th>
 				<th>Birth Date</th>
 				<th>Eliminar</th>
 			</tr>
@@ -46,6 +47,7 @@
 					<td><c:out value="${user.email}"/></td>
 					<td><c:out value="${user.creationDate}"/></td>
 					<td><c:out value="${user.userType}"/></td>
+					<td><c:out value="${user.enabled}"/></td>
 					<td><c:out value="${user.birthDate}"/></td>
 					<td><a href="/controlPanel/delete/${user.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a></td>	
 				</tr>

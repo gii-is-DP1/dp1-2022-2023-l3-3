@@ -19,7 +19,7 @@ public class GameController {
 		this.gameService =gameService;
 	}
 
-//
+
     @GetMapping("/game")
     public ModelAndView partida(){
         ModelAndView result=new ModelAndView(VIEWS_GAME);
@@ -27,3 +27,4 @@ public class GameController {
     }
 
 }
+//
