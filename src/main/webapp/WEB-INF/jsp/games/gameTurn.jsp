@@ -1,6 +1,16 @@
 
+<style>
+    body {
+        background-image: url("/resources/images/tablero.png");
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center;
+        background-attachment: fixed;
+    }
+    
+</style>
 <sevenislands:layout2 pageName="lobby">
-    <body style="background: url(resources/images/tablero.png)">
+    <body>
 
         <center>
             <a title="partida" href="/game/AsignTurn"><img src="/resources/images/boton.png" alt="partida" /></a>
