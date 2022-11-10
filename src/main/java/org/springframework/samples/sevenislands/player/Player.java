@@ -24,7 +24,6 @@ import lombok.Setter;
 @Entity
 @DiscriminatorValue("player")
 public class Player extends User {
-
     @NotEmpty
     private String avatar;
 
