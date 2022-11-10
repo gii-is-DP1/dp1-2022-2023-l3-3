@@ -9,6 +9,7 @@ import java.util.stream.StreamSupport;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.sevenislands.lobby.exceptions.NotExitPlayerException;
 import org.springframework.samples.sevenislands.player.Player;
 import org.springframework.samples.sevenislands.user.User;
 import org.springframework.samples.sevenislands.user.UserService;
@@ -30,7 +31,7 @@ public class AdminController {
 	}
 
     @GetMapping("/controlPanel")
-	public ModelAndView listUsers(Principal principal, HttpServletResponse response){
+	public ModelAndView listUsers(Principal principal, HttpServletResponse response) throws NotExitPlayerException{
 		response.addHeader("Refresh", "5");
 		ModelAndView result = new ModelAndView(VIEWS_CONTROL_PANEL);
         List<User> users = StreamSupport.stream(userService.findAll().spliterator(), false).collect(Collectors.toList());      
@@ -42,10 +43,12 @@ public class AdminController {
 	public String deleteUser(Principal principal, @PathVariable("id") Integer id){
 		User user = userService.findUserById(id).get();
 		if(user.getNickname().equals(principal.getName())){
-			userService.deleteUser(id);
+			user.setEnabled(false);
+			userService.updatUser(user);
 			return "redirect:/";
 		}else{
-			userService.deleteUser(id);
+			user.setEnabled(false);
+			userService.updatUser(user);
 			return "redirect:/controlPanel";
 		}
 	}

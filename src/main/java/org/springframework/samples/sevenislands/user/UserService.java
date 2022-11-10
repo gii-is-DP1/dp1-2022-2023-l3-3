@@ -64,4 +64,9 @@ public class UserService {
 		return userRepository.checkUserLobby(nickname);
 	}
 
+	@Transactional
+	public void updatUser(User user){
+		userRepository.updateUser(user, user.getId());
+	}
+
 }

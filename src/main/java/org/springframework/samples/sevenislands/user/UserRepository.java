@@ -2,6 +2,7 @@ package org.springframework.samples.sevenislands.user;
 
 import java.util.Optional;
 
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
@@ -27,4 +28,8 @@ public interface UserRepository extends  CrudRepository<User, Integer>{
     
     @Query("SELECT user.lobby FROM User user WHERE user.nickname=?1")
     public Lobby checkUserLobby(String nickname);
+
+    @Modifying
+    @Query("UPDATE User user SET user=?1 WHERE user.id=?2")
+    public void updateUser(User user, Integer user_id);
 }

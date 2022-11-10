@@ -68,7 +68,7 @@ public class User extends BaseEntity{
 	@Column(name = "avatar", unique = false, nullable = true)
 	String avatar;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "user")
 	private Set<Authorities> authorities;
 
 	@Column(name = "type", insertable = false, updatable = false)
@@ -77,7 +77,7 @@ public class User extends BaseEntity{
 	@ManyToMany()
 	@JoinColumn(name = "achievements")
     private Collection<Achievement> achievements;
-
+//
 	@ManyToOne(cascade = CascadeType.ALL)
 	private Lobby lobby;
 }
