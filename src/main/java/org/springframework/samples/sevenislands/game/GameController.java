@@ -21,8 +21,7 @@ import org.springframework.web.servlet.ModelAndView;
 public class GameController {
 
     private static final String VIEWS_GAME_ASIGN_TURN = "games/asignTurn"; // vista para decidir turnos
-    private static final String VIEWS_PASIVE_GAME = "games/pasiveGame"; // vista pasiva del juego
-    private static final String VIEWS_ACTIVE_GAME = "games/activeGame"; // vista activa del juego
+    private static final String VIEWS_GAME = "games/game"; // vista pasiva del juego
 
     private final GameService gameService;
     private final PlayerService playerService;
@@ -43,7 +42,7 @@ public class GameController {
 
     @GetMapping("/game")
     public ModelAndView Game(Principal principal) {
-        ModelAndView result = new ModelAndView(VIEWS_PASIVE_GAME);
+        ModelAndView result = new ModelAndView(VIEWS_GAME_ASIGN_TURN);
         return result;
     }
 
@@ -57,6 +56,6 @@ public class GameController {
         gameService.save(game);
         lobby.setGame(game);
         lobbyService.update(lobby);
-        return "redirect:/game/turn";
+        return "redirect:/game";
     }
 }

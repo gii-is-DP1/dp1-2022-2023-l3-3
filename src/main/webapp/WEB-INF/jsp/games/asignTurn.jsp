@@ -1,4 +1,3 @@
-
 <style>
     body {
         background-image: url("/resources/images/tablero.png");
@@ -7,18 +6,18 @@
         background-position: center;
         background-attachment: fixed;
     }
-    
 </style>
 <sevenislands:layout2 pageName="lobby">
+
     <body>
 
         <center>
-            <a title="partida" href="/game/AsignTurn"><img src="/resources/images/boton.png" alt="partida" /></a>
+            <a title="partida" href="/turn/asignTurn"><img src="/resources/images/boton.png" alt="partida" /></a>
 
         </center>
-       
-        
-        
+
+
+
     </body>
 
 </sevenislands:layout2>
