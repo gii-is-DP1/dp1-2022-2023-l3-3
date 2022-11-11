@@ -20,8 +20,9 @@ import org.springframework.web.servlet.ModelAndView;
 @Controller
 public class GameController {
 
-    private static final String VIEWS_GAMETURN = "games/gameTurn";
-    private static final String VIEWS_GAME = "games/game";
+    private static final String VIEWS_GAME_ASIGN_TURN = "games/gameAsignTurn"; // vista para decidir turnos
+    private static final String VIEWS_PASIVE_GAME = "games/pasiveGame"; // vista pasiva del juego
+    private static final String VIEWS_ACTIVE_GAME = "games/activeGame"; // vista activa del juego
 
     private final GameService gameService;
     private final PlayerService playerService;
@@ -49,12 +50,12 @@ public class GameController {
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    /// MÉTODOS PARA LA CREACIÓN DEL JUEGO ///
+    /// MÉTODOS PARA LA CREACIÓN DEL JUEGO
     ////////////////////////////////////////////////////////////////////////////
 
     @GetMapping("/game")
     public ModelAndView Game(Principal principal) {
-        ModelAndView result = new ModelAndView(VIEWS_GAME);
+        ModelAndView result = new ModelAndView(VIEWS_PASIVE_GAME);
         return result;
     }
 
@@ -72,7 +73,7 @@ public class GameController {
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    /// MÉTODOS PARA LA ASIGNACIÓN DE TURNOS ///
+    /// MÉTODOS PARA LA ASIGNACIÓN DE TURNOS
     ////////////////////////////////////////////////////////////////////////////
 
     @GetMapping("/game/AsignTurn")
@@ -89,22 +90,21 @@ public class GameController {
 
     @GetMapping("/game/turn")
     public String GameTurn(Principal principal) {
-
-        return VIEWS_GAMETURN;
+        return VIEWS_GAME_ASIGN_TURN;
     }
 
     ////////////////////////////////////////////////////////////////////////////
-    /// MÉTODOS PARA ACCIONES DEL JUEGO ///
+    /// MÉTODOS PARA ACCIONES DEL JUEGO
     ////////////////////////////////////////////////////////////////////////////
 
-    /**
-     * Representa una tirada del dado
-     * 
-     * @param principal
-     * @return ruta a la que vamos
-     */
-    public String throwingDie(Principal principal) {
-        Player player = playerService.findPlayersByName(principal.getName());
+    // /**
+    // * Representa una tirada del dado
+    // *
+    // * @param principal
+    // * @return ruta a la que vamos
+    // */
+    // public String rollDice(Principal principal) {
+    // Player player = playerService.findPlayersByName(principal.getName());
 
-    }
+    // }
 }

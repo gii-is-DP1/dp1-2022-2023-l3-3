@@ -29,7 +29,7 @@ public class Turn extends BaseEntity {
 
     @NotNull
     @Range(min = 1, max = 6)
-    private Integer dado;
+    private Integer dice;
 
     @ManyToOne
     @NotNull
@@ -45,4 +45,8 @@ public class Turn extends BaseEntity {
 
     @ManyToMany(mappedBy = "turns")
     private List<Card> cards;
+
+    public static Integer rollDice() {
+        return 1 + (int) Math.floor(Math.random() * 6);
+    }
 }
