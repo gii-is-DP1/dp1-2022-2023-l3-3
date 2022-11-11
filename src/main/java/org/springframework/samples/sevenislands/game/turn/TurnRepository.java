@@ -12,6 +12,6 @@ public interface TurnRepository extends CrudRepository<Turn, Integer> {
     @Query("UPDATE Turn turn SET turn=?1 WHERE turn.id=?2")
     public void updatePlayers(Turn turn, Integer turn_id);
 
-    @Query("SELECT turn FROM Turn turn WHERE turn.round.id=:?1")
-    List<Turn> findByRoundId(int Id) throws DataAccessException;
+    @Query("SELECT turn FROM Turn turn WHERE turn.round.id=?1")
+    public List<Turn> findByRoundId(int Id) throws DataAccessException;
 }

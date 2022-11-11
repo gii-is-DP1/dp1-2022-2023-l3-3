@@ -27,7 +27,11 @@
     <body>
 
         <center>
-            <a title="partida" href="/game/AsignTurn"><img src="/resources/images/boton.png" alt="partida" /></a>
+            <a title="partida" href="/game/AsignTurn">
+                <div class="dice">
+                    <p>TIRAR DADO</p>
+                </div>
+            </a>
 
         </center>
 

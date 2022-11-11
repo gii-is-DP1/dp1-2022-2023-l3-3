@@ -34,9 +34,6 @@ public class Lobby extends BaseEntity {
   @ManyToMany(cascade = CascadeType.PERSIST)
   private List<Player> players;
 
-  @Column(name = "order", nullable = true)
-  private List<Player> orderPlayers;
-
   @OneToOne(cascade = CascadeType.ALL)
   private Game game;
 

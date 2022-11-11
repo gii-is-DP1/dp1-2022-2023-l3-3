@@ -8,6 +8,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface RoundRepository extends CrudRepository<Round, Integer> {
 
-    @Query("SELECT round FROM Round round WHERE round.game.id=:?1")
-    List<Round> findRoundByGameId(int id) throws DataAccessException;
+    @Query("SELECT round FROM Round round WHERE round.game.id=?1")
+    public List<Round> findRoundByGameId(int id) throws DataAccessException;
 }
