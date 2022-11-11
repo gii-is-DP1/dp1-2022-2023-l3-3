@@ -5,6 +5,7 @@ uri="http://java.sun.com/jsp/jstl/core" %> <%@ taglib prefix="fn"
 uri="http://java.sun.com/jsp/jstl/functions" %> <%@ taglib prefix="form"
 uri="http://www.springframework.org/tags/form" %> <%@ taglib
 prefix="sevenislands" tagdir="/WEB-INF/tags" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 
 <sevenislands:layout2 pageName="addUser">
   <jsp:attribute name="customScript">
@@ -34,7 +35,7 @@ prefix="sevenislands" tagdir="/WEB-INF/tags" %>
         <sevenislands:inputField label="Last Name" name="lastName" required="required"/>
         <sevenislands:inputField label="Birth Date" name="birthDate" required="required"/>
         <sevenislands:inputField label="Email" name="email" required="required"/>
-        <sevenislands:selectField label="Type" name="userType" names="${types}" size="2" required="required"/>
+        <sevenislands:selectField label="Type" name="userType" names="${types}" required="required"/>
       </div>
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">
