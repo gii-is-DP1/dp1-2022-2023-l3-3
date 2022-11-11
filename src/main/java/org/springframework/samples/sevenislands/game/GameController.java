@@ -22,33 +22,19 @@ public class GameController {
 
     private static final String VIEWS_GAME_ASIGN_TURN = "games/asignTurn"; // vista para decidir turnos
     private static final String VIEWS_PASIVE_GAME = "games/pasiveGame"; // vista pasiva del juego
-    // private static final String VIEWS_ACTIVE_GAME = "games/activeGame"; // vista
-    // activa del juego
+    private static final String VIEWS_ACTIVE_GAME = "games/activeGame"; // vista activa del juego
 
     private final GameService gameService;
     private final PlayerService playerService;
     private final LobbyService lobbyService;
-    // private final RoundService roundService;
-    private final TurnService turnService;
-    // private final IslandService islandService;
-    // private final CardService cardService;
 
     @Autowired
     public GameController(GameService gameService,
             PlayerService playerService,
-            LobbyService lobbyService,
-            // RoundService roundService,
-            TurnService turnService
-    // IslandService islandService,
-    // CardService cardService
-    ) {
+            LobbyService lobbyService) {
         this.gameService = gameService;
         this.playerService = playerService;
         this.lobbyService = lobbyService;
-        // this.roundService = roundService;
-        this.turnService = turnService;
-        // this.islandService = islandService;
-        // this.cardService = cardService;
     }
 
     ////////////////////////////////////////////////////////////////////////////
@@ -73,40 +59,4 @@ public class GameController {
         lobbyService.update(lobby);
         return "redirect:/game/turn";
     }
-
-    ////////////////////////////////////////////////////////////////////////////
-    /// MÉTODOS PARA LA ASIGNACIÓN DE TURNOS
-    ////////////////////////////////////////////////////////////////////////////
-
-    @GetMapping("/game/turn")
-    public String GameTurn(Principal principal) { // vista del botón rojo
-        return VIEWS_GAME_ASIGN_TURN;
-    }
-
-    @GetMapping("/game/AsignTurn")
-    public String GameAsignTurn(Principal principal) { // ordenación de jugadores según botón rojo
-        Player player = playerService.findPlayersByName(principal.getName());
-        Turn turn = new Turn();
-        turn.setTimePress(LocalDateTime.now());
-        turn.setPlayer(player);
-        turnService.save(turn);
-
-        return "redirect:/game";
-
-    }
-
-    ////////////////////////////////////////////////////////////////////////////
-    /// MÉTODOS PARA ACCIONES DEL JUEGO
-    ////////////////////////////////////////////////////////////////////////////
-
-    // /**
-    // * Representa una tirada del dado
-    // *
-    // * @param principal
-    // * @return ruta a la que vamos
-    // */
-    // public String rollDice(Principal principal) {
-    // Player player = playerService.findPlayersByName(principal.getName());
-
-    // }
 }
