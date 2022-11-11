@@ -2,7 +2,7 @@ package org.springframework.samples.sevenislands.user;
 
 import java.util.Optional;
 
-
+import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;

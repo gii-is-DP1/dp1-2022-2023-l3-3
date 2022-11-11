@@ -67,8 +67,7 @@ public class AdminController {
 				lobbyService.update(Lobby);
 				player.setLobby(null);
 			}
-			user.setEnabled(false);
-			userService.update(user);
+			userService.deleteUser(id);
 			return "redirect:/controlPanel";
 		}	
 	}
