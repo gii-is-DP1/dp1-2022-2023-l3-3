@@ -15,22 +15,10 @@
  */
 package org.springframework.samples.sevenislands.user;
 
-<<<<<<< HEAD
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.samples.sevenislands.player.PlayerService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
-=======
-
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import org.springframework.samples.sevenislands.player.PlayerService;
-import org.springframework.stereotype.Controller;
-
-import org.springframework.web.bind.WebDataBinder;
-
->>>>>>> master
 import org.springframework.web.bind.annotation.InitBinder;
 
 @Controller
