@@ -36,19 +36,20 @@ public class LobbyController {
 
 	@GetMapping("/lobby")
 	public ModelAndView joinLobby(Principal principal, HttpServletResponse response) throws NotExistLobbyException {
-		response.addHeader("Refresh", "2");
+		response.addHeader("Refresh", "1");
 		ModelAndView result = new ModelAndView(VIEWS_LOBBY);
 		ModelAndView result2 = new ModelAndView("redirect:/home");
-		ModelAndView result3 = new ModelAndView("redirect:/game/turn");
+		ModelAndView result3 = new ModelAndView("redirect:/game");
 		Player player = playerService.findPlayersByName(principal.getName());
 		Lobby lobby = lobbyService.findLobbyByPlayer(player.getId());
 		if (player.isEnabled() == false || !userService.checkUserByName(principal.getName())) {
 			return new ModelAndView("redirect:/");
 		}
-		if (lobby.getGame() != null) {
-			return result3;
-		}
+		
 		if (userService.checkUserLobbyByName(player.getNickname()) != null) {
+			if (lobby.getGame() != null) {
+				return result3;
+			}
 			Player host = lobby.getPlayers().get(0);
 			result.addObject("lobby", lobby);
 			result.addObject("host", host);
