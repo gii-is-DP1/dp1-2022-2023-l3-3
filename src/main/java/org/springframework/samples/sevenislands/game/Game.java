@@ -12,6 +12,8 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.samples.sevenislands.game.island.Island;
+import org.springframework.samples.sevenislands.game.round.Round;
 import org.springframework.samples.sevenislands.lobby.Lobby;
 import org.springframework.samples.sevenislands.model.BaseEntity;
 
@@ -29,7 +31,6 @@ public class Game extends BaseEntity {
 
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDateTime endingDate;
-
 
 	@OneToOne(mappedBy = "game")
 	@NotNull

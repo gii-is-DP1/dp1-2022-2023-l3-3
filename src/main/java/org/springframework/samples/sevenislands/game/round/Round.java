@@ -1,6 +1,6 @@
-package org.springframework.samples.sevenislands.game;
+package org.springframework.samples.sevenislands.game.round;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -10,7 +10,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-
+import org.springframework.samples.sevenislands.game.Game;
 import org.springframework.samples.sevenislands.game.turn.Turn;
 import org.springframework.samples.sevenislands.model.BaseEntity;
 
@@ -28,5 +28,5 @@ public class Round extends BaseEntity {
     private Game game;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "round", fetch = FetchType.LAZY)
-    private Set<Turn> turns;
+    private List<Turn> turns;
 }

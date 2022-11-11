@@ -21,31 +21,31 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name="lobby")
+@Table(name = "lobby")
 
-public class Lobby extends BaseEntity{
+public class Lobby extends BaseEntity {
 
-    @Column(name = "code", unique = true, nullable = false)
-    private String code;
+  @Column(name = "code", unique = true, nullable = false)
+  private String code;
 
-    @Column(name="active", unique = false, nullable = false)
-    private boolean active;
+  @Column(name = "active", unique = false, nullable = false)
+  private boolean active;
 
-    @ManyToMany(cascade = CascadeType.PERSIST)
-    private List<Player> players;
+  @ManyToMany(cascade = CascadeType.PERSIST)
+  private List<Player> players;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    private Game game;
+  @OneToOne(cascade = CascadeType.ALL)
+  private Game game;
 
-    public List<Player> getPlayerInternal() {
-		if (this.players == null) {
-			this.players = new ArrayList<>();
-		}
-		return this.players;
-	}
+  public List<Player> getPlayerInternal() {
+    if (this.players == null) {
+      this.players = new ArrayList<>();
+    }
+    return this.players;
+  }
 
   public void addPlayer(Player player) {
-		getPlayerInternal().add(player);
+    getPlayerInternal().add(player);
     player.setLobby(this);
-	}
+  }
 }
