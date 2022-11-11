@@ -32,13 +32,24 @@ public class TurnController {
     @GetMapping("/turn/asignTurn")
     public String gameAsignTurn(Principal principal) { // ordenación de jugadores según botón rojo
         Player player = playerService.findPlayersByName(principal.getName());
+        // RONDA 0 --> ASIGNAR CARTAS DE INICIO
         Turn turn = new Turn();
         turn.setTimePress(LocalDateTime.now());
         turn.setPlayer(player);
         turnService.save(turn);
-
         return "redirect:/turn";
 
     }
 
+    @GetMapping("/turn/rollDice")
+    public String rollDice(Principal principal) {
+        Player player = playerService.findPlayersByName(principal.getName());
+        Turn turn = new Turn();
+        turn.setPlayer(player);
+
+        Integer num = Turn.rollDice();
+        turn.setDice(num);
+        turnService.save(turn);
+        return "redirect:/game";
+    }
 }

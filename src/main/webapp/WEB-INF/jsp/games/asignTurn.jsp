@@ -5,6 +5,7 @@
         background-repeat: no-repeat;
         background-position: center;
         background-attachment: fixed;
+        backdrop-filter: blur(8px);
     }
 </style>
 <sevenislands:layout2 pageName="lobby">

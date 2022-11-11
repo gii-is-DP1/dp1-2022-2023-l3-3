@@ -7,14 +7,10 @@
 
                         <style>
                             body {
-                                background-image: url("resources/images/tablero.png");
-                                background-size: cover;
-                                background-repeat: no-repeat;
-                                background-position: center;
-                                background-attachment: fixed;
+                                background-color: aliceblue;
                             }
 
-                            .cuadrado {
+                            .mis_cartas {
                                 width: 500px;
                                 /* Ancho de 150 píxeles */
                                 height: 185px;
@@ -27,17 +23,79 @@
                                 bottom: 50px;
                                 right: 45px;
                             }
+
+                            .img {
+                                width: 100%;
+                            }
+
+                            .tablero {
+                                background-image: url("resources/images/tablero.png");
+                                background-size: 100% 100%;
+                                background-repeat: no-repeat;
+                                background-position: center;
+                                width: 100%;
+                                height: 100%;
+                                display: flex;
+                                justify-content: center;
+                                align-items: flex-end;
+                            }
+
+                            .sub {
+                                width: 34%;
+                                height: 100%;
+                            }
+
+                            #left {
+                                width: 25%;
+                            }
+
+                            #center {
+                                width: 55%;
+                            }
+
+                            #right {
+                                width: 20%;
+                            }
+
+                            .dado {
+                                display: flex;
+                                justify-content: center;
+                                align-items: flex-start;
+                            }
                         </style>
 
-                        <sevenislands:layout2 pageName="lobby">
+                        <sevenislands:gameLayout pageName="lobby">
 
                             <body>
-                                <div class="cuadrado">
+                                <!-- <div class="dice">
+                                    <a href="/turn/rollDice">
+                                        <img src="/resources/images/dado.png">
+                                    </a>
+                                </div>
+                                <div class="mis_cartas">
                                     <center>
                                         <h3 style="color:rgb(255, 255, 255);">Mis cartas</h3>
                                     </center>
-                                </div>
+                                </div> -->
+                                <div class="tablero">
+                                    <div class="sub" id="left">
 
+                                    </div>
+                                    <div class="sub" id="center">
+                                        <div class="dado">
+                                            <a href="/turn/rollDice">
+                                                <img src="/resources/images/dado.png" class="dado">
+                                            </a>
+                                        </div>
+                                    </div>
+                                    <div class="sub" id="right">
+                                        <div class="mis_cartas">
+                                            <center>
+                                                <h3 style="color:rgb(255, 255, 255);">Mis cartas</h3>
+                                            </center>
+                                        </div>
+                                    </div>
+                                </div>
                             </body>
 
-                        </sevenislands:layout2>
+                        </sevenislands:gameLayout>
