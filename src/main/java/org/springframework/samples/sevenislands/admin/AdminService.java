@@ -15,16 +15,14 @@ import org.springframework.stereotype.Service;
 public class AdminService {
 
     private AdminRepository adminRepository;
-
-    @Autowired
 	private UserService userService;
-	
-	@Autowired
 	private AuthoritiesService authoritiesService;
 
     @Autowired
-    public AdminService(AdminRepository adminRepository) {
+    public AdminService(AdminRepository adminRepository, UserService userService, AuthoritiesService authoritiesService) {
         this.adminRepository = adminRepository;
+        this.userService = userService;
+        this.authoritiesService = authoritiesService;
     }
 
     @Transactional(readOnly = true)
@@ -38,11 +36,8 @@ public class AdminService {
         admin.setEnabled(true);
         admin.setAvatar("adminAvatar.png");
 		admin.setCreationDate(new Date(System.currentTimeMillis()));
-		//creating player
 		adminRepository.save(admin);
-		//creating user
 		userService.saveUser(admin);
-		//creating authorities
-		authoritiesService.saveAuthorities(admin.getNickname(), "admin");
+		authoritiesService.saveAuthorities(admin.getId(), "admin");
 	}
 }

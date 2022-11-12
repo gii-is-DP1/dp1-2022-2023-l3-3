@@ -1,6 +1,5 @@
 package org.springframework.samples.sevenislands.user;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
@@ -11,9 +10,7 @@ import javax.persistence.DiscriminatorType;
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -21,8 +18,6 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.Past;
 
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.samples.sevenislands.achievement.Achievement;
-import org.springframework.samples.sevenislands.lobby.Lobby;
 import org.springframework.samples.sevenislands.model.BaseEntity;
 
 import lombok.Getter;
@@ -72,11 +67,4 @@ public class User extends BaseEntity {
 
 	@Column(name = "type", insertable = false, updatable = false)
 	protected String userType;
-
-	@ManyToMany()
-	@JoinColumn(name = "achievements")
-    private Collection<Achievement> achievements;
-
-	@ManyToOne()
-	private Lobby lobby;
 }

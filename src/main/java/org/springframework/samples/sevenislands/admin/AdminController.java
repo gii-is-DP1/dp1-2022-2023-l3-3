@@ -1,8 +1,8 @@
 package org.springframework.samples.sevenislands.admin;
 
 import java.security.Principal;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -15,15 +15,20 @@ import org.springframework.samples.sevenislands.lobby.LobbyService;
 import org.springframework.samples.sevenislands.lobby.exceptions.NotExitPlayerException;
 import org.springframework.samples.sevenislands.player.Player;
 import org.springframework.samples.sevenislands.player.PlayerService;
+import org.springframework.samples.sevenislands.user.AuthoritiesService;
 import org.springframework.samples.sevenislands.user.User;
 import org.springframework.samples.sevenislands.user.UserService;
+import org.springframework.security.core.session.SessionInformation;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
+@RequestMapping("/controlPanel")
 public class AdminController {
     
     private static final String VIEWS_CONTROL_PANEL = "views/controlPanel";
@@ -32,47 +37,55 @@ public class AdminController {
 	private final PlayerService playerService;
 	private final AdminService adminService;
 	private final LobbyService lobbyService;
+	private final AuthoritiesService authoritiesService;
+	private SessionRegistry sessionRegistry;
 
     @Autowired
-	public AdminController(LobbyService lobbyService,UserService userService, PlayerService playerService, AdminService adminService) {
+	public AdminController(SessionRegistry sessionRegistry, LobbyService lobbyService,UserService userService, PlayerService playerService, AdminService adminService, AuthoritiesService authoritiesService) {
 		this.userService = userService;
 		this.playerService = playerService;
 		this.adminService = adminService;
 		this.lobbyService = lobbyService;
+		this.authoritiesService = authoritiesService;
+		this.sessionRegistry = sessionRegistry;
 	}
 
-    @GetMapping("/controlPanel")
-	public ModelAndView listUsers(Principal principal, HttpServletResponse response) throws NotExitPlayerException{
+    @GetMapping
+	public String listUsers(Map<String, Object> model, Principal principal, HttpServletResponse response) throws NotExitPlayerException{
 		response.addHeader("Refresh", "5");
-		ModelAndView result = new ModelAndView(VIEWS_CONTROL_PANEL);
         List<User> users = StreamSupport.stream(userService.findAll().spliterator(), false).collect(Collectors.toList());      
-        result.addObject("users", users);
-		return result;
+        model.put("users", users);
+		return VIEWS_CONTROL_PANEL;
 	}
 
-    @GetMapping("/controlPanel/delete/{id}")
+    @GetMapping("/delete/{id}")
 	public String deleteUser(Principal principal, @PathVariable("id") Integer id){
 		User user = userService.findUserById(id).get();
+		List<SessionInformation> infos = sessionRegistry.getAllSessions(user.getNickname(), false);
+		for(SessionInformation info : infos) {
+			info.expireNow(); //expire the session
+		}
+
 		if(user.getNickname().equals(principal.getName())){
-			user.setEnabled(false);
-			userService.update(user);
+			userService.deleteUser(id);
 			return "redirect:/";
 		}else{
 			if(userService.checkUserLobbyByName(user.getNickname())!=null) {
 				Player player = playerService.findPlayersById(id);
-				Lobby Lobby=lobbyService.findLobbyByPlayer(id);
+				Lobby Lobby = lobbyService.findLobbyByPlayer(id);
 				List<Player> players=Lobby.getPlayerInternal();
 				players.remove(player);
 				Lobby.setPlayers(players);
 				lobbyService.update(Lobby);
 				player.setLobby(null);
 			}
+			//authoritiesService.delete(userService.findUser(user.getNickname()).get().getId());
 			userService.deleteUser(id);
 			return "redirect:/controlPanel";
 		}	
 	}
 
-	@GetMapping("/controlPanel/enable/{id}")
+	@GetMapping("/enable/{id}")
 	public String enableUser(Principal principal, @PathVariable("id") Integer id){
 		User user = userService.findUserById(id).get();
 		if(user.isEnabled()) {
@@ -94,37 +107,40 @@ public class AdminController {
 		}
 	}
 
-	@GetMapping("/controlPanel/add")
-	public ModelAndView addUser() {
-		ModelAndView result = new ModelAndView("views/addUser");
-		result.addObject("user", new User());
-		result.addObject("types", Arrays.asList("admin","player"));
-		return result;
+	@GetMapping("/add")
+	public String addUser(Map<String, Object> model) {
+		model.put("user", new User());
+		model.put("types", authoritiesService.findDistinctAuthorities());
+		return "views/addUser";
 	}
 
-	@PostMapping("/controlPanel/add")
-	public String processCreationUserForm(@Valid User user) {
-		if(user.getUserType().equals("admin")){
-			Admin admin = new Admin();
-			admin.setAvatar(user.getAvatar());
-			admin.setBirthDate(user.getBirthDate());
-			admin.setEmail(user.getEmail());
-			admin.setFirstName(user.getFirstName());
-			admin.setLastName(user.getLastName());
-			admin.setNickname(user.getNickname());
-			admin.setPassword(user.getPassword());
-			adminService.save(admin);
+	@PostMapping("/add")
+	public String processCreationUserForm(@Valid User user, BindingResult result) {
+		if(result.hasErrors()) {
+			return "redirect:/controlPanel/add";
 		} else {
-			Player player = new Player();
-			player.setAvatar(user.getAvatar());
-			player.setBirthDate(user.getBirthDate());
-			player.setEmail(user.getEmail());
-			player.setFirstName(user.getFirstName());
-			player.setLastName(user.getLastName());
-			player.setNickname(user.getNickname());
-			player.setPassword(user.getPassword());
-			playerService.save(player);
+			if(user.getUserType().equals("admin")){
+				Admin admin = new Admin();
+				admin.setAvatar(user.getAvatar());
+				admin.setBirthDate(user.getBirthDate());
+				admin.setEmail(user.getEmail());
+				admin.setFirstName(user.getFirstName());
+				admin.setLastName(user.getLastName());
+				admin.setNickname(user.getNickname());
+				admin.setPassword(user.getPassword());
+				adminService.save(admin);
+			} else {
+				Player player = new Player();
+				player.setAvatar(user.getAvatar());
+				player.setBirthDate(user.getBirthDate());
+				player.setEmail(user.getEmail());
+				player.setFirstName(user.getFirstName());
+				player.setLastName(user.getLastName());
+				player.setNickname(user.getNickname());
+				player.setPassword(user.getPassword());
+				playerService.saveNewPlayer(player);
+			}
+			return "redirect:/controlPanel/add";
 		}
-		return "redirect:/controlPanel/add";
 	}
 }

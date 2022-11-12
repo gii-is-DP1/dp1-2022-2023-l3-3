@@ -1,39 +1,86 @@
-/*
- * Copyright 2002-2013 the original author or authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.springframework.samples.sevenislands.user;
 
+import java.security.Principal;
+import java.util.Map;
+
+import javax.validation.Valid;
+
+import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.sevenislands.admin.Admin;
+import org.springframework.samples.sevenislands.admin.AdminService;
+import org.springframework.samples.sevenislands.player.Player;
 import org.springframework.samples.sevenislands.player.PlayerService;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.WebDataBinder;
-import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class UserController {
 
+	private static final String VIEWS_PLAYER_UPDATE_FORM = "players/updatePlayerForm";
+
+	private final UserService userService;
 	private final PlayerService playerService;
+	private final AdminService adminService;
+	private AuthenticationManager authenticationManager;
 
 	@Autowired
-	public UserController(PlayerService sevenislandsService) {
-		this.playerService = sevenislandsService;
+	public UserController(UserService userService, PlayerService playerService, AdminService adminService, AuthenticationManager authenticationManager) {
+		this.userService = userService;
+		this.playerService = playerService;
+		this.adminService = adminService;
+		this.authenticationManager = authenticationManager;
 	}
 
-	@InitBinder
-	public void setAllowedFields(WebDataBinder dataBinder) {
-		dataBinder.setDisallowedFields("id");
+	@GetMapping("/settings")
+	public String initUpdateOwnerForm(Map<String, Object> model, Principal principal) {
+		User user = userService.findUser(principal.getName()).get();
+		model.put("user", user);
+		return VIEWS_PLAYER_UPDATE_FORM;
 	}
 
+	@PostMapping("/settings")
+	public String processUpdateplayerForm(@Valid User user, BindingResult result, Principal principal) {
+		if (result.hasErrors()) {
+			return VIEWS_PLAYER_UPDATE_FORM;
+		} else {
+			User authUser = userService.findUser(principal.getName()).get();
+			if(authUser.getUserType().equals("admin")){
+				Admin admin = new Admin();
+				admin.setId(authUser.getId());
+				admin.setNickname(user.getNickname());
+				admin.setPassword(user.getPassword());
+				admin.setEnabled(authUser.isEnabled());
+				admin.setFirstName(user.getFirstName());
+				admin.setLastName(user.getLastName());
+				admin.setEmail(user.getEmail());
+				admin.setCreationDate(authUser.getCreationDate());
+				admin.setBirthDate(authUser.getBirthDate());
+				admin.setAvatar(authUser.getAvatar());
+				adminService.save(admin);
+			} else {
+				Player player = new Player();
+				player.setId(authUser.getId());
+				player.setNickname(user.getNickname());
+				player.setPassword(user.getPassword());
+				player.setEnabled(authUser.isEnabled());
+				player.setFirstName(user.getFirstName());
+				player.setLastName(user.getLastName());
+				player.setEmail(user.getEmail());
+				player.setCreationDate(authUser.getCreationDate());
+				player.setBirthDate(authUser.getBirthDate());
+				player.setAvatar(authUser.getAvatar());
+				playerService.save(player);
+			}
+			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user.getNickname(), user.getPassword());
+    		Authentication authentication = authenticationManager.authenticate(authToken);
+    		SecurityContextHolder.getContext().setAuthentication(authentication);
+			return "redirect:/home";
+		}
+	}
 }

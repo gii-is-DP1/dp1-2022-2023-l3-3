@@ -3,16 +3,21 @@ package org.springframework.samples.sevenislands.web;
 import java.sql.Date;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.samples.sevenislands.player.Player;
 import org.springframework.samples.sevenislands.player.PlayerService;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -22,16 +27,13 @@ public class SignUpController {
 
 	private static final String VIEWS_PLAYER_SIGNUP = "views/signup";
 
-	@Autowired
 	private final PlayerService playerService;
+	private AuthenticationManager authenticationManager;
 
-	public SignUpController (PlayerService playerService) {
+	@Autowired
+	public SignUpController (PlayerService playerService, AuthenticationManager authenticationManager) {
 		this.playerService = playerService;
-	}
-
-	@InitBinder
-	public void setAllowedFields(WebDataBinder dataBinder) {
-		dataBinder.setDisallowedFields("id");
+		this.authenticationManager = authenticationManager;
 	}
 
 	@GetMapping
@@ -41,8 +43,16 @@ public class SignUpController {
 	}
 
 	@PostMapping
-	public String processCreationForm(@Valid Player player, BindingResult result) {
-		this.playerService.save(player);
-		return "redirect:/home";
+	public String processCreationForm(HttpServletRequest request, @Valid Player player, BindingResult result) {
+		if(result.hasErrors()) {
+			return VIEWS_PLAYER_SIGNUP;
+		} else {
+			this.playerService.saveNewPlayer(player);
+			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(player.getNickname(), player.getPassword());
+    		authToken.setDetails(new WebAuthenticationDetails(request));
+    		Authentication authentication = authenticationManager.authenticate(authToken);
+    		SecurityContextHolder.getContext().setAuthentication(authentication);
+			return "redirect:/home";
+		}
 	}
 }

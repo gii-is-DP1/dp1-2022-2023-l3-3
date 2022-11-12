@@ -8,7 +8,7 @@ prefix="sevenislands" tagdir="/WEB-INF/tags" %>
 
 <style>
   body {
-    background-image: url("resources/images/piratasEnIsla.jpg");
+    background-image: url("resources/images/grafics/piratasEnIsla.jpg");
     background-size: 100% 100%;
     background-repeat: no-repeat;
     background-position: center center;

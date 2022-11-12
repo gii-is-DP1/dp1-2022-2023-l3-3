@@ -57,8 +57,8 @@
 			</tr>
 			<c:forEach items="${users}" var="user">
 				<tr>
-					<td><a href="/controlPanel/edit/${user.id}"><img src="/resources/images/editIcon.png" height="30" width="30"></a></td>
-					<td><img src="/resources/images/${user.avatar}" height="25" width="25"></td>
+					<td><a href="/controlPanel/edit/${user.id}"><img src="/resources/images/icons/editIcon.png" height="30" width="30"></a></td>
+					<td><img src="/resources/images/avatars/${user.avatar}" height="25" width="25"></td>
 					<td><c:out value="${user.nickname}"/></td>
 					<td><c:out value="${user.firstName}"/></td>
 					<td><c:out value="${user.lastName}"/></td>
@@ -66,8 +66,8 @@
 					<td><c:out value="${user.creationDate}"/></td>
 					<td><c:out value="${user.userType}"/></td>
 					<td><c:out value="${user.birthDate}"/></td>
-					<td><a href="/controlPanel/enable/${user.id}"><img src="/resources/images/${user.enabled}.png" height="25" width="25"></a></td>
-					<td><a href="/controlPanel/delete/${user.id}"><img src="/resources/images/deleteIcon.png" height="30" width="30"></a></td>	
+					<td><a href="/controlPanel/enable/${user.id}"><img src="/resources/images/icons/${user.enabled}.png" height="25" width="25"></a></td>
+					<td><a href="/controlPanel/delete/${user.id}"><img src="/resources/images/icons/deleteIcon.png" height="30" width="30"></a></td>	
 				</tr>
 			</c:forEach>
 		</table>

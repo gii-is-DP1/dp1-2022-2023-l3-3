@@ -21,7 +21,7 @@ public class WelcomeController {
 		this.userService = userService;
 	}
 	
-	@GetMapping({"/","/welcome"})
+	@GetMapping("/")
 	public String welcome(Map<String, Object> model, Principal principal) {	 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); 
 		

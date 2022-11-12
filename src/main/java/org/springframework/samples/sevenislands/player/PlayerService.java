@@ -13,20 +13,18 @@ import org.springframework.transaction.annotation.Transactional;
 public class PlayerService {
 
 	private PlayerRepository playerRepository;	
-	
-	@Autowired
 	private UserService userService;
-	
-	@Autowired
 	private AuthoritiesService authoritiesService;
 
 	@Autowired
-	public PlayerService(PlayerRepository playerRepository) {
+	public PlayerService(PlayerRepository playerRepository, UserService userService, AuthoritiesService authoritiesService) {
 		this.playerRepository = playerRepository;
+		this.userService = userService;
+		this.authoritiesService = authoritiesService;
 	}	
 
 	@Transactional
-	public void save(Player player) throws DataAccessException {
+	public void saveNewPlayer(Player player) throws DataAccessException {
 		player.setEnabled(true);
 		player.setAvatar("playerAvatar.png");
 		player.setCreationDate(new Date(System.currentTimeMillis()));
@@ -35,12 +33,12 @@ public class PlayerService {
 		//creating user
 		userService.saveUser(player);
 		//creating authorities
-		authoritiesService.saveAuthorities(player.getNickname(), "player");
+		authoritiesService.saveAuthorities(player.getId(), "player");
 	}
 
 	@Transactional(readOnly = true)
 	public Player findPlayerById(Integer id) throws DataAccessException{
-		return playerRepository.findById(id);
+		return playerRepository.findById(id).get();
 	}
 
 	@Transactional
@@ -50,12 +48,21 @@ public class PlayerService {
 	
 	@Transactional
     public Player findPlayersById(Integer id) {
-        return playerRepository.findById(id);
+        return playerRepository.findById(id).get();
     }
 
 	@Transactional 
 	public void update(Player player) {
-	    playerRepository.updatePlayer(player, player.getId());
+		//creating player
+		playerRepository.updatePlayer(player, player.getId());
+		//creating user
+		//userService.update(player);
+		//creating authorities
+		//authoritiesService.saveAuthorities(player.getId(), "player");
+	}
+
+	@Transactional
+	public void save(Player player) {
+		playerRepository.save(player);
 	}
 }
-//

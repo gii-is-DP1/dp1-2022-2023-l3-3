@@ -16,6 +16,7 @@
 package org.springframework.samples.sevenislands.user;
 
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,15 +48,25 @@ public class AuthoritiesService {
 	}
 	
 	@Transactional
-	public void saveAuthorities(String nickname, String role) throws DataAccessException {
+	public void saveAuthorities(Integer id, String role) throws DataAccessException {
 		Authorities authority = new Authorities();
-		Optional<User> user = userService.findUser(nickname);
+		Optional<User> user = userService.findUserById(id);
 		if(user.isPresent()) {
 			authority.setUser(user.get());
 			authority.setAuthority(role);
 			//user.get().getAuthorities().add(authority);
 			authoritiesRepository.save(authority);
 		}else
-			throw new DataAccessException("El usuario '"+nickname+"' no ha sido encontrado") {};
+			throw new DataAccessException("El usuario con id '"+id+"' no ha sido encontrado") {};
+	}
+
+	@Transactional
+	public List<String> findDistinctAuthorities() {
+		return authoritiesRepository.findAuthorities();
+	}
+
+	@Transactional
+	public void delete(Integer id) {
+		authoritiesRepository.delete(id);
 	}
 }
