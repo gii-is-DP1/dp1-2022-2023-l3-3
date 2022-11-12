@@ -41,27 +41,26 @@ public class LobbyController {
 	@GetMapping("/lobby")
 	public String joinLobby(HttpServletRequest request, Map<String, Object> model, Principal principal, HttpServletResponse response) 
 	throws NotExistLobbyException, ServletException {
-		if(methods.checkUserExists(request)) return "redirect:/";
+		if(methods.checkUserNoExists(request)) return "redirect:/";
+		if(methods.checkUserNoLobby(request)) return "redirect:/home";
 		
 		response.addHeader("Refresh", "1");
 
 		Player player = playerService.findPlayer(principal.getName());
 		Lobby lobby = lobbyService.findLobbyByPlayer(player.getId());
 
-		System.out.println("====================================================================================");
-		System.out.println(lobby.isActive());
-		System.out.println(userService.checkUserLobbyByName(player.getNickname()));
-		System.out.println("====================================================================================");
-
-		if (userService.checkUserLobbyByName(player.getNickname()) && lobby.isActive()) {
+		if (lobby != null && userService.checkUserLobbyByName(player.getNickname()) && lobby.isActive()) {
 			if (lobby.getGame() != null) return "redirect:/game";
-			System.out.println("3====================================================================================");
+			System.out.println("1====================================================================================");
 			Player host = lobby.getPlayers().get(0);
 			model.put("lobby", lobby);
 			model.put("host", host);
 			model.put("player", player);
 			return VIEWS_LOBBY;
-		} else return "redirect:/home";
+		} else {
+			System.out.println("2====================================================================================");
+			return "redirect:/home";
+		}
 	}
 
 	@GetMapping("/lobby/create")

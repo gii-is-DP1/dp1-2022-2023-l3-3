@@ -30,7 +30,7 @@ public class methods {
         this.lobbyService = lobbyService;
 	}
 
-    public static Boolean checkUserExists(HttpServletRequest request) throws ServletException {
+    public static Boolean checkUserNoExists(HttpServletRequest request) throws ServletException {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
         if(!userService.checkUserByName(principal.getUsername()) || !userService.findUser(principal.getUsername()).get().isEnabled()) {
@@ -64,6 +64,15 @@ public class methods {
             return true;
         }
         return false;
+    }
+
+    public static Boolean checkUserNoLobby(HttpServletRequest request) throws ServletException {
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.findUser(principal.getUsername()).get();
+
+        if (!userService.checkUserLobbyByName(user.getNickname())) {
+            return true;
+        } return false;
     }
 
 
