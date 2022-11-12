@@ -24,18 +24,18 @@
       id="add-user-form"
     >
       <div class="form-group has-feedback">
-        <sevenislands:inputField label="Nickname" name="nickname" required="required"/>
+        <sevenislands:inputField label="Nombre de usuario" name="nickname" required="required"/>
         <sevenislands:inputField
-          label="Password"
+          label="Contraseña"
           type="password"
           name="password"
           required="required"
         />
-        <sevenislands:inputField label="First Name" name="firstName" required="required"/>
-        <sevenislands:inputField label="Last Name" name="lastName" required="required"/>
-        <sevenislands:inputField label="Birth Date" name="birthDate" required="required"/>
-        <sevenislands:inputField label="Email" name="email" required="required"/>
-        <sevenislands:selectField label="Type" name="userType" names="${types}" required="required"/>
+        <sevenislands:inputField label="Nombre" name="firstName" required="required"/>
+        <sevenislands:inputField label="Apellidos" name="lastName" required="required"/>
+        <sevenislands:inputField label="Fecha de nacimiento" name="birthDate" required="required"/>
+        <sevenislands:inputField label="Correo" name="email" required="required"/>
+        <sevenislands:selectField label="Tipo" name="userType" names="${types}" required="required"/>
       </div>
       <div class="form-group">
         <div class="col-sm-offset-2 col-sm-10">

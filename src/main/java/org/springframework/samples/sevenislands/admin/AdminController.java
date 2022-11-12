@@ -1,8 +1,11 @@
 package org.springframework.samples.sevenislands.admin;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -15,7 +18,7 @@ import org.springframework.samples.sevenislands.lobby.LobbyService;
 import org.springframework.samples.sevenislands.lobby.exceptions.NotExitPlayerException;
 import org.springframework.samples.sevenislands.player.Player;
 import org.springframework.samples.sevenislands.player.PlayerService;
-import org.springframework.samples.sevenislands.user.AuthoritiesService;
+import org.springframework.samples.sevenislands.tools.methods;
 import org.springframework.samples.sevenislands.user.User;
 import org.springframework.samples.sevenislands.user.UserService;
 import org.springframework.security.core.session.SessionInformation;
@@ -37,16 +40,14 @@ public class AdminController {
 	private final PlayerService playerService;
 	private final AdminService adminService;
 	private final LobbyService lobbyService;
-	private final AuthoritiesService authoritiesService;
 	private SessionRegistry sessionRegistry;
 
     @Autowired
-	public AdminController(SessionRegistry sessionRegistry, LobbyService lobbyService,UserService userService, PlayerService playerService, AdminService adminService, AuthoritiesService authoritiesService) {
+	public AdminController(SessionRegistry sessionRegistry, LobbyService lobbyService,UserService userService, PlayerService playerService, AdminService adminService) {
 		this.userService = userService;
 		this.playerService = playerService;
 		this.adminService = adminService;
 		this.lobbyService = lobbyService;
-		this.authoritiesService = authoritiesService;
 		this.sessionRegistry = sessionRegistry;
 	}
 
@@ -109,7 +110,7 @@ public class AdminController {
 	@GetMapping("/add")
 	public String addUser(Map<String, Object> model) {
 		model.put("user", new User());
-		model.put("types", authoritiesService.findDistinctAuthorities());
+		model.put("types", userService.findDistinctAuthorities());
 		return "views/addUser";
 	}
 
@@ -119,25 +120,43 @@ public class AdminController {
 			return "redirect:/controlPanel/add";
 		} else {
 			if(user.getUserType().equals("admin")){
-				Admin admin = new Admin();
-				admin.setBirthDate(user.getBirthDate());
-				admin.setEmail(user.getEmail());
-				admin.setFirstName(user.getFirstName());
-				admin.setLastName(user.getLastName());
-				admin.setNickname(user.getNickname());
-				admin.setPassword(user.getPassword());
-				adminService.saveNewAdmin(admin);
-			} else {
-				Player player = new Player();
-				player.setBirthDate(user.getBirthDate());
-				player.setEmail(user.getEmail());
-				player.setFirstName(user.getFirstName());
-				player.setLastName(user.getLastName());
-				player.setNickname(user.getNickname());
-				player.setPassword(user.getPassword());
-				playerService.saveNewPlayer(player);
-			}
+				adminService.saveNewAdmin(methods.parseAdmin(user));
+			} else playerService.saveNewPlayer(methods.parsePlayer(user));
 			return "redirect:/controlPanel/add";
 		}
 	}
+
+	@GetMapping("/edit/{id}")
+	public String editUser(@PathVariable Integer id, Map<String, Object> model) {
+		User user = userService.findUser(id).get();
+		List<String> authList = userService.findDistinctAuthorities();
+		authList.remove(user.getUserType());
+		authList.add(0, user.getUserType());
+		model.put("user", user);
+		model.put("types", authList);
+		model.put("enabledValues", List.of(Boolean.valueOf(user.isEnabled()).toString(), Boolean.valueOf(!user.isEnabled()).toString()));
+		return "views/updateUserForm";
+	}
+
+	@PostMapping("/edit/{id}")
+	public String processEditUserForm(@PathVariable Integer id, @Valid User user, BindingResult result) {
+		if(result.hasErrors()) {
+			System.out.println(result.getFieldErrors());
+			return "redirect:/controlPanel/edit/"+id.toString();
+		} else {
+			User userEdited = userService.findUser(id).get();
+			user.setCreationDate(userEdited.getCreationDate());
+			if(userEdited.getUserType().equals("admin") && user.getUserType().equals("player")) {
+				adminService.remove(methods.parseAdmin(user));
+				userService.save(methods.parsePlayer(user));
+			} else if (userEdited.getUserType().equals("player") && user.getUserType().equals("admin")) {
+				playerService.remove(methods.parsePlayer(user));
+				userService.save(methods.parseAdmin(user));
+			} else if(userEdited.getUserType().equals("admin") && user.getUserType().equals("admin")) {
+				adminService.save(methods.parseAdmin(user));
+			} else playerService.save(methods.parsePlayer(user));
+			return "redirect:/controlPanel";
+		}
+	}
+
 }

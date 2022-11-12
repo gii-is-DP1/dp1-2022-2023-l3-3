@@ -4,7 +4,6 @@ import java.sql.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.samples.sevenislands.user.AuthoritiesService;
 import org.springframework.samples.sevenislands.user.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,13 +13,11 @@ public class PlayerService {
 
 	private PlayerRepository playerRepository;	
 	private UserService userService;
-	private AuthoritiesService authoritiesService;
 
 	@Autowired
-	public PlayerService(PlayerRepository playerRepository, UserService userService, AuthoritiesService authoritiesService) {
+	public PlayerService(PlayerRepository playerRepository, UserService userService) {
 		this.playerRepository = playerRepository;
 		this.userService = userService;
-		this.authoritiesService = authoritiesService;
 	}	
 
 	@Transactional
@@ -30,7 +27,6 @@ public class PlayerService {
 		player.setCreationDate(new Date(System.currentTimeMillis()));
 		playerRepository.save(player);
 		userService.save(player);
-		authoritiesService.saveAuthorities(player.getId(), "player");
 	}
 
 	@Transactional(readOnly = true)
@@ -51,5 +47,10 @@ public class PlayerService {
 	@Transactional
 	public void save(Player player) {
 		playerRepository.save(player);
+	}
+
+	@Transactional
+	public void remove(Player player) {
+		playerRepository.delete(player);
 	}
 }

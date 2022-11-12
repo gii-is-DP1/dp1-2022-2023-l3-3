@@ -7,7 +7,6 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.samples.sevenislands.user.AuthoritiesService;
 import org.springframework.samples.sevenislands.user.UserService;
 import org.springframework.stereotype.Service;
 
@@ -16,13 +15,11 @@ public class AdminService {
 
     private AdminRepository adminRepository;
 	private UserService userService;
-	private AuthoritiesService authoritiesService;
 
     @Autowired
-    public AdminService(AdminRepository adminRepository, UserService userService, AuthoritiesService authoritiesService) {
+    public AdminService(AdminRepository adminRepository, UserService userService) {
         this.adminRepository = adminRepository;
         this.userService = userService;
-        this.authoritiesService = authoritiesService;
     }
 
     @Transactional(readOnly = true)
@@ -37,11 +34,21 @@ public class AdminService {
 		admin.setCreationDate(new Date(System.currentTimeMillis()));
 		adminRepository.save(admin);
 		userService.save(admin);
-		authoritiesService.saveAuthorities(admin.getId(), "admin");
 	}
 
     @Transactional
     public void save(Admin admin) {
         adminRepository.save(admin);
     }
+
+    @Transactional
+    public void update(Admin admin) {
+        adminRepository.updateAdmin(admin, admin.getId());
+    }
+
+    @Transactional
+	public void remove(Admin admin) {
+		adminRepository.delete(admin);
+	}
+
 }

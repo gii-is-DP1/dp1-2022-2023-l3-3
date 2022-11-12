@@ -3,6 +3,7 @@
 <%@ taglib prefix="sevenislands" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page session="false" trimDirectiveWhitespaces="true" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
@@ -31,7 +32,7 @@
 				<a class="btn btn-default" href='<spring:url value="/controlPanel/add" htmlEscape="true"/>'>Añadir Usuario</a>
 			</div>
 		</div>
-		<h2><br/>Users:</h2>
+		<h2><br/>Usuarios</h2>
 		<div class="container">
 			<br/>
 			<c:if test="${message != null}">

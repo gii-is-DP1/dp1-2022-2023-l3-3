@@ -1,6 +1,7 @@
 package org.springframework.samples.sevenislands.user;
 
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,4 +65,13 @@ public class UserService {
 	    userRepository.updateUser(user, user.getId());
 	}
 
+	@Transactional
+	public void remove(User user) {
+		userRepository.delete(user);
+	}
+
+	@Transactional
+	public List<String> findDistinctAuthorities() {
+		return userRepository.findAuthorities();
+	}
 }

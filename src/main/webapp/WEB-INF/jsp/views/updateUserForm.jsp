@@ -7,22 +7,7 @@
 <%@ taglib prefix="sevenislands" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 
-<style>
-  body {
-    background-image: url("resources/images/grafics/piratasEnIsla.jpg");
-    background-size: 100% 100%;
-    background-repeat: no-repeat;
-    background-position: center center;
-    background-attachment: fixed;
-  }
-  @media (max-width: 1500px) {
-    body {
-      background-size: auto 100%;
-    }
-  }
-</style>
-
-<sevenislands:layout2 pageName="settings">
+<sevenislands:layout2 pageName="editUser">
   <jsp:attribute name="customScript">
     <script>
       $(function () {
@@ -31,14 +16,14 @@
     </script>
   </jsp:attribute>
   <jsp:body>
-    <a class="btn btn-default" href='<spring:url value="/home" htmlEscape="true"/>'>Volver</a>
-    <h2><br/>Editar Perfil</h2>
+    <a class="btn btn-default" href='<spring:url value="/controlPanel" htmlEscape="true"/>'>Volver</a>
+    <h2><br/>Editar Usuario</h2>
     <form:form
       modelAttribute="user"
       class="form-horizontal"
       id="edit-user-form"
     >
-      <input type="hidden" name="avatar" value="${user.avatar}" />
+      <input type="hidden" name="avatar" value="${user.avatar}"/>
       <div class="form-group has-feedback">
         <sevenislands:inputField label="Nombre de usuario" name="nickname" />
         <sevenislands:inputField
@@ -51,6 +36,8 @@
         <sevenislands:inputField label="Apellidos" name="lastName" required="required"/>
         <sevenislands:inputField label="Fecha de nacimiento" name="birthDate" required="required"/>
         <sevenislands:inputField label="Correo" name="email" required="required"/>
+        <sevenislands:selectField label="Acceso" name="enabled" names="${enabledValues}" required="required"/>
+        <sevenislands:selectField label="Tipo" name="userType" names="${types}" required="required"/>
       </div>
 
       <div class="pull-right">

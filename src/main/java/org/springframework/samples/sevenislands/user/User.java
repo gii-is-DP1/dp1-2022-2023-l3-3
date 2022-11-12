@@ -11,7 +11,8 @@ import javax.persistence.Entity;
 import javax.persistence.Inheritance;
 import javax.persistence.InheritanceType;
 import javax.persistence.ManyToMany;
-
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -61,9 +62,6 @@ public class User extends BaseEntity {
 
 	@Column(name = "avatar", unique = false, nullable = true)
 	String avatar;
-
-	@ManyToMany(cascade = CascadeType.ALL, mappedBy = "user")
-	private Set<Authorities> authorities;
 
 	@Column(name = "type", insertable = false, updatable = false)
 	protected String userType;
