@@ -26,9 +26,9 @@ public interface LobbyRepository extends CrudRepository<Lobby,Integer> {
     @Query("SELECT lobby FROM Lobby lobby WHERE lobby.id=?1")
     public Lobby findByLobbyId(Integer code);
 
-    @Query("SELECT DISTINCT lobby FROM Lobby lobby where lobby.active = true")
+    @Query("SELECT DISTINCT lobby FROM Lobby lobby where lobby.active=true")
     public Collection<Lobby> findAllActiveLobby();
 
-    @Query("SELECT count(lobby) = 1 FROM Lobby lobby WHERE lobby.code=?1")
+    @Query("SELECT count(lobby)=1 FROM Lobby lobby WHERE lobby.code=?1")
     public boolean checkLobby(String code);
 }

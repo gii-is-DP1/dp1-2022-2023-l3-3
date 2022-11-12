@@ -50,11 +50,10 @@ public class AuthoritiesService {
 	@Transactional
 	public void saveAuthorities(Integer id, String role) throws DataAccessException {
 		Authorities authority = new Authorities();
-		Optional<User> user = userService.findUserById(id);
+		Optional<User> user = userService.findUser(id);
 		if(user.isPresent()) {
 			authority.setUser(user.get());
 			authority.setAuthority(role);
-			//user.get().getAuthorities().add(authority);
 			authoritiesRepository.save(authority);
 		}else
 			throw new DataAccessException("El usuario con id '"+id+"' no ha sido encontrado") {};

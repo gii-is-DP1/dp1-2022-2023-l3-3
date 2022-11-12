@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class TurnController {
 
-    private static final String VIEWS_GAME_ASIGN_TURN = "games/asignTurn"; // vista para decidir turnos
     private static final String VIEWS_GAME = "games/game"; // vista pasiva del juego
 
     private final TurnService turnService;
@@ -31,7 +30,7 @@ public class TurnController {
 
     @GetMapping("/turn/asignTurn")
     public String gameAsignTurn(Principal principal) { // ordenación de jugadores según botón rojo
-        Player player = playerService.findPlayersByName(principal.getName());
+        Player player = playerService.findPlayer(principal.getName());
         Turn turn = new Turn();
         turn.setTimePress(LocalDateTime.now());
         turn.setPlayer(player);

@@ -27,17 +27,21 @@ public class AdminService {
 
     @Transactional(readOnly = true)
     public Optional<Admin> findAdmin(Integer id) {
-        // retrieving admin by id
         return adminRepository.findById(id);
     }
 
     @Transactional
-	public void save(Admin admin) throws DataAccessException {
+	public void saveNewAdmin(Admin admin) throws DataAccessException {
         admin.setEnabled(true);
         admin.setAvatar("adminAvatar.png");
 		admin.setCreationDate(new Date(System.currentTimeMillis()));
 		adminRepository.save(admin);
-		userService.saveUser(admin);
+		userService.save(admin);
 		authoritiesService.saveAuthorities(admin.getId(), "admin");
 	}
+
+    @Transactional
+    public void save(Admin admin) {
+        adminRepository.save(admin);
+    }
 }

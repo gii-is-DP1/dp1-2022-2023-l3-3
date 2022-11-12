@@ -1,13 +1,11 @@
 package org.springframework.samples.sevenislands.web;
 
-import java.sql.Date;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.samples.sevenislands.player.Player;
 import org.springframework.samples.sevenislands.player.PlayerService;
 import org.springframework.security.authentication.AuthenticationManager;

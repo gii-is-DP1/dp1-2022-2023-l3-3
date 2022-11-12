@@ -16,10 +16,7 @@
 	<body style="background: url(resources/images/grafics/fondo1920x1080.jpg)">  
 		<div class="text-right" style="margin-bottom: 24px">
 			<a href="/settings">
-				<strong>
-					<sec:authentication property="name" />
-				</strong>
-				<span class="glyphicon glyphicon-user icon-size"></span>
+				${user.nickname}&thinsp;<img src="/resources/images/avatars/${user.avatar}" height="25" width="25">
 			</a>
 		</div> 
         <div>

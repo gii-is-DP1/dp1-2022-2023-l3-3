@@ -20,20 +20,17 @@ public class UserService {
 	}
 
 	@Transactional
-	public void saveUser(User user) throws DataAccessException {
-		// creating user
+	public void save(User user) throws DataAccessException {
 		userRepository.save(user);
 	}
 
 	@Transactional(readOnly = true)
-	public Optional<User> findUserById(Integer id) {
-		// retrieving user by id
+	public Optional<User> findUser(Integer id) {
 		return userRepository.findById(id);
 	}
 
 	@Transactional(readOnly = true)
 	public Optional<User> findUser(String nickname) {
-		// retrieving user by nickname
 		return userRepository.findByNickname(nickname);
 	}
 
@@ -44,13 +41,11 @@ public class UserService {
 
 	@Transactional
 	public void deleteUser(Integer id) {
-		// deleting user by id
 		userRepository.deleteById(id);
 	}
 
 	@Transactional
 	public void deleteUser(String nickname) {
-		// deleting user by nickname
 		userRepository.delete(nickname);
 	}
 
@@ -60,7 +55,7 @@ public class UserService {
 	}
 
 	@Transactional
-	public Lobby checkUserLobbyByName(String nickname) {
+	public Boolean checkUserLobbyByName(String nickname) {
 		return userRepository.checkUserLobby(nickname);
 	}
 

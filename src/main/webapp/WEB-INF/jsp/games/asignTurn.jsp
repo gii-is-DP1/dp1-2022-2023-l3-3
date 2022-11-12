@@ -1,6 +1,6 @@
 <style>
     body {
-        background-image: url("/resources/images/tablero.png");
+        background-image: url("/resources/images/grafics/tablero.png");
         background-size: cover;
         background-repeat: no-repeat;
         background-position: center;
@@ -12,7 +12,7 @@
     <body>
 
         <center>
-            <a title="partida" href="/turn/asignTurn"><img src="/resources/images/boton.png" alt="partida" /></a>
+            <a title="partida" href="/turn/asignTurn"><img src="/resources/images/grafics/boton.png" alt="partida" /></a>
 
         </center>
 

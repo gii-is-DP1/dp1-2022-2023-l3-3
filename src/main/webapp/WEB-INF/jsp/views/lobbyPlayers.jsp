@@ -33,7 +33,7 @@
 			</tr>
 			<c:forEach items="${players}" var="player">
 				<tr>
-					<td><img src="/resources/images/${player.avatar}" height="25" width="25"></td>
+					<td><img src="/resources/images/avatars/${player.avatar}" height="25" width="25"></td>
 					<td><c:out value="${player.nickname}"/></td>		
 					<td><a href="/lobby/players/delete/${player.id}"><span class="glyphicon glyphicon-trash alert" aria-hidden="true"></a></td>		
 				</tr>

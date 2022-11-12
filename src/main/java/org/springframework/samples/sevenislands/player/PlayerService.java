@@ -28,37 +28,24 @@ public class PlayerService {
 		player.setEnabled(true);
 		player.setAvatar("playerAvatar.png");
 		player.setCreationDate(new Date(System.currentTimeMillis()));
-		//creating player
 		playerRepository.save(player);
-		//creating user
-		userService.saveUser(player);
-		//creating authorities
+		userService.save(player);
 		authoritiesService.saveAuthorities(player.getId(), "player");
 	}
 
 	@Transactional(readOnly = true)
-	public Player findPlayerById(Integer id) throws DataAccessException{
+	public Player findPlayer(Integer id) throws DataAccessException{
 		return playerRepository.findById(id).get();
 	}
 
 	@Transactional
-    public Player findPlayersByName(String name) {
+    public Player findPlayer(String name) {
         return playerRepository.findByName(name);
-    }
-	
-	@Transactional
-    public Player findPlayersById(Integer id) {
-        return playerRepository.findById(id).get();
     }
 
 	@Transactional 
 	public void update(Player player) {
-		//creating player
 		playerRepository.updatePlayer(player, player.getId());
-		//creating user
-		//userService.update(player);
-		//creating authorities
-		//authoritiesService.saveAuthorities(player.getId(), "player");
 	}
 
 	@Transactional

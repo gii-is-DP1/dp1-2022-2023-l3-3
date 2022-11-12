@@ -2,13 +2,10 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sevenislands" tagdir="/WEB-INF/tags" %>
 
-<sevenislands:layout pageName="error">
-
-    <spring:url value="/resources/images/pets.png" var="petsImage"/>
-    <img src="${petsImage}"/>
+<sevenislands:layout2 pageName="error">
 
     <h2>Something happened...</h2>
 
     <p>${exception.message}</p>
 
-</sevenislands:layout>
+</sevenislands:layout2>

@@ -60,7 +60,7 @@ public class UserController {
 				admin.setLastName(user.getLastName());
 				admin.setEmail(user.getEmail());
 				admin.setCreationDate(authUser.getCreationDate());
-				admin.setBirthDate(authUser.getBirthDate());
+				admin.setBirthDate(user.getBirthDate());
 				admin.setAvatar(authUser.getAvatar());
 				adminService.save(admin);
 			} else {
@@ -73,7 +73,7 @@ public class UserController {
 				player.setLastName(user.getLastName());
 				player.setEmail(user.getEmail());
 				player.setCreationDate(authUser.getCreationDate());
-				player.setBirthDate(authUser.getBirthDate());
+				player.setBirthDate(user.getBirthDate());
 				player.setAvatar(authUser.getAvatar());
 				playerService.save(player);
 			}

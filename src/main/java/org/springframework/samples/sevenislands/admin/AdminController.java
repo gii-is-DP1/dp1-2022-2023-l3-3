@@ -60,7 +60,7 @@ public class AdminController {
 
     @GetMapping("/delete/{id}")
 	public String deleteUser(Principal principal, @PathVariable("id") Integer id){
-		User user = userService.findUserById(id).get();
+		User user = userService.findUser(id).get();
 		List<SessionInformation> infos = sessionRegistry.getAllSessions(user.getNickname(), false);
 		for(SessionInformation info : infos) {
 			info.expireNow(); //expire the session
@@ -70,8 +70,8 @@ public class AdminController {
 			userService.deleteUser(id);
 			return "redirect:/";
 		}else{
-			if(userService.checkUserLobbyByName(user.getNickname())!=null) {
-				Player player = playerService.findPlayersById(id);
+			if(userService.checkUserLobbyByName(user.getNickname())) {
+				Player player = playerService.findPlayer(id);
 				Lobby Lobby = lobbyService.findLobbyByPlayer(id);
 				List<Player> players=Lobby.getPlayerInternal();
 				players.remove(player);
@@ -79,7 +79,6 @@ public class AdminController {
 				lobbyService.update(Lobby);
 				player.setLobby(null);
 			}
-			//authoritiesService.delete(userService.findUser(user.getNickname()).get().getId());
 			userService.deleteUser(id);
 			return "redirect:/controlPanel";
 		}	
@@ -87,7 +86,7 @@ public class AdminController {
 
 	@GetMapping("/enable/{id}")
 	public String enableUser(Principal principal, @PathVariable("id") Integer id){
-		User user = userService.findUserById(id).get();
+		User user = userService.findUser(id).get();
 		if(user.isEnabled()) {
 			user.setEnabled(false);
 			userService.update(user);
@@ -121,17 +120,15 @@ public class AdminController {
 		} else {
 			if(user.getUserType().equals("admin")){
 				Admin admin = new Admin();
-				admin.setAvatar(user.getAvatar());
 				admin.setBirthDate(user.getBirthDate());
 				admin.setEmail(user.getEmail());
 				admin.setFirstName(user.getFirstName());
 				admin.setLastName(user.getLastName());
 				admin.setNickname(user.getNickname());
 				admin.setPassword(user.getPassword());
-				adminService.save(admin);
+				adminService.saveNewAdmin(admin);
 			} else {
 				Player player = new Player();
-				player.setAvatar(user.getAvatar());
 				player.setBirthDate(user.getBirthDate());
 				player.setEmail(user.getEmail());
 				player.setFirstName(user.getFirstName());

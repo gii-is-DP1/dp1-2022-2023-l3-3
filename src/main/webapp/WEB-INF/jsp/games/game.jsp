@@ -7,7 +7,7 @@
 
                         <style>
                             body {
-                                background-image: url("resources/images/tablero.png");
+                                background-image: url("resources/images/grafics/tablero.png");
                                 background-size: cover;
                                 background-repeat: no-repeat;
                                 background-position: center;
