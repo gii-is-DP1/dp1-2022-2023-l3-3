@@ -26,10 +26,11 @@
                             .card {
                                 margin-top: 3%;
                                 margin-bottom: 3%;
+                                margin-left: 10%;
+                                margin-right: 10%;
                                 border-radius: 5px;
                                 display: flex;
                                 align-items: center;
-                                justify-content: center;
                             }
 
                             #titulo_seccion {
@@ -51,6 +52,8 @@
                                 background-color: #F2EED2;
                                 font-size: 20px;
                                 font-weight: bold;
+                                padding-left: 10px;
+                                width: 75%;
                             }
 
                             /*SECCIÓN CENTRAL --> TABLERO, CARTAS, DADO*/
@@ -75,6 +78,10 @@
                                 height: 90%;
                                 border-radius: 5px;
                             }
+
+                            #mis_cartas_card {
+                                justify-content: center;
+                            }
                         </style>
 
                         <sevenislands:gameLayout pageName="lobby">
@@ -92,7 +99,7 @@
                                     </div>
                                     <div id="center">
                                         <!-- AQUÍ HAY QUE METER LA CLASE CANVAS -->
-                                        <p>AQUÍ VA EL DADO</p>
+                                        <!-- <p>AQUÍ VA EL DADO</p> -->
                                     </div>
                                     <div id="right">
                                         <div class="mis_cartas">
