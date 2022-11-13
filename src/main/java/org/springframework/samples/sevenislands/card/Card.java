@@ -30,7 +30,7 @@ public class Card extends BaseEntity {
         @NotNull
         protected CardType cardType;
 
-        @Range(min = 1, max = 7)
+        @Range(min = 0, max = 6)
         Integer position;
 
         @ManyToOne
@@ -46,5 +46,4 @@ public class Card extends BaseEntity {
         @JoinTable(name = "cards_islands", joinColumns = { @JoinColumn(name = "card_id") }, inverseJoinColumns = {
                         @JoinColumn(name = "island_id") })
         protected Set<Island> islands;
-
 }

@@ -26,7 +26,7 @@ INSERT INTO authorities(user_id,authority) VALUES (9,'player');
 --INSERT INTO lobby_players(lobby_id,players_id) VALUES (1,8);
 
 -- MATERIALES --
-INSERT INTO board(id,background,width,height) VALUES (1,'resources/images/Tablero_recortado.jpg',1903, 2325);
+INSERT INTO board(id,background,width,height) VALUES (1,'resources/images/Tablero_recortado.jpg',862, 862);
 
 INSERT INTO card_types(id,name,multiplicity) VALUES (1,'baraja',1);
 INSERT INTO card_types(id,name,multiplicity) VALUES (2,'barril',3);
@@ -41,5 +41,5 @@ INSERT INTO card_types(id,name,multiplicity) VALUES (10,'rubi',3);
 INSERT INTO card_types(id,name,multiplicity) VALUES (11,'sable',3);
 INSERT INTO card_types(id,name,multiplicity) VALUES (12,'backimage',3);
 
-INSERT INTO cards(id,board_id,card_type_id,position) VALUES (1,1,1,7);
+INSERT INTO cards(id,board_id,card_type_id,position) VALUES (1,1,1,0);
 

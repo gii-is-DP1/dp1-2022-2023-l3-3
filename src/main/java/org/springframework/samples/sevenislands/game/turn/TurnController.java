@@ -41,7 +41,7 @@ public class TurnController {
 
     @GetMapping("/turn")
     public String gameTurn(Principal principal, HttpServletResponse response, Map<String, Object> model) {
-        // response.addHeader("Refresh", "2");
+        response.addHeader("Refresh", "5");
         Player player = playerService.findPlayersByName(principal.getName());
         Lobby lobby = lobbyService.findLobbyByPlayer(player.getId());
         model.put("players", lobby.getPlayers());

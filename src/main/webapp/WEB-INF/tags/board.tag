@@ -19,7 +19,7 @@ function drawBoard(){
     var canvas = document.getElementById("canvas");
     var ctx = canvas.getContext("2d");
     var image = document.getElementById('source');
-    ctx.drawImage(image, 0, 0, ${board.width}, ${board.height});     
+    ctx.drawImage(image, 0, 0, ${board.width}, ${board.height});
     <jsp:doBody/>
 }
 window.onload = drawBoard();
