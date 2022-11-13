@@ -1,14 +1,16 @@
 package org.springframework.samples.sevenislands.game;
 
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
 import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
@@ -23,6 +25,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
+@Table(name = "games")
 public class Game extends BaseEntity {
 
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
@@ -37,9 +40,9 @@ public class Game extends BaseEntity {
 	private Lobby lobby;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "game", fetch = FetchType.LAZY)
-	private Set<Round> rounds;
+	private List<Round> rounds;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "game", fetch = FetchType.LAZY)
 	@Size(min = 7, max = 7)
-	private Set<Island> islands;
+	private List<Island> islands;
 }

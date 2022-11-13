@@ -7,7 +7,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.samples.sevenislands.card.board.Board;
+import org.springframework.samples.sevenislands.card.board.BoardService;
 import org.springframework.samples.sevenislands.lobby.Lobby;
 import org.springframework.samples.sevenislands.lobby.LobbyService;
 import org.springframework.samples.sevenislands.player.Player;
@@ -24,19 +28,24 @@ public class TurnController {
     private final TurnService turnService;
     private final PlayerService playerService;
     private final LobbyService lobbyService;
+    private final BoardService boardService;
 
     @Autowired
-    public TurnController(TurnService turnService, PlayerService playerService, LobbyService lobbyService) {
+    public TurnController(TurnService turnService, PlayerService playerService, LobbyService lobbyService,
+            BoardService boardService) {
         this.turnService = turnService;
         this.playerService = playerService;
         this.lobbyService = lobbyService;
+        this.boardService = boardService;
     }
 
     @GetMapping("/turn")
-    public String gameTurn(Principal principal, Map<String, Object> model) { // vista del botón rojo
+    public String gameTurn(Principal principal, HttpServletResponse response, Map<String, Object> model) {
+        // response.addHeader("Refresh", "2");
         Player player = playerService.findPlayersByName(principal.getName());
         Lobby lobby = lobbyService.findLobbyByPlayer(player.getId());
         model.put("players", lobby.getPlayers());
+        model.put("board", boardService.findById(1).get());
         return VIEWS_GAME;
     }
 

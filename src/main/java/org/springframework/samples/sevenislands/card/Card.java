@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.Range;
+import org.springframework.samples.sevenislands.card.board.Board;
 import org.springframework.samples.sevenislands.game.island.Island;
 import org.springframework.samples.sevenislands.game.turn.Turn;
 import org.springframework.samples.sevenislands.model.BaseEntity;
@@ -28,6 +30,13 @@ public class Card extends BaseEntity {
         @NotNull
         protected CardType cardType;
 
+        @Range(min = 1, max = 7)
+        Integer position;
+
+        @ManyToOne
+        @NotNull
+        Board board;
+
         @ManyToMany(cascade = CascadeType.ALL)
         @JoinTable(name = "cards_turns", joinColumns = { @JoinColumn(name = "card_id") }, inverseJoinColumns = {
                         @JoinColumn(name = "turn_id") })
@@ -37,4 +46,5 @@ public class Card extends BaseEntity {
         @JoinTable(name = "cards_islands", joinColumns = { @JoinColumn(name = "card_id") }, inverseJoinColumns = {
                         @JoinColumn(name = "island_id") })
         protected Set<Island> islands;
+
 }

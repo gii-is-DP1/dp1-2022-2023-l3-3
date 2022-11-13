@@ -1,7 +1,12 @@
 package org.springframework.samples.sevenislands.card;
 
+import java.util.List;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -14,7 +19,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "CardTypes")
+@Table(name = "card_types")
 public class CardType extends BaseEntity {
 
      @NotNull
@@ -25,6 +30,6 @@ public class CardType extends BaseEntity {
      @NotNull
      protected Integer multiplicity;
 
-     // falta el enum del tipo de carta
-
+     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cardType", fetch = FetchType.EAGER)
+     List<Card> cards;
 }
