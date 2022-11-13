@@ -1,7 +1,7 @@
 package sevenislands.game;
 
 import java.time.LocalDateTime;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -32,14 +32,14 @@ public class Game extends BaseEntity {
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDateTime endingDate;
 
-	@OneToOne(mappedBy = "game")
+	@OneToOne()
 	@NotNull
 	private Lobby lobby;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "game", fetch = FetchType.LAZY)
-	private Set<Round> rounds;
+	private List<Round> rounds;
 
 	@OneToMany(cascade = CascadeType.ALL, mappedBy = "game", fetch = FetchType.LAZY)
 	@Size(min = 7, max = 7)
-	private Set<Island> islands;
+	private List<Island> islands;
 }

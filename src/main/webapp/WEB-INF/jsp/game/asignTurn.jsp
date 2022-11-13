@@ -1,3 +1,10 @@
+<%@ page session="false" trimDirectiveWhitespaces="true" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sevenislands" tagdir="/WEB-INF/tags" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
+
 <style>
     body {
         background-image: url("/resources/images/grafics/tablero.png");
@@ -7,17 +14,15 @@
         background-attachment: fixed;
     }
 </style>
-<sevenislands:layout2 pageName="lobby">
-
+<sevenislands:layout2 pageName="lobby_asignTurn">
     <body>
-
-        <center>
-            <a title="partida" href="/turn/asignTurn"><img src="/resources/images/grafics/boton.png" alt="partida" /></a>
-
-        </center>
-
-
-
+        <div>
+            <a class="btn btn-default" href="<spring:url value='/home' htmlEscape='true'/>">ABANDONAR PARTIDA</a>
+        </div>
+        <div>
+            <center>
+                <a title="partida" href="/turn/newRound"><img src="/resources/images/grafics/boton.png" alt="partida" height="150" width="150"/></a>
+            </center>
+        </div>
     </body>
-
 </sevenislands:layout2>

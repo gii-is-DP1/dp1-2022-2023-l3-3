@@ -15,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import sevenislands.game.GameService;
 import sevenislands.lobby.exceptions.NotExistLobbyException;
 import sevenislands.player.Player;
 import sevenislands.player.PlayerService;
@@ -29,12 +31,14 @@ public class LobbyController {
 	private final LobbyService lobbyService;
 	private final UserService userService;
 	private final PlayerService playerService;
+	private final GameService gameService;
 
 	@Autowired
-	public LobbyController(LobbyService lobbyService, PlayerService playerService, UserService userService) {
+	public LobbyController(GameService gameService, LobbyService lobbyService, PlayerService playerService, UserService userService) {
 		this.lobbyService = lobbyService;
 		this.playerService = playerService;
 		this.userService = userService;
+		this.gameService = gameService;
 	}
 
 	@GetMapping("/lobby")
@@ -48,8 +52,8 @@ public class LobbyController {
 		Player player = playerService.findPlayer(principal.getName());
 		Lobby lobby = lobbyService.findLobbyByPlayer(player.getId());
 
-		if (lobby != null && userService.checkUserLobbyByName(player.getNickname())) {
-			if (lobby.getGame() != null) return "redirect:/game";
+		if (lobbyService.checkUserLobbyByName(player.getId())) {
+			if (gameService.findGamebByLobbyId(lobby.getId())!=null) return "redirect:/game";
 			Player host = lobby.getPlayers().get(0);
 			model.put("lobby", lobby);
 			model.put("host", host);
@@ -107,8 +111,6 @@ public class LobbyController {
 		if (players.size() == 1) {
 			Lobby.setActive(false);
 		}
-		player.setLobby(null);
-		playerService.update(player);
 		players.remove(player);
 		Lobby.setPlayers(players);
 		lobbyService.update(Lobby);
@@ -135,8 +137,6 @@ public class LobbyController {
 			players.remove(player);
 			Lobby.setPlayers(players);
 			lobbyService.update(Lobby);
-			player.setLobby(null);
-			playerService.update(player);
 			if (player.getNickname().equals(principal.getName())) {
 				return "redirect:/home";
 			} else {

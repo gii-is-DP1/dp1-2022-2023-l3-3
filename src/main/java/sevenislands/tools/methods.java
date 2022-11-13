@@ -1,5 +1,6 @@
 package sevenislands.tools;
 
+import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -7,6 +8,9 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import sevenislands.admin.Admin;
+import sevenislands.game.Game;
+import sevenislands.game.GameService;
+import sevenislands.game.round.RoundService;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
 import sevenislands.player.Player;
@@ -23,12 +27,16 @@ public class methods {
     private static UserService userService;
     public static PlayerService playerService;
     public static LobbyService lobbyService;
+    public static RoundService roundService;
+    public static GameService gameService;
 
     @Autowired
-	public methods(UserService userService, PlayerService playerService, LobbyService lobbyService) {
+	public methods(GameService gameService, RoundService roundService, UserService userService, PlayerService playerService, LobbyService lobbyService) {
 		this.userService = userService;
         this.playerService = playerService;
         this.lobbyService = lobbyService;
+        this.roundService = roundService;
+        this.gameService = gameService;
 	}
 
     public static Boolean checkUserNoExists(HttpServletRequest request) throws ServletException {
@@ -46,15 +54,13 @@ public class methods {
         
         if(userService.checkUserByName(principal.getUsername()) && userService.findUser(principal.getUsername()).get().isEnabled()) {
             User user = userService.findUser(principal.getUsername()).get();
-            if (userService.checkUserLobbyByName(user.getNickname())) {
+            if (lobbyService.checkUserLobbyByName(user.getId())) {
                 Player player = playerService.findPlayer(principal.getUsername());
                 Lobby lobby = lobbyService.findLobbyByPlayer(player.getId());
                 List<Player> players = lobby.getPlayerInternal();
                 if (players.size() == 1) {
                     lobby.setActive(false);
                 }
-                player.setLobby(null);
-                playerService.update(player);
                 players.remove(player);
                 lobby.setPlayers(players);
                 lobbyService.update(lobby);
@@ -71,9 +77,20 @@ public class methods {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.findUser(principal.getUsername()).get();
 
-        if (!userService.checkUserLobbyByName(user.getNickname())) {
+        if (!lobbyService.checkUserLobbyByName(user.getId())) {
             return true;
         } return false;
+    }
+
+    public static Boolean checkUserNoGame(HttpServletRequest request) throws ServletException {
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.findUser(principal.getUsername()).get();
+        Lobby lobby = lobbyService.findLobbyByPlayer(user.getId());
+        Game game = gameService.findGamebByLobbyId(lobby.getId());
+        if (game==null || roundService.checkGameByLobbyId(game.getId())) {
+            return false;
+        } 
+        return true;
     }
 
     public static Admin parseAdmin(User user) {
@@ -108,5 +125,10 @@ public class methods {
         return player;
     }
 
-
+    public static Game getGameOfPlayer(HttpServletRequest request) {
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.findUser(principal.getUsername()).get();
+        Lobby lobby = lobbyService.findLobbyByPlayer(user.getId());
+        return gameService.findGamebByLobbyId(lobby.getId());
+    }
 }

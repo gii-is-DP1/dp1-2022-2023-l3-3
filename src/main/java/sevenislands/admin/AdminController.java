@@ -68,14 +68,13 @@ public class AdminController {
 			userService.deleteUser(id);
 			return "redirect:/";
 		}else{
-			if(userService.checkUserLobbyByName(user.getNickname())) {
+			if(lobbyService.checkUserLobbyByName(user.getId())) {
 				Player player = playerService.findPlayer(id);
 				Lobby Lobby = lobbyService.findLobbyByPlayer(id);
 				List<Player> players=Lobby.getPlayerInternal();
 				players.remove(player);
 				Lobby.setPlayers(players);
 				lobbyService.update(Lobby);
-				player.setLobby(null);
 			}
 			userService.deleteUser(id);
 			return "redirect:/controlPanel";

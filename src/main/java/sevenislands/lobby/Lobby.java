@@ -34,9 +34,6 @@ public class Lobby extends BaseEntity {
   @ManyToMany(cascade = CascadeType.PERSIST)
   private List<Player> players;
 
-  @OneToOne(cascade = CascadeType.ALL)
-  private Game game;
-
   public List<Player> getPlayerInternal() {
     if (this.players == null) {
       this.players = new ArrayList<>();
@@ -46,6 +43,5 @@ public class Lobby extends BaseEntity {
 
   public void addPlayer(Player player) {
     getPlayerInternal().add(player);
-    player.setLobby(this);
   }
 }

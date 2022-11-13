@@ -30,9 +30,6 @@ public class Player extends User {
     @ManyToMany()
 	@JoinColumn(name = "achievements")
     private Collection<Achievement> achievements;
-
-    @ManyToOne(cascade = CascadeType.PERSIST)
-	private Lobby lobby;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
     private Set<Turn> turns;

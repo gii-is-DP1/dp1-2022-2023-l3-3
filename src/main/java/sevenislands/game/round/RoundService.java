@@ -38,4 +38,9 @@ public class RoundService {
         roundRepository.save(round);
     }
 
+    @Transactional
+    public Boolean checkGameByLobbyId(Integer lobbyId) {
+        return roundRepository.findRoundByGameId(lobbyId).size()==0;
+    }
+
 }

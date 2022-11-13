@@ -26,8 +26,8 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     @Query("SELECT count(user) = 1 FROM User user WHERE user.nickname=?1")
     public boolean checkUser(String nickname);
 
-    @Query("SELECT count(user.lobby) = 1 FROM User user WHERE user.nickname=?1")
-    public boolean checkUserLobby(String nickname);
+    /*@Query("SELECT count(user.lobby) = 1 FROM User user WHERE user.nickname=?1")
+    public boolean checkUserLobby(String nickname);*/
 
     @Modifying
     @Query("UPDATE User user SET user=?1 WHERE user.id=?2")

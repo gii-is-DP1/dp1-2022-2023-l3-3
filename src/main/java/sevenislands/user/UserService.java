@@ -54,10 +54,10 @@ public class UserService {
 		return userRepository.checkUser(nickname);
 	}
 
-	@Transactional
-	public Boolean checkUserLobbyByName(String nickname) {
-		return userRepository.checkUserLobby(nickname);
-	}
+	// @Transactional
+	// public Boolean checkUserLobbyByName(String nickname) {
+	// 	return userRepository.checkUserLobby(nickname);
+	// }
 
 	@Transactional 
 	public void update(User user) {

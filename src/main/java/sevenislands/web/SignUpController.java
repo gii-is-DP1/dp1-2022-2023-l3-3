@@ -12,6 +12,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -26,12 +28,14 @@ public class SignUpController {
 	private static final String VIEWS_PLAYER_SIGNUP = "views/signup";
 
 	private final PlayerService playerService;
+	private PasswordEncoder passwordEncoder;
 	private AuthenticationManager authenticationManager;
 
 	@Autowired
-	public SignUpController (PlayerService playerService, AuthenticationManager authenticationManager) {
+	public SignUpController (PlayerService playerService, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder) {
 		this.playerService = playerService;
 		this.authenticationManager = authenticationManager;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	@GetMapping
@@ -45,6 +49,7 @@ public class SignUpController {
 		if(result.hasErrors()) {
 			return VIEWS_PLAYER_SIGNUP;
 		} else {
+			//player.setPassword(passwordEncoder.encode(player.getPassword()));
 			this.playerService.saveNewPlayer(player);
 			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(player.getNickname(), player.getPassword());
     		authToken.setDetails(new WebAuthenticationDetails(request));
