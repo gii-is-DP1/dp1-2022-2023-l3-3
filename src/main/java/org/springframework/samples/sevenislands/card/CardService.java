@@ -1,6 +1,6 @@
 package org.springframework.samples.sevenislands.card;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -18,7 +18,7 @@ public class CardService {
     }
 
     @Transactional(readOnly = true)
-    public Collection<Card> findAllCards() throws DataAccessException {
+    public List<Card> findAllCards() throws DataAccessException {
         return cardRepository.findAll();
     }
 
@@ -28,13 +28,7 @@ public class CardService {
     }
 
     @Transactional(readOnly = true)
-    public Collection<CardType> findCardTypes() throws DataAccessException {
-        return cardRepository.findCardTypes();
+    public List<Card> findCardByType(String type) throws DataAccessException {
+        return cardRepository.findCardsByType(type);
     }
-
-    // @Transactional(readOnly = true)
-    // public Collection<Card> findCardsByType(String type) throws
-    // DataAccessException {
-    // return cardRepository.findCardsByType(type);
-    // }
 }

@@ -26,20 +26,17 @@ INSERT INTO authorities(user_id,authority) VALUES (9,'player');
 --INSERT INTO lobby_players(lobby_id,players_id) VALUES (1,8);
 
 -- MATERIALES --
-INSERT INTO board(id,background,width,height) VALUES (1,'resources/images/Tablero_recortado.jpg',862, 862);
+INSERT INTO cards(id,name,multiplicity) VALUES (1,'barril',6);
+INSERT INTO cards(id,name,multiplicity) VALUES (2,'mapa_tesoro',4);
+INSERT INTO cards(id,name,multiplicity) VALUES (3,'collar',4);
+INSERT INTO cards(id,name,multiplicity) VALUES (4,'caliz',3);
+INSERT INTO cards(id,name,multiplicity) VALUES (5,'corona',4);
+INSERT INTO cards(id,name,multiplicity) VALUES (6,'diamante',3);
+INSERT INTO cards(id,name,multiplicity) VALUES (7,'doblon',27);
+INSERT INTO cards(id,name,multiplicity) VALUES (8,'revolver',6);
+INSERT INTO cards(id,name,multiplicity) VALUES (9,'rubi',3);
+INSERT INTO cards(id,name,multiplicity) VALUES (10,'espada',6);
+INSERT INTO cards(id,name,multiplicity) VALUES (11,'baraja',1);
 
-INSERT INTO card_types(id,name,multiplicity) VALUES (1,'baraja',1);
-INSERT INTO card_types(id,name,multiplicity) VALUES (2,'barril',3);
-INSERT INTO card_types(id,name,multiplicity) VALUES (3,'botella',3);
-INSERT INTO card_types(id,name,multiplicity) VALUES (4,'collar',3);
-INSERT INTO card_types(id,name,multiplicity) VALUES (5,'copa',3);
-INSERT INTO card_types(id,name,multiplicity) VALUES (6,'corona',3);
-INSERT INTO card_types(id,name,multiplicity) VALUES (7,'diamante',3);
-INSERT INTO card_types(id,name,multiplicity) VALUES (8,'doblon',3);
-INSERT INTO card_types(id,name,multiplicity) VALUES (9,'pistola',3);
-INSERT INTO card_types(id,name,multiplicity) VALUES (10,'rubi',3);
-INSERT INTO card_types(id,name,multiplicity) VALUES (11,'sable',3);
-INSERT INTO card_types(id,name,multiplicity) VALUES (12,'backimage',3);
-
-INSERT INTO cards(id,board_id,card_type_id,position) VALUES (1,1,1,0);
+-- CREACIÓN DE UNA PARTIDA --
 

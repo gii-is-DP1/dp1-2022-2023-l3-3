@@ -1,23 +1,19 @@
 package org.springframework.samples.sevenislands.game.turn;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.samples.sevenislands.card.board.Board;
-import org.springframework.samples.sevenislands.card.board.BoardService;
+import org.springframework.samples.sevenislands.game.Game;
+import org.springframework.samples.sevenislands.game.GameService;
 import org.springframework.samples.sevenislands.lobby.Lobby;
 import org.springframework.samples.sevenislands.lobby.LobbyService;
 import org.springframework.samples.sevenislands.player.Player;
 import org.springframework.samples.sevenislands.player.PlayerService;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
@@ -28,15 +24,15 @@ public class TurnController {
     private final TurnService turnService;
     private final PlayerService playerService;
     private final LobbyService lobbyService;
-    private final BoardService boardService;
+    private final GameService gameService;
 
     @Autowired
     public TurnController(TurnService turnService, PlayerService playerService, LobbyService lobbyService,
-            BoardService boardService) {
+            GameService gameService) {
         this.turnService = turnService;
         this.playerService = playerService;
         this.lobbyService = lobbyService;
-        this.boardService = boardService;
+        this.gameService = gameService;
     }
 
     @GetMapping("/turn")
@@ -44,21 +40,20 @@ public class TurnController {
         response.addHeader("Refresh", "5");
         Player player = playerService.findPlayersByName(principal.getName());
         Lobby lobby = lobbyService.findLobbyByPlayer(player.getId());
-        model.put("players", lobby.getPlayers());
-        model.put("board", boardService.findById(1).get());
+        List<Player> players = lobby.getPlayers();
+        Game game = lobby.getGame();
+        model.put("players", players);
+        model.put("game", game);
         return VIEWS_GAME;
     }
 
     @GetMapping("/turn/asignTurn")
     public String gameAsignTurn(Principal principal) { // ordenación de jugadores según botón rojo
         Player player = playerService.findPlayersByName(principal.getName());
-        // RONDA 0 --> ASIGNAR CARTAS DE INICIO
         Turn turn = new Turn();
-        turn.setTimePress(LocalDateTime.now());
         turn.setPlayer(player);
         turnService.save(turn);
         return "redirect:/turn";
-
     }
 
     @GetMapping("/turn/rollDice")

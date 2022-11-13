@@ -2,7 +2,10 @@ package org.springframework.samples.sevenislands.game.island;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -33,6 +36,8 @@ public class Island extends BaseEntity {
     @NotNull
     private Game game;
 
-    @ManyToMany(mappedBy = "islands")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "cards_islands", joinColumns = { @JoinColumn(name = "card_id") }, inverseJoinColumns = {
+            @JoinColumn(name = "island_id") })
     private List<Card> cards;
 }

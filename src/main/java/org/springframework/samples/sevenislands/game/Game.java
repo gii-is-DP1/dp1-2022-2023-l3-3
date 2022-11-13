@@ -28,9 +28,24 @@ import lombok.Setter;
 @Table(name = "games")
 public class Game extends BaseEntity {
 
+	String background;
+
+	@Positive
+	Integer width;
+
+	@Positive
+	Integer height;
+
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	@NotNull
 	private LocalDateTime creationDate;
+
+	public Game() {
+		this.background = "resources/images/Tablero_recortado.jpg";
+		this.width = 860;
+		this.height = 860;
+		this.creationDate = LocalDateTime.now();
+	}
 
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private LocalDateTime endingDate;

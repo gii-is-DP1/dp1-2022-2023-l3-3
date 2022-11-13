@@ -116,9 +116,13 @@
                                             </c:forEach>
                                         </div>
                                         <div id="center">
-                                            <game:board board="${board}">
-                                                <c:forEach items="${board.cards}" var="card">
-                                                    <game:cardBoard card="${card}" />
+                                            <game:board board="${game}">
+                                                <c:forEach items="${game.islands}" var="island">
+                                                    <c:if test="${island.num < 7}">
+                                                        <c:forEach items="${island.cards}" var="card">
+                                                            <game:cardBoard island="${island}" card="${card}" />
+                                                        </c:forEach>
+                                                    </c:if>
                                                 </c:forEach>
                                             </game:board>
                                         </div>

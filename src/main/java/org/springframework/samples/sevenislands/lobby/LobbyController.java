@@ -64,7 +64,6 @@ public class LobbyController {
 	public String createLobby(Principal principal) {
 		Player player = playerService.findPlayersByName(principal.getName());
 		Lobby lobby = new Lobby();
-
 		lobby.setCode(lobbyService.generatorCode());
 		lobby.setActive(true);
 		lobby.addPlayer(player);

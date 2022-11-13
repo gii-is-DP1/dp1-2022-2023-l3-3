@@ -38,4 +38,9 @@ public class RoundService {
         roundRepository.save(round);
     }
 
+    @Transactional
+    public void update(Round round) {
+        roundRepository.updateRound(round, round.getId());
+    }
+
 }
