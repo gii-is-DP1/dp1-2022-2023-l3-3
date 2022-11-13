@@ -8,6 +8,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import sevenislands.player.Player;
 import sevenislands.player.PlayerService;
+import sevenislands.user.UserService;
+
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -27,14 +29,16 @@ public class SignUpController {
 	private static final String VIEWS_PLAYER_SIGNUP = "views/signup";
 
 	private final PlayerService playerService;
+	private final UserService userService;
 	private PasswordEncoder passwordEncoder;
 	private AuthenticationManager authenticationManager;
 
 	@Autowired
-	public SignUpController (PlayerService playerService, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder) {
+	public SignUpController (UserService userService, PlayerService playerService, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder) {
 		this.playerService = playerService;
 		this.authenticationManager = authenticationManager;
 		this.passwordEncoder = passwordEncoder;
+		this.userService = userService;
 	}
 
 	@GetMapping
@@ -47,7 +51,8 @@ public class SignUpController {
 	public String processCreationForm(HttpServletRequest request, @Valid Player player, BindingResult result) {
 		if(result.hasErrors()) {
 			return VIEWS_PLAYER_SIGNUP;
-		} else {
+		} else if(!userService.checkUserByName(player.getNickname()) &&
+				!userService.checkUserByEmail(player.getEmail())) {
 			String password = player.getPassword();
 			player.setPassword(passwordEncoder.encode(password));
 			playerService.saveNewPlayer(player);
@@ -56,6 +61,6 @@ public class SignUpController {
     		Authentication authentication = authenticationManager.authenticate(authToken);
     		SecurityContextHolder.getContext().setAuthentication(authentication);
 			return "redirect:/home";
-		}
+		} else return VIEWS_PLAYER_SIGNUP;
 	}
 }
