@@ -12,7 +12,6 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
@@ -49,9 +48,10 @@ public class SignUpController {
 		if(result.hasErrors()) {
 			return VIEWS_PLAYER_SIGNUP;
 		} else {
-			//player.setPassword(passwordEncoder.encode(player.getPassword()));
-			this.playerService.saveNewPlayer(player);
-			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(player.getNickname(), player.getPassword());
+			String password = player.getPassword();
+			player.setPassword(passwordEncoder.encode(password));
+			playerService.saveNewPlayer(player);
+			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(player.getNickname(), password);
     		authToken.setDetails(new WebAuthenticationDetails(request));
     		Authentication authentication = authenticationManager.authenticate(authToken);
     		SecurityContextHolder.getContext().setAuthentication(authentication);
