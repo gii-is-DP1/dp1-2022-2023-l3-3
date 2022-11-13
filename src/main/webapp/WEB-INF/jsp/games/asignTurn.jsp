@@ -12,8 +12,9 @@
     <body>
 
         <center>
-            <a title="partida" href="/turn/asignTurn"><img src="/resources/images/boton.png" alt="partida" /></a>
-
+            <marquee behavior="alternate" scrollamount="85px">
+                <a title="partida" href="/turn/asignTurn"><img src="/resources/images/botonInicio.png" alt="partida"/></a>
+            </marquee>
         </center>
 
 
