@@ -10,89 +10,95 @@
                                 background-color: aliceblue;
                             }
 
-                            .mis_cartas {
-                                width: 500px;
-                                /* Ancho de 150 píxeles */
-                                height: 185px;
-                                /* Alto de 150 píxeles */
-                                background: #581212;
-                                /* Fondo de color rojo */
-                                border: 3px solid #000;
-                                /* Borde color negro y de 1 píxel de grosor */
-                                position: absolute;
-                                bottom: 50px;
-                                right: 45px;
-                            }
-
-                            .img {
-                                width: 100%;
-                            }
-
+                            /*GENERAL*/
                             .tablero {
+                                /* imagen del tablero*/
                                 background-image: url("resources/images/tablero.png");
                                 background-size: 100% 100%;
                                 background-repeat: no-repeat;
                                 background-position: center;
+                                /*espacios del tablero*/
                                 width: 100%;
                                 height: 100%;
                                 display: flex;
+                            }
+
+                            .card {
+                                margin-top: 3%;
+                                margin-bottom: 3%;
+                                border-radius: 5px;
+                                display: flex;
+                                align-items: center;
                                 justify-content: center;
-                                align-items: flex-end;
                             }
 
-                            .sub {
-                                width: 34%;
-                                height: 100%;
+                            #titulo_seccion {
+                                font-size: 30px;
+                                font-weight: bold;
+                                color: white;
+                                text-shadow: 1px 1px 4px black;
+                                text-align: center;
                             }
 
+                            /*SECCIÓN IZQUIERDA --> CARDS DE AVATAR*/
                             #left {
+                                width: 25%;
+                                padding-top: 5%;
+                                padding-left: 10px;
+                            }
+
+                            #avatar_card {
+                                background-color: #F2EED2;
+                                font-size: 20px;
+                                font-weight: bold;
+                            }
+
+                            /*SECCIÓN CENTRAL --> TABLERO, CARTAS, DADO*/
+                            #center {
+                                width: 50%;
+                                text-align: center;
+                            }
+
+                            /*SECCIÓN DERECHA --> MIS CARTAS*/
+                            #right {
                                 width: 25%;
                             }
 
-                            #center {
-                                width: 55%;
-                            }
-
-                            #right {
-                                width: 20%;
-                            }
-
-                            .dado {
-                                display: flex;
-                                justify-content: center;
-                                align-items: flex-start;
+                            .mis_cartas {
+                                width: 500px;
+                                height: 185px;
+                                background: #581212;
+                                border: 3px solid #000;
+                                position: absolute;
+                                bottom: 50px;
+                                right: 45px;
+                                height: 90%;
+                                border-radius: 5px;
                             }
                         </style>
 
                         <sevenislands:gameLayout pageName="lobby">
 
                             <body>
-                                <!-- <div class="dice">
-                                    <a href="/turn/rollDice">
-                                        <img src="/resources/images/dado.png">
-                                    </a>
-                                </div>
-                                <div class="mis_cartas">
-                                    <center>
-                                        <h3 style="color:rgb(255, 255, 255);">Mis cartas</h3>
-                                    </center>
-                                </div> -->
                                 <div class="tablero">
-                                    <div class="sub" id="left">
-
+                                    <div id="left">
+                                        <h1 id="titulo_seccion">JUGADORES DE LA SALA</h1>
+                                        <c:forEach items="${players}" var="player">
+                                            <div class="card" id="avatar_card">
+                                                <img src="/resources/images/${player.avatar}" width="75">
+                                                <c:out value="${player.getNickname()}" />
+                                            </div>
+                                        </c:forEach>
                                     </div>
-                                    <div class="sub" id="center">
-                                        <div class="dado">
-                                            <a href="/turn/rollDice">
-                                                <img src="/resources/images/dado.png" class="dado">
-                                            </a>
-                                        </div>
+                                    <div id="center">
+                                        <!-- AQUÍ HAY QUE METER LA CLASE CANVAS -->
+                                        <p>AQUÍ VA EL DADO</p>
                                     </div>
-                                    <div class="sub" id="right">
+                                    <div id="right">
                                         <div class="mis_cartas">
-                                            <center>
-                                                <h3 style="color:rgb(255, 255, 255);">Mis cartas</h3>
-                                            </center>
+                                            <div class="card" id="mis_cartas_card">
+                                                <h3 id="titulo_seccion">MIS CARTAS</h3>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
