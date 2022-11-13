@@ -1,6 +1,7 @@
 package sevenislands.player;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
@@ -30,7 +31,7 @@ public class Player extends User {
 	@JoinColumn(name = "achievements")
     private Collection<Achievement> achievements;
 
-    @ManyToOne()
+    @ManyToOne(cascade = CascadeType.PERSIST)
 	private Lobby lobby;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)

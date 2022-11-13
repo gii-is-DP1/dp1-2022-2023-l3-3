@@ -48,7 +48,7 @@ public class LobbyController {
 		Player player = playerService.findPlayer(principal.getName());
 		Lobby lobby = lobbyService.findLobbyByPlayer(player.getId());
 
-		if (lobby != null && userService.checkUserLobbyByName(player.getNickname()) && lobby.isActive()) {
+		if (lobby != null && userService.checkUserLobbyByName(player.getNickname())) {
 			if (lobby.getGame() != null) return "redirect:/game";
 			Player host = lobby.getPlayers().get(0);
 			model.put("lobby", lobby);
@@ -61,7 +61,8 @@ public class LobbyController {
 	}
 
 	@GetMapping("/lobby/create")
-	public String createLobby(Principal principal) {
+	public String createLobby(HttpServletRequest request, Principal principal) throws ServletException {
+		if(!methods.checkUserNoLobby(request)) return "redirect:/home";
 		Player player = playerService.findPlayer(principal.getName());
 		Lobby lobby = new Lobby();
 

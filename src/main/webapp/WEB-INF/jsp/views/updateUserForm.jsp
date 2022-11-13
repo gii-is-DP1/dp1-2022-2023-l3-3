@@ -38,7 +38,6 @@
       class="form-horizontal"
       id="edit-user-form"
     >
-      <input type="hidden" name="avatar" value="${user.avatar}" />
       <div class="form-group has-feedback">
         <sevenislands:inputField label="Nombre de usuario" name="nickname" />
         <sevenislands:inputField

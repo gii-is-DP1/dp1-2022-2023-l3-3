@@ -1,6 +1,7 @@
 package sevenislands.user;
 
 import java.security.Principal;
+import java.util.Date;
 import java.util.Map;
 
 import javax.validation.Valid;
@@ -50,9 +51,14 @@ public class UserController {
 			return VIEWS_PLAYER_UPDATE_FORM;
 		} else {
 			User authUser = userService.findUser(principal.getName()).get();
+			user.setCreationDate(authUser.getCreationDate());
+			user.setEnabled(authUser.isEnabled());
+			user.setId(authUser.getId());
+			user.setAvatar(authUser.getAvatar());
 			if(authUser.getUserType().equals("admin")){
 				adminService.save(methods.parseAdmin(user));
 			} else {
+				System.out.println(user.isEnabled());
 				playerService.save(methods.parsePlayer(user));
 			}
 			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user.getNickname(), user.getPassword());

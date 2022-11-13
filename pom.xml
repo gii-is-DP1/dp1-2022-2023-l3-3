@@ -31,8 +31,6 @@
         <jacoco.version>0.8.5</jacoco.version>
         <spring-format.version>0.0.19</spring-format.version>
 
-        <start-class>src.main.java.sevenislands</start-class>
-
     </properties>
 <developers>
     <developer>

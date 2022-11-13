@@ -143,13 +143,7 @@ public class AdminController {
 		} else {
 			User userEdited = userService.findUser(id).get();
 			user.setCreationDate(userEdited.getCreationDate());
-			if(userEdited.getUserType().equals("admin") && user.getUserType().equals("player")) {
-				adminService.remove(methods.parseAdmin(user));
-				userService.save(methods.parsePlayer(user));
-			} else if (userEdited.getUserType().equals("player") && user.getUserType().equals("admin")) {
-				playerService.remove(methods.parsePlayer(user));
-				userService.save(methods.parseAdmin(user));
-			} else if(userEdited.getUserType().equals("admin") && user.getUserType().equals("admin")) {
+			if(userEdited.getUserType().equals("admin")) {
 				adminService.save(methods.parseAdmin(user));
 			} else playerService.save(methods.parsePlayer(user));
 			return "redirect:/controlPanel";

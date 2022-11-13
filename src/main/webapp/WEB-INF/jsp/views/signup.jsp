@@ -50,10 +50,8 @@ prefix="sevenislands" tagdir="/WEB-INF/tags" %>
         <sevenislands:inputField label="Birth Date" name="birthDate" required="required"/>
         <sevenislands:inputField label="Email" name="email" required="required"/>
       </div>
-      <div class="form-group">
-        <div class="col-sm-offset-2 col-sm-10">
-          <button class="btn btn-default" type="submit">Sign up</button>
-        </div>
+      <div class="pull-right">
+        <button class="btn btn-default mr-3" type="submit">Registrarse</button>
       </div>
     </form:form>
   </jsp:body>

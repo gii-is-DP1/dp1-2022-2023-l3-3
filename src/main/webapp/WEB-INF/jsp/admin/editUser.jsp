@@ -37,7 +37,6 @@
         <sevenislands:inputField label="Fecha de nacimiento" name="birthDate" required="required"/>
         <sevenislands:inputField label="Correo" name="email" required="required"/>
         <sevenislands:selectField label="Acceso" name="enabled" names="${enabledValues}" required="required"/>
-        <sevenislands:selectField label="Tipo" name="userType" names="${types}" required="required"/>
       </div>
 
       <div class="pull-right">

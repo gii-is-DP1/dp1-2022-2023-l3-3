@@ -1,9 +1,5 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<%--
-sevenislands :: a Spring Framework demonstration
---%>
-
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     <meta charset="utf-8">
@@ -15,7 +11,7 @@ sevenislands :: a Spring Framework demonstration
     <link rel="shortcut icon" type="image/x-icon" href="${favicon}">
 
     <title>7 Islas Game</title>
-
+    
     <%-- CSS generated from LESS --%>
     <spring:url value="/resources/css/sevenislands.css" var="sevenislandsCss"/>
     <link href="${sevenislandsCss}" rel="stylesheet"/>
