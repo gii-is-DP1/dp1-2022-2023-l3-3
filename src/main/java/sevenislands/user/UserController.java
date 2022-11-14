@@ -9,7 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import sevenislands.admin.AdminService;
 import sevenislands.player.PlayerService;
-import sevenislands.tools.methods;
+import sevenislands.tools.entityAssistant;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -63,10 +63,10 @@ public class UserController {
 			(!userFoundE.isPresent() || (userFoundE.isPresent() && userFoundE.get().getId().equals(authUser.getId())))) { 
 				//Guardalo
 				if(authUser.getUserType().equals("admin")){
-					adminService.save(methods.parseAdmin(user));
-				} else playerService.save(methods.parsePlayer(user));
+					adminService.save(entityAssistant.parseAdmin(user));
+				} else playerService.save(entityAssistant.parsePlayer(user));
 				//Cambia las credenciales(token) a las credenciales actualizadas
-				methods.loginUser(user, password); 
+				entityAssistant.loginUser(user, password); 
 				return "redirect:/home";
 			} return "redirect:/settings"; //No me lo guardes
 		}

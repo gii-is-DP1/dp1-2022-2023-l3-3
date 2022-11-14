@@ -16,7 +16,7 @@ import sevenislands.lobby.LobbyService;
 import sevenislands.lobby.exceptions.NotExitPlayerException;
 import sevenislands.player.Player;
 import sevenislands.player.PlayerService;
-import sevenislands.tools.methods;
+import sevenislands.tools.entityAssistant;
 import sevenislands.user.User;
 import sevenislands.user.UserService;
 import org.springframework.security.core.session.SessionInformation;
@@ -122,8 +122,8 @@ public class AdminController {
 		!userService.checkUserByEmail(user.getEmail())) {
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
 			if(user.getUserType().equals("admin")){
-				adminService.saveNewAdmin(methods.parseAdmin(user));
-			} else playerService.saveNewPlayer(methods.parsePlayer(user));
+				adminService.saveNewAdmin(entityAssistant.parseAdmin(user));
+			} else playerService.saveNewPlayer(entityAssistant.parsePlayer(user));
 		} return "redirect:/controlPanel/add";
 	}
 
@@ -156,8 +156,8 @@ public class AdminController {
 			if((!userFoundN.isPresent() || (userFoundN.isPresent() && userFoundN.get().getId().equals(userEdited.getId()))) &&
 			(!userFoundE.isPresent() || (userFoundE.isPresent() && userFoundE.get().getId().equals(userEdited.getId())))) {
 				if(userEdited.getUserType().equals("admin")) {
-					adminService.save(methods.parseAdmin(user));
-				} else playerService.save(methods.parsePlayer(user));
+					adminService.save(entityAssistant.parseAdmin(user));
+				} else playerService.save(entityAssistant.parsePlayer(user));
 				return "redirect:/controlPanel";
 			} return "redirect:/controlPanel/edit/"+id.toString();
 		}

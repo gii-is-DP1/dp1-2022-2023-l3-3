@@ -12,7 +12,8 @@ import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
 import sevenislands.player.Player;
 import sevenislands.player.PlayerService;
-import sevenislands.tools.methods;
+import sevenislands.tools.checkers;
+import sevenislands.tools.entityAssistant;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -34,9 +35,9 @@ public class GameController {
 
     @GetMapping("/game")
     public String createGame(HttpServletRequest request, Principal principal, HttpServletResponse response) throws ServletException {
-        if(methods.checkUserNoExists(request)) return "redirect:/";
-        if(methods.checkUserNoLobby(request)) return "redirect:/home";
-        if(methods.checkUserNoGame(request)) return "redirect:/turn";
+        if(checkers.checkUserNoExists(request)) return "redirect:/";
+        if(checkers.checkUserNoLobby(request)) return "redirect:/home";
+        if(checkers.checkUserNoGame(request)) return "redirect:/turn";
         response.addHeader("Refresh", "1");
 
         Player player = playerService.findPlayer(principal.getName());

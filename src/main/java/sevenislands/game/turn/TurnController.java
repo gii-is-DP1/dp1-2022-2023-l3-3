@@ -16,7 +16,8 @@ import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
 import sevenislands.player.Player;
 import sevenislands.player.PlayerService;
-import sevenislands.tools.methods;
+import sevenislands.tools.checkers;
+import sevenislands.tools.entityAssistant;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -41,19 +42,19 @@ public class TurnController {
 
     @GetMapping("/turn")
     public String gameTurn(Principal principal, HttpServletRequest request) throws ServletException {
-        if(methods.checkUserNoExists(request)) return "redirect:/";
-        if(methods.checkUserNoLobby(request)) return "redirect:/home";
+        if(checkers.checkUserNoExists(request)) return "redirect:/";
+        if(checkers.checkUserNoLobby(request)) return "redirect:/home";
         
         return VIEWS_GAME;
     }
 
     @GetMapping("/turn/newRound")
     public String gameAsignTurn(Principal principal, HttpServletRequest request) throws ServletException {
-        if(methods.checkUserNoExists(request)) return "redirect:/";
-        if(methods.checkUserNoLobby(request)) return "redirect:/home";
+        if(checkers.checkUserNoExists(request)) return "redirect:/";
+        if(checkers.checkUserNoLobby(request)) return "redirect:/home";
 
         Player player = playerService.findPlayer(principal.getName());
-        Game game = methods.getGameOfPlayer(request);
+        Game game = entityAssistant.getGameOfPlayer(request);
         Lobby lobby = lobbyService.findLobbyByPlayer(player.getId());
         List<Player> playerList = lobby.getPlayers();
         List<Round> roundList = roundService.findRoundsByGameId(game.getId()).stream().collect(Collectors.toList());
