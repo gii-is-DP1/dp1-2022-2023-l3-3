@@ -66,7 +66,7 @@ public class AdminController {
 	}
 	
 
-    @RequestMapping(value = "/paginacion",method = RequestMethod.GET)
+    @RequestMapping(method = RequestMethod.GET)
 	public String listUsersPagination(Model model, @RequestParam Integer valor) throws NotExitPlayerException{
 		Page<User> paginacion=null;
 		Integer totalPlayer=(userService.findAllUser().size())/5;

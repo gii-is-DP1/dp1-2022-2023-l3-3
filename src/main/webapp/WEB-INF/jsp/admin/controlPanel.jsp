@@ -75,9 +75,9 @@
 		<nav aria-label="Page navigation example">
 			<ul class="pagination">
 				<c:if test="${valores-1>=0}">
-				<a class="btn btn-default" href="/controlPanel/paginacion?valor=${valores - 1}"  >ANTERIOR</a>
+				<a class="btn btn-default" href="/controlPanel?valor=${valores - 1}"  >ANTERIOR</a>
 			</c:if><c:if test="${valores+1<=paginas}">
-			  	<a class="btn btn-default" href="/controlPanel/paginacion?valor=${valores + 1}" >SIGUIENTE</a>
+			  	<a class="btn btn-default" href="/controlPanel?valor=${valores + 1}" >SIGUIENTE</a>
 			</c:if>
 			</ul>
 		</nav>
