@@ -1,7 +1,6 @@
 package sevenislands.user;
 
 import java.security.Principal;
-import java.util.Date;
 import java.util.Map;
 
 import javax.validation.Valid;

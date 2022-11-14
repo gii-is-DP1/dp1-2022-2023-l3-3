@@ -30,36 +30,37 @@ public class User extends BaseEntity {
 	//En caso de cambiar cualquier atribute con unique = true
 	//Cambiar también la comprobación en el signUp
 	@Column(name = "nickname", unique = true, nullable = false, length = 30)
-	String nickname;
+	private String nickname;
 
 	@Column(name = "password", unique = false, nullable = false)
-	String password;
+	private String password;
 
-	@Column(name = "enabled", unique = false, nullable = true, columnDefinition = "boolean default true")
-	boolean enabled;
+	@Column(name = "enabled", unique = false, nullable = false, columnDefinition = "boolean default true")
+	private boolean enabled;
 
 	@Column(name = "first_name", unique = false, nullable = false)
-	protected String firstName;
+	private String firstName;
 
 	@Column(name = "last_name", unique = false, nullable = false)
-	protected String lastName;
+	private String lastName;
 
 	@Column(name = "email", unique = true, nullable = false, length = 50)
-	String email;
+	private String email;
 
 	@Past
 	@Temporal(TemporalType.DATE)
-	@Column(name = "creation_date", unique = false, nullable = true, columnDefinition = "date default now()")
-	Date creationDate;
+	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@Column(name = "creation_date", unique = false, nullable = false, columnDefinition = "date default now()")
+	private Date creationDate;
 	
 	@Past
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	@Column(name = "birth_date", unique = false, nullable = false)
-	Date birthDate;
+	private Date birthDate;
 
-	@Column(name = "avatar", unique = false, nullable = true)
-	String avatar;
+	@Column(name = "avatar", unique = false, nullable = false)
+	private String avatar;
 
 	@Column(name = "type", insertable = false, updatable = false)
 	protected String userType;

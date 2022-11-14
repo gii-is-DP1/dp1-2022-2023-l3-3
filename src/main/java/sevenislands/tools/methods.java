@@ -1,6 +1,5 @@
 package sevenislands.tools;
 
-import java.security.Principal;
 import java.util.List;
 
 import javax.servlet.ServletException;
@@ -83,10 +82,7 @@ public class methods {
     }
 
     public static Boolean checkUserNoGame(HttpServletRequest request) throws ServletException {
-        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userService.findUser(principal.getUsername()).get();
-        Lobby lobby = lobbyService.findLobbyByPlayer(user.getId());
-        Game game = gameService.findGamebByLobbyId(lobby.getId());
+        Game game = getGameOfPlayer(request);
         if (game==null || roundService.checkGameByLobbyId(game.getId())) {
             return false;
         } 

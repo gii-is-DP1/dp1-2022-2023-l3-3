@@ -1,6 +1,6 @@
 package sevenislands.game;
 
-import java.time.LocalDateTime;
+import java.sql.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import sevenislands.lobby.Lobby;
@@ -21,7 +21,7 @@ public class GameService {
     @Transactional 
     public void initGame(Lobby lobby){
         Game game = new Game();
-        game.setCreationDate(LocalDateTime.now());
+        game.setCreationDate(new Date(System.currentTimeMillis()));
         game.setLobby(lobby);
         gameRepository.save(game);
 

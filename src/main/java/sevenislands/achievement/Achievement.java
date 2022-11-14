@@ -9,8 +9,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotEmpty;
 
+import sevenislands.enums.AchievementType;
 import sevenislands.model.BaseEntity;
 
 import sevenislands.player.Player;
@@ -24,16 +24,14 @@ import lombok.Setter;
 @Table(name = "achievements")
 public class Achievement extends BaseEntity {
 
-    @Column(name = "description")
-    @NotEmpty
+    @Column(name = "description", nullable = false)
     private String description;
 
-    @Column(name = "achievementType")
+    @Column(name = "achievementType", nullable = false)
     @Enumerated(EnumType.STRING)
-    @NotEmpty
     private AchievementType achievementType;
 
-    @ManyToMany()
+    @ManyToMany
     @JoinColumn(name = "players")
     private Collection<Player> players;
 }

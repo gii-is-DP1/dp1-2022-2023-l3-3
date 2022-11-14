@@ -8,6 +8,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import sevenislands.enums.AchievementType;
+
 @Service
 public class AchievementService {
  
