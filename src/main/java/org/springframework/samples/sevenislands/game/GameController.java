@@ -128,7 +128,7 @@ public class GameController {
             island.setGame(game);
             island.setNum(i);
             if (i < 7) { // si no es la isla del mazo
-                Integer cartaAleatoria = 1 + (int) Math.floor(Math.random() * 10);
+                Integer cartaAleatoria = (int) Math.floor(Math.random() * 10);
                 Card card = allCards.get(cartaAleatoria);
                 List<Card> cards = new ArrayList<>();
                 cards.add(card);

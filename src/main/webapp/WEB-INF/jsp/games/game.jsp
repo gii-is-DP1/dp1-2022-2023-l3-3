@@ -123,6 +123,9 @@
                                                             <game:cardBoard island="${island}" card="${card}" />
                                                         </c:forEach>
                                                     </c:if>
+                                                    <c:if test="${island.num == 7}">
+                                                        <game:cardIsland7 island="${island}" />
+                                                    </c:if>
                                                 </c:forEach>
                                             </game:board>
                                         </div>

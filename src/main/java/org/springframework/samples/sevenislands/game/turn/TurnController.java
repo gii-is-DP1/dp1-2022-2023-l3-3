@@ -24,20 +24,17 @@ public class TurnController {
     private final TurnService turnService;
     private final PlayerService playerService;
     private final LobbyService lobbyService;
-    private final GameService gameService;
 
     @Autowired
-    public TurnController(TurnService turnService, PlayerService playerService, LobbyService lobbyService,
-            GameService gameService) {
+    public TurnController(TurnService turnService, PlayerService playerService, LobbyService lobbyService) {
         this.turnService = turnService;
         this.playerService = playerService;
         this.lobbyService = lobbyService;
-        this.gameService = gameService;
     }
 
     @GetMapping("/turn")
     public String gameTurn(Principal principal, HttpServletResponse response, Map<String, Object> model) {
-        response.addHeader("Refresh", "5");
+        response.addHeader("Refresh", "4");
         Player player = playerService.findPlayersByName(principal.getName());
         Lobby lobby = lobbyService.findLobbyByPlayer(player.getId());
         List<Player> players = lobby.getPlayers();
