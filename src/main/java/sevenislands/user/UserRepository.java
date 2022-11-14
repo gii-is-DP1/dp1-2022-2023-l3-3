@@ -17,6 +17,9 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     @Query("SELECT user FROM User user WHERE user.nickname=:nickname")
     public Optional<User> findByNickname(@Param("nickname") String nickname) throws DataAccessException;
 
+    @Query("SELECT user FROM User user WHERE user.email=:email")
+    public Optional<User> findByEmail(@Param("email") String email) throws DataAccessException;
+
     @Query("DELETE FROM User user WHERE user.id=:id")
     public void deleteById(@Param("id") int id);
 
@@ -26,8 +29,8 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     @Query("SELECT count(user) = 1 FROM User user WHERE user.nickname=?1")
     public boolean checkUser(String nickname);
 
-    /*@Query("SELECT count(user.lobby) = 1 FROM User user WHERE user.nickname=?1")
-    public boolean checkUserLobby(String nickname);*/
+    @Query("SELECT count(user) = 1 FROM User user WHERE user.email=?1")
+    public boolean checkUserEmail(String email);
 
     @Modifying
     @Query("UPDATE User user SET user=?1 WHERE user.id=?2")

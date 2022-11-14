@@ -1,5 +1,7 @@
 package sevenislands.configuration;
 
+import java.security.SecureRandom;
+
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,19 +15,10 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
-import org.springframework.security.crypto.factory.PasswordEncoderFactories;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
-
-/**
- * @author japarejo
- */
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
@@ -37,7 +30,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 				.antMatchers("/resources/**", "/webjars/**", "/h2-console/**").permitAll()
-				.antMatchers(HttpMethod.GET, "/oups").hasAnyAuthority("player") // .permitAll()
+				.antMatchers(HttpMethod.GET, "/oups").hasAnyAuthority("player", "admin") // .permitAll()
+				.antMatchers("/error").hasAnyAuthority("player", "admin")
 				.antMatchers(HttpMethod.GET, "/").permitAll()
 				.antMatchers("/users/new").permitAll()
 				.antMatchers("/welcome").permitAll()
@@ -88,8 +82,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public PasswordEncoder passwordEncoder() {
-		PasswordEncoder encoder = NoOpPasswordEncoder.getInstance();
-		//PasswordEncoder encoder = new BCryptPasswordEncoder();
+		//PasswordEncoder encoder = NoOpPasswordEncoder.getInstance();							//Por motivos de testeo tenemos hecho que la
+		String str = "seed";																	//semilla que utilice para encriptar las
+		byte[] bt = str.getBytes();																//contraseñas sea siempre la misma,
+		PasswordEncoder encoder = new BCryptPasswordEncoder(10, new SecureRandom(bt));//habria que eliminar el "new SecureRandom(bt)"
 		return encoder;
 	}
 

@@ -1,7 +1,7 @@
 package sevenislands.game;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
+import java.sql.Date;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -43,7 +43,7 @@ public class GameController {
         Lobby lobby = lobbyService.findLobbyByPlayer(player.getId());
         if(gameService.findGamebByLobbyId(lobby.getId())==null) {
             Game game = new Game();
-            game.setCreationDate(LocalDateTime.now());
+            game.setCreationDate(new Date(System.currentTimeMillis()));
             game.setLobby(lobby);
             gameService.save(game);
             lobby.setActive(false);

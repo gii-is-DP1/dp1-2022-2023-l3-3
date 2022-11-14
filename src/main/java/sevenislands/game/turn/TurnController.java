@@ -1,10 +1,10 @@
 package sevenislands.game.turn;
 
 import java.security.Principal;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,12 +40,18 @@ public class TurnController {
     }
 
     @GetMapping("/turn")
-    public String gameTurn(Principal principal) {
+    public String gameTurn(Principal principal, HttpServletRequest request) throws ServletException {
+        if(methods.checkUserNoExists(request)) return "redirect:/";
+        if(methods.checkUserNoLobby(request)) return "redirect:/home";
+        
         return VIEWS_GAME;
     }
 
     @GetMapping("/turn/newRound")
-    public String gameAsignTurn(Principal principal, HttpServletRequest request) {
+    public String gameAsignTurn(Principal principal, HttpServletRequest request) throws ServletException {
+        if(methods.checkUserNoExists(request)) return "redirect:/";
+        if(methods.checkUserNoLobby(request)) return "redirect:/home";
+
         Player player = playerService.findPlayer(principal.getName());
         Game game = methods.getGameOfPlayer(request);
         Lobby lobby = lobbyService.findLobbyByPlayer(player.getId());
@@ -56,14 +62,13 @@ public class TurnController {
         Turn turn = new Turn();
 
         round.setGame(game);
-        turn.setTimePress(LocalDateTime.now());
         turn.setRound(round);
 
         if(roundService.findRoundsByGameId(game.getId())!=null) {
             turn.setPlayer(player);
-        } else if (turnService.findByRoundId(roundList.get(-1).getId()).size() >= playerList.size()) {
-            Integer nextPlayer = (playerList.indexOf(player)+1)%playerList.size();
-            turn.setPlayer(playerList.get(nextPlayer));
+        } else if (turnService.findByRoundId(roundList.get(-1).getId()).size() >= playerList.size()) {  //Quizás podríamos poner esta condición
+            Integer nextPlayer = (playerList.indexOf(player)+1)%playerList.size();                      //en un método en caso de que lo vayamos
+            turn.setPlayer(playerList.get(nextPlayer));                                                 //a tener que comprobar en varios sitios
         } else return "redirect:/turn";
 
         roundService.save(round);

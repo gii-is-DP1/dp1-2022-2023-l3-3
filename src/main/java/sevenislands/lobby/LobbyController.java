@@ -21,7 +21,6 @@ import sevenislands.lobby.exceptions.NotExistLobbyException;
 import sevenislands.player.Player;
 import sevenislands.player.PlayerService;
 import sevenislands.tools.methods;
-import sevenislands.user.UserService;
 
 @Controller
 public class LobbyController {
@@ -29,15 +28,13 @@ public class LobbyController {
 	private static final String VIEWS_LOBBY = "game/lobby";
 
 	private final LobbyService lobbyService;
-	private final UserService userService;
 	private final PlayerService playerService;
 	private final GameService gameService;
 
 	@Autowired
-	public LobbyController(GameService gameService, LobbyService lobbyService, PlayerService playerService, UserService userService) {
+	public LobbyController(GameService gameService, LobbyService lobbyService, PlayerService playerService) {
 		this.lobbyService = lobbyService;
 		this.playerService = playerService;
-		this.userService = userService;
 		this.gameService = gameService;
 	}
 

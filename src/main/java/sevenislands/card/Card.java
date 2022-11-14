@@ -1,6 +1,6 @@
 package sevenislands.card;
 
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
@@ -26,15 +26,15 @@ public class Card extends BaseEntity {
 
         @ManyToOne
         @NotNull
-        protected CardType cardType;
+        private CardType cardType;
 
         @ManyToMany(cascade = CascadeType.ALL)
         @JoinTable(name = "cards_turns", joinColumns = { @JoinColumn(name = "card_id") }, inverseJoinColumns = {
                         @JoinColumn(name = "turn_id") })
-        protected Set<Turn> turns;
+        private List<Turn> turns;
 
         @ManyToMany(cascade = CascadeType.ALL)
         @JoinTable(name = "cards_islands", joinColumns = { @JoinColumn(name = "card_id") }, inverseJoinColumns = {
                         @JoinColumn(name = "island_id") })
-        protected Set<Island> islands;
+        private List<Island> islands;
 }

@@ -2,6 +2,7 @@ package sevenislands.game.island;
 
 import java.util.List;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
@@ -24,7 +25,7 @@ import lombok.Setter;
 public class Island extends BaseEntity {
 
     // número para saber de qué isla se trata
-    @NotNull
+    @Column(name = "island_number", nullable = false)
     @Min(value = 1)
     @Max(value = 7)
     private Integer num;
