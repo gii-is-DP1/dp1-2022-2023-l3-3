@@ -24,6 +24,10 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
+/**
+ * Este componente es una serie de erramientas que pueden ser útiles para todo lo 
+ * relacionado con las distintas entidades del proyecto
+ */
 @Component
 public class entityAssistant {
 
