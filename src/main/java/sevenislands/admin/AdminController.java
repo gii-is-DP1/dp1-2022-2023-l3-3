@@ -1,6 +1,7 @@
 package sevenislands.admin;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -16,6 +17,7 @@ import sevenislands.lobby.LobbyService;
 import sevenislands.lobby.exceptions.NotExitPlayerException;
 import sevenislands.player.Player;
 import sevenislands.player.PlayerService;
+import sevenislands.tools.checkers;
 import sevenislands.tools.entityAssistant;
 import sevenislands.user.User;
 import sevenislands.user.UserService;
@@ -115,16 +117,29 @@ public class AdminController {
 	}
 
 	@PostMapping("/add")
-	public String processCreationUserForm(@Valid User user, BindingResult result) {
+	public String processCreationUserForm(Map<String, Object> model, @Valid User user, BindingResult result) {
 		if(result.hasErrors()) {
 			return "redirect:/controlPanel/add";
 		} else if(!userService.checkUserByName(user.getNickname()) &&
-		!userService.checkUserByEmail(user.getEmail())) {
+				!userService.checkUserByEmail(user.getEmail()) &&
+				checkers.checkEmail(user.getEmail()) &&
+				user.getPassword().length()>=8) {
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
 			if(user.getUserType().equals("admin")){
 				adminService.saveNewAdmin(entityAssistant.parseAdmin(user));
 			} else playerService.saveNewPlayer(entityAssistant.parsePlayer(user));
-		} return "redirect:/controlPanel/add";
+			return "redirect:/controlPanel/add";
+		} else {
+			user.setPassword("");
+			List<String> errors = new ArrayList<>();
+			if(userService.checkUserByName(user.getNickname())) errors.add("El nombre de usuario ya está en uso.");
+			if(user.getPassword().length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
+			if(userService.checkUserByEmail(user.getEmail())) errors.add("El email ya está en uso.");
+			if(!checkers.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
+			model.put("errors", errors);
+			model.put("types", userService.findDistinctAuthorities());
+			return "admin/addUser";
+		}
 	}
 
 	@GetMapping("/edit/{id}")
@@ -141,25 +156,36 @@ public class AdminController {
 	}
 
 	@PostMapping("/edit/{id}")
-	public String processEditUserForm(@PathVariable Integer id, @Valid User user, BindingResult result) {
+	public String processEditUserForm(Map<String, Object> model, @PathVariable Integer id, @Valid User user, BindingResult result) {
 		if(result.hasErrors()) {
 			System.out.println(result.getFieldErrors());
 			return "redirect:/controlPanel/edit/"+id.toString();
 		} else {
 			User userEdited = userService.findUser(id).get();
-			user.setCreationDate(userEdited.getCreationDate());
-			user.setPassword(passwordEncoder.encode(user.getPassword()));
+
 
 			Optional<User> userFoundN = userService.findUser(user.getNickname());
 			Optional<User> userFoundE = userService.findUserByEmail(user.getEmail());
 			
 			if((!userFoundN.isPresent() || (userFoundN.isPresent() && userFoundN.get().getId().equals(userEdited.getId()))) &&
 			(!userFoundE.isPresent() || (userFoundE.isPresent() && userFoundE.get().getId().equals(userEdited.getId())))) {
+				user.setCreationDate(userEdited.getCreationDate());
+				user.setPassword(passwordEncoder.encode(user.getPassword()));
 				if(userEdited.getUserType().equals("admin")) {
 					adminService.save(entityAssistant.parseAdmin(user));
 				} else playerService.save(entityAssistant.parsePlayer(user));
 				return "redirect:/controlPanel";
-			} return "redirect:/controlPanel/edit/"+id.toString();
+			} else {
+				List<String> errors = new ArrayList<>();
+				if(userFoundN.isPresent() && !userFoundN.get().getId().equals(userEdited.getId())) errors.add("El nombre de usuario ya está en uso.");
+				if(user.getPassword().length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
+				if(userFoundE.isPresent() && !userFoundE.get().getId().equals(userEdited.getId())) errors.add("El email ya está en uso.");
+				if(!checkers.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
+				user.setPassword("");
+				model.put("errors", errors);
+				model.put("enabledValues", List.of(Boolean.valueOf(user.isEnabled()).toString(), Boolean.valueOf(!user.isEnabled()).toString()));
+				return "admin/editUser";
+			}
 		}
 	}
 }

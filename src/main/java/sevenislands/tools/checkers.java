@@ -1,5 +1,6 @@
 package sevenislands.tools;
 import java.util.List;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -112,5 +113,10 @@ public class checkers {
             return false;
         } 
         return true;
+    }
+
+    public static Boolean checkEmail(String email) {
+        String regexPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
+        return email.matches(regexPattern);
     }
 }
