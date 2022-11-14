@@ -16,6 +16,10 @@ import sevenislands.player.Player;
 import sevenislands.player.PlayerService;
 import sevenislands.user.User;
 import sevenislands.user.UserService;
+
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
@@ -24,18 +28,20 @@ import org.springframework.stereotype.Component;
 public class methods {
 
     private static UserService userService;
-    public static PlayerService playerService;
-    public static LobbyService lobbyService;
-    public static RoundService roundService;
-    public static GameService gameService;
+    private static PlayerService playerService;
+    private static LobbyService lobbyService;
+    private static RoundService roundService;
+    private static GameService gameService;
+    private static AuthenticationManager authenticationManager;
 
     @Autowired
-	public methods(GameService gameService, RoundService roundService, UserService userService, PlayerService playerService, LobbyService lobbyService) {
+	public methods(AuthenticationManager authenticationManager, GameService gameService, RoundService roundService, UserService userService, PlayerService playerService, LobbyService lobbyService) {
 		this.userService = userService;
         this.playerService = playerService;
         this.lobbyService = lobbyService;
         this.roundService = roundService;
         this.gameService = gameService;
+        this.authenticationManager = authenticationManager;
 	}
 
     public static Boolean checkUserNoExists(HttpServletRequest request) throws ServletException {
@@ -126,5 +132,11 @@ public class methods {
         User user = userService.findUser(principal.getUsername()).get();
         Lobby lobby = lobbyService.findLobbyByPlayer(user.getId());
         return gameService.findGamebByLobbyId(lobby.getId());
+    }
+
+    public static void loginUser(User user, String password) {
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user.getNickname(), password);
+        Authentication authentication = authenticationManager.authenticate(authToken);
+        SecurityContextHolder.getContext().setAuthentication(authentication);
     }
 }

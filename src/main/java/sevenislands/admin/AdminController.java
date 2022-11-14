@@ -3,6 +3,7 @@ package sevenislands.admin;
 import java.security.Principal;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -20,6 +21,7 @@ import sevenislands.user.User;
 import sevenislands.user.UserService;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,14 +40,16 @@ public class AdminController {
 	private final AdminService adminService;
 	private final LobbyService lobbyService;
 	private SessionRegistry sessionRegistry;
+	private PasswordEncoder passwordEncoder;
 
     @Autowired
-	public AdminController(SessionRegistry sessionRegistry, LobbyService lobbyService,UserService userService, PlayerService playerService, AdminService adminService) {
+	public AdminController(PasswordEncoder passwordEncoder, SessionRegistry sessionRegistry, LobbyService lobbyService,UserService userService, PlayerService playerService, AdminService adminService) {
 		this.userService = userService;
 		this.playerService = playerService;
 		this.adminService = adminService;
 		this.lobbyService = lobbyService;
 		this.sessionRegistry = sessionRegistry;
+		this.passwordEncoder = passwordEncoder;
 	}
 
     @GetMapping
@@ -114,17 +118,19 @@ public class AdminController {
 	public String processCreationUserForm(@Valid User user, BindingResult result) {
 		if(result.hasErrors()) {
 			return "redirect:/controlPanel/add";
-		} else {
+		} else if(!userService.checkUserByName(user.getNickname()) &&
+		!userService.checkUserByEmail(user.getEmail())) {
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
 			if(user.getUserType().equals("admin")){
 				adminService.saveNewAdmin(methods.parseAdmin(user));
 			} else playerService.saveNewPlayer(methods.parsePlayer(user));
-			return "redirect:/controlPanel/add";
-		}
+		} return "redirect:/controlPanel/add";
 	}
 
 	@GetMapping("/edit/{id}")
 	public String editUser(@PathVariable Integer id, Map<String, Object> model) {
 		User user = userService.findUser(id).get();
+		user.setPassword("");
 		List<String> authList = userService.findDistinctAuthorities();
 		authList.remove(user.getUserType());
 		authList.add(0, user.getUserType());
@@ -142,11 +148,18 @@ public class AdminController {
 		} else {
 			User userEdited = userService.findUser(id).get();
 			user.setCreationDate(userEdited.getCreationDate());
-			if(userEdited.getUserType().equals("admin")) {
-				adminService.save(methods.parseAdmin(user));
-			} else playerService.save(methods.parsePlayer(user));
-			return "redirect:/controlPanel";
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+			Optional<User> userFoundN = userService.findUser(user.getNickname());
+			Optional<User> userFoundE = userService.findUserByEmail(user.getEmail());
+			
+			if((!userFoundN.isPresent() || (userFoundN.isPresent() && userFoundN.get().getId().equals(userEdited.getId()))) &&
+			(!userFoundE.isPresent() || (userFoundE.isPresent() && userFoundE.get().getId().equals(userEdited.getId())))) {
+				if(userEdited.getUserType().equals("admin")) {
+					adminService.save(methods.parseAdmin(user));
+				} else playerService.save(methods.parsePlayer(user));
+				return "redirect:/controlPanel";
+			} return "redirect:/controlPanel/edit/"+id.toString();
 		}
 	}
-
 }

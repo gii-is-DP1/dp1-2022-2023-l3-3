@@ -35,6 +35,11 @@ public class UserService {
 	}
 
 	@Transactional(readOnly = true)
+	public Optional<User> findUserByEmail(String email) {
+		return userRepository.findByEmail(email);
+	}
+
+	@Transactional(readOnly = true)
 	public Iterable<User> findAll() {
 		return userRepository.findAll();
 	}

@@ -2,18 +2,16 @@ package sevenislands.user;
 
 import java.security.Principal;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.validation.Valid;
 
-import org.springframework.security.core.Authentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import sevenislands.admin.AdminService;
 import sevenislands.player.PlayerService;
 import sevenislands.tools.methods;
 
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,19 +25,20 @@ public class UserController {
 	private final UserService userService;
 	private final PlayerService playerService;
 	private final AdminService adminService;
-	private AuthenticationManager authenticationManager;
+	private PasswordEncoder passwordEncoder;
 
 	@Autowired
-	public UserController(UserService userService, PlayerService playerService, AdminService adminService, AuthenticationManager authenticationManager) {
+	public UserController(PasswordEncoder passwordEncoder, UserService userService, PlayerService playerService, AdminService adminService) {
 		this.userService = userService;
 		this.playerService = playerService;
 		this.adminService = adminService;
-		this.authenticationManager = authenticationManager;
+		this.passwordEncoder = passwordEncoder;
 	}
 
 	@GetMapping("/settings")
 	public String initUpdateOwnerForm(Map<String, Object> model, Principal principal) {
 		User user = userService.findUser(principal.getName()).get();
+		user.setPassword("");
 		model.put("user", user);
 		return VIEWS_PLAYER_UPDATE_FORM;
 	}
@@ -50,20 +49,26 @@ public class UserController {
 			return VIEWS_PLAYER_UPDATE_FORM;
 		} else {
 			User authUser = userService.findUser(principal.getName()).get();
+			String password = user.getPassword();
 			user.setCreationDate(authUser.getCreationDate());
 			user.setEnabled(authUser.isEnabled());
 			user.setId(authUser.getId());
 			user.setAvatar(authUser.getAvatar());
-			if(authUser.getUserType().equals("admin")){
-				adminService.save(methods.parseAdmin(user));
-			} else {
-				System.out.println(user.isEnabled());
-				playerService.save(methods.parsePlayer(user));
-			}
-			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user.getNickname(), user.getPassword());
-    		Authentication authentication = authenticationManager.authenticate(authToken);
-    		SecurityContextHolder.getContext().setAuthentication(authentication);
-			return "redirect:/home";
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
+
+			Optional<User> userFoundN = userService.findUser(user.getNickname());
+			Optional<User> userFoundE = userService.findUserByEmail(user.getEmail());
+
+			if((!userFoundN.isPresent() || (userFoundN.isPresent() && userFoundN.get().getId().equals(authUser.getId()))) &&
+			(!userFoundE.isPresent() || (userFoundE.isPresent() && userFoundE.get().getId().equals(authUser.getId())))) { 
+				//Guardalo
+				if(authUser.getUserType().equals("admin")){
+					adminService.save(methods.parseAdmin(user));
+				} else playerService.save(methods.parsePlayer(user));
+				//Cambia las credenciales(token) a las credenciales actualizadas
+				methods.loginUser(user, password); 
+				return "redirect:/home";
+			} return "redirect:/settings"; //No me lo guardes
 		}
 	}
 }
