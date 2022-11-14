@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -139,7 +140,7 @@ public class GameController {
                 List<Card> restantes = allCards.stream()
                         .filter(x -> x.getMultiplicity() > (numCardAsigned.get(x) == null ? 0
                                 : numCardAsigned.get(x)))
-                        .toList();
+                        .collect(Collectors.toList());
                 island.setCards(restantes);
             }
             islandService.save(island);
