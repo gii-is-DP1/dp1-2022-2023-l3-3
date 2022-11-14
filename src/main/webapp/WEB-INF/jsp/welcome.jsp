@@ -7,16 +7,16 @@
 <!-- %@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %-->  
 
 <sevenislands:layout2 pageName="welcome">
-    <body style="background: url(resources/images/fondo1920x1080.jpg)">   
+    <body style="background: url(resources/images/grafics/fondo1920x1080.jpg)">   
         <div>
             <center>
-                <img src="/resources/images/letras_7_islas.png" width="700" height="200">
+                <img src="/resources/images/grafics/letras_7_islas.png" width="700" height="200">
             </center>
         </div>
 
         <div>
             <center>
-                <img src="/resources/images/palmera.gif" width="256" height="256">
+                <img src="/resources/images/grafics/palmera.gif" width="256" height="256">
             </center>
         </div>
     

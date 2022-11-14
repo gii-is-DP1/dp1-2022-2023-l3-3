@@ -21,14 +21,6 @@
 					</button> 
 				</div>
 				</c:if>
-				<div class="text-right" style="margin-bottom: 24px">
-					<a href="/settings">
-						<strong>
-							<sec:authentication property="name" />
-						</strong>
-						<span class="glyphicon glyphicon-user icon-size"></span>
-					</a>
-				</div>
 				<jsp:doBody/>
 			</div>
 		</div>

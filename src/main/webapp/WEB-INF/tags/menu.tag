@@ -48,9 +48,6 @@
 
 			</ul>
 
-
-
-
 			<ul class="nav navbar-nav navbar-right">
 				<sec:authorize access="!isAuthenticated()">
 					<li><a href="<c:url value="/login" />">Iniciar sesión</a></li>
@@ -103,8 +100,5 @@
 				</sec:authorize>
 			</ul>
 		</div>
-
-
-
 	</div>
 </nav>

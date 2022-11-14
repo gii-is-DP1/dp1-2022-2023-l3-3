@@ -1,4 +1,4 @@
-<%@ attribute name="board" required="false" rtexprvalue="true" type="org.springframework.samples.sevenislands.game.Game"
+<%@ attribute name="board" required="false" rtexprvalue="true" type="sevenislands.game.Game"
  description="board to be rendered" %>
 <canvas id="canvas" width="${board.width}" height="${board.height}"></canvas>
 <img id="source" src="${board.background}" style="display:none">

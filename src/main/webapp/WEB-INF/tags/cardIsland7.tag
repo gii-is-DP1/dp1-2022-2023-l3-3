@@ -1,4 +1,4 @@
-<%@ attribute name="island" required="true" rtexprvalue="true" type="org.springframework.samples.sevenislands.game.island.Island"
+<%@ attribute name="island" required="true" rtexprvalue="true" type="sevenislands.game.island.Island"
  description="Island to be rendered" %>
    
    var image = document.getElementById('baraja');

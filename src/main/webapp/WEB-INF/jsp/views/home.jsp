@@ -2,7 +2,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="sevenislands" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
-  <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 
 <style>
 .manual {
@@ -13,10 +13,15 @@
 </style>
 
 <sevenislands:layout2 pageName="home">
-	<body style="background: url(resources/images/fondo1920x1080.jpg)">   
+	<body style="background: url(resources/images/grafics/fondo1920x1080.jpg)">  
+		<div class="text-right" style="margin-bottom: 24px">
+			<a href="/settings">
+				<strong>${user.nickname}</strong>&thinsp;<img src="/resources/images/avatars/${user.avatar}" height="25" width="25">
+			</a>
+		</div> 
         <div>
             <center>
-                <img src="/resources/images/letras_7_islas.png" width="700" height="200">
+                <img src="/resources/images/grafics/letras_7_islas.png" width="700" height="200">
             </center>
         </div>
 
@@ -53,12 +58,12 @@
         </div>
 
 		<div class="manual">
-			<button class="btn btn-primary" data-toggle="modal" data-target="#manualInstrucciones">
+			<button class="btn btn-primary" data-toggle="modal" data-target="#instructionManual">
 				¿Cómo se juega?
 			</button>
 		</div>
 		
-		  <div id="manualInstrucciones" class="modal fade" role="dialog">
+		  <div id="instructionManual" class="modal fade" role="dialog">
 			<div class="modal-dialog">
 			  <div class="modal-content">
 				<div class="modal-header">
@@ -99,7 +104,7 @@
 						por cada set de tesoros DISTINTOS (no incluye doblones) como tenga el jugador, guiándonos de la 
 						tabla de abajo. Puede tenerse más de un set. Sumamos los puntajes y quien tenga el mayor puntaje, 
 						habrá ganado el juego. En caso de empate, quien tenga más doblones será el ganador</p>
-					<img src="/resources/images/puntos.png">
+					<img src="/resources/images/grafics/puntos.png">
 				</div>
 			  </div>
 			</div>

@@ -1,7 +1,7 @@
-<%@ attribute name="island" required="true" rtexprvalue="true" type="org.springframework.samples.sevenislands.game.island.Island"
+<%@ attribute name="island" required="true" rtexprvalue="true" type="sevenislands.game.island.Island"
  description="Island to be rendered" %>
 
-<%@ attribute name="card" required="true" rtexprvalue="true" type="org.springframework.samples.sevenislands.card.Card"
+<%@ attribute name="card" required="true" rtexprvalue="true" type="sevenislands.card.Card"
  description="Card to be rendered" %>
    
    var image = document.getElementById('${card.name}');
