@@ -9,11 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import sevenislands.admin.Admin;
 import sevenislands.game.Game;
 import sevenislands.game.GameService;
-import sevenislands.game.round.RoundService;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
 import sevenislands.player.Player;
-import sevenislands.player.PlayerService;
 import sevenislands.user.User;
 import sevenislands.user.UserService;
 
@@ -43,7 +41,12 @@ public class entityAssistant {
         this.gameService = gameService;
         this.authenticationManager = authenticationManager;
 	}
-
+    /**
+     * Transforma un usuario a un tipo admin, pasándole todos los atributos del usuario al admin.
+     * <p>Al hacer esto, le pone el avatar por defecto de admin.
+     * @param user
+     * @return Admin
+     */
     public static Admin parseAdmin(User user) {
         Admin admin = new Admin();
         admin.setId(user.getId());
@@ -60,6 +63,12 @@ public class entityAssistant {
         return admin;
     }
 
+    /**
+     * Transforma un usuario a un tipo player, pasándole todos los atributos del usuario al admin.
+     * <p>Al hacer esto, le pone el avatar por defecto de admin.
+     * @param user
+     * @return Player
+     */
     public static Player parsePlayer(User user) {
         Player player = new Player();
         player.setId(user.getId());
@@ -76,6 +85,11 @@ public class entityAssistant {
         return player;
     }
 
+    /**
+     * Obtiene la partida del jugador actual en caso de que esté en una. 
+     * @param request
+     * @return Game
+     */
     public static Game getGameOfPlayer(HttpServletRequest request) {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.findUser(principal.getUsername()).get();
@@ -83,6 +97,11 @@ public class entityAssistant {
         return gameService.findGamebByLobbyId(lobby.getId());
     }
 
+    /**
+     * Realiza el logeo automático del usuario actual.
+     * @param user
+     * @param password
+     */
     public static void loginUser(User user, String password) {
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user.getNickname(), password);
         Authentication authentication = authenticationManager.authenticate(authToken);

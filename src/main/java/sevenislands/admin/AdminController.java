@@ -54,6 +54,16 @@ public class AdminController {
 		this.passwordEncoder = passwordEncoder;
 	}
 
+	/**
+	 * Vista principal del panel de control del administrador.
+	 * <p> Muestra un listado de todos los usuarios almacenados en la base de datos y permite la eliminación o el baneo
+	 * de cualquiera de estos.
+	 * @param model
+	 * @param principal
+	 * @param response
+	 * @return
+	 * @throws NotExitPlayerException
+	 */
     @GetMapping
 	public String listUsers(Map<String, Object> model, Principal principal, HttpServletResponse response) throws NotExitPlayerException{
 		response.addHeader("Refresh", "5");
@@ -62,6 +72,14 @@ public class AdminController {
 		return VIEWS_CONTROL_PANEL;
 	}
 
+	/**
+	 * Ruta intermedia para la eliminación de un usuario por su id.
+	 * <p> A esta ruta se llega mediante la página de panel de control al pulsar en el icono de eliminar de un
+	 * usuario concreto.
+	 * @param principal
+	 * @param id
+	 * @return
+	 */
     @GetMapping("/delete/{id}")
 	public String deleteUser(Principal principal, @PathVariable("id") Integer id){
 		User user = userService.findUser(id).get();
@@ -87,6 +105,14 @@ public class AdminController {
 		}	
 	}
 
+	/**
+	 * Ruta intermedia para banear/desbanear un usuario por su id.
+	 * <p> A esta ruta se llega mediante la página de panel de control al pulsar en el icono de correspondiente de un
+	 * usuario concreto.
+	 * @param principal
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("/enable/{id}")
 	public String enableUser(Principal principal, @PathVariable("id") Integer id){
 		User user = userService.findUser(id).get();
@@ -109,6 +135,11 @@ public class AdminController {
 		}
 	}
 
+	/**
+	 * Ruta de la página para añadir usuarios nuevos.
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/add")
 	public String addUser(Map<String, Object> model) {
 		model.put("user", new User());
@@ -116,6 +147,14 @@ public class AdminController {
 		return "admin/addUser";
 	}
 
+	/**
+	 * Ruta que gestiona el proceso de creación de un usuario nuevo.
+	 * <p> Realiza todas las comprobaciones y se asegura de que el usuario que se quiere crear se haga de forma corecta.
+	 * @param model
+	 * @param user
+	 * @param result
+	 * @return
+	 */
 	@PostMapping("/add")
 	public String processCreationUserForm(Map<String, Object> model, @Valid User user, BindingResult result) {
 		if(result.hasErrors()) {
@@ -142,6 +181,12 @@ public class AdminController {
 		}
 	}
 
+	/**
+	 * Ruta de la página para editar un usuario concreto por su id.
+	 * @param id
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/edit/{id}")
 	public String editUser(@PathVariable Integer id, Map<String, Object> model) {
 		User user = userService.findUser(id).get();
@@ -155,6 +200,15 @@ public class AdminController {
 		return "admin/editUser";
 	}
 
+	/**
+	 * Ruta que gestiona la edición de los datos del usuario.
+	 * <p> Realiza todas las comprobaciones y se asegura de que la edición del usuario se haga de forma corecta.
+	 * @param model
+	 * @param id
+	 * @param user
+	 * @param result
+	 * @return
+	 */
 	@PostMapping("/edit/{id}")
 	public String processEditUserForm(Map<String, Object> model, @PathVariable Integer id, @Valid User user, BindingResult result) {
 		if(result.hasErrors()) {
@@ -162,7 +216,6 @@ public class AdminController {
 			return "redirect:/controlPanel/edit/"+id.toString();
 		} else {
 			User userEdited = userService.findUser(id).get();
-
 
 			Optional<User> userFoundN = userService.findUser(user.getNickname());
 			Optional<User> userFoundE = userService.findUserByEmail(user.getEmail());
