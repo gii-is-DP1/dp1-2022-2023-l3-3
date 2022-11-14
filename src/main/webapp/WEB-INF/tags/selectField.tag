@@ -5,7 +5,7 @@
               description="Name of corresponding property in bean object" %>
 <%@ attribute name="label" required="true" rtexprvalue="true" description="Label appears in red color if input is considered as invalid after submission" %>
 <%@ attribute name="names" required="true" rtexprvalue="true" type="java.util.List" description="Names in the list" %>
-<%@ attribute name="size" required="true" rtexprvalue="true" description="Size of Select" %>
+<%@ attribute name="size" required="false" rtexprvalue="true" description="Size of Select" %>
 <%@ attribute name="required" required="false" rtexprvalue="true" %>
 
 <spring:bind path="${name}">
@@ -15,7 +15,7 @@
         <label class="col-sm-2 control-label">${label}</label>
 
         <div class="col-sm-10">
-            <form:select class="form-control" path="${name}" size="${size}" required="${required}">
+            <form:select name="${name}" class="form-control" path="${name}" required="${required}">
                 <c:forEach items="${names}" var="type">
                     <option value="${type}">${type}</option>
                 </c:forEach>

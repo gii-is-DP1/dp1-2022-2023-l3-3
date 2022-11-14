@@ -5,10 +5,11 @@
 <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="sevenislands" tagdir="/WEB-INF/tags" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 
 <sevenislands:layout2 pageName="join">
     <a class="btn btn-default" href='<spring:url value="/home" htmlEscape="true"/>'>Volver</a>
-    
+    <h2><br/>Unirse a una Partida</h2>
     <form:form modelAttribute="code" class="form-horizontal" id="validate-code">
         <br/>
         <div class="form-group has-feedback">
