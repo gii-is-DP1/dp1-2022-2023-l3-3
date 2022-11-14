@@ -39,8 +39,13 @@ public class RoundService {
     }
 
     @Transactional
+    public void update(Round round) {
+        roundRepository.updateRound(round, round.getId());
+    }
+
+    @Transactional
     public Boolean checkGameByGameId(Integer lobbyId) {
-        return roundRepository.findRoundByGameId(lobbyId).size()==0;
+        return roundRepository.findRoundByGameId(lobbyId).size() == 0;
     }
 
 }

@@ -1,6 +1,6 @@
 package sevenislands.tools;
+
 import java.util.List;
-import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,8 +20,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 /**
- * Este componente sirve para hacer todas las comprobaciones relacionadas con el usuario.
- * <p> Principalmente sirve de apoyo para los controladores.
+ * Este componente sirve para hacer todas las comprobaciones relacionadas con el
+ * usuario.
+ * <p>
+ * Principalmente sirve de apoyo para los controladores.
  */
 @Component
 public class checkers {
@@ -32,39 +34,49 @@ public class checkers {
     private static RoundService roundService;
 
     @Autowired
-	public checkers(RoundService roundService, UserService userService, PlayerService playerService, LobbyService lobbyService) {
-		this.userService = userService;
+    public checkers(RoundService roundService, UserService userService, PlayerService playerService,
+            LobbyService lobbyService) {
+        this.userService = userService;
         this.playerService = playerService;
         this.lobbyService = lobbyService;
         this.roundService = roundService;
-	}
+    }
+
     /**
      * Comprueba si un usuario existe en la base de datos o si está baneado.
+     * 
      * @param request (Importar HttpServletRequest request en la función)
-     * @return true (si está baneado o no se encuentra en la base de datos) o false (en otro caso)
+     * @return true (si está baneado o no se encuentra en la base de datos) o false
+     *         (en otro caso)
      * @throws ServletException
      */
     public static Boolean checkUserNoExists(HttpServletRequest request) throws ServletException {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        
-        if(!userService.checkUserByName(principal.getUsername()) || !userService.findUser(principal.getUsername()).get().isEnabled()) {
+
+        if (!userService.checkUserByName(principal.getUsername())
+                || !userService.findUser(principal.getUsername()).get().isEnabled()) {
             request.getSession().invalidate();
             request.logout();
             return true;
-        } else return false;
+        } else
+            return false;
     }
 
     /**
      * Comprueba que el usuario existe en la base de datos y que no está baneado.
-     * <p> En este caso, si el usuario estaba en una lobby es expulsado.
+     * <p>
+     * En este caso, si el usuario estaba en una lobby es expulsado.
+     * 
      * @param request (Importar HttpServletRequest request en la función)
-     * @return true (si está baneado o no se encuentra en la base de datos) o false (en otro caso)
+     * @return true (si está baneado o no se encuentra en la base de datos) o false
+     *         (en otro caso)
      * @throws ServletException
      */
     public static Boolean checkUser(HttpServletRequest request) throws ServletException {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        
-        if(userService.checkUserByName(principal.getUsername()) && userService.findUser(principal.getUsername()).get().isEnabled()) {
+
+        if (userService.checkUserByName(principal.getUsername())
+                && userService.findUser(principal.getUsername()).get().isEnabled()) {
             User user = userService.findUser(principal.getUsername()).get();
             if (lobbyService.checkUserLobbyByName(user.getId())) {
                 Player player = playerService.findPlayer(principal.getUsername());
@@ -87,6 +99,7 @@ public class checkers {
 
     /**
      * Compruena si el usuario se encuentra en una lobby.
+     * 
      * @param request (Importar HttpServletRequest request en la función)
      * @return true (en caso de que no esté en una lobby) o false (en otro caso)
      * @throws ServletException
@@ -97,21 +110,25 @@ public class checkers {
 
         if (!lobbyService.checkUserLobbyByName(user.getId())) {
             return true;
-        } return false;
+        }
+        return false;
     }
 
     /**
-     * Comprueba si el usuario está en una partida o si existe una ronda asociada a la partida en la que se
+     * Comprueba si el usuario está en una partida o si existe una ronda asociada a
+     * la partida en la que se
      * encuentra el usuario.
+     * 
      * @param request (Importar HttpServletRequest request en la función)
-     * @return false (en caso de que no esté en una partida, o esta esté empezada) o true (en otro caso)
+     * @return false (en caso de que no esté en una partida, o esta esté empezada) o
+     *         true (en otro caso)
      * @throws ServletException
      */
     public static Boolean checkUserNoGame(HttpServletRequest request) throws ServletException {
         Game game = entityAssistant.getGameOfPlayer(request);
-        if (game==null || roundService.checkGameByGameId(game.getId())) {
+        if (game == null || roundService.checkGameByGameId(game.getId())) {
             return false;
-        } 
+        }
         return true;
     }
 

@@ -18,22 +18,28 @@ public class GameService {
         return (int) gameRepository.count();
     }
 
-    @Transactional 
-    public void initGame(Lobby lobby){
+    @Transactional
+    public void initGame(Lobby lobby) {
         Game game = new Game();
         game.setCreationDate(new Date(System.currentTimeMillis()));
         game.setLobby(lobby);
         gameRepository.save(game);
 
     }
+
     @Transactional
     public void save(Game game) {
-         gameRepository.save(game);
+        gameRepository.save(game);
     }
 
     @Transactional
-    public Game findGamebByLobbyId(Integer id){
+    public Game findGamebByLobbyId(Integer id) {
         return gameRepository.findGamebByLobbyId(id);
+    }
+
+    @Transactional
+    public void update(Game game) {
+        gameRepository.updateGame(game, game.getId());
     }
 
 }

@@ -15,3 +15,19 @@ INSERT INTO users(nickname,password,enabled,first_name,last_name,email,creation_
 --INSERT INTO lobby(code,active) VALUES('00000000','TRUE');
 
 --INSERT INTO lobby_players(lobby_id,players_id) VALUES (1,8);
+
+-- MATERIALES --
+INSERT INTO cards(id,name,multiplicity) VALUES (1,'barril',6);
+INSERT INTO cards(id,name,multiplicity) VALUES (2,'mapa_tesoro',4);
+INSERT INTO cards(id,name,multiplicity) VALUES (3,'collar',4);
+INSERT INTO cards(id,name,multiplicity) VALUES (4,'caliz',3);
+INSERT INTO cards(id,name,multiplicity) VALUES (5,'corona',4);
+INSERT INTO cards(id,name,multiplicity) VALUES (6,'diamante',3);
+INSERT INTO cards(id,name,multiplicity) VALUES (7,'doblon',27);
+INSERT INTO cards(id,name,multiplicity) VALUES (8,'revolver',6);
+INSERT INTO cards(id,name,multiplicity) VALUES (9,'rubi',3);
+INSERT INTO cards(id,name,multiplicity) VALUES (10,'espada',6);
+INSERT INTO cards(id,name,multiplicity) VALUES (11,'baraja',1);
+
+-- CREACIÓN DE UNA PARTIDA --
+

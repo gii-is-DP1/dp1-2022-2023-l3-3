@@ -21,7 +21,6 @@ import sevenislands.lobby.exceptions.NotExistLobbyException;
 import sevenislands.player.Player;
 import sevenislands.player.PlayerService;
 import sevenislands.tools.checkers;
-import sevenislands.tools.entityAssistant;
 
 @Controller
 public class LobbyController {
@@ -40,18 +39,22 @@ public class LobbyController {
 	}
 
 	@GetMapping("/lobby")
-	public String joinLobby(HttpServletRequest request, Map<String, Object> model, Principal principal, HttpServletResponse response) 
-	throws NotExistLobbyException, ServletException {
-		if(checkers.checkUserNoExists(request)) return "redirect:/";
-		if(checkers.checkUserNoLobby(request)) return "redirect:/home";
-		
+	public String joinLobby(HttpServletRequest request, Map<String, Object> model, Principal principal,
+			HttpServletResponse response)
+			throws NotExistLobbyException, ServletException {
+		if (checkers.checkUserNoExists(request))
+			return "redirect:/";
+		if (checkers.checkUserNoLobby(request))
+			return "redirect:/home";
+
 		response.addHeader("Refresh", "1");
 
 		Player player = playerService.findPlayer(principal.getName());
 		Lobby lobby = lobbyService.findLobbyByPlayer(player.getId());
 
 		if (lobbyService.checkUserLobbyByName(player.getId())) {
-			if (gameService.findGamebByLobbyId(lobby.getId())!=null) return "redirect:/game";
+			if (gameService.findGamebByLobbyId(lobby.getId()) != null)
+				return "redirect:/game";
 			Player host = lobby.getPlayers().get(0);
 			model.put("lobby", lobby);
 			model.put("host", host);
@@ -64,7 +67,8 @@ public class LobbyController {
 
 	@GetMapping("/lobby/create")
 	public String createLobby(HttpServletRequest request, Principal principal) throws ServletException {
-		if(!checkers.checkUserNoLobby(request)) return "redirect:/home";
+		if (!checkers.checkUserNoLobby(request))
+			return "redirect:/home";
 		Player player = playerService.findPlayer(principal.getName());
 		Lobby lobby = new Lobby();
 
@@ -77,13 +81,15 @@ public class LobbyController {
 
 	@GetMapping("/join")
 	public String join(HttpServletRequest request, Map<String, Object> model) throws ServletException {
-		if(checkers.checkUser(request)) return "redirect:/";
+		if (checkers.checkUser(request))
+			return "redirect:/";
 		model.put("code", new Lobby());
 		return "views/join";
 	}
 
 	@PostMapping("/join")
-	public String validateJoin(Map<String, Object> model, @ModelAttribute("code") String code, Principal principal) throws NotExistLobbyException {
+	public String validateJoin(Map<String, Object> model, @ModelAttribute("code") String code, Principal principal)
+			throws NotExistLobbyException {
 		code = code.trim();
 		if (lobbyService.checkLobbyByCode(code)) {
 			Lobby lobby = lobbyService.findLobbyByCode(code);

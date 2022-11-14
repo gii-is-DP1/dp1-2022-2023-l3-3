@@ -3,7 +3,10 @@ package sevenislands.game.turn;
 import java.util.List;
 
 import javax.persistence.Column;
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -35,9 +38,11 @@ public class Turn extends BaseEntity {
 
     @ManyToOne
     @NotNull
-    private Round round;
+    Round round;
 
-    @ManyToMany(mappedBy = "turns")
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "cards_turns", joinColumns = { @JoinColumn(name = "card_id") }, inverseJoinColumns = {
+            @JoinColumn(name = "turn_id") })
     private List<Card> cards;
 
     public static Integer rollDice() {

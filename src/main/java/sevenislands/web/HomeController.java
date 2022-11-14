@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import sevenislands.tools.checkers;
-import sevenislands.tools.entityAssistant;
 import sevenislands.user.User;
 import sevenislands.user.UserService;
 import org.springframework.stereotype.Controller;
@@ -24,13 +23,14 @@ public class HomeController {
 	public HomeController(UserService userService) {
 		this.userService = userService;
 	}
-	
+
 	@GetMapping("/home")
-	public String home(Map<String, Object> model, HttpServletRequest request, Principal principal) throws ServletException {
-		if(checkers.checkUser(request)) return "redirect:/";
-		User user = userService.findUser(principal.getName()).get();      
-        model.put("user", user);
+	public String home(Map<String, Object> model, HttpServletRequest request, Principal principal)
+			throws ServletException {
+		if (checkers.checkUser(request))
+			return "redirect:/";
+		User user = userService.findUser(principal.getName()).get();
+		model.put("user", user);
 		return "views/home";
 	}
 }
-

@@ -2,13 +2,11 @@ package sevenislands.card;
 
 import java.util.List;
 
-import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import sevenislands.game.island.Island;
@@ -24,17 +22,17 @@ import lombok.Setter;
 @Table(name = "cards")
 public class Card extends BaseEntity {
 
-        @ManyToOne
         @NotNull
-        private CardType cardType;
+        @NotBlank
+        @Column(unique = true)
+        protected String name;
 
-        @ManyToMany(cascade = CascadeType.ALL)
-        @JoinTable(name = "cards_turns", joinColumns = { @JoinColumn(name = "card_id") }, inverseJoinColumns = {
-                        @JoinColumn(name = "turn_id") })
-        private List<Turn> turns;
+        @NotNull
+        private Integer multiplicity;
 
-        @ManyToMany(cascade = CascadeType.ALL)
-        @JoinTable(name = "cards_islands", joinColumns = { @JoinColumn(name = "card_id") }, inverseJoinColumns = {
-                        @JoinColumn(name = "island_id") })
-        private List<Island> islands;
+        @ManyToMany(mappedBy = "cards")
+        protected List<Turn> turns;
+
+        @ManyToMany(mappedBy = "cards")
+        protected List<Island> islands;
 }
