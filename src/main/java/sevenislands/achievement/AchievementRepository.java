@@ -11,8 +11,11 @@ import sevenislands.enums.AchievementType;
 
 public interface AchievementRepository extends CrudRepository<Achievement, Integer>{
 
-    @Query("Select achievement from Achievement achievement where achievement.achievementType = :achievementType")
+    /**
+     * Encuentra todos los logros de un tipo dado.
+     * @param achievementType
+     * @return
+     */
+    @Query("SELECT achievement FROM Achievement achievement WHERE achievement.achievementType=:achievementType")
     Collection<Achievement> findByType(@Param("achievementType") AchievementType achievementType);
-
-    
 }

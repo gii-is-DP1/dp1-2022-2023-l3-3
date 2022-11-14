@@ -18,6 +18,9 @@ import sevenislands.player.Player;
 import lombok.Getter;
 import lombok.Setter;
 
+/**
+ * Entidad que hace referencia a los logros que los jugadores pueden ganar por jugar.
+ */
 @Getter
 @Setter
 @Entity
