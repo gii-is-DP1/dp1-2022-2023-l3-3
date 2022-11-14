@@ -1,6 +1,7 @@
 package sevenislands.admin;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,7 +22,8 @@ import sevenislands.lobby.LobbyService;
 import sevenislands.lobby.exceptions.NotExitPlayerException;
 import sevenislands.player.Player;
 import sevenislands.player.PlayerService;
-import sevenislands.tools.methods;
+import sevenislands.tools.checkers;
+import sevenislands.tools.entityAssistant;
 import sevenislands.user.User;
 import sevenislands.user.UserService;
 import org.springframework.security.core.session.SessionInformation;
@@ -79,6 +81,14 @@ public class AdminController {
 		return VIEWS_CONTROL_PANEL;
 	}
 
+	/**
+	 * Ruta intermedia para la eliminación de un usuario por su id.
+	 * <p> A esta ruta se llega mediante la página de panel de control al pulsar en el icono de eliminar de un
+	 * usuario concreto.
+	 * @param principal
+	 * @param id
+	 * @return
+	 */
     @GetMapping("/delete/{id}")
 	public String deleteUser(Principal principal, @PathVariable("id") Integer id){
 		User user = userService.findUser(id).get();
@@ -104,6 +114,14 @@ public class AdminController {
 		}	
 	}
 
+	/**
+	 * Ruta intermedia para banear/desbanear un usuario por su id.
+	 * <p> A esta ruta se llega mediante la página de panel de control al pulsar en el icono de correspondiente de un
+	 * usuario concreto.
+	 * @param principal
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("/enable/{id}")
 	public String enableUser(Principal principal, @PathVariable("id") Integer id){
 		User user = userService.findUser(id).get();
@@ -126,6 +144,11 @@ public class AdminController {
 		}
 	}
 
+	/**
+	 * Ruta de la página para añadir usuarios nuevos.
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/add")
 	public String addUser(Map<String, Object> model) {
 		model.put("user", new User());
@@ -133,19 +156,46 @@ public class AdminController {
 		return "admin/addUser";
 	}
 
+	/**
+	 * Ruta que gestiona el proceso de creación de un usuario nuevo.
+	 * <p> Realiza todas las comprobaciones y se asegura de que el usuario que se quiere crear se haga de forma corecta.
+	 * @param model
+	 * @param user
+	 * @param result
+	 * @return
+	 */
 	@PostMapping("/add")
-	public String processCreationUserForm(@Valid User user, BindingResult result) {
+	public String processCreationUserForm(Map<String, Object> model, @Valid User user, BindingResult result) {
 		if(result.hasErrors()) {
 			return "redirect:/controlPanel/add";
 		} else if(!userService.checkUserByName(user.getNickname()) &&
-		!userService.checkUserByEmail(user.getEmail())) {
+				!userService.checkUserByEmail(user.getEmail()) &&
+				checkers.checkEmail(user.getEmail()) &&
+				user.getPassword().length()>=8) {
 			user.setPassword(passwordEncoder.encode(user.getPassword()));
 			if(user.getUserType().equals("admin")){
-				adminService.saveNewAdmin(methods.parseAdmin(user));
-			} else playerService.saveNewPlayer(methods.parsePlayer(user));
-		} return "redirect:/controlPanel/add";
+				adminService.saveNewAdmin(entityAssistant.parseAdmin(user));
+			} else playerService.saveNewPlayer(entityAssistant.parsePlayer(user));
+			return "redirect:/controlPanel/add";
+		} else {
+			user.setPassword("");
+			List<String> errors = new ArrayList<>();
+			if(userService.checkUserByName(user.getNickname())) errors.add("El nombre de usuario ya está en uso.");
+			if(user.getPassword().length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
+			if(userService.checkUserByEmail(user.getEmail())) errors.add("El email ya está en uso.");
+			if(!checkers.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
+			model.put("errors", errors);
+			model.put("types", userService.findDistinctAuthorities());
+			return "admin/addUser";
+		}
 	}
 
+	/**
+	 * Ruta de la página para editar un usuario concreto por su id.
+	 * @param id
+	 * @param model
+	 * @return
+	 */
 	@GetMapping("/edit/{id}")
 	public String editUser(@PathVariable Integer id, Map<String, Object> model) {
 		User user = userService.findUser(id).get();
@@ -159,26 +209,45 @@ public class AdminController {
 		return "admin/editUser";
 	}
 
+	/**
+	 * Ruta que gestiona la edición de los datos del usuario.
+	 * <p> Realiza todas las comprobaciones y se asegura de que la edición del usuario se haga de forma corecta.
+	 * @param model
+	 * @param id
+	 * @param user
+	 * @param result
+	 * @return
+	 */
 	@PostMapping("/edit/{id}")
-	public String processEditUserForm(@PathVariable Integer id, @Valid User user, BindingResult result) {
+	public String processEditUserForm(Map<String, Object> model, @PathVariable Integer id, @Valid User user, BindingResult result) {
 		if(result.hasErrors()) {
 			System.out.println(result.getFieldErrors());
 			return "redirect:/controlPanel/edit/"+id.toString();
 		} else {
 			User userEdited = userService.findUser(id).get();
-			user.setCreationDate(userEdited.getCreationDate());
-			user.setPassword(passwordEncoder.encode(user.getPassword()));
 
 			Optional<User> userFoundN = userService.findUser(user.getNickname());
 			Optional<User> userFoundE = userService.findUserByEmail(user.getEmail());
 			
 			if((!userFoundN.isPresent() || (userFoundN.isPresent() && userFoundN.get().getId().equals(userEdited.getId()))) &&
 			(!userFoundE.isPresent() || (userFoundE.isPresent() && userFoundE.get().getId().equals(userEdited.getId())))) {
+				user.setCreationDate(userEdited.getCreationDate());
+				user.setPassword(passwordEncoder.encode(user.getPassword()));
 				if(userEdited.getUserType().equals("admin")) {
-					adminService.save(methods.parseAdmin(user));
-				} else playerService.save(methods.parsePlayer(user));
+					adminService.save(entityAssistant.parseAdmin(user));
+				} else playerService.save(entityAssistant.parsePlayer(user));
 				return "redirect:/controlPanel";
-			} return "redirect:/controlPanel/edit/"+id.toString();
+			} else {
+				List<String> errors = new ArrayList<>();
+				if(userFoundN.isPresent() && !userFoundN.get().getId().equals(userEdited.getId())) errors.add("El nombre de usuario ya está en uso.");
+				if(user.getPassword().length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
+				if(userFoundE.isPresent() && !userFoundE.get().getId().equals(userEdited.getId())) errors.add("El email ya está en uso.");
+				if(!checkers.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
+				user.setPassword("");
+				model.put("errors", errors);
+				model.put("enabledValues", List.of(Boolean.valueOf(user.isEnabled()).toString(), Boolean.valueOf(!user.isEnabled()).toString()));
+				return "admin/editUser";
+			}
 		}
 	}
 }

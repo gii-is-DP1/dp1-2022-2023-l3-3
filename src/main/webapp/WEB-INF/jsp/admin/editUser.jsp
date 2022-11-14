@@ -7,6 +7,25 @@
 <%@ taglib prefix="sevenislands" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 
+<style>
+    #for {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  #error {
+    color: black;
+    text-align: center;
+    background-color: rgb(255, 50, 50);
+    border: 2px solid black;
+    font-weight: 700;
+    border-radius: 50px;
+    margin: 3px;
+    width: 50%;
+  }
+</style>
+
 <sevenislands:layout2 pageName="editUser">
   <jsp:attribute name="customScript">
     <script>
@@ -35,7 +54,7 @@
         <sevenislands:inputField label="Nombre" name="firstName" required="required"/>
         <sevenislands:inputField label="Apellidos" name="lastName" required="required"/>
         <sevenislands:inputField label="Fecha de nacimiento" name="birthDate" required="required"/>
-        <sevenislands:inputField label="Correo" name="email" required="required"/>
+        <sevenislands:inputField label="Email" name="email" required="required"/>
         <sevenislands:selectField label="Acceso" name="enabled" names="${enabledValues}" required="required"/>
       </div>
 
@@ -43,5 +62,10 @@
         <button class="btn btn-default mr-3" type="submit">Actualizar</button>
       </div>
     </form:form>
+    <div id="for" >
+      <c:forEach items="${errors}" var="error">
+        <p id="error">${error}</p>
+      </c:forEach>
+    </div>
   </jsp:body>
 </sevenislands:layout2>

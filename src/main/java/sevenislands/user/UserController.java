@@ -1,6 +1,8 @@
 package sevenislands.user;
 
 import java.security.Principal;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -9,7 +11,8 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import sevenislands.admin.AdminService;
 import sevenislands.player.PlayerService;
-import sevenislands.tools.methods;
+import sevenislands.tools.checkers;
+import sevenislands.tools.entityAssistant;
 
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -44,7 +47,7 @@ public class UserController {
 	}
 
 	@PostMapping("/settings")
-	public String processUpdateplayerForm(@Valid User user, BindingResult result, Principal principal) {
+	public String processUpdateplayerForm(Map<String, Object> model, @Valid User user, BindingResult result, Principal principal) {
 		if (result.hasErrors()) {
 			return VIEWS_PLAYER_UPDATE_FORM;
 		} else {
@@ -53,22 +56,34 @@ public class UserController {
 			user.setCreationDate(authUser.getCreationDate());
 			user.setEnabled(authUser.isEnabled());
 			user.setId(authUser.getId());
-			user.setAvatar(authUser.getAvatar());
-			user.setPassword(passwordEncoder.encode(user.getPassword()));
 
 			Optional<User> userFoundN = userService.findUser(user.getNickname());
 			Optional<User> userFoundE = userService.findUserByEmail(user.getEmail());
 
 			if((!userFoundN.isPresent() || (userFoundN.isPresent() && userFoundN.get().getId().equals(authUser.getId()))) &&
-			(!userFoundE.isPresent() || (userFoundE.isPresent() && userFoundE.get().getId().equals(authUser.getId())))) { 
+			(!userFoundE.isPresent() || (userFoundE.isPresent() && userFoundE.get().getId().equals(authUser.getId()))) &&
+			checkers.checkEmail(user.getEmail()) &&
+			password.length()>=8) { 
 				//Guardalo
+				user.setAvatar(authUser.getAvatar());
+				user.setPassword(passwordEncoder.encode(user.getPassword()));
 				if(authUser.getUserType().equals("admin")){
-					adminService.save(methods.parseAdmin(user));
-				} else playerService.save(methods.parsePlayer(user));
+					adminService.save(entityAssistant.parseAdmin(user));
+				} else playerService.save(entityAssistant.parsePlayer(user));
 				//Cambia las credenciales(token) a las credenciales actualizadas
-				methods.loginUser(user, password); 
+				entityAssistant.loginUser(user, password); 
 				return "redirect:/home";
-			} return "redirect:/settings"; //No me lo guardes
+			} else {
+				user.setPassword("");
+				List<String> errors = new ArrayList<>();
+				if(userFoundN.isPresent() && !userFoundN.get().getId().equals(authUser.getId())) errors.add("El nombre de usuario ya está en uso.");
+				if(password.length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
+				if(userFoundE.isPresent() && !userFoundE.get().getId().equals(authUser.getId())) errors.add("El email ya está en uso.");
+				if(!checkers.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
+				
+				model.put("errors", errors);
+				return VIEWS_PLAYER_UPDATE_FORM; //No me lo guardes
+			}
 		}
 	}
 }

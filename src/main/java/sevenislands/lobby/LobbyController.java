@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +21,8 @@ import sevenislands.game.GameService;
 import sevenislands.lobby.exceptions.NotExistLobbyException;
 import sevenislands.player.Player;
 import sevenislands.player.PlayerService;
-import sevenislands.tools.methods;
+import sevenislands.tools.checkers;
+import sevenislands.tools.entityAssistant;
 
 @Controller
 public class LobbyController {
@@ -41,8 +43,8 @@ public class LobbyController {
 	@GetMapping("/lobby")
 	public String joinLobby(HttpServletRequest request, Map<String, Object> model, Principal principal, HttpServletResponse response) 
 	throws NotExistLobbyException, ServletException {
-		if(methods.checkUserNoExists(request)) return "redirect:/";
-		if(methods.checkUserNoLobby(request)) return "redirect:/home";
+		if(checkers.checkUserNoExists(request)) return "redirect:/";
+		if(checkers.checkUserNoLobby(request)) return "redirect:/home";
 		
 		response.addHeader("Refresh", "1");
 
@@ -63,7 +65,7 @@ public class LobbyController {
 
 	@GetMapping("/lobby/create")
 	public String createLobby(HttpServletRequest request, Principal principal) throws ServletException {
-		if(!methods.checkUserNoLobby(request)) return "redirect:/home";
+		if(!checkers.checkUserNoLobby(request)) return "redirect:/home";
 		Player player = playerService.findPlayer(principal.getName());
 		Lobby lobby = new Lobby();
 
@@ -76,7 +78,7 @@ public class LobbyController {
 
 	@GetMapping("/join")
 	public String join(HttpServletRequest request, Map<String, Object> model) throws ServletException {
-		if(methods.checkUser(request)) return "redirect:/";
+		if(checkers.checkUser(request)) return "redirect:/";
 		model.put("code", new Lobby());
 		return "views/join";
 	}
@@ -84,6 +86,7 @@ public class LobbyController {
 	@PostMapping("/join")
 	public String validateJoin(Map<String, Object> model, @ModelAttribute("code") String code, Principal principal) throws NotExistLobbyException {
 		code = code.trim();
+		List<String> errors = new ArrayList<>();
 		if (lobbyService.checkLobbyByCode(code)) {
 			Lobby lobby = lobbyService.findLobbyByCode(code);
 			Integer players = lobby.getPlayers().size();
@@ -93,10 +96,16 @@ public class LobbyController {
 				model.put("lobby", lobby);
 				lobbyService.update(lobby);
 				return "redirect:/lobby";
-			} else
-				return "redirect:/join";
-		} else
-			return "redirect:/join";
+			}
+			if(!lobby.isActive()) errors.add("La partida ya ha empezado");
+			if(players == 4) errors.add("La lobby está llena");
+		}
+		if(!lobbyService.checkLobbyByCode(code)) errors.add("No existe ninguna partida con ese código");
+		model.put("errors", errors);
+		Lobby lobby = new Lobby();
+		lobby.setCode(code);
+		model.put("code", lobby);
+		return "views/join";
 	}
 
 	// cambiar relacion onetoOne entre jugador y lobby

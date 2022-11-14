@@ -39,7 +39,7 @@ public class RoundService {
     }
 
     @Transactional
-    public Boolean checkGameByLobbyId(Integer lobbyId) {
+    public Boolean checkGameByGameId(Integer lobbyId) {
         return roundRepository.findRoundByGameId(lobbyId).size()==0;
     }
 

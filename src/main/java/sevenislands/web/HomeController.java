@@ -11,7 +11,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import sevenislands.tools.methods;
+import sevenislands.tools.checkers;
+import sevenislands.tools.entityAssistant;
 import sevenislands.user.User;
 import sevenislands.user.UserService;
 import org.springframework.stereotype.Controller;
@@ -29,7 +30,7 @@ public class HomeController {
 	
 	@GetMapping("/home")
 	public String home(Map<String, Object> model, HttpServletRequest request, Principal principal) throws ServletException {
-		if(methods.checkUser(request)) return "redirect:/";
+		if(checkers.checkUser(request)) return "redirect:/";
 		User user = userService.findUser(principal.getName()).get();      
 		model.put("user", user);
 		return "views/home";
