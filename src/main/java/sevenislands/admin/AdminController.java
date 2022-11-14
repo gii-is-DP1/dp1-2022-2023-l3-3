@@ -70,14 +70,9 @@ public class AdminController {
 	public String listUsersPagination(Model model, @RequestParam Integer valor) throws NotExitPlayerException{
 		Page<User> paginacion=null;
 		Integer totalPlayer=(userService.findAllUser().size())/5;
-		if(valor<0 ){
-			valor=0;	
-		}else if(valor>totalPlayer){
-			valor=totalPlayer;
-		}
 		Pageable page2=PageRequest.of(valor,5) ;
 		paginacion=adminService.findAllUser(page2);
-		System.out.println(totalPlayer);
+		model.addAttribute("paginas", totalPlayer);
 		model.addAttribute("valores", valor);	
 		model.addAttribute("users", paginacion.get().collect(Collectors.toList()));
 		model.addAttribute("paginacion", paginacion);
