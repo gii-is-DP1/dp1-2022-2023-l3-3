@@ -100,6 +100,8 @@ public class GameController {
             turn.setPlayer(p);
             turn.setDice(null);
             turn.setCards(doblones);
+            turnService.save(turn);
+            turns.add(turn);
 
             // Anotamos cartas asignadas
             Integer newValue = 3;
@@ -108,8 +110,6 @@ public class GameController {
                 newValue += value;
             }
             numCardAsigned.put(doblon, newValue);
-            turnService.save(turn);
-            turns.add(turn);
         }
         round.setTurns(turns);
         roundService.update(round);
@@ -148,7 +148,7 @@ public class GameController {
 
         // Actualizamos y guardamos información
         game.setIslands(islands);
-        gameService.save(game);
+        gameService.update(game);
 
         return VIEWS_GAME_ASIGN_TURN;
     }
