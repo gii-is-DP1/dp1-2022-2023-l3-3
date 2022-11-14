@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -85,6 +86,7 @@ public class LobbyController {
 	@PostMapping("/join")
 	public String validateJoin(Map<String, Object> model, @ModelAttribute("code") String code, Principal principal) throws NotExistLobbyException {
 		code = code.trim();
+		List<String> errors = new ArrayList<>();
 		if (lobbyService.checkLobbyByCode(code)) {
 			Lobby lobby = lobbyService.findLobbyByCode(code);
 			Integer players = lobby.getPlayers().size();
@@ -94,10 +96,16 @@ public class LobbyController {
 				model.put("lobby", lobby);
 				lobbyService.update(lobby);
 				return "redirect:/lobby";
-			} else
-				return "redirect:/join";
-		} else
-			return "redirect:/join";
+			}
+			if(!lobby.isActive()) errors.add("La partida ya ha empezado");
+			if(players == 4) errors.add("La lobby está llena");
+		}
+		if(!lobbyService.checkLobbyByCode(code)) errors.add("No existe ninguna partida con ese código");
+		model.put("errors", errors);
+		Lobby lobby = new Lobby();
+		lobby.setCode(code);
+		model.put("code", lobby);
+		return "views/join";
 	}
 
 	// cambiar relacion onetoOne entre jugador y lobby
