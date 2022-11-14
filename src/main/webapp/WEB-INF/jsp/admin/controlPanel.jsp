@@ -72,5 +72,11 @@
 				</tr>
 			</c:forEach>
 		</table>
+		<nav aria-label="Page navigation example">
+			<ul class="pagination">
+				<a class="btn btn-default" href="/controlPanel/paginacion?valor=${valores - 1}" >SIGUIENTE</a>
+			  	<a class="btn btn-default" href="/controlPanel/paginacion?valor=${valores + 1}" >SIGUIENTE</a>
+			</ul>
+		</nav>
 	</body>
 </sevenislands:layout2>

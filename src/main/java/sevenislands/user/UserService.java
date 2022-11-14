@@ -78,4 +78,9 @@ public class UserService {
 	public List<String> findDistinctAuthorities() {
 		return userRepository.findAuthorities();
 	}
+
+	@Transactional
+	public List<User> findAllUser() {
+		return userRepository.findAll();
+	}
 }

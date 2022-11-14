@@ -7,6 +7,9 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import sevenislands.tools.methods;
 import sevenislands.user.User;
@@ -28,7 +31,7 @@ public class HomeController {
 	public String home(Map<String, Object> model, HttpServletRequest request, Principal principal) throws ServletException {
 		if(methods.checkUser(request)) return "redirect:/";
 		User user = userService.findUser(principal.getName()).get();      
-        model.put("user", user);
+		model.put("user", user);
 		return "views/home";
 	}
 }
