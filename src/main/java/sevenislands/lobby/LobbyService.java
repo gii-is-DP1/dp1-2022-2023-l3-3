@@ -52,9 +52,9 @@ public class LobbyService {
 	}
 
     @Transactional(readOnly = true, rollbackFor = NotExistLobbyException.class)
-    public Optional<Lobby> findLobbyByCode(String code) throws NotExistLobbyException {
-        Optional<Lobby> lobby = lobbyRepository.findByCode(code);
-        if(lobby.isPresent()){
+    public Lobby findLobbyByCode(String code) throws NotExistLobbyException {
+        Lobby lobby = lobbyRepository.findByCode(code);
+        if(lobby != null){
             return lobby;
         } else {
             throw new NotExistLobbyException();

@@ -18,7 +18,7 @@ public interface LobbyRepository extends CrudRepository<Lobby,Integer> {
     public void updatePlayers(Lobby lobby, Integer lobby_id);
     
     @Query("SELECT lobby FROM Lobby lobby WHERE lobby.code=?1")
-	public Optional<Lobby> findByCode(String code);
+	public Lobby findByCode(String code);
 
     @Query(value = "SELECT l.lobby_id FROM lobby_players l WHERE l.players_id=?1", nativeQuery = true)
 	public Integer findLobbyIdByPlayer(Integer player_id);
