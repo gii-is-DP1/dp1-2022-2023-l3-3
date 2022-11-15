@@ -71,7 +71,7 @@ public class checkers {
                 //TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
                 Player player = playerService.findPlayer(principal.getUsername());
                 //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
-                Lobby lobby = lobbyService.findLobbyByPlayer(player.getId()).get();
+                Lobby lobby = lobbyService.findLobbyByPlayer(player.getId());
                 List<Player> players = lobby.getPlayerInternal();
                 if (players.size() == 1) {
                     lobby.setActive(false);

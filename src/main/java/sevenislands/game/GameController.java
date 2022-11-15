@@ -42,7 +42,7 @@ public class GameController {
         //TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
         Player player = playerService.findPlayer(principal.getName());
         //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
-        Lobby lobby = lobbyService.findLobbyByPlayer(player.getId()).get();
+        Lobby lobby = lobbyService.findLobbyByPlayer(player.getId());
         System.out.println("1================================");
         if(!gameService.findGamebByLobbyId(lobby.getId()).isPresent()) {
             System.out.println("2================================");

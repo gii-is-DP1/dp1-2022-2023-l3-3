@@ -58,7 +58,7 @@ public class TurnController {
         //TODO: Poner el Game como Optional<Game> y realizar la comprobación de que existe
         Optional<Game> game = entityAssistant.getGameOfPlayer(request);
         //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
-        Lobby lobby = lobbyService.findLobbyByPlayer(player.getId()).get();
+        Lobby lobby = lobbyService.findLobbyByPlayer(player.getId());
         List<Player> playerList = lobby.getPlayers();
         List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream().collect(Collectors.toList());
 

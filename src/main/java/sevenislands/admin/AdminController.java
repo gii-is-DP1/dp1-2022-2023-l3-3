@@ -121,7 +121,7 @@ public class AdminController {
 				//TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
 				Player player = playerService.findPlayer(id).get();
 				//TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
-				Lobby Lobby = lobbyService.findLobbyByPlayer(id).get();
+				Lobby Lobby = lobbyService.findLobbyByPlayer(id);
 				List<Player> players=Lobby.getPlayerInternal();
 				players.remove(player);
 				Lobby.setPlayers(players);

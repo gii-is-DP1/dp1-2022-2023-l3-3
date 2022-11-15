@@ -49,7 +49,7 @@ public class LobbyController {
 		//TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
 		Player player = playerService.findPlayer(principal.getName());
 		//TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
-		Lobby lobby = lobbyService.findLobbyByPlayer(player.getId()).get();
+		Lobby lobby = lobbyService.findLobbyByPlayer(player.getId());
 		if (lobbyService.checkUserLobbyByName(player.getId())) {
 			if (gameService.findGamebByLobbyId(lobby.getId()).isPresent()) {
 				return "redirect:/game";
@@ -118,7 +118,7 @@ public class LobbyController {
 		//TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
 		Player player = playerService.findPlayer(principal.getName());
 		//TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
-		Lobby Lobby = lobbyService.findLobbyByPlayer(player.getId()).get();
+		Lobby Lobby = lobbyService.findLobbyByPlayer(player.getId());
 		List<Player> players = Lobby.getPlayerInternal();
 		if (players.size() == 1) {
 			Lobby.setActive(false);
@@ -135,7 +135,7 @@ public class LobbyController {
 		//TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
 		Player player = playerService.findPlayer(principal.getName());
 		//TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
-		Lobby Lobby = lobbyService.findLobbyByPlayer(player.getId()).get();
+		Lobby Lobby = lobbyService.findLobbyByPlayer(player.getId());
 		model.put("players", Lobby.getPlayerInternal());
 		return "game/lobbyPlayers";
 	}
@@ -145,7 +145,7 @@ public class LobbyController {
 		//TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
 		Player player = playerService.findPlayer(id).get();
 		//TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
-		Lobby Lobby = lobbyService.findLobbyByPlayer(id).get();
+		Lobby Lobby = lobbyService.findLobbyByPlayer(id);
 		List<Player> players = Lobby.getPlayerInternal();
 		if (players.size() == 1) {
 			return "redirect:/lobby/delete";

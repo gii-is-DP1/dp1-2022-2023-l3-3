@@ -62,7 +62,7 @@ public class LobbyService {
     }
 
     @Transactional(rollbackFor = NotExistLobbyException.class)
-    public Optional<Lobby> findLobbyByPlayer(Integer player_id) {
+    public Lobby findLobbyByPlayer(Integer player_id) {
         return lobbyRepository.findByLobbyId(lobbyRepository.findLobbyIdByPlayer(player_id));
     }
 

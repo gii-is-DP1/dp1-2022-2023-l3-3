@@ -95,7 +95,7 @@ public class entityAssistant {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.findUser(principal.getUsername()).get();
         //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
-        Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
+        Lobby lobby = lobbyService.findLobbyByPlayer(user.getId());
         //TODO: Poner el Game como Optional<Game> y realizar la comprobación de que existe
         return gameService.findGamebByLobbyId(lobby.getId());
     }
