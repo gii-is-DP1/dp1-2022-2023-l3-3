@@ -93,8 +93,10 @@ public class AdminController {
 			return "redirect:/";
 		}else{
 			if(lobbyService.checkUserLobbyByName(user.getId())) {
-				Player player = playerService.findPlayer(id);
-				Lobby Lobby = lobbyService.findLobbyByPlayer(id);
+				//TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
+				Player player = playerService.findPlayer(id).get();
+				//TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
+				Lobby Lobby = lobbyService.findLobbyByPlayer(id).get();
 				List<Player> players=Lobby.getPlayerInternal();
 				players.remove(player);
 				Lobby.setPlayers(players);

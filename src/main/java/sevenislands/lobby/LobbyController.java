@@ -22,7 +22,6 @@ import sevenislands.lobby.exceptions.NotExistLobbyException;
 import sevenislands.player.Player;
 import sevenislands.player.PlayerService;
 import sevenislands.tools.checkers;
-import sevenislands.tools.entityAssistant;
 
 @Controller
 public class LobbyController {
@@ -47,9 +46,10 @@ public class LobbyController {
 		if(checkers.checkUserNoLobby(request)) return "redirect:/home";
 		
 		response.addHeader("Refresh", "1");
-
-		Player player = playerService.findPlayer(principal.getName());
-		Lobby lobby = lobbyService.findLobbyByPlayer(player.getId());
+		//TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
+		Player player = playerService.findPlayer(principal.getName()).get();
+		//TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
+		Lobby lobby = lobbyService.findLobbyByPlayer(player.getId()).get();
 
 		if (lobbyService.checkUserLobbyByName(player.getId())) {
 			if (gameService.findGamebByLobbyId(lobby.getId())!=null) return "redirect:/game";
@@ -66,7 +66,8 @@ public class LobbyController {
 	@GetMapping("/lobby/create")
 	public String createLobby(HttpServletRequest request, Principal principal) throws ServletException {
 		if(!checkers.checkUserNoLobby(request)) return "redirect:/home";
-		Player player = playerService.findPlayer(principal.getName());
+		//TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
+		Player player = playerService.findPlayer(principal.getName()).get();
 		Lobby lobby = new Lobby();
 
 		lobby.setCode(lobbyService.generatorCode());
@@ -88,10 +89,12 @@ public class LobbyController {
 		code = code.trim();
 		List<String> errors = new ArrayList<>();
 		if (lobbyService.checkLobbyByCode(code)) {
-			Lobby lobby = lobbyService.findLobbyByCode(code);
+			//TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
+			Lobby lobby = lobbyService.findLobbyByCode(code).get();
 			Integer players = lobby.getPlayers().size();
 			if (lobby.isActive() == true && players > 0 && players < 4) {
-				Player player = playerService.findPlayer(principal.getName());
+				//TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
+				Player player = playerService.findPlayer(principal.getName()).get();
 				lobby.addPlayer(player);
 				model.put("lobby", lobby);
 				lobbyService.update(lobby);
@@ -111,8 +114,10 @@ public class LobbyController {
 	// cambiar relacion onetoOne entre jugador y lobby
 	@GetMapping("/lobby/delete")
 	public String leaveLobby(Principal principal) {
-		Player player = playerService.findPlayer(principal.getName());
-		Lobby Lobby = lobbyService.findLobbyByPlayer(player.getId());
+		//TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
+		Player player = playerService.findPlayer(principal.getName()).get();
+		//TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
+		Lobby Lobby = lobbyService.findLobbyByPlayer(player.getId()).get();
 		List<Player> players = Lobby.getPlayerInternal();
 		if (players.size() == 1) {
 			Lobby.setActive(false);
@@ -126,16 +131,20 @@ public class LobbyController {
 	@GetMapping("/lobby/players")
 	public String listaPlayer(Map<String, Object> model, Principal principal, HttpServletResponse response) {
 		response.addHeader("Refresh", "2");
-		Player player = playerService.findPlayer(principal.getName());
-		Lobby Lobby = lobbyService.findLobbyByPlayer(player.getId());
+		//TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
+		Player player = playerService.findPlayer(principal.getName()).get();
+		//TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
+		Lobby Lobby = lobbyService.findLobbyByPlayer(player.getId()).get();
 		model.put("players", Lobby.getPlayerInternal());
 		return "game/lobbyPlayers";
 	}
 
 	@GetMapping("/lobby/players/delete/{id}")
 	public String ejectPlayer(Principal principal, @PathVariable("id") Integer id) {
-		Player player = playerService.findPlayer(id);
-		Lobby Lobby = lobbyService.findLobbyByPlayer(id);
+		//TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
+		Player player = playerService.findPlayer(id).get();
+		//TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
+		Lobby Lobby = lobbyService.findLobbyByPlayer(id).get();
 		List<Player> players = Lobby.getPlayerInternal();
 		if (players.size() == 1) {
 			return "redirect:/lobby/delete";

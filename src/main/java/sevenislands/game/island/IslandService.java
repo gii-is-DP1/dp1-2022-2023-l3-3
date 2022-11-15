@@ -24,7 +24,7 @@ public class IslandService {
     }
 
     @Transactional(readOnly = true)
-    public Integer getIslandNumberById(int id) throws DataAccessException {
+    public Integer getIslandNumberById(Integer id) throws DataAccessException {
         return islandRepository.getIslandNumberById(id);
     }
 

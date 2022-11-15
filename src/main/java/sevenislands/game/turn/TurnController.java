@@ -52,10 +52,11 @@ public class TurnController {
     public String gameAsignTurn(Principal principal, HttpServletRequest request) throws ServletException {
         if(checkers.checkUserNoExists(request)) return "redirect:/";
         if(checkers.checkUserNoLobby(request)) return "redirect:/home";
-
-        Player player = playerService.findPlayer(principal.getName());
+        //TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
+        Player player = playerService.findPlayer(principal.getName()).get();
         Game game = entityAssistant.getGameOfPlayer(request);
-        Lobby lobby = lobbyService.findLobbyByPlayer(player.getId());
+        //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
+        Lobby lobby = lobbyService.findLobbyByPlayer(player.getId()).get();
         List<Player> playerList = lobby.getPlayers();
         List<Round> roundList = roundService.findRoundsByGameId(game.getId()).stream().collect(Collectors.toList());
 

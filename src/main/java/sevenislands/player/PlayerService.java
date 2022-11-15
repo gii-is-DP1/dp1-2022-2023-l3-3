@@ -1,6 +1,7 @@
 package sevenislands.player;
 
 import java.sql.Date;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -30,12 +31,12 @@ public class PlayerService {
 	}
 
 	@Transactional(readOnly = true)
-	public Player findPlayer(Integer id) throws DataAccessException{
-		return playerRepository.findById(id).get();
+	public Optional<Player> findPlayer(Integer id) throws DataAccessException{
+		return playerRepository.findById(id);
 	}
 
 	@Transactional
-    public Player findPlayer(String name) {
+    public Optional<Player> findPlayer(String name) {
         return playerRepository.findByName(name);
     }
 

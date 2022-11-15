@@ -19,7 +19,10 @@ public class LobbyService {
         this.lobbyRepository=lobbyRepository;
     }
 
-   //creacion del codigo de la lobby
+    /**
+     * Crea un código aleatorio para la lobby.
+     * @return String
+     */
     public String generatorCode() {
         String CHAR_LIST = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
         Integer RANDOM_STRING_LENGTH = 8;
@@ -34,9 +37,8 @@ public class LobbyService {
     }
     
     @Transactional(readOnly = true)
-    public long numPartidas() {
-        long partidas=lobbyRepository.count();
-        return partidas;
+    public Integer numPartidas() {
+        return lobbyRepository.getNumOfLobby();
     }
 
     @Transactional
@@ -50,18 +52,18 @@ public class LobbyService {
 	}
 
     @Transactional(readOnly = true, rollbackFor = NotExistLobbyException.class)
-    public Lobby findLobbyByCode(String code) throws NotExistLobbyException {
+    public Optional<Lobby> findLobbyByCode(String code) throws NotExistLobbyException {
         Optional<Lobby> lobby = lobbyRepository.findByCode(code);
         if(lobby.isPresent()){
-            return lobby.get();
+            return lobby;
         } else {
             throw new NotExistLobbyException();
         }
     }
 
     @Transactional(rollbackFor = NotExistLobbyException.class)
-    public Lobby findLobbyByPlayer(Integer player_id) {
-        return lobbyRepository.findByLobbyId(lobbyRepository.findByPlayer(player_id));
+    public Optional<Lobby> findLobbyByPlayer(Integer player_id) {
+        return lobbyRepository.findByLobbyId(lobbyRepository.findLobbyIdByPlayer(player_id));
     }
 
     @Transactional
@@ -71,7 +73,7 @@ public class LobbyService {
 
     @Transactional
 	public Boolean checkUserLobbyByName(Integer id) {
-	    return lobbyRepository.findByPlayer(id)!=null;
+	    return lobbyRepository.findLobbyIdByPlayer(id)!=null;
 	}
 
     /*@Transactional(rollbackFor = NotExistLobbyException.class)

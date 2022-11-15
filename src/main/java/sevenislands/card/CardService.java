@@ -1,6 +1,7 @@
 package sevenislands.card;
 
 import java.util.Collection;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -23,7 +24,7 @@ public class CardService {
     }
 
     @Transactional(readOnly = true)
-    public Card findCardById(int id) throws DataAccessException {
+    public Optional<Card> findCardById(Integer id) throws DataAccessException {
         return cardRepository.findById(id);
     }
 

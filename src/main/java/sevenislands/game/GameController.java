@@ -40,8 +40,10 @@ public class GameController {
         if(checkers.checkUserNoGame(request)) return "redirect:/turn";
         response.addHeader("Refresh", "1");
 
-        Player player = playerService.findPlayer(principal.getName());
-        Lobby lobby = lobbyService.findLobbyByPlayer(player.getId());
+        //TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
+        Player player = playerService.findPlayer(principal.getName()).get();
+        //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
+        Lobby lobby = lobbyService.findLobbyByPlayer(player.getId()).get();
         if(gameService.findGamebByLobbyId(lobby.getId())==null) {
             Game game = new Game();
             game.setCreationDate(new Date(System.currentTimeMillis()));
