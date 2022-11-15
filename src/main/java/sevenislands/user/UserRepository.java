@@ -10,6 +10,9 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
 public interface UserRepository extends CrudRepository<User, Integer> {
+    
+    @Query("SELECT user FROM User user")
+    public List<User> findAll();
 
     @Query("SELECT user FROM User user WHERE user.id=:id")
     public Optional<User> findById(@Param("id") int id) throws DataAccessException;

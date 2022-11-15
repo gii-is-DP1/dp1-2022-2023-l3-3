@@ -2,9 +2,11 @@ package sevenislands.admin;
 
 import java.security.Principal;
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -12,6 +14,10 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
 import sevenislands.lobby.exceptions.NotExitPlayerException;
@@ -25,11 +31,15 @@ import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+
 
 @Controller
 @RequestMapping("/controlPanel")
@@ -37,13 +47,15 @@ public class AdminController {
     
     private static final String VIEWS_CONTROL_PANEL = "admin/controlPanel";
 
+	
+	
     private final UserService userService;
 	private final PlayerService playerService;
 	private final AdminService adminService;
 	private final LobbyService lobbyService;
 	private SessionRegistry sessionRegistry;
 	private PasswordEncoder passwordEncoder;
-
+//
     @Autowired
 	public AdminController(PasswordEncoder passwordEncoder, SessionRegistry sessionRegistry, LobbyService lobbyService,UserService userService, PlayerService playerService, AdminService adminService) {
 		this.userService = userService;
@@ -52,8 +64,10 @@ public class AdminController {
 		this.lobbyService = lobbyService;
 		this.sessionRegistry = sessionRegistry;
 		this.passwordEncoder = passwordEncoder;
+		
+		
 	}
-
+	
 	/**
 	 * Vista principal del panel de control del administrador.
 	 * <p> Muestra un listado de todos los usuarios almacenados en la base de datos y permite la eliminación o el baneo
@@ -64,11 +78,24 @@ public class AdminController {
 	 * @return
 	 * @throws NotExitPlayerException
 	 */
-    @GetMapping
-	public String listUsers(Map<String, Object> model, Principal principal, HttpServletResponse response) throws NotExitPlayerException{
-		response.addHeader("Refresh", "5");
-        List<User> users = StreamSupport.stream(userService.findAll().spliterator(), false).collect(Collectors.toList());      
-        model.put("users", users);
+    // @GetMapping
+	// public String listUsers(Map<String, Object> model, Principal principal, HttpServletResponse response) throws NotExitPlayerException{
+	// 	response.addHeader("Refresh", "5");
+    //     List<User> users = StreamSupport.stream(userService.findAll().spliterator(), false).collect(Collectors.toList());      
+    //     model.put("users", users);
+	// 	return VIEWS_CONTROL_PANEL;
+	// }
+	
+    @RequestMapping(method = RequestMethod.GET)
+	public String listUsersPagination(Model model, @RequestParam Integer valor) throws NotExitPlayerException{
+		Page<User> paginacion=null;
+		Integer totalPlayer=(userService.findAllUser().size())/5;
+		Pageable page2=PageRequest.of(valor,5) ;
+		paginacion=adminService.findAllUser(page2);
+		model.addAttribute("paginas", totalPlayer);
+		model.addAttribute("valores", valor);	
+		model.addAttribute("users", paginacion.get().collect(Collectors.toList()));
+		model.addAttribute("paginacion", paginacion);
 		return VIEWS_CONTROL_PANEL;
 	}
 

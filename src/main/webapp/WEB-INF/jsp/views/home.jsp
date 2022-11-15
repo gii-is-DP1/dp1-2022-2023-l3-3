@@ -48,7 +48,7 @@
 		<div>
             <center>
 				<sec:authorize access="hasAuthority('admin')">
-					<a class="btn btn-default" href='<spring:url value="/controlPanel" htmlEscape="true"/>'>Panel de Control</a>
+					<a class="btn btn-default" href='<spring:url value="/controlPanel?valor=0" htmlEscape="true"/>'>Panel de Control</a>
 				</sec:authorize>
 			</center>
 		</div>
