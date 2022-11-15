@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +41,8 @@ public class UserController {
 	}
 
 	@GetMapping("/settings")
-	public String initUpdateOwnerForm(Map<String, Object> model, Principal principal) {
+	public String initUpdateOwnerForm(HttpServletRequest request, Map<String, Object> model, Principal principal) throws ServletException {
+		if(checkers.checkUser(request)) return "redirect:/";
 		User user = userService.findUser(principal.getName()).get();
 		user.setPassword("");
 		model.put("user", user);
