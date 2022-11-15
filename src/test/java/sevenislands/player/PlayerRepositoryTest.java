@@ -1,0 +1,27 @@
+package sevenislands.player;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+import sevenislands.player.Player;
+import sevenislands.player.PlayerRepository;
+
+@DataJpaTest
+public class PlayerRepositoryTest {
+    
+    @Autowired
+    PlayerRepository playerRepository;
+
+    @Test
+    public void initialDataAndFindSuccessTest(){
+        List<Player> players = playerRepository.findAll();
+
+        assertNotEquals(0, players.size());
+    }
+}
