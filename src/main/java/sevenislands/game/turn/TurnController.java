@@ -54,7 +54,7 @@ public class TurnController {
         if(checkers.checkUserNoExists(request)) return "redirect:/";
         if(checkers.checkUserNoLobby(request)) return "redirect:/home";
         //TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
-        Player player = playerService.findPlayer(principal.getName()).get();
+        Player player = playerService.findPlayer(principal.getName());
         //TODO: Poner el Game como Optional<Game> y realizar la comprobación de que existe
         Optional<Game> game = entityAssistant.getGameOfPlayer(request);
         //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe

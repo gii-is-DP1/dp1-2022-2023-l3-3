@@ -2,6 +2,7 @@ package sevenislands.player;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNull;
 
 import java.util.List;
 
@@ -23,5 +24,6 @@ public class PlayerRepositoryTest {
         List<Player> players = playerRepository.findAll();
 
         assertNotEquals(0, players.size());
+        assertNull(playerRepository.findByName("sergio"));
     }
 }
