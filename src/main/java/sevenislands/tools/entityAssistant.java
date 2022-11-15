@@ -1,6 +1,7 @@
 package sevenislands.tools;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -90,13 +91,13 @@ public class entityAssistant {
      * @param request
      * @return Game
      */
-    public static Game getGameOfPlayer(HttpServletRequest request) {
+    public static Optional<Game> getGameOfPlayer(HttpServletRequest request) {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.findUser(principal.getUsername()).get();
         //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
         Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
         //TODO: Poner el Game como Optional<Game> y realizar la comprobación de que existe
-        return gameService.findGamebByLobbyId(lobby.getId()).get();
+        return gameService.findGamebByLobbyId(lobby.getId());
     }
 
     /**

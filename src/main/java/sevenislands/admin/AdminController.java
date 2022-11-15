@@ -8,9 +8,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
-import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -130,7 +128,7 @@ public class AdminController {
 				lobbyService.update(Lobby);
 			}
 			userService.deleteUser(id);
-			return "redirect:/controlPanel";
+			return "redirect:/controlPanel?valor=0";
 		}	
 	}
 
@@ -151,7 +149,7 @@ public class AdminController {
 			if(user.getNickname().equals(principal.getName())){
 				return "redirect:/";
 			} else {
-				return "redirect:/controlPanel";
+				return "redirect:/controlPanel?valor=0";
 			}
 		} else {
 			user.setEnabled(true);
@@ -159,7 +157,7 @@ public class AdminController {
 			if(user.getNickname().equals(principal.getName())){
 				return "redirect:/";
 			} else {
-				return "redirect:/controlPanel";
+				return "redirect:/controlPanel?valor=0";
 			}
 		}
 	}
@@ -219,8 +217,8 @@ public class AdminController {
 	@GetMapping("/edit/{id}")
 	public String editUser(@PathVariable Integer id, Map<String, Object> model) {
 		User user = userService.findUser(id).get();
-		user.setPassword("");
 		List<String> authList = userService.findDistinctAuthorities();
+		user.setPassword("");
 		authList.remove(user.getUserType());
 		authList.add(0, user.getUserType());
 		model.put("user", user);
@@ -242,21 +240,25 @@ public class AdminController {
 	public String processEditUserForm(Map<String, Object> model, @PathVariable Integer id, @Valid User user, BindingResult result) {
 		if(result.hasErrors()) {
 			System.out.println(result.getFieldErrors());
-			return "redirect:/controlPanel/edit/"+id.toString();
+			return "àdmin/edit/";
 		} else {
 			User userEdited = userService.findUser(id).get();
-
+			String password = user.getPassword();
+			
+			user.setCreationDate(userEdited.getCreationDate());
+			user.setId(userEdited.getId());
 			Optional<User> userFoundN = userService.findUser(user.getNickname());
 			Optional<User> userFoundE = userService.findUserByEmail(user.getEmail());
-			
+			System.out.println(password);
 			if((!userFoundN.isPresent() || (userFoundN.isPresent() && userFoundN.get().getId().equals(userEdited.getId()))) &&
-			(!userFoundE.isPresent() || (userFoundE.isPresent() && userFoundE.get().getId().equals(userEdited.getId())))) {
-				user.setCreationDate(userEdited.getCreationDate());
+			(!userFoundE.isPresent() || (userFoundE.isPresent() && userFoundE.get().getId().equals(userEdited.getId()))) &&
+			checkers.checkEmail(user.getEmail()) &&
+			password.length()>=8) {
 				user.setPassword(passwordEncoder.encode(user.getPassword()));
 				if(userEdited.getUserType().equals("admin")) {
 					adminService.save(entityAssistant.parseAdmin(user));
 				} else playerService.save(entityAssistant.parsePlayer(user));
-				return "redirect:/controlPanel";
+				return "redirect:/controlPanel?valor=0";
 			} else {
 				List<String> errors = new ArrayList<>();
 				if(userFoundN.isPresent() && !userFoundN.get().getId().equals(userEdited.getId())) errors.add("El nombre de usuario ya está en uso.");

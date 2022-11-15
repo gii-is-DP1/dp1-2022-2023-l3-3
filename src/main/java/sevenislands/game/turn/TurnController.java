@@ -2,6 +2,7 @@ package sevenislands.game.turn;
 
 import java.security.Principal;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
@@ -54,19 +55,20 @@ public class TurnController {
         if(checkers.checkUserNoLobby(request)) return "redirect:/home";
         //TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
         Player player = playerService.findPlayer(principal.getName()).get();
-        Game game = entityAssistant.getGameOfPlayer(request);
+        //TODO: Poner el Game como Optional<Game> y realizar la comprobación de que existe
+        Optional<Game> game = entityAssistant.getGameOfPlayer(request);
         //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
         Lobby lobby = lobbyService.findLobbyByPlayer(player.getId()).get();
         List<Player> playerList = lobby.getPlayers();
-        List<Round> roundList = roundService.findRoundsByGameId(game.getId()).stream().collect(Collectors.toList());
+        List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream().collect(Collectors.toList());
 
         Round round = new Round();
         Turn turn = new Turn();
 
-        round.setGame(game);
+        round.setGame(game.get());
         turn.setRound(round);
 
-        if(roundService.findRoundsByGameId(game.getId())!=null) {
+        if(roundService.findRoundsByGameId(game.get().getId())!=null) {
             turn.setPlayer(player);
         } else if (turnService.findByRoundId(roundList.get(-1).getId()).size() >= playerList.size()) {  //Quizás podríamos poner esta condición
             Integer nextPlayer = (playerList.indexOf(player)+1)%playerList.size();                      //en un método en caso de que lo vayamos

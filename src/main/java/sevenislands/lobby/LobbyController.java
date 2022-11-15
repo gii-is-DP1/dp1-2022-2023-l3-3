@@ -50,9 +50,10 @@ public class LobbyController {
 		Player player = playerService.findPlayer(principal.getName()).get();
 		//TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
 		Lobby lobby = lobbyService.findLobbyByPlayer(player.getId()).get();
-
 		if (lobbyService.checkUserLobbyByName(player.getId())) {
-			if (gameService.findGamebByLobbyId(lobby.getId())!=null) return "redirect:/game";
+			if (gameService.findGamebByLobbyId(lobby.getId()).isPresent()) {
+				return "redirect:/game";
+			}
 			Player host = lobby.getPlayers().get(0);
 			model.put("lobby", lobby);
 			model.put("host", host);

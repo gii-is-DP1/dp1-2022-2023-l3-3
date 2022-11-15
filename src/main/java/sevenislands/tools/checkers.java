@@ -1,5 +1,6 @@
 package sevenislands.tools;
 import java.util.List;
+import java.util.Optional;
 import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
@@ -110,8 +111,8 @@ public class checkers {
      * @throws ServletException
      */
     public static Boolean checkUserNoGame(HttpServletRequest request) throws ServletException {
-        Game game = entityAssistant.getGameOfPlayer(request);
-        if (game==null || roundService.checkGameByGameId(game.getId())) {
+       Optional<Game> game = entityAssistant.getGameOfPlayer(request);
+        if (!game.isPresent() || roundService.checkGameByGameId(game.get().getId())) {
             return false;
         } 
         return true;
