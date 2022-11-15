@@ -91,7 +91,7 @@ public class entityAssistant {
      * @param request
      * @return Game
      */
-    public static Optional<Game> getGameOfPlayer(HttpServletRequest request) {
+    public static Game getGameOfPlayer(HttpServletRequest request) {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.findUser(principal.getUsername()).get();
         //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe

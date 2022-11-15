@@ -33,7 +33,7 @@ public class GameService {
     }
 
     @Transactional
-    public Optional<Game> findGamebByLobbyId(Integer id){
+    public Game findGamebByLobbyId(Integer id){
         return gameRepository.findGamebByLobbyId(id);
     }
 

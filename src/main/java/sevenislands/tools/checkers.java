@@ -111,8 +111,8 @@ public class checkers {
      * @throws ServletException
      */
     public static Boolean checkUserNoGame(HttpServletRequest request) throws ServletException {
-       Optional<Game> game = entityAssistant.getGameOfPlayer(request);
-        if (!game.isPresent() || roundService.checkGameByGameId(game.get().getId())) {
+       Game game = entityAssistant.getGameOfPlayer(request);
+        if (game != null|| roundService.checkGameByGameId(game.getId())) {
             return false;
         } 
         return true;

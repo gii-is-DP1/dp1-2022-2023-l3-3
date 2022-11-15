@@ -44,7 +44,7 @@ public class GameController {
         //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
         Lobby lobby = lobbyService.findLobbyByPlayer(player.getId());
         System.out.println("1================================");
-        if(!gameService.findGamebByLobbyId(lobby.getId()).isPresent()) {
+        if(gameService.findGamebByLobbyId(lobby.getId()) == null) {
             System.out.println("2================================");
             Game game = new Game();
             game.setCreationDate(new Date(System.currentTimeMillis()));
