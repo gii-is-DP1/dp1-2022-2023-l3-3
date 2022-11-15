@@ -1,6 +1,6 @@
 package sevenislands.game.turn;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,7 +29,7 @@ public class TurnService {
     }
 
     @Transactional(readOnly = true)
-    public Collection<Turn> findByRoundId(int id) throws DataAccessException {
+    public List<Turn> findByRoundId(Integer id) throws DataAccessException {
         return turnRepository.findByRoundId(id);
     }
 

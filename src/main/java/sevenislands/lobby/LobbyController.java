@@ -55,6 +55,7 @@ public class LobbyController {
 				return "redirect:/game";
 			}
 			Player host = lobby.getPlayers().get(0);
+			model.put("num_players", lobby.getPlayers().size());
 			model.put("lobby", lobby);
 			model.put("host", host);
 			model.put("player", player);

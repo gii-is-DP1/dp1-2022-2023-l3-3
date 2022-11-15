@@ -1,6 +1,5 @@
 package sevenislands.card;
 
-import java.util.Collection;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +27,10 @@ public class CardService {
         return cardRepository.findById(id);
     }
 
-    @Transactional(readOnly = true)
-    public Collection<CardType> findCardTypes() throws DataAccessException {
-        return cardRepository.findCardTypes();
-    }
+    // @Transactional(readOnly = true)
+    // public Collection<CardType> findCardTypes() throws DataAccessException {
+    //     return cardRepository.findCardTypes();
+    // }
 
     // @Transactional(readOnly = true)
     // public Collection<Card> findCardsByType(String type) throws

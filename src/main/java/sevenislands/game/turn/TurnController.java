@@ -1,12 +1,17 @@
 package sevenislands.game.turn;
 
 import java.security.Principal;
+import java.time.Duration;
+import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -42,11 +47,72 @@ public class TurnController {
     }
 
     @GetMapping("/turn")
-    public String gameTurn(Principal principal, HttpServletRequest request) throws ServletException {
+    public String gameTurn(Map<String, Object> model, Principal principal, HttpServletRequest request, HttpServletResponse response) throws ServletException {
+        if(checkers.checkUserNoExists(request)) return "redirect:/";
+        if(checkers.checkUserNoLobby(request)) return "redirect:/home";
+        response.addHeader("Refresh", "1");
+
+        Player player = playerService.findPlayer(principal.getName()).get();
+        Optional<Game> game = entityAssistant.getGameOfPlayer(request);
+        List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream().collect(Collectors.toList());
+        Round round = roundList.get(roundList.size()-1);
+        List<Turn> turnList = turnService.findByRoundId(round.getId());
+        Turn turn = turnList.get(turnList.size()-1);
+
+        model.put("player", playerService.findPlayer(principal.getName()).get());
+        model.put("player_turn", turn.getPlayer());
+        model.put("dice", turn.getDice());
+    
+        Duration timeElapsed = Duration.between(turn.getStartTime(), LocalDateTime.now());
+        model.put("time_left", 40-timeElapsed.toSeconds());
+        if(turn.getPlayer().getId()==player.getId() && timeElapsed.toSeconds()>=40) {
+            return "redirect:/turn/endTurn";
+        }
+
+        return VIEWS_GAME;
+    }
+
+    @GetMapping("/turn/endTurn")
+    public String gameEndTurn(Principal principal, HttpServletRequest request) throws ServletException {
         if(checkers.checkUserNoExists(request)) return "redirect:/";
         if(checkers.checkUserNoLobby(request)) return "redirect:/home";
         
-        return VIEWS_GAME;
+        Optional<Game> game = entityAssistant.getGameOfPlayer(request);
+        List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream().collect(Collectors.toList());
+        Round round = roundList.get(roundList.size()-1);
+        List<Turn> turnList = turnService.findByRoundId(round.getId());
+        Turn lastTurn = turnList.get(turnList.size()-1);
+        Player player = playerService.findPlayer(principal.getName()).get();
+        Lobby lobby = lobbyService.findLobbyByPlayer(player.getId()).get();
+        List<Player> playerList = lobby.getPlayers();
+
+        if(player.getId()==lastTurn.getPlayer().getId()) {
+            if(turnList.size()>=playerList.size()) return "redirect:/turn/newRound";
+            Turn turn = new Turn();
+            Integer nextPlayer = (playerList.indexOf(player)+1)%playerList.size();
+            turn.setStartTime(LocalDateTime.now());
+            turn.setRound(round);
+            turn.setPlayer(playerList.get(nextPlayer));
+            turnService.save(turn);
+        } 
+        return "redirect:/turn";
+    }
+
+    @GetMapping("/turn/dice")
+    public String gameRollDice(HttpServletRequest request) throws ServletException {
+        if(checkers.checkUserNoExists(request)) return "redirect:/";
+        if(checkers.checkUserNoLobby(request)) return "redirect:/home";
+        
+        Optional<Game> game = entityAssistant.getGameOfPlayer(request);
+        List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream().collect(Collectors.toList());
+        Round round = roundList.get(roundList.size()-1);
+        List<Turn> turnList = turnService.findByRoundId(round.getId());
+        Turn lastTurn = turnList.get(turnList.size()-1);
+        Random randomGenerator = new Random();
+        Integer dice = randomGenerator.nextInt(6)+1;
+        lastTurn.setDice(dice);
+        turnService.save(lastTurn);
+        return "redirect:/turn";
     }
 
     @GetMapping("/turn/newRound")
@@ -67,10 +133,10 @@ public class TurnController {
 
         round.setGame(game.get());
         turn.setRound(round);
-
-        if(roundService.findRoundsByGameId(game.get().getId())!=null) {
+        turn.setStartTime(LocalDateTime.now());
+        if(roundService.findRoundsByGameId(game.get().getId()).isEmpty()) {
             turn.setPlayer(player);
-        } else if (turnService.findByRoundId(roundList.get(-1).getId()).size() >= playerList.size()) {  //Quizás podríamos poner esta condición
+        } else if (turnService.findByRoundId(roundList.get(roundList.size()-1).getId()).size() >= playerList.size()) {  //Quizás podríamos poner esta condición
             Integer nextPlayer = (playerList.indexOf(player)+1)%playerList.size();                      //en un método en caso de que lo vayamos
             turn.setPlayer(playerList.get(nextPlayer));                                                 //a tener que comprobar en varios sitios
         } else return "redirect:/turn";
