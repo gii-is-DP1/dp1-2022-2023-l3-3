@@ -13,7 +13,6 @@ import sevenislands.lobby.LobbyService;
 import sevenislands.player.Player;
 import sevenislands.player.PlayerService;
 import sevenislands.tools.checkers;
-import sevenislands.tools.entityAssistant;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 

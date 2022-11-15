@@ -8,10 +8,6 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface CardRepository extends CrudRepository<Card, Integer> {
 
-    public List<Card> findAll() throws DataAccessException;
-
-    public Card findById(int id) throws DataAccessException;
-
     @Query("SELECT ctype FROM CardType ctype")
     public List<CardType> findCardTypes() throws DataAccessException;
 

@@ -13,12 +13,15 @@
 </style>
 
 <sevenislands:layout2 pageName="home">
-	<body style="background: url(resources/images/grafics/fondo1920x1080.jpg)">  
-		<div class="text-right" style="margin-bottom: 24px">
-			<a href="/settings">
-				<strong>${user.nickname}</strong>&thinsp;<img src="/resources/images/avatars/${user.avatar}" height="25" width="25">
-			</a>
-		</div> 
+	<body style="background: url(resources/images/grafics/fondo1920x1080.jpg)">
+		<div>
+			<div>${onlineUsers}</div>
+			<div class="text-right" style="margin-bottom: 24px">
+				<a href="/settings">
+					<strong>${user.nickname}</strong>&thinsp;<img src="/resources/images/avatars/${user.avatar}" height="25" width="25">
+				</a>
+			</div>
+		</div>
         <div>
             <center>
                 <img src="/resources/images/grafics/letras_7_islas.png" width="700" height="200">

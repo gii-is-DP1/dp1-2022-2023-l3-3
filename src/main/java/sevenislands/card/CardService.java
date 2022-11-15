@@ -19,7 +19,7 @@ public class CardService {
     }
 
     @Transactional(readOnly = true)
-    public Collection<Card> findAllCards() throws DataAccessException {
+    public Iterable<Card> findAllCards() throws DataAccessException {
         return cardRepository.findAll();
     }
 
