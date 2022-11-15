@@ -31,14 +31,34 @@ INSERT INTO turns(player_id, round_id) VALUES (8,1);
 INSERT INTO turns(player_id, round_id) VALUES (9,1);
 
 -- CARD --
--- INSERT INTO cards(tipo, name, multiplicity) VALUES ('Moneda',27, 'Doblon');
+INSERT INTO cards(tipo, name, multiplicity) VALUES ('Moneda', 'Doblon', 27);
+INSERT INTO cards(tipo, name, multiplicity) VALUES ('Tesoro', 'Diamante', 3);
+INSERT INTO cards(tipo, name, multiplicity) VALUES ('Tesoro', 'Rubi', 3);
+INSERT INTO cards(tipo, name, multiplicity) VALUES ('Tesoro', 'Collar', 3);
+
+-- ISLA --
+INSERT INTO islands(island_number, game_id) VALUES (1,1);
+INSERT INTO islands(island_number, game_id) VALUES (2,1);
+INSERT INTO islands(island_number, game_id) VALUES (3,1);
+INSERT INTO islands(island_number, game_id) VALUES (4,1);
+INSERT INTO islands(island_number, game_id) VALUES (5,1);
+INSERT INTO islands(island_number, game_id) VALUES (6,1);
+
+-- CARTA_ISLA --
+INSERT INTO cards_islands(card_id,islands_id) VALUES (1,1);
+INSERT INTO cards_islands(card_id,islands_id) VALUES (1,2);
+INSERT INTO cards_islands(card_id,islands_id) VALUES (2,3);
+INSERT INTO cards_islands(card_id,islands_id) VALUES (3,4);
+
+
+-- -- TURNO_CARTA --
+INSERT INTO cards_turns(cards_id,turns_id) VALUES (1, 1);
+INSERT INTO cards_turns(cards_id,turns_id) VALUES (1, 1);
+INSERT INTO cards_turns(cards_id,turns_id) VALUES (1, 1);
+
+
 
 /*
 Orden de los insert:
-
-INSERT INTO ISLA
-
-INSERT INTO CARTA_ISLA
-
 INSERT TURNO_CARTA
 */
