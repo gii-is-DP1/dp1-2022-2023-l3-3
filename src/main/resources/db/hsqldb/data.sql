@@ -14,6 +14,51 @@ INSERT INTO users(nickname,password,enabled,first_name,last_name,email,creation_
 INSERT INTO users(nickname,password,enabled,first_name,last_name,email,creation_date,type,birth_date,avatar) VALUES ('player5','$2a$10$Yurjw7YseLzZq/JOixdY/eRmBrOIzHHNooczuuMwtC42R8vRoKVPC','TRUE','Player FN','Player LN','player5@sevenislands.com','2022-10-29','player','2022-10-29','playerAvatar.png');
 
 -- LOBBY --
---INSERT INTO lobby(code,active) VALUES('00000000','TRUE');
+INSERT INTO lobby(code,active) VALUES('aD5f8Lio','TRUE');
 
---INSERT INTO lobby_players(lobby_id,players_id) VALUES (1,8);
+-- LOBBY PLAYERS -- 
+INSERT INTO lobby_players(lobby_id,players_id) VALUES (1,8);
+INSERT INTO lobby_players(lobby_id,players_id) VALUES (1,9);
+
+-- GAME -- 
+INSERT INTO game(id, creation_date, ending_date, lobby_id) VALUES (1, '2022-11-14', '2022-11-24', 1);
+
+-- ROUNDS --
+INSERT INTO rounds(game_id) VALUES (1);
+
+-- TURNS -- 
+INSERT INTO turns(player_id, round_id) VALUES (8,1);
+INSERT INTO turns(player_id, round_id) VALUES (9,1);
+
+-- CARD --
+INSERT INTO cards(tipo, name, multiplicity) VALUES ('Moneda', 'Doblon', 27);
+INSERT INTO cards(tipo, name, multiplicity) VALUES ('Tesoro', 'Diamante', 3);
+INSERT INTO cards(tipo, name, multiplicity) VALUES ('Tesoro', 'Rubi', 3);
+INSERT INTO cards(tipo, name, multiplicity) VALUES ('Tesoro', 'Collar', 3);
+
+-- ISLA --
+INSERT INTO islands(island_number, game_id) VALUES (1,1);
+INSERT INTO islands(island_number, game_id) VALUES (2,1);
+INSERT INTO islands(island_number, game_id) VALUES (3,1);
+INSERT INTO islands(island_number, game_id) VALUES (4,1);
+INSERT INTO islands(island_number, game_id) VALUES (5,1);
+INSERT INTO islands(island_number, game_id) VALUES (6,1);
+
+-- CARTA_ISLA --
+INSERT INTO cards_islands(card_id,islands_id) VALUES (1,1);
+INSERT INTO cards_islands(card_id,islands_id) VALUES (1,2);
+INSERT INTO cards_islands(card_id,islands_id) VALUES (2,3);
+INSERT INTO cards_islands(card_id,islands_id) VALUES (3,4);
+
+
+-- -- TURNO_CARTA --
+INSERT INTO cards_turns(cards_id,turns_id) VALUES (1, 1);
+INSERT INTO cards_turns(cards_id,turns_id) VALUES (1, 1);
+INSERT INTO cards_turns(cards_id,turns_id) VALUES (1, 1);
+
+
+
+/*
+Orden de los insert:
+INSERT TURNO_CARTA
+*/
