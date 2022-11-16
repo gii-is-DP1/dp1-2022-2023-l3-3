@@ -3,12 +3,9 @@ package sevenislands.game.island;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-
-
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-
 import sevenislands.model.BaseEntity;
 
 import lombok.Getter;

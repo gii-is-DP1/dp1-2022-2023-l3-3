@@ -17,7 +17,6 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import sevenislands.game.island.Island;
-
 import sevenislands.lobby.Lobby;
 import sevenislands.model.BaseEntity;
 
