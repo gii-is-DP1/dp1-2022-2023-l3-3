@@ -1,13 +1,12 @@
 package sevenislands.achievement;
 
-import java.util.Collection;
+
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
+
 import javax.persistence.Table;
 
 import sevenislands.enums.AchievementType;

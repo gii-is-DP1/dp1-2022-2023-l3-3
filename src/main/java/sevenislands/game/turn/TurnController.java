@@ -58,9 +58,8 @@ public class TurnController {
         Round round = roundList.get(roundList.size()-1);
         List<Turn> turnList = turnService.findByRoundId(round.getId());
         Turn turn = turnList.get(turnList.size()-1);
-        //TODO: Hacer las comprobaciones para el optional lobby
-        Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
-        List<User> userList = lobby.getUsers();
+        
+      
 
         model.put("player", userService.findUser(principal.getName()));
         model.put("player_turn", turn.getUser());
