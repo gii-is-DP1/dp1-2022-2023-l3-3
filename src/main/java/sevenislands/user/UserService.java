@@ -22,7 +22,6 @@ import org.springframework.validation.BindingResult;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
 import sevenislands.tools.checkers;
-import sevenislands.tools.entityAssistant;
 
 @Service
 public class UserService {
@@ -66,7 +65,7 @@ public class UserService {
 	}
 
 	@Transactional(readOnly = true)
-	public Iterable<User> findAll() {
+	public List<User> findAll() {
 		return userRepository.findAll();
 	}
 
@@ -77,12 +76,21 @@ public class UserService {
 
 	@Transactional
 	public void deleteUser(String nickname) {
-		userRepository.delete(nickname);
+		userRepository.deleteByNickname(nickname);
+	}
+
+	/**
+     * Elimina un administrador de la base de datos.
+     * @param admin
+     */
+    @Transactional
+	public void deleteUser(User user) {
+		userRepository.delete(user);
 	}
 
 	@Transactional
 	public Boolean checkUserByName(String nickname) {
-		return userRepository.checkUser(nickname);
+		return userRepository.checkUserNickname(nickname);
 	}
 
 	@Transactional
@@ -90,53 +98,9 @@ public class UserService {
 		return userRepository.checkUserEmail(email);
 	}
 
-	@Transactional 
-	public void update(User user) {
-	    userRepository.updateUser(user, user.getId());
-	}
-
 	@Transactional
 	public List<String> findDistinctAuthorities() {
 		return userRepository.findAuthorities();
-	}
-
-	@Transactional
-	public List<User> findAllUser() {
-		return userRepository.findAll();
-	}
-
-	/**
-     * Encuentra un admin dado su id.
-     * @param id
-     * @return
-     */
-    @Transactional(readOnly = true)
-    public Optional<User> findAdmin(Integer id) {
-        return userRepository.findById(id);
-    }
-
-    /**
-     * Guarda un usuario nuevo.
-     * <p> Esta función es necesaria ya que le establece el avatar por defecto y su fecha de cración.
-     * @param admin
-     * @throws DataAccessException
-     */
-    @Transactional
-	public void saveNewAdmin(User user) throws DataAccessException {
-        user.setEnabled(true);
-        user.setAvatar("adminAvatar.png");
-		user.setCreationDate(new Date(System.currentTimeMillis()));
-		userRepository.save(user);
-		//userService.save(admin);
-	}
-
-    /**
-     * Elimina un administrador de la base de datos.
-     * @param admin
-     */
-    @Transactional
-	public void remove(User user) {
-		userRepository.delete(user);
 	}
 
     @Transactional

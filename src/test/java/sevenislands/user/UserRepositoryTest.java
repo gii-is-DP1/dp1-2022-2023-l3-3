@@ -37,7 +37,7 @@ public class UserRepositoryTest {
         User user1 = users.get(0);
         String oldEmail = user1.getEmail();
         user1.setEmail(oldEmail+"mod");
-        userRepository.updateUser(user1, user1.getId());
+        userRepository.save(user1);
         assertNotNull(userRepository.findById(user1.getId()).orElseGet(null));
         user1 = userRepository.findById(user1.getId()).orElseGet(null);
         assertNotEquals(user1.getEmail(), oldEmail);
@@ -79,7 +79,7 @@ public class UserRepositoryTest {
 
     @Test
     public void checkUserInfoExists() {
-        Boolean exists = userRepository.checkUser("admin1");
+        Boolean exists = userRepository.checkUserNickname("admin1");
         assertTrue(exists, "El repositorio no devuelve el usuario admin1");
         Boolean email = userRepository.checkUserEmail("admin1@sevenislands.com");
         assertTrue(email, "El repositorio no devuelve el usuario con email admin1@sevenislands.com"); 
@@ -98,7 +98,7 @@ public class UserRepositoryTest {
         User user = userRepository.findByNickname("admin1").get();
         String cambio = "cambiado";
         user.setLastName(cambio);
-        userRepository.updateUser(user, user.getId());
+        userRepository.save(user);
 
         User newUser = userRepository.findByNickname("admin1").get();
         assertEquals(cambio, newUser.getLastName());

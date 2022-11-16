@@ -1,8 +1,6 @@
 package sevenislands.user;
 
 import java.security.Principal;
-import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -16,13 +14,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import sevenislands.lobby.LobbyService;
 import sevenislands.lobby.exceptions.NotExitPlayerException;
 import sevenislands.tools.checkers;
 import sevenislands.tools.entityAssistant;
 
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -39,12 +34,10 @@ public class UserController {
 	private static final String VIEWS_PLAYER_UPDATE_FORM = "views/updateUserForm";
 
 	private final UserService userService;
-	private PasswordEncoder passwordEncoder;
 
 	@Autowired
-	public UserController(LobbyService lobbyService, PasswordEncoder passwordEncoder, UserService userService) {
+	public UserController(UserService userService) {
 		this.userService = userService;
-		this.passwordEncoder = passwordEncoder;
 	}
 
 	@GetMapping("/settings")
@@ -67,7 +60,7 @@ public class UserController {
 		return VIEWS_PLAYER_UPDATE_FORM;
 	}
 
-		/**
+	/**
 	 * Vista principal del panel de control del administrador.
 	 * <p> Muestra un listado de todos los usuarios almacenados en la base de datos y permite la eliminación o el baneo
 	 * de cualquiera de estos.
@@ -80,8 +73,8 @@ public class UserController {
     @RequestMapping(value = "/controlPanel", method = RequestMethod.GET)
 	public String listUsersPagination(Model model, @RequestParam Integer valor) throws NotExitPlayerException{
 		Page<User> paginacion=null;
-		Integer totalUsers=(userService.findAllUser().size())/5;
-		Pageable page2=PageRequest.of(valor,5) ;
+		Integer totalUsers=(userService.findAll().size())/5;
+		Pageable page2=PageRequest.of(valor,5);
 		paginacion=userService.findAllUser(page2);
 		model.addAttribute("paginas", totalUsers);
 		model.addAttribute("valores", valor);	
