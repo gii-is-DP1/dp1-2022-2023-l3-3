@@ -26,9 +26,9 @@ import lombok.Setter;
 @Table(name= "cards")
 public class Card extends BaseEntity {
 
-        // @ManyToOne
-        // @NotNull
-        // private CardType cardType;
+        @ManyToOne
+        @NotNull
+        private CardType cardType;
 
         @ManyToMany(cascade = CascadeType.ALL)
         @JoinTable(name = "cards_turns", joinColumns = { @JoinColumn(name = "card_id") }, inverseJoinColumns = {

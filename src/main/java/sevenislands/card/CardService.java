@@ -31,10 +31,10 @@ public class CardService {
     //     return cardRepository.findById(id);
     // }
 
-    // @Transactional(readOnly = true)
-    // public Collection<CardType> findCardTypes() throws DataAccessException {
-    //     return cardRepository.findCardTypes();
-    // }
+    @Transactional(readOnly = true)
+    public Collection<CardType> findCardTypes() throws DataAccessException {
+        return cardRepository.findCardTypes();
+    }
 
     // @Transactional(readOnly = true)
     // public Collection<Card> findCardsByType(String type) throws
