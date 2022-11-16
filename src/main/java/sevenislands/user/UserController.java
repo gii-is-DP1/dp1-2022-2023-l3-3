@@ -14,7 +14,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import sevenislands.lobby.exceptions.NotExitPlayerException;
+import sevenislands.exceptions.NotExitPlayerException;
 import sevenislands.tools.checkers;
 import sevenislands.tools.entityAssistant;
 

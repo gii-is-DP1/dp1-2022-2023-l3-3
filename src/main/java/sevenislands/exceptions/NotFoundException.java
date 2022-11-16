@@ -1,4 +1,4 @@
-package sevenislands.util.Exceptions;
+package sevenislands.exceptions;
 
 import org.springframework.dao.DataAccessException;
 

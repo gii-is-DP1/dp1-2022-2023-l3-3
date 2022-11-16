@@ -17,8 +17,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.GameService;
-import sevenislands.lobby.exceptions.NotExistLobbyException;
 import sevenislands.tools.checkers;
 import sevenislands.user.User;
 import sevenislands.user.UserService;

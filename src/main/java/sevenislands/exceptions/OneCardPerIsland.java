@@ -1,4 +1,4 @@
-package sevenislands.game.island.exceptions;
+package sevenislands.exceptions;
 
 import lombok.Getter;
 
