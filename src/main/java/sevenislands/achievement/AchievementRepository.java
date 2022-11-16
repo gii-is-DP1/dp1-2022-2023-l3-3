@@ -1,6 +1,6 @@
 package sevenislands.achievement;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
@@ -17,5 +17,5 @@ public interface AchievementRepository extends CrudRepository<Achievement, Integ
      * @return
      */
     @Query("SELECT achievement FROM Achievement achievement WHERE achievement.achievementType=:achievementType")
-    Collection<Achievement> findByType(@Param("achievementType") AchievementType achievementType);
+    List<Achievement> findByType(@Param("achievementType") AchievementType achievementType);
 }
