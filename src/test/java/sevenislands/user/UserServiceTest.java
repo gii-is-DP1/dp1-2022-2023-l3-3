@@ -34,7 +34,7 @@ public class UserServiceTest {
         user.setEnabled(true);
         user.setFirstName("Prueba");
         user.setLastName("Probando");
-        user.setBirthDate(Date.from(Instant.now()));
+        user.setBirthDate(new Date());
         user.setAvatar("resource/images/avatars/playerAvatar.png");
         user.setUserType("player");
 
@@ -53,10 +53,8 @@ public class UserServiceTest {
     // @Test
     // public void saveTestUnsuccessfulDueToExistence() {
     //     UserService userService = new UserService(userRepository);
-    //     User user = createUser(555, "prueba", "prueba@sevenislands.com");
-    //     assertThrows(DataAccessException.class, () -> {
-    //         userService.save(user);
-    //     });
+    //     User newUser = createUser(555, "prueba", "prueba@sevenislands.com");
+    //     assertThrows(DataAccessException.class, () -> userService.save(newUser));
     // }
 
     // @Test

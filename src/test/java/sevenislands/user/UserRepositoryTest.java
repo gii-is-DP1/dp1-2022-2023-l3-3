@@ -29,26 +29,26 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void retrieveUserByNicknameSuccess() {
+    public void retrieveUserByNicknameSuccessful() {
         User user = userRepository.findByNickname("admin1").get();
         assertEquals("admin1", user.getNickname(), "El nombre de usuario no es igual a admin1");
     }
 
     @Test()
-    public void retrieveUserByNicknameNotSuccess(){
+    public void retrieveUserByNicknameNotSuccessful(){
         assertThrows(NoSuchElementException.class, () -> {
             userRepository.findByNickname("FalsoAdmin1").get();
         });
     }
 
     @Test
-    public void retrieveUserByEmailSuccess() {
+    public void retrieveUserByEmailSuccessful() {
         User user = userRepository.findByEmail("admin1@sevenislands.com").get();
         assertEquals("admin1@sevenislands.com", user.getEmail());
     }
 
     @Test()
-    public void retrieveUserByEmailNotSuccess(){
+    public void retrieveUserByEmailNotSuccessful(){
         assertThrows(NoSuchElementException.class, () -> {
             userRepository.findByEmail("notAnEmail").get();
         });
