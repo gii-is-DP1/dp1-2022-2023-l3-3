@@ -26,7 +26,7 @@ public class PlayerRepositoryTest {
         List<Player> players = playerRepository.findAll();
 
         assertNotEquals(0, players.size());
-        assertNull(playerRepository.findByName("sergio"));
+        assertNull(playerRepository.findByName("sergioFalso").orElse(null));
     }
 
     @Test

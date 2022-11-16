@@ -29,19 +29,11 @@ public class PlayerService {
 		player.setCreationDate(new Date(System.currentTimeMillis()));
 		Boolean flag = playerRepository.findAll().stream()
 			.anyMatch(u -> u.getEmail().equals(player.getEmail()) || u.getNickname().equals(player.getNickname()));
-		System.out.println("=========================");
-		System.out.println(flag);
 		if(flag){
 			throw new ExistPlayerException("Existe el jugador");
 		} else{
 			playerRepository.save(player);
 			//userService.save(player);
-		}
-		try {
-			playerRepository.save(player);
-			userService.save(player);
-		} catch (Exception e) {
-			throw e;
 		}
 	}
 
@@ -51,8 +43,8 @@ public class PlayerService {
 	}
 
 	@Transactional
-    public Optional<Player> findPlayer(String name) {
-        return playerRepository.findByName(name);
+    public Player findPlayer(String name) {
+        return playerRepository.findByName(name).orElse(null);
     }
 
 	@Transactional 

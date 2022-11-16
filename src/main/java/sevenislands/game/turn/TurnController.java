@@ -52,7 +52,7 @@ public class TurnController {
         if(checkers.checkUserNoLobby(request)) return "redirect:/home";
         response.addHeader("Refresh", "1");
 
-        Player player = playerService.findPlayer(principal.getName()).get();
+        Player player = playerService.findPlayer(principal.getName());
         Optional<Game> game = entityAssistant.getGameOfPlayer(request);
         List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream().collect(Collectors.toList());
         Round round = roundList.get(roundList.size()-1);
@@ -62,7 +62,7 @@ public class TurnController {
         Lobby lobby = lobbyService.findLobbyByPlayer(player.getId()).get();
         List<Player> playerList = lobby.getPlayers();
 
-        model.put("player", playerService.findPlayer(principal.getName()).get());
+        model.put("player", playerService.findPlayer(principal.getName()));
         model.put("player_turn", turn.getPlayer());
         model.put("dice", turn.getDice());
     
@@ -85,7 +85,7 @@ public class TurnController {
         Round round = roundList.get(roundList.size()-1);
         List<Turn> turnList = turnService.findByRoundId(round.getId());
         Turn lastTurn = turnList.get(turnList.size()-1);
-        Player player = playerService.findPlayer(principal.getName()).get();
+        Player player = playerService.findPlayer(principal.getName());
         Lobby lobby = lobbyService.findLobbyByPlayer(player.getId()).get();
         List<Player> playerList = lobby.getPlayers();
 
@@ -123,7 +123,7 @@ public class TurnController {
         if(checkers.checkUserNoExists(request)) return "redirect:/";
         if(checkers.checkUserNoLobby(request)) return "redirect:/home";
         //TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
-        Player player = playerService.findPlayer(principal.getName()).get();
+        Player player = playerService.findPlayer(principal.getName());
         //TODO: Poner el Game como Optional<Game> y realizar la comprobación de que existe
         Game game = entityAssistant.getGameOfPlayer(request).get();
         //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe

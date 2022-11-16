@@ -40,7 +40,7 @@ public class GameController {
         response.addHeader("Refresh", "1");
 
         //TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
-        Player player = playerService.findPlayer(principal.getName()).get();
+        Player player = playerService.findPlayer(principal.getName());
         //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
         Lobby lobby = lobbyService.findLobbyByPlayer(player.getId()).get();
         if(!gameService.findGamebByLobbyId(lobby.getId()).isPresent()) {
