@@ -45,10 +45,7 @@ public class Game extends BaseEntity {
 	@NotNull
 	private Lobby lobby;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "game", fetch = FetchType.LAZY)
-	private List<Round> rounds;
-
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "game", fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Size(min = 7, max = 7)
 	private List<Island> islands;
 }

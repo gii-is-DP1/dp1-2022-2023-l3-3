@@ -17,8 +17,6 @@ import sevenislands.game.turn.Turn;
 import sevenislands.game.turn.TurnService;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
-import sevenislands.player.Player;
-import sevenislands.player.PlayerService;
 import sevenislands.user.User;
 import sevenislands.user.UserService;
 
@@ -34,16 +32,14 @@ import org.springframework.stereotype.Component;
 public class checkers {
 
     private static UserService userService;
-    private static PlayerService playerService;
     private static LobbyService lobbyService;
     private static RoundService roundService;
     private static GameService gameService;
     private static TurnService turnService;
 
     @Autowired
-	public checkers(TurnService turnService, GameService gameService, RoundService roundService, UserService userService, PlayerService playerService, LobbyService lobbyService) {
+	public checkers(TurnService turnService, GameService gameService, RoundService roundService, UserService userService, LobbyService lobbyService) {
 		this.userService = userService;
-        this.playerService = playerService;
         this.lobbyService = lobbyService;
         this.roundService = roundService;
         this.gameService = gameService;
@@ -78,16 +74,14 @@ public class checkers {
         if(userService.checkUserByName(principal.getUsername()) && userService.findUser(principal.getUsername()).isEnabled()) {
             User user = userService.findUser(principal.getUsername());
             if (lobbyService.checkUserLobbyByName(user.getId())) {
-                //TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
-                Player player = playerService.findPlayer(principal.getUsername());
                 //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
-                Lobby lobby = lobbyService.findLobbyByPlayer(player.getId()).get();
-                List<Player> players = lobby.getPlayerInternal();
-                if (players.size() == 1) {
+                Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
+                List<User> users = lobby.getPlayerInternal();
+                if (users.size() == 1) {
                     lobby.setActive(false);
                 }
-                players.remove(player);
-                lobby.setPlayers(players);
+                users.remove(user);
+                lobby.setUsers(users);
                 lobbyService.update(lobby);
             }
             return false;
@@ -143,23 +137,21 @@ public class checkers {
         User user = userService.findUser(principal.getUsername());
         
         if (lobbyService.checkUserLobbyByName(user.getId())) {
-            //TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
-            Player player = playerService.findPlayer(principal.getUsername());
             //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
-            Lobby lobby = lobbyService.findLobbyByPlayer(player.getId()).get();
-            List<Player> playerList = lobby.getPlayerInternal();
+            Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
+            List<User> userList = lobby.getPlayerInternal();
             Game game = gameService.findGamebByLobbyId(lobby.getId()).get();
             List<Round> roundList = roundService.findRoundsByGameId(game.getId()).stream().collect(Collectors.toList());
             Round lastRound = roundList.get(roundList.size()-1);
             List<Turn> turnList = turnService.findByRoundId(lastRound.getId());
             Turn lastTurn = turnList.get(turnList.size()-1);
 
-            if(lastTurn.getPlayer().getId()==user.getId()) {
+            if(lastTurn.getUser().getId()==user.getId()) {
                 Turn turn = new Turn();
-                Integer nextPlayer = (playerList.indexOf(player)+1)%playerList.size();
+                Integer nextUser = (userList.indexOf(user)+1)%userList.size();
                 turn.setStartTime(LocalDateTime.now());
                 turn.setRound(lastRound);
-                turn.setPlayer(playerList.get(nextPlayer));
+                turn.setUser(userList.get(nextUser));
                 turnService.save(turn);
             }
         }
