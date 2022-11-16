@@ -28,7 +28,7 @@ public class Player extends User {
 	@JoinColumn(name = "achievements")
     private Collection<Achievement> achievements;
     
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "player", fetch = FetchType.LAZY)
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Set<Turn> turns;
 
     @Override

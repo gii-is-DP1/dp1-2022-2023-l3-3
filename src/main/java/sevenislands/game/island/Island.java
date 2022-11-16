@@ -3,14 +3,9 @@ package sevenislands.game.island;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
-
-import sevenislands.game.Game;
 import sevenislands.model.BaseEntity;
 
 import lombok.Getter;
@@ -27,10 +22,4 @@ public class Island extends BaseEntity {
     @Min(value = 1)
     @Max(value = 7)
     private Integer num;
-
-    @ManyToOne
-    @NotNull
-    private Game game;
-
- 
 }

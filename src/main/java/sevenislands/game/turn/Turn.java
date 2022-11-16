@@ -42,7 +42,7 @@ public class Turn extends BaseEntity {
     @NotNull
     private Round round;
 
-    @ManyToMany(mappedBy = "turns")
+    @ManyToMany
     private List<Card> cards;
 
     public static Integer rollDice() {
