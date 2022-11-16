@@ -33,7 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/oups").hasAnyAuthority("player", "admin") // .permitAll()
 				.antMatchers("/error").hasAnyAuthority("player", "admin")
 				.antMatchers(HttpMethod.GET, "/").permitAll()
-				.antMatchers("/users/new").permitAll()
+				.antMatchers("/user/new").permitAll()
 				.antMatchers("/welcome").permitAll()
 				.antMatchers("/signup/**").permitAll()
 				.antMatchers("/session/**").permitAll()
@@ -71,11 +71,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.dataSource(dataSource)
 				.usersByUsernameQuery(
 						"select nickname, password, enabled "
-								+ "from users "
+								+ "from user "
 								+ "where nickname = ?")
 				.authoritiesByUsernameQuery(
 						"select nickname, type "
-								+ "from users "
+								+ "from user "
 								+ "where nickname = ?")
 				.passwordEncoder(passwordEncoder());
 	}
