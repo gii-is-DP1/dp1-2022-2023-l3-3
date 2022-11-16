@@ -17,7 +17,6 @@ import javax.validation.constraints.Size;
 
 import org.springframework.format.annotation.DateTimeFormat;
 import sevenislands.game.island.Island;
-import sevenislands.game.round.Round;
 import sevenislands.lobby.Lobby;
 import sevenislands.model.BaseEntity;
 
@@ -45,10 +44,7 @@ public class Game extends BaseEntity {
 	@NotNull
 	private Lobby lobby;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "game", fetch = FetchType.LAZY)
-	private List<Round> rounds;
-
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "game", fetch = FetchType.LAZY)
+	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
 	@Size(min = 7, max = 7)
 	private List<Island> islands;
 }
