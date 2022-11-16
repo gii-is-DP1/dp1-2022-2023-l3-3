@@ -116,7 +116,7 @@ public class checkers {
      */
     public static Boolean checkUserNoGame(HttpServletRequest request) throws ServletException {
        Optional<Game> game = entityAssistant.getGameOfPlayer(request);
-        if (!game.isPresent() || roundService.checkGameByGameId(game.get().getId())) {
+        if (!game.isPresent() || roundService.checkNoRoundByGameId(game.get().getId())) {
             return false;
         } 
         return true;
@@ -135,24 +135,24 @@ public class checkers {
     public static void checkGame(HttpServletRequest request) {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.findUser(principal.getUsername());
-        
         if (lobbyService.checkUserLobbyByName(user.getId())) {
             //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
             Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
             List<User> userList = lobby.getPlayerInternal();
             Game game = gameService.findGamebByLobbyId(lobby.getId()).get();
             List<Round> roundList = roundService.findRoundsByGameId(game.getId()).stream().collect(Collectors.toList());
-            Round lastRound = roundList.get(roundList.size()-1);
-            List<Turn> turnList = turnService.findByRoundId(lastRound.getId());
-            Turn lastTurn = turnList.get(turnList.size()-1);
-
-            if(lastTurn.getUser().getId()==user.getId()) {
-                Turn turn = new Turn();
-                Integer nextUser = (userList.indexOf(user)+1)%userList.size();
-                turn.setStartTime(LocalDateTime.now());
-                turn.setRound(lastRound);
-                turn.setUser(userList.get(nextUser));
-                turnService.save(turn);
+            if(roundList.size()!=0) {
+                Round lastRound = roundList.get(roundList.size()-1);
+                List<Turn> turnList = turnService.findByRoundId(lastRound.getId());
+                Turn lastTurn = turnList.get(turnList.size()-1);
+                if(lastTurn.getUser().getId()==user.getId()) {
+                    Turn turn = new Turn();
+                    Integer nextUser = (userList.indexOf(user)+1)%userList.size();
+                    turn.setStartTime(LocalDateTime.now());
+                    turn.setRound(lastRound);
+                    turn.setUser(userList.get(nextUser));
+                    turnService.save(turn);
+                }
             }
         }
     }

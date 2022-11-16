@@ -1,7 +1,5 @@
 package sevenislands.card;
 
-
-
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;

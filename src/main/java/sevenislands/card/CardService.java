@@ -1,6 +1,10 @@
 package sevenislands.card;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -19,7 +23,7 @@ public class CardService {
 
     @Transactional(readOnly = true)
     public List<Card> findAllCards() throws DataAccessException {
-        return cardRepository.findAll();
+        return StreamSupport.stream(cardRepository.findAll().spliterator(), false).collect(Collectors.toList());
     }
 
     // @Transactional(readOnly = true)
