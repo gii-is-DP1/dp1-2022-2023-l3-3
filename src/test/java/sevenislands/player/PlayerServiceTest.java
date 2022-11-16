@@ -2,8 +2,7 @@ package sevenislands.player;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doReturn;
+
 import static org.mockito.Mockito.when;
 
 import java.sql.Date;
@@ -19,7 +18,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 
 
 import sevenislands.user.UserRepository;
-import sevenislands.user.UserService;
+
 
 @ExtendWith(MockitoExtension.class)
 public class PlayerServiceTest {
@@ -34,8 +33,8 @@ public class PlayerServiceTest {
 
     @BeforeEach
     public void config(){
-        UserService userService = new UserService(userRepository);
-        PlayerService playerService = new PlayerService(playerRepository, userService);
+        
+        PlayerService playerService = new PlayerService(playerRepository);
         Player player1 = new Player();
         player1.setAvatar("resource/images/avatars/playerAvatar.png");
         player1.setBirthDate(Date.valueOf("2002-04-03"));
@@ -59,8 +58,8 @@ public class PlayerServiceTest {
     @Test
     public void saveTestUnsucefull(){
         List<Player> playerList = playerRepository.findAll();
-        UserService userService = new UserService(userRepository);
-        PlayerService playerService = new PlayerService(playerRepository, userService);
+        
+        PlayerService playerService = new PlayerService(playerRepository);
         Player player1 = new Player();
         player1.setAvatar("resource/images/avatars/playerAvatar.png");
         player1.setBirthDate(Date.valueOf("2002-04-03"));
@@ -80,8 +79,8 @@ public class PlayerServiceTest {
     @Test
     public void findByIdAndNameTest(){
         List<Player> playerList = playerRepository.findAll();
-        UserService userService = new UserService(userRepository);
-        PlayerService playerService = new PlayerService(playerRepository, userService);
+        
+        PlayerService playerService = new PlayerService(playerRepository);
         Player player1 = playerList.get(0);
         Optional<Player> playerOpt = Optional.of(player1);
         when(playerRepository.findByName("nickFalsoPrueba")).thenReturn(playerOpt);

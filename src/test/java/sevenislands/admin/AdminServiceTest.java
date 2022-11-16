@@ -18,15 +18,14 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 @DataJpaTest
 public class AdminServiceTest {
-
-
-   
-       
-
        
     @Autowired
     AdminRepository adminRepository;
 
+
+
+    
+    
 
     @Test
     public void TestSave(){
@@ -43,7 +42,7 @@ public class AdminServiceTest {
         admin.setBirthDate(fecha);
         admin.setAvatar("adminAvatar.png");
 
-        AdminService adminService=new AdminService(adminRepository, null, null);
+        AdminService adminService=new AdminService(adminRepository, null);
         try{
             adminService.save(admin);
         }catch(Exception e){
@@ -56,7 +55,7 @@ public class AdminServiceTest {
     public void TestUpdate(){
         Admin admin=adminRepository.findById(1).get();
         
-        AdminService adminService=new AdminService(adminRepository, null, null);
+        AdminService adminService=new AdminService(adminRepository, null);
         
         admin.setNickname("antonio");
         admin.setEmail("antonio@gmail.com");
@@ -71,7 +70,7 @@ public class AdminServiceTest {
     public void TestDelete(){
         Admin admin=adminRepository.findById(1).get();
         
-        AdminService adminService=new AdminService(adminRepository, null, null);
+        AdminService adminService=new AdminService(adminRepository, null);
        
         try{
             adminService.remove(admin);

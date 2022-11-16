@@ -20,5 +20,5 @@ public interface AdminRepository extends CrudRepository<Admin, Integer> {
 	@Query("UPDATE User user SET user=?1 WHERE user.id=?2")
 	public void updateAdmin(Admin admin, Integer admin_id);
 
-	List<Admin> findAll();
+	public List<Admin> findAll();
 }

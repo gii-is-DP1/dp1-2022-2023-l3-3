@@ -6,7 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 
-import sevenislands.user.UserService;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,12 +14,11 @@ import org.springframework.transaction.annotation.Transactional;
 public class PlayerService {
 
 	private PlayerRepository playerRepository;	
-	private UserService userService;
+	
 
 	@Autowired
-	public PlayerService(PlayerRepository playerRepository, UserService userService) {
+	public PlayerService(PlayerRepository playerRepository) {
 		this.playerRepository = playerRepository;
-		this.userService = userService;
 	}	
 
 	@Transactional

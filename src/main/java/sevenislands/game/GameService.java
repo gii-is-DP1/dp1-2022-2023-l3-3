@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import sevenislands.lobby.Lobby;
-import sevenislands.util.Exceptions.NotFoundException;
+
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

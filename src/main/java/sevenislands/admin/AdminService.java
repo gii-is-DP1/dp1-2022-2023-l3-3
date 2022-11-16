@@ -8,14 +8,13 @@ import java.util.Optional;
 
 import sevenislands.user.User;
 
-import org.hibernate.usertype.UserType;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
-import sevenislands.user.UserService;
-import sevenislands.user.Enums.UserTypeEnum;
+
 
 import org.springframework.stereotype.Service;
 
@@ -24,12 +23,10 @@ public class AdminService {
 
     private AdminRepository adminRepository;
     private AdminRepository2 adminRepository2;
-	private UserService userService;
 
     @Autowired
-    public AdminService(AdminRepository adminRepository, UserService userService,AdminRepository2 adminRepository2) {
+    public AdminService(AdminRepository adminRepository,AdminRepository2 adminRepository2) {
         this.adminRepository = adminRepository;
-        this.userService = userService;
         this.adminRepository2 = adminRepository2;
     }
 
@@ -38,8 +35,8 @@ public class AdminService {
      * @param id
      * @return
      */
-    @Transactional(readOnly = true)
-    public Optional<Admin> findAdmin(Integer id) {
+    @Transactional(readOnly = true) 
+    public Optional<Admin> findAdmin(Integer id)throws DataAccessException {
         return adminRepository.findById(id);
     }
 
@@ -63,7 +60,7 @@ public class AdminService {
      * @param admin
      */
     @Transactional
-    public void save(Admin admin) {
+    public void save(Admin admin)throws DataAccessException {
         adminRepository.save(admin);
     }
 
@@ -72,7 +69,7 @@ public class AdminService {
      * @param admin
      */
     @Transactional
-    public void update(Admin admin) {
+    public void update(Admin admin) throws DataAccessException{
         adminRepository.updateAdmin(admin, admin.getId());
     }
 

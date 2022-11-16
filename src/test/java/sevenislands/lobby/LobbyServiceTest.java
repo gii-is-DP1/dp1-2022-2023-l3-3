@@ -1,19 +1,16 @@
 package sevenislands.lobby;
 
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
 
 
-@ExtendWith(MockitoExtension.class)
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+
+@DataJpaTest
 public class LobbyServiceTest {
     
-    @Mock
+    @Autowired    
     LobbyRepository lobbyRepository;
-    
-    @BeforeEach
-    public void config(){
-        
-    }
+
+ 
 }

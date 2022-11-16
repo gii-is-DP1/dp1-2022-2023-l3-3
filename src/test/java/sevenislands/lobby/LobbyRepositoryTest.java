@@ -29,6 +29,19 @@ public class LobbyRepositoryTest {
         assertEquals(1, lobby.size());
     }
 
+    @Test
+    public void TestUpdateLobby(){
+        List<Lobby> lobbies= new ArrayList<>();
+        lobbyRepository.findAll().iterator().forEachRemaining(lobbies::add);
+        Lobby lobby=lobbies.get(0);
+        lobby.setActive(false);
+        lobby.setCode("123465445");
+        lobbyRepository.updateLobby(lobby, lobby.getId());
+        assertNotNull(lobby);
+        assertTrue(lobby.getCode().equals("123465445"));
+    }
+
+
 
     @Test
     public void TestFindByCode(){

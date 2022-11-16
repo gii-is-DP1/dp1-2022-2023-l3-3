@@ -48,7 +48,7 @@ public class LobbyService {
 
     @Transactional 
 	public void update(Lobby lobby) {
-	    lobbyRepository.updatePlayers(lobby, lobby.getId());
+	    lobbyRepository.updateLobby(lobby, lobby.getId());
 	}
 
     @Transactional(readOnly = true, rollbackFor = NotExistLobbyException.class)
@@ -63,7 +63,7 @@ public class LobbyService {
 
     @Transactional(rollbackFor = NotExistLobbyException.class)
     public Optional<Lobby> findLobbyByPlayer(Integer player_id) {
-        return lobbyRepository.findByLobbyId(lobbyRepository.findLobbyIdByPlayer(player_id));
+        return lobbyRepository.findById(lobbyRepository.findLobbyIdByPlayer(player_id));
     }
 
     @Transactional
