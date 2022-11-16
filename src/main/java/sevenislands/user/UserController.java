@@ -140,34 +140,8 @@ public class UserController {
 	 */
 	@PostMapping("/controlPanel/add")
 	public String processCreationUserForm(Map<String, Object> model, @Valid User user, BindingResult result) {
-		if(result.hasErrors()) {
-			return "redirect:/controlPanel/add";
-		} else if(!userService.checkUserByName(user.getNickname()) &&
-				!userService.checkUserByEmail(user.getEmail()) &&
-				checkers.checkEmail(user.getEmail()) &&
-				user.getPassword().length()>=8) {
-			user.setPassword(passwordEncoder.encode(user.getPassword()));
-			user.setCreationDate(new Date(System.currentTimeMillis()));
-			user.setEnabled(true);
-			if(user.getUserType().equals("admin")){
-				user.setAvatar("adminAvatar.png");
-				userService.save(user);
-			} else {
-				user.setAvatar("playerAvatar.png");
-				userService.save(user);
-			}
-			return "redirect:/controlPanel/add";
-		} else {
-			user.setPassword("");
-			List<String> errors = new ArrayList<>();
-			if(userService.checkUserByName(user.getNickname())) errors.add("El nombre de usuario ya está en uso.");
-			if(user.getPassword().length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
-			if(userService.checkUserByEmail(user.getEmail())) errors.add("El email ya está en uso.");
-			if(!checkers.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
-			model.put("errors", errors);
-			model.put("types", userService.findDistinctAuthorities());
-			return "admin/addUser";
-		}
+		if(userService.addUser(model, user, result)) return "redirect:/controlPanel/add";
+		return "admin/addUser";
 	}
 
 	/**

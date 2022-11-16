@@ -253,4 +253,32 @@ public class UserService {
 			return true;
 		}	
 	}
+
+	@Transactional
+	public Boolean addUser(Map<String, Object> model, User user, BindingResult result) {
+		if(result!=null &&  result.hasErrors()) {
+			return true;
+		} else if(!checkUserByName(user.getNickname()) &&
+				!checkUserByEmail(user.getEmail()) &&
+				checkers.checkEmail(user.getEmail()) &&
+				user.getPassword().length()>=8) {
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
+			user.setCreationDate(new Date(System.currentTimeMillis()));
+			user.setEnabled(true);
+			if(user.getUserType().equals("admin")) user.setAvatar("adminAvatar.png");
+			else user.setAvatar("playerAvatar.png");
+			save(user);
+			return true;
+		} else {
+			user.setPassword("");
+			List<String> errors = new ArrayList<>();
+			if(checkUserByName(user.getNickname())) errors.add("El nombre de usuario ya está en uso.");
+			if(user.getPassword().length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
+			if(checkUserByEmail(user.getEmail())) errors.add("El email ya está en uso.");
+			if(!checkers.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
+			model.put("errors", errors);
+			model.put("types", findDistinctAuthorities());
+			return false;
+		}
+	}
 }
