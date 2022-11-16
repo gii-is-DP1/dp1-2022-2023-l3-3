@@ -11,7 +11,6 @@ import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Past;
@@ -28,7 +27,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "users")
 public class User extends BaseEntity {
 	
 	//En caso de cambiar cualquier atribute con unique = true
