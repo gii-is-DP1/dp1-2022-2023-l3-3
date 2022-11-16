@@ -58,6 +58,7 @@ public class TurnController {
         Round round = roundList.get(roundList.size()-1);
         List<Turn> turnList = turnService.findByRoundId(round.getId());
         Turn turn = turnList.get(turnList.size()-1);
+        //TODO: Hacer las comprobaciones para el optional lobby
         Lobby lobby = lobbyService.findLobbyByPlayer(player.getId()).get();
         List<Player> playerList = lobby.getPlayers();
 
@@ -124,19 +125,19 @@ public class TurnController {
         //TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
         Player player = playerService.findPlayer(principal.getName()).get();
         //TODO: Poner el Game como Optional<Game> y realizar la comprobación de que existe
-        Optional<Game> game = entityAssistant.getGameOfPlayer(request);
+        Game game = entityAssistant.getGameOfPlayer(request).get();
         //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
         Lobby lobby = lobbyService.findLobbyByPlayer(player.getId()).get();
         List<Player> playerList = lobby.getPlayers();
-        List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream().collect(Collectors.toList());
+        List<Round> roundList = roundService.findRoundsByGameId(game.getId()).stream().collect(Collectors.toList());
 
         Round round = new Round();
         Turn turn = new Turn();
 
-        round.setGame(game.get());
+        round.setGame(game);
         turn.setRound(round);
         turn.setStartTime(LocalDateTime.now());
-        if(roundService.findRoundsByGameId(game.get().getId()).isEmpty()) {
+        if(roundService.findRoundsByGameId(game.getId()).isEmpty()) {
             turn.setPlayer(player);
         } else if (turnService.findByRoundId(roundList.get(roundList.size()-1).getId()).size() >= playerList.size()) {  //Quizás podríamos poner esta condición
             Integer nextPlayer = (playerList.indexOf(player)+1)%playerList.size();                      //en un método en caso de que lo vayamos

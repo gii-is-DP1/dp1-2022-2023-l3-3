@@ -1,17 +1,15 @@
 package sevenislands.game.island;
 
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
+
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 
-import sevenislands.card.Card;
 import sevenislands.game.Game;
 import sevenislands.model.BaseEntity;
 
@@ -34,6 +32,5 @@ public class Island extends BaseEntity {
     @NotNull
     private Game game;
 
-    @ManyToMany(mappedBy = "islands")
-    private List<Card> cards;
+ 
 }

@@ -92,7 +92,7 @@ public class LobbyController {
 		List<String> errors = new ArrayList<>();
 		if (lobbyService.checkLobbyByCode(code)) {
 			//TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
-			Lobby lobby = lobbyService.findLobbyByCode(code).get();
+			Lobby lobby = lobbyService.findLobbyByCode(code);
 			Integer players = lobby.getPlayers().size();
 			if (lobby.isActive() == true && players > 0 && players < 4) {
 				//TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
