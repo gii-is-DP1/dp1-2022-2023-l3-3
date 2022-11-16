@@ -11,6 +11,4 @@ public interface CardRepository extends CrudRepository<Card, Integer> {
     @Query("SELECT card FROM Card card")
     public List<Card> findAll() throws DataAccessException;
 
-    // @Query("SELECT card FROM Card card WHERE card.type=?1")
-    // public List<Card> findCardsByType(String type) throws DataAccessException;
 }
