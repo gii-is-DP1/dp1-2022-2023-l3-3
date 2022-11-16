@@ -69,7 +69,7 @@ public class PlayerServiceTest {
         player1.setPassword("password");
         player1.setId(1236789);
         playerList.add(player1);
-       
+
         playerList = playerRepository.findAll();
         assertThrows(ExistPlayerException.class, ()-> playerService.saveNewPlayer(player1));
     }
