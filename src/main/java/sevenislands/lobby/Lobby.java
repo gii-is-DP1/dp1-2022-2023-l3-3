@@ -9,8 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import sevenislands.model.BaseEntity;
-import sevenislands.player.Player;
-
+import sevenislands.user.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -28,16 +27,16 @@ public class Lobby extends BaseEntity {
   private boolean active;
 
   @ManyToMany(cascade = CascadeType.PERSIST)
-  private List<Player> players;
+  private List<User> users;
 
-  public List<Player> getPlayerInternal() {
-    if (this.players == null) {
-      this.players = new ArrayList<>();
+  public List<User> getPlayerInternal() {
+    if (this.users == null) {
+      this.users = new ArrayList<>();
     }
-    return this.players;
+    return this.users;
   }
 
-  public void addPlayer(Player player) {
-    getPlayerInternal().add(player);
+  public void addPlayer(User user) {
+    getPlayerInternal().add(user);
   }
 }

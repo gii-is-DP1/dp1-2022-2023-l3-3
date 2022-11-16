@@ -1,5 +1,9 @@
 package sevenislands.user;
 
+import java.util.List;
+
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -7,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
-import java.util.List;
 import java.util.NoSuchElementException;
 
 import org.junit.jupiter.api.Test;
@@ -21,6 +24,26 @@ public class UserRepositoryTest {
     UserRepository userRepository;
 
     @Test
+    public void initialDataAndFindSuccessTest(){
+        List<User> players = userRepository.findAll();
+
+        assertNotEquals(0, players.size());
+        assertNull(userRepository.findByNickname("sergioFalso").orElse(null));
+    }
+
+    @Test
+    public void findByIdAndUpdateDataTest(){
+        List<User> users = userRepository.findAll();
+        User user1 = users.get(0);
+        String oldEmail = user1.getEmail();
+        user1.setEmail(oldEmail+"mod");
+        userRepository.updateUser(user1, user1.getId());
+        assertNotNull(userRepository.findById(user1.getId()).orElseGet(null));
+        user1 = userRepository.findById(user1.getId()).orElseGet(null);
+        assertNotEquals(user1.getEmail(), oldEmail);
+    }
+
+    
     public void retrieveAllUsersSuccess() {
         List<User> users = userRepository.findAll();
         assertNotNull(users, "El repositorio devuelve una colección nula");
@@ -29,26 +52,26 @@ public class UserRepositoryTest {
     }
 
     @Test
-    public void retrieveUserByNicknameSuccess() {
+    public void retrieveUserByNicknameSuccessful() {
         User user = userRepository.findByNickname("admin1").get();
         assertEquals("admin1", user.getNickname(), "El nombre de usuario no es igual a admin1");
     }
 
     @Test()
-    public void retrieveUserByNicknameNotSuccess(){
+    public void retrieveUserByNicknameNotSuccessful(){
         assertThrows(NoSuchElementException.class, () -> {
             userRepository.findByNickname("FalsoAdmin1").get();
         });
     }
 
     @Test
-    public void retrieveUserByEmailSuccess() {
+    public void retrieveUserByEmailSuccessful() {
         User user = userRepository.findByEmail("admin1@sevenislands.com").get();
         assertEquals("admin1@sevenislands.com", user.getEmail());
     }
 
     @Test()
-    public void retrieveUserByEmailNotSuccess(){
+    public void retrieveUserByEmailNotSuccessful(){
         assertThrows(NoSuchElementException.class, () -> {
             userRepository.findByEmail("notAnEmail").get();
         });

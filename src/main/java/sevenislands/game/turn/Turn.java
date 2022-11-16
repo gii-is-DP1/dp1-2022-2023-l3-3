@@ -16,8 +16,7 @@ import org.hibernate.validator.constraints.Range;
 import sevenislands.card.Card;
 import sevenislands.game.round.Round;
 import sevenislands.model.BaseEntity;
-import sevenislands.player.Player;
-
+import sevenislands.user.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -36,7 +35,7 @@ public class Turn extends BaseEntity {
 
     @ManyToOne
     @NotNull
-    private Player player;
+    private User user;
 
     @ManyToOne
     @NotNull

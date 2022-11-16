@@ -4,5 +4,5 @@ import lombok.Getter;
 
 @Getter
 public class NotExitPlayerException extends Exception {
-    private String message = "El player especificado no forma parte del lobby";
+    private String message = "El user especificado no forma parte del lobby";
 }

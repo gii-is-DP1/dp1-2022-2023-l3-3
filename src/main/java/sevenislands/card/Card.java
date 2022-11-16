@@ -1,7 +1,5 @@
 package sevenislands.card;
 
-
-
 import java.util.List;
 
 import javax.persistence.Column;
@@ -29,7 +27,7 @@ public class Card extends BaseEntity {
         @Column(name = "name")
         @NotNull
         private String name;
-   
+
         @Column(name = "multiplicity")
         @NotNull
         private Integer multiplicity;

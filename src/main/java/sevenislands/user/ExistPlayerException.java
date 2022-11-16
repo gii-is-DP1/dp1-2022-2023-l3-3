@@ -1,4 +1,4 @@
-package sevenislands.player;
+package sevenislands.user;
 
 import org.springframework.dao.DataAccessException;
 

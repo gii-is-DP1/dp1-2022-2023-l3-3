@@ -22,12 +22,9 @@ public interface LobbyRepository extends CrudRepository<Lobby,Integer> {
     @Query("SELECT lobby FROM Lobby lobby WHERE lobby.code=?1")
 	public Lobby findByCode(String code);
     //
-    @Query(value = "SELECT l.lobby_id FROM lobby_players l WHERE l.players_id=?1", nativeQuery = true)
+    @Query(value = "SELECT l.lobby_id FROM lobby_users l WHERE l.users_id=?1", nativeQuery = true)
 	public Integer findLobbyIdByPlayer(Integer player_id);
     
-    //hay que borrar esta peticion
-    @Query("SELECT lobby FROM Lobby lobby WHERE lobby.id=?1")
-    public Optional<Lobby> findByLobbyId(Integer code);
     //
     @Query("SELECT DISTINCT lobby FROM Lobby lobby where lobby.active=true")
     public Collection<Lobby> findAllActiveLobby();
