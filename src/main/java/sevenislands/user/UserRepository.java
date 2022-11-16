@@ -8,8 +8,13 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface UserRepository extends CrudRepository<User, Integer> {
+
+    @Query("SELECT user FROM User user")
+    public List<User> findAll();
 
     @Query("SELECT user FROM User user WHERE user.id=:id")
     public Optional<User> findById(@Param("id") int id) throws DataAccessException;
@@ -27,10 +32,10 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     public void delete(@Param("nickname") String nickname);
 
     @Query("SELECT count(user) = 1 FROM User user WHERE user.nickname=?1")
-    public boolean checkUser(String nickname);
+    public Boolean checkUser(String nickname);
 
     @Query("SELECT count(user) = 1 FROM User user WHERE user.email=?1")
-    public boolean checkUserEmail(String email);
+    public Boolean checkUserEmail(String email);
 
     @Modifying
     @Query("UPDATE User user SET user=?1 WHERE user.id=?2")

@@ -10,24 +10,48 @@ INSERT INTO users(nickname,password,enabled,first_name,last_name,email,creation_
 INSERT INTO users(nickname,password,enabled,first_name,last_name,email,creation_date,type,birth_date,avatar) VALUES ('player1','$2a$10$Yurjw7YseLzZq/JOixdY/eRmBrOIzHHNooczuuMwtC42R8vRoKVPC','TRUE','Player FN','Player LN','player1@sevenislands.com','2022-10-29','player','2022-10-29','playerAvatar.png');
 INSERT INTO users(nickname,password,enabled,first_name,last_name,email,creation_date,type,birth_date,avatar) VALUES ('player2','$2a$10$Yurjw7YseLzZq/JOixdY/eRmBrOIzHHNooczuuMwtC42R8vRoKVPC','TRUE','Player FN','Player LN','player2@sevenislands.com','2022-10-29','player','2022-10-29','playerAvatar.png');
 INSERT INTO users(nickname,password,enabled,first_name,last_name,email,creation_date,type,birth_date,avatar) VALUES ('player3','$2a$10$Yurjw7YseLzZq/JOixdY/eRmBrOIzHHNooczuuMwtC42R8vRoKVPC','TRUE','Player FN','Player LN','player3@sevenislands.com','2022-10-29','player','2022-10-29','playerAvatar.png');
+INSERT INTO users(nickname,password,enabled,first_name,last_name,email,creation_date,type,birth_date,avatar) VALUES ('player4','$2a$10$Yurjw7YseLzZq/JOixdY/eRmBrOIzHHNooczuuMwtC42R8vRoKVPC','TRUE','Player FN','Player LN','player4@sevenislands.com','2022-10-29','player','2022-10-29','playerAvatar.png');
+INSERT INTO users(nickname,password,enabled,first_name,last_name,email,creation_date,type,birth_date,avatar) VALUES ('player5','$2a$10$Yurjw7YseLzZq/JOixdY/eRmBrOIzHHNooczuuMwtC42R8vRoKVPC','TRUE','Player FN','Player LN','player5@sevenislands.com','2022-10-29','player','2022-10-29','playerAvatar.png');
 
 -- LOBBY --
---INSERT INTO lobby(code,active) VALUES('00000000','TRUE');
+INSERT INTO lobby(code,active) VALUES('aD5f8Lio','TRUE');
 
---INSERT INTO lobby_players(lobby_id,players_id) VALUES (1,8);
+-- LOBBY PLAYERS -- 
+INSERT INTO lobby_users(lobby_id,users_id) VALUES (1,8);
+INSERT INTO lobby_users(lobby_id,users_id) VALUES (1,9);
 
--- MATERIALES --
-INSERT INTO cards(id,name,multiplicity) VALUES (1,'barril',6);
-INSERT INTO cards(id,name,multiplicity) VALUES (2,'mapa_tesoro',4);
-INSERT INTO cards(id,name,multiplicity) VALUES (3,'collar',4);
-INSERT INTO cards(id,name,multiplicity) VALUES (4,'caliz',3);
-INSERT INTO cards(id,name,multiplicity) VALUES (5,'corona',4);
-INSERT INTO cards(id,name,multiplicity) VALUES (6,'diamante',3);
-INSERT INTO cards(id,name,multiplicity) VALUES (7,'doblon',27);
-INSERT INTO cards(id,name,multiplicity) VALUES (8,'revolver',6);
-INSERT INTO cards(id,name,multiplicity) VALUES (9,'rubi',3);
-INSERT INTO cards(id,name,multiplicity) VALUES (10,'espada',6);
-INSERT INTO cards(id,name,multiplicity) VALUES (11,'baraja',1);
+-- GAME -- 
+INSERT INTO game(id, creation_date, ending_date, lobby_id) VALUES (1, '2022-11-14', '2022-11-24', 1);
 
--- CREACIÓN DE UNA PARTIDA --
+-- ROUNDS --
+INSERT INTO rounds(game_id) VALUES (1);
 
+-- TURNS -- 
+INSERT INTO turns(user_id, round_id, start_time) VALUES (8,1, '2022-11-16 02:52:12');
+INSERT INTO turns(user_id, round_id, start_time) VALUES (9,1,'2022-11-16 18:52:12');
+
+-- -- CARD --
+-- INSERT INTO cards(tipo, name, multiplicity) VALUES ('Moneda', 'Doblon', 27);
+-- INSERT INTO cards(tipo, name, multiplicity) VALUES ('Tesoro', 'Diamante', 3);
+-- INSERT INTO cards(tipo, name, multiplicity) VALUES ('Tesoro', 'Rubi', 3);
+-- INSERT INTO cards(tipo, name, multiplicity) VALUES ('Tesoro', 'Collar', 3);
+
+-- -- ISLA --
+INSERT INTO islands(island_number) VALUES (1);
+-- INSERT INTO islands(island_number, game_id) VALUES (2,1);
+-- INSERT INTO islands(island_number, game_id) VALUES (3,1);
+-- INSERT INTO islands(island_number, game_id) VALUES (4,1);
+-- INSERT INTO islands(island_number, game_id) VALUES (5,1);
+-- INSERT INTO islands(island_number, game_id) VALUES (6,1);
+
+-- -- CARTA_ISLA --
+-- INSERT INTO cards_islands(card_id,islands_id) VALUES (1,1);
+-- INSERT INTO cards_islands(card_id,islands_id) VALUES (1,2);
+-- INSERT INTO cards_islands(card_id,islands_id) VALUES (2,3);
+-- INSERT INTO cards_islands(card_id,islands_id) VALUES (3,4);
+
+
+-- -- -- TURNO_CARTA --
+-- INSERT INTO cards_turns(cards_id,turns_id) VALUES (1, 1);
+-- INSERT INTO cards_turns(cards_id,turns_id) VALUES (1, 1);
+-- INSERT INTO cards_turns(cards_id,turns_id) VALUES (1, 1);

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,9 +19,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import sevenislands.game.GameService;
 import sevenislands.lobby.exceptions.NotExistLobbyException;
-import sevenislands.player.Player;
-import sevenislands.player.PlayerService;
 import sevenislands.tools.checkers;
+import sevenislands.user.User;
+import sevenislands.user.UserService;
 
 @Controller
 public class LobbyController {
@@ -28,14 +29,14 @@ public class LobbyController {
 	private static final String VIEWS_LOBBY = "game/lobby";
 
 	private final LobbyService lobbyService;
-	private final PlayerService playerService;
 	private final GameService gameService;
+	private final UserService userService;
 
 	@Autowired
-	public LobbyController(GameService gameService, LobbyService lobbyService, PlayerService playerService) {
+	public LobbyController(UserService userService, GameService gameService, LobbyService lobbyService) {
 		this.lobbyService = lobbyService;
-		this.playerService = playerService;
 		this.gameService = gameService;
+		this.userService = userService;
 	}
 
 	@GetMapping("/lobby")
@@ -48,17 +49,19 @@ public class LobbyController {
 			return "redirect:/home";
 
 		response.addHeader("Refresh", "1");
-
-		Player player = playerService.findPlayer(principal.getName());
-		Lobby lobby = lobbyService.findLobbyByPlayer(player.getId());
-
-		if (lobbyService.checkUserLobbyByName(player.getId())) {
-			if (gameService.findGamebByLobbyId(lobby.getId()) != null)
+		//TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
+		User user = userService.findUser(principal.getName());
+		//TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
+		Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
+		if (lobbyService.checkUserLobbyByName(user.getId())) {
+			if (gameService.findGamebByLobbyId(lobby.getId()).isPresent()) {
 				return "redirect:/game";
-			Player host = lobby.getPlayers().get(0);
+			}
+			User host = lobby.getUsers().get(0);
+			model.put("num_players", lobby.getUsers().size());
 			model.put("lobby", lobby);
 			model.put("host", host);
-			model.put("player", player);
+			model.put("player", user);
 			return VIEWS_LOBBY;
 		} else {
 			return "redirect:/home";
@@ -67,14 +70,14 @@ public class LobbyController {
 
 	@GetMapping("/lobby/create")
 	public String createLobby(HttpServletRequest request, Principal principal) throws ServletException {
-		if (!checkers.checkUserNoLobby(request))
-			return "redirect:/home";
-		Player player = playerService.findPlayer(principal.getName());
+		if(!checkers.checkUserNoLobby(request)) return "redirect:/home";
+		//TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
+		User user = userService.findUser(principal.getName());
 		Lobby lobby = new Lobby();
 
 		lobby.setCode(lobbyService.generatorCode());
 		lobby.setActive(true);
-		lobby.addPlayer(player);
+		lobby.addPlayer(user);
 		lobbyService.save(lobby);
 		return "redirect:/lobby";
 	}
@@ -91,32 +94,43 @@ public class LobbyController {
 	public String validateJoin(Map<String, Object> model, @ModelAttribute("code") String code, Principal principal)
 			throws NotExistLobbyException {
 		code = code.trim();
+		List<String> errors = new ArrayList<>();
 		if (lobbyService.checkLobbyByCode(code)) {
+			//TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
 			Lobby lobby = lobbyService.findLobbyByCode(code);
-			Integer players = lobby.getPlayers().size();
-			if (lobby.isActive() == true && players > 0 && players < 4) {
-				Player player = playerService.findPlayer(principal.getName());
-				lobby.addPlayer(player);
+			Integer userNumber = lobby.getUsers().size();
+			if (lobby.isActive() == true && userNumber > 0 && userNumber < 4) {
+				//TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
+				User user = userService.findUser(principal.getName());
+				lobby.addPlayer(user);
 				model.put("lobby", lobby);
 				lobbyService.update(lobby);
 				return "redirect:/lobby";
-			} else
-				return "redirect:/join";
-		} else
-			return "redirect:/join";
+			}
+			if(!lobby.isActive()) errors.add("La partida ya ha empezado");
+			if(userNumber == 4) errors.add("La lobby está llena");
+		}
+		if(!lobbyService.checkLobbyByCode(code)) errors.add("No existe ninguna partida con ese código");
+		model.put("errors", errors);
+		Lobby lobby = new Lobby();
+		lobby.setCode(code);
+		model.put("code", lobby);
+		return "views/join";
 	}
 
 	// cambiar relacion onetoOne entre jugador y lobby
 	@GetMapping("/lobby/delete")
 	public String leaveLobby(Principal principal) {
-		Player player = playerService.findPlayer(principal.getName());
-		Lobby Lobby = lobbyService.findLobbyByPlayer(player.getId());
-		List<Player> players = Lobby.getPlayerInternal();
-		if (players.size() == 1) {
+		//TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
+		User user = userService.findUser(principal.getName());
+		//TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
+		Lobby Lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
+		List<User> users = Lobby.getPlayerInternal();
+		if (users.size() == 1) {
 			Lobby.setActive(false);
 		}
-		players.remove(player);
-		Lobby.setPlayers(players);
+		users.remove(user);
+		Lobby.setUsers(users);
 		lobbyService.update(Lobby);
 		return "redirect:/home";
 	}
@@ -124,24 +138,28 @@ public class LobbyController {
 	@GetMapping("/lobby/players")
 	public String listaPlayer(Map<String, Object> model, Principal principal, HttpServletResponse response) {
 		response.addHeader("Refresh", "2");
-		Player player = playerService.findPlayer(principal.getName());
-		Lobby Lobby = lobbyService.findLobbyByPlayer(player.getId());
+		//TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
+		User user = userService.findUser(principal.getName());
+		//TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
+		Lobby Lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
 		model.put("players", Lobby.getPlayerInternal());
 		return "game/lobbyPlayers";
 	}
 
 	@GetMapping("/lobby/players/delete/{id}")
 	public String ejectPlayer(Principal principal, @PathVariable("id") Integer id) {
-		Player player = playerService.findPlayer(id);
-		Lobby Lobby = lobbyService.findLobbyByPlayer(id);
-		List<Player> players = Lobby.getPlayerInternal();
-		if (players.size() == 1) {
+		//TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
+		User user = userService.findUser(id);
+		//TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
+		Lobby Lobby = lobbyService.findLobbyByPlayer(id).get();
+		List<User> users = Lobby.getPlayerInternal();
+		if (users.size() == 1) {
 			return "redirect:/lobby/delete";
 		} else {
-			players.remove(player);
-			Lobby.setPlayers(players);
+			users.remove(user);
+			Lobby.setUsers(users);
 			lobbyService.update(Lobby);
-			if (player.getNickname().equals(principal.getName())) {
+			if (user.getNickname().equals(principal.getName())) {
 				return "redirect:/home";
 			} else {
 				return "redirect:/lobby/players";

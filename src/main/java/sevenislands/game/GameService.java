@@ -1,9 +1,12 @@
 package sevenislands.game;
 
 import java.sql.Date;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import sevenislands.lobby.Lobby;
+
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -14,8 +17,8 @@ public class GameService {
     private GameRepository gameRepository;
 
     @Transactional
-    public int gameCount() {
-        return (int) gameRepository.count();
+    public Integer gameCount() {
+        return gameRepository.getNumOfGames();
     }
 
     @Transactional
@@ -33,7 +36,7 @@ public class GameService {
     }
 
     @Transactional
-    public Game findGamebByLobbyId(Integer id) {
+    public Optional<Game> findGamebByLobbyId(Integer id){
         return gameRepository.findGamebByLobbyId(id);
     }
 

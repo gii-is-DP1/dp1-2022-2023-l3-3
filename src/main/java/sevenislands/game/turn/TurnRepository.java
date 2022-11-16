@@ -6,7 +6,9 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface TurnRepository extends CrudRepository<Turn, Integer> {
     @Modifying
     @Query("UPDATE Turn turn SET turn=?1 WHERE turn.id=?2")

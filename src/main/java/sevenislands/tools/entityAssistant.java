@@ -1,14 +1,16 @@
 package sevenislands.tools;
 
+import java.util.List;
+import java.util.Optional;
+
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import sevenislands.admin.Admin;
 import sevenislands.game.Game;
 import sevenislands.game.GameService;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
-import sevenislands.player.Player;
 import sevenislands.user.User;
 import sevenislands.user.UserService;
 
@@ -41,45 +43,25 @@ public class entityAssistant {
         this.authenticationManager = authenticationManager;
     }
 
-    public static Admin parseAdmin(User user) {
-        Admin admin = new Admin();
-        admin.setId(user.getId());
-        admin.setNickname(user.getNickname());
-        admin.setPassword(user.getPassword());
-        admin.setEnabled(user.isEnabled());
-        admin.setFirstName(user.getFirstName());
-        admin.setLastName(user.getLastName());
-        admin.setEmail(user.getEmail());
-        admin.setCreationDate(user.getCreationDate());
-        admin.setBirthDate(user.getBirthDate());
-        admin.setAvatar("adminAvatar.png");
-        admin.setUserType("admin");
-        return admin;
-    }
-
-    public static Player parsePlayer(User user) {
-        Player player = new Player();
-        player.setId(user.getId());
-        player.setNickname(user.getNickname());
-        player.setPassword(user.getPassword());
-        player.setEnabled(user.isEnabled());
-        player.setFirstName(user.getFirstName());
-        player.setLastName(user.getLastName());
-        player.setEmail(user.getEmail());
-        player.setCreationDate(user.getCreationDate());
-        player.setBirthDate(user.getBirthDate());
-        player.setAvatar("playerAvatar.png");
-        player.setUserType("admin");
-        return player;
-    }
-
-    public static Game getGameOfPlayer(HttpServletRequest request) {
+    /**
+     * Obtiene la partida del jugador actual en caso de que esté en una. 
+     * @param request
+     * @return Game
+     */
+    public static Optional<Game> getGameOfPlayer(HttpServletRequest request) {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userService.findUser(principal.getUsername()).get();
-        Lobby lobby = lobbyService.findLobbyByPlayer(user.getId());
+        User user = userService.findUser(principal.getUsername());
+        //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
+        Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
+        //TODO: Poner el Game como Optional<Game> y realizar la comprobación de que existe
         return gameService.findGamebByLobbyId(lobby.getId());
     }
 
+    /**
+     * Realiza el logeo automático del usuario actual.
+     * @param user
+     * @param password
+     */
     public static void loginUser(User user, String password) {
         UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user.getNickname(),
                 password);
