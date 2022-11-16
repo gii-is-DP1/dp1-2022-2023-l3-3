@@ -58,6 +58,8 @@ public class TurnController {
         Round round = roundList.get(roundList.size()-1);
         List<Turn> turnList = turnService.findByRoundId(round.getId());
         Turn turn = turnList.get(turnList.size()-1);
+        Lobby lobby = lobbyService.findLobbyByPlayer(player.getId()).get();
+        List<Player> playerList = lobby.getPlayers();
 
         model.put("player", playerService.findPlayer(principal.getName()).get());
         model.put("player_turn", turn.getPlayer());

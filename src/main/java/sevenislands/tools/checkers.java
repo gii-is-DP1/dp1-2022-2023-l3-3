@@ -1,14 +1,20 @@
 package sevenislands.tools;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import sevenislands.game.Game;
+import sevenislands.game.GameService;
+import sevenislands.game.round.Round;
 import sevenislands.game.round.RoundService;
+import sevenislands.game.turn.Turn;
+import sevenislands.game.turn.TurnService;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
 import sevenislands.player.Player;
@@ -31,13 +37,17 @@ public class checkers {
     private static PlayerService playerService;
     private static LobbyService lobbyService;
     private static RoundService roundService;
+    private static GameService gameService;
+    private static TurnService turnService;
 
     @Autowired
-	public checkers(RoundService roundService, UserService userService, PlayerService playerService, LobbyService lobbyService) {
+	public checkers(TurnService turnService, GameService gameService, RoundService roundService, UserService userService, PlayerService playerService, LobbyService lobbyService) {
 		this.userService = userService;
         this.playerService = playerService;
         this.lobbyService = lobbyService;
         this.roundService = roundService;
+        this.gameService = gameService;
+        this.turnService = turnService;
 	}
     /**
      * Comprueba si un usuario existe en la base de datos o si está baneado.
@@ -126,5 +136,32 @@ public class checkers {
     public static Boolean checkEmail(String email) {
         String regexPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
         return email.matches(regexPattern);
+    }
+
+    public static void checkGame(HttpServletRequest request) {
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        User user = userService.findUser(principal.getUsername()).get();
+        
+        if (lobbyService.checkUserLobbyByName(user.getId())) {
+            //TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
+            Player player = playerService.findPlayer(principal.getUsername()).get();
+            //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
+            Lobby lobby = lobbyService.findLobbyByPlayer(player.getId()).get();
+            List<Player> playerList = lobby.getPlayerInternal();
+            Game game = gameService.findGamebByLobbyId(lobby.getId()).get();
+            List<Round> roundList = roundService.findRoundsByGameId(game.getId()).stream().collect(Collectors.toList());
+            Round lastRound = roundList.get(roundList.size()-1);
+            List<Turn> turnList = turnService.findByRoundId(lastRound.getId());
+            Turn lastTurn = turnList.get(turnList.size()-1);
+
+            if(lastTurn.getPlayer().getId()==user.getId()) {
+                Turn turn = new Turn();
+                Integer nextPlayer = (playerList.indexOf(player)+1)%playerList.size();
+                turn.setStartTime(LocalDateTime.now());
+                turn.setRound(lastRound);
+                turn.setPlayer(playerList.get(nextPlayer));
+                turnService.save(turn);
+            }
+        }
     }
 }

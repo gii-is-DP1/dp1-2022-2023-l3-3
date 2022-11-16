@@ -26,6 +26,7 @@ public class HomeController {
 	
 	@GetMapping("/home")
 	public String home(Map<String, Object> model, HttpServletRequest request, Principal principal) throws ServletException {
+		checkers.checkGame(request);
 		if(checkers.checkUser(request)) return "redirect:/";
 		User user = userService.findUser(principal.getName()).get();      
 		model.put("user", user);
