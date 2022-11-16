@@ -24,7 +24,7 @@ public class UserService {
 	@Transactional
 	public void save(User user) throws DataAccessException {
 		boolean flag = userRepository.findAll().stream().anyMatch(u -> u.getEmail().equals(user.getEmail()) || u.getNickname().equals(user.getNickname()));
-	
+	try {
 		if(flag){
 			//System.out.println("Se encuentra similitud");
 			throw new ExistPlayerException("Existe el jugador");
@@ -32,6 +32,10 @@ public class UserService {
 			userRepository.save(user);
 			//System.out.println("Lista de user tras save: " + userRepository.findAll());
 		}
+	} catch (Exception e) {
+		throw e;
+	}
+		
 	}
 
 	@Transactional(readOnly = true)

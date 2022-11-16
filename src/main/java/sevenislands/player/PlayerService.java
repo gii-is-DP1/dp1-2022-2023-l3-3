@@ -5,6 +5,8 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+
+import sevenislands.user.UserRepository;
 import sevenislands.user.UserService;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,6 +16,9 @@ public class PlayerService {
 
 	private PlayerRepository playerRepository;	
 	private UserService userService;
+
+	@Autowired
+	private UserRepository userRepository;
 
 	@Autowired
 	public PlayerService(PlayerRepository playerRepository, UserService userService) {
@@ -26,15 +31,17 @@ public class PlayerService {
 		player.setEnabled(true);
 		player.setAvatar("playerAvatar.png");
 		player.setCreationDate(new Date(System.currentTimeMillis()));
-		boolean flag = playerRepository.findAll().stream().anyMatch(u -> u.getEmail().equals(player.getEmail()) || u.getNickname().equals(player.getNickname()));
+		System.out.println("usuario y admin: " + userService.findAllUser());
+		System.out.println("player: " + playerRepository.findAll());
+		System.out.println("user: " + userRepository.findAll());
+		boolean flag = playerRepository.findAll().stream()
+			.anyMatch(u -> u.getEmail().equals(player.getEmail()) || u.getNickname().equals(player.getNickname()));
 		if(flag){
 			throw new ExistPlayerException("Existe el jugador");
 		} else{
 			playerRepository.save(player);
 			userService.save(player);
 		}
-		
-		
 	}
 
 	@Transactional(readOnly = true)
@@ -54,7 +61,11 @@ public class PlayerService {
 
 	@Transactional
 	public void save(Player player) throws DataAccessException{
-		playerRepository.save(player);
+		try {
+			playerRepository.save(player);
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 	@Transactional
