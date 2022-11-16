@@ -37,7 +37,7 @@ INSERT INTO turns(user_id, round_id, start_time) VALUES (9,1,'2022-11-16 18:52:1
 -- INSERT INTO cards(tipo, name, multiplicity) VALUES ('Tesoro', 'Collar', 3);
 
 -- -- ISLA --
--- INSERT INTO islands(island_number, game_id) VALUES (1,1);
+INSERT INTO islands(island_number) VALUES (1);
 -- INSERT INTO islands(island_number, game_id) VALUES (2,1);
 -- INSERT INTO islands(island_number, game_id) VALUES (3,1);
 -- INSERT INTO islands(island_number, game_id) VALUES (4,1);
