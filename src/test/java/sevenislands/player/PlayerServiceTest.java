@@ -13,11 +13,8 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.dao.DataAccessException;
 
-import sevenislands.player.Player;
-import sevenislands.player.PlayerRepository;
-import sevenislands.player.PlayerService;
+
 import sevenislands.user.UserRepository;
 import sevenislands.user.UserService;
 
