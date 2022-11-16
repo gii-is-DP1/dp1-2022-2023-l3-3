@@ -12,11 +12,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.session.SessionInformation;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 
+import sevenislands.lobby.Lobby;
+import sevenislands.lobby.LobbyService;
 import sevenislands.tools.checkers;
 import sevenislands.tools.entityAssistant;
 
@@ -26,12 +30,16 @@ public class UserService {
 	private UserRepository userRepository;
 	private PasswordEncoder passwordEncoder;
 	private UserRepository2 userRepository2;
+	private SessionRegistry sessionRegistry;
+	private LobbyService lobbyService;
 
 	@Autowired
-	public UserService(UserRepository2 userRepository2, PasswordEncoder passwordEncoder, UserRepository userRepository) {
+	public UserService(LobbyService lobbyService, SessionRegistry sessionRegistry, UserRepository2 userRepository2, PasswordEncoder passwordEncoder, UserRepository userRepository) {
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.userRepository2 = userRepository2;
+		this.sessionRegistry = sessionRegistry;
+		this.lobbyService = lobbyService;
 	}
 
 	@Transactional
@@ -220,5 +228,29 @@ public class UserService {
 			if(user.getNickname().equals(principal.getName())) return false;
 			return true;
 		}
+	}
+
+	@Transactional
+	public Boolean deleteUser(Integer id, Principal principal) {
+		User user = findUser(id);
+		List<SessionInformation> infos = sessionRegistry.getAllSessions(user.getNickname(), false);
+		for(SessionInformation info : infos) {
+			info.expireNow(); //expire the session
+		}
+		if(user.getNickname().equals(principal.getName())){
+			deleteUser(id);
+			return false;
+		}else{
+			if(lobbyService.checkUserLobbyByName(user.getId())) {
+				//TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
+				Lobby Lobby = lobbyService.findLobbyByPlayer(id).get();
+				List<User> userList = Lobby.getPlayerInternal();
+				userList.remove(user);
+				Lobby.setUsers(userList);
+				lobbyService.save(Lobby);
+			}
+			deleteUser(id);
+			return true;
+		}	
 	}
 }

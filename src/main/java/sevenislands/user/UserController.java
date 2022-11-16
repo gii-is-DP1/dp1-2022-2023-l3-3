@@ -16,13 +16,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
 import sevenislands.lobby.exceptions.NotExitPlayerException;
 import sevenislands.tools.checkers;
 import sevenislands.tools.entityAssistant;
 
-import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -41,16 +39,12 @@ public class UserController {
 	private static final String VIEWS_PLAYER_UPDATE_FORM = "views/updateUserForm";
 
 	private final UserService userService;
-	private final LobbyService lobbyService;
 	private PasswordEncoder passwordEncoder;
-	private SessionRegistry sessionRegistry;
 
 	@Autowired
-	public UserController(LobbyService lobbyService, SessionRegistry sessionRegistry, PasswordEncoder passwordEncoder, UserService userService) {
+	public UserController(LobbyService lobbyService, PasswordEncoder passwordEncoder, UserService userService) {
 		this.userService = userService;
 		this.passwordEncoder = passwordEncoder;
-		this.sessionRegistry = sessionRegistry;
-		this.lobbyService = lobbyService;
 	}
 
 	@GetMapping("/settings")
@@ -106,27 +100,8 @@ public class UserController {
 	 */
     @GetMapping("/controlPanel/delete/{id}")
 	public String deleteUser(Principal principal, @PathVariable("id") Integer id){
-		User user = userService.findUser(id);
-		List<SessionInformation> infos = sessionRegistry.getAllSessions(user.getNickname(), false);
-		for(SessionInformation info : infos) {
-			info.expireNow(); //expire the session
-		}
-
-		if(user.getNickname().equals(principal.getName())){
-			userService.deleteUser(id);
-			return "redirect:/";
-		}else{
-			if(lobbyService.checkUserLobbyByName(user.getId())) {
-				//TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
-				Lobby Lobby = lobbyService.findLobbyByPlayer(id).get();
-				List<User> userList = Lobby.getPlayerInternal();
-				userList.remove(user);
-				Lobby.setUsers(userList);
-				lobbyService.update(Lobby);
-			}
-			userService.deleteUser(id);
-			return "redirect:/controlPanel?valor=0";
-		}	
+		if(userService.deleteUser(id, principal)) return "redirect:/controlPanel?valor=0";
+		return "redirect:/";
 	}
 
 	/**
