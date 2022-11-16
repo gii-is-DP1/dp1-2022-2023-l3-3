@@ -139,24 +139,8 @@ public class UserController {
 	 */
 	@GetMapping("/controlPanel/enable/{id}")
 	public String enableUser(Principal principal, @PathVariable("id") Integer id){
-		User user = userService.findUser(id);
-		if(user.isEnabled()) {
-			user.setEnabled(false);
-			userService.update(user);
-			if(user.getNickname().equals(principal.getName())){
-				return "redirect:/";
-			} else {
-				return "redirect:/controlPanel?valor=0";
-			}
-		} else {
-			user.setEnabled(true);
-			userService.update(user);
-			if(user.getNickname().equals(principal.getName())){
-				return "redirect:/";
-			} else {
-				return "redirect:/controlPanel?valor=0";
-			}
-		}
+		if(userService.enableUser(id, principal)) return "redirect:/controlPanel?valor=0";
+		return "redirect:/";
 	}
 
 	/**
@@ -241,39 +225,8 @@ public class UserController {
 	 */
 	@PostMapping("/controlPanel/edit/{id}")
 	public String processEditUserForm(Map<String, Object> model, @PathVariable Integer id, @Valid User user, BindingResult result) {
-		if(result.hasErrors()) {
-			System.out.println(result.getFieldErrors());
-			return "àdmin/edit/";
-		} else {
-			User userEdited = userService.findUser(id);
-			String password = user.getPassword();
-			
-			user.setCreationDate(userEdited.getCreationDate());
-			user.setId(userEdited.getId());
-			User userFoundN = userService.findUser(user.getNickname());
-			User userFoundE = userService.findUserByEmail(user.getEmail());
-			System.out.println(password);
-			if((userFoundN == null || (userFoundN != null && userFoundN.getId().equals(userEdited.getId()))) &&
-			(userFoundE == null || (userFoundE != null && userFoundE.getId().equals(userEdited.getId()))) &&
-			checkers.checkEmail(user.getEmail()) &&
-			password.length()>=8) {
-				user.setPassword(passwordEncoder.encode(user.getPassword()));
-				if(userEdited.getUserType().equals("admin")) {
-					userService.save(user);
-				} else userService.save(user);
-				return "redirect:/controlPanel?valor=0";
-			} else {
-				List<String> errors = new ArrayList<>();
-				if(userFoundN != null && !userFoundN.getId().equals(userEdited.getId())) errors.add("El nombre de usuario ya está en uso.");
-				if(user.getPassword().length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
-				if(userFoundE != null && !userFoundE.getId().equals(userEdited.getId())) errors.add("El email ya está en uso.");
-				if(!checkers.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
-				user.setPassword("");
-				model.put("errors", errors);
-				model.put("enabledValues", List.of(Boolean.valueOf(user.isEnabled()).toString(), Boolean.valueOf(!user.isEnabled()).toString()));
-				return "admin/editUser";
-			}
-		}
+		if(userService.editUser(model, id, user, result)) return "redirect:/controlPanel?valor=0";
+		return "admin/editUser";
 	}
 
 }
