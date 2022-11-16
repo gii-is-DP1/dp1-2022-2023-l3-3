@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import sevenislands.game.GameService;
 import sevenislands.lobby.exceptions.NotExistLobbyException;
+import sevenislands.lobby.exceptions.NotExitPlayerException;
 import sevenislands.player.Player;
 import sevenislands.player.PlayerService;
 import sevenislands.tools.checkers;

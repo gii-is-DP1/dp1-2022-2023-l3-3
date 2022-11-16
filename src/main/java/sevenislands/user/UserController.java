@@ -43,7 +43,7 @@ public class UserController {
 	@GetMapping("/settings")
 	public String initUpdateOwnerForm(HttpServletRequest request, Map<String, Object> model, Principal principal) throws ServletException {
 		if(checkers.checkUser(request)) return "redirect:/";
-		User user = userService.findUser(principal.getName()).get();
+		User user = userService.findUser(principal.getName());
 		user.setPassword("");
 		model.put("user", user);
 		return VIEWS_PLAYER_UPDATE_FORM;
@@ -54,17 +54,17 @@ public class UserController {
 		if (result.hasErrors()) {
 			return VIEWS_PLAYER_UPDATE_FORM;
 		} else {
-			User authUser = userService.findUser(principal.getName()).get();
+			User authUser = userService.findUser(principal.getName());
 			String password = user.getPassword();
 			user.setCreationDate(authUser.getCreationDate());
 			user.setEnabled(authUser.isEnabled());
 			user.setId(authUser.getId());
 
-			Optional<User> userFoundN = userService.findUser(user.getNickname());
-			Optional<User> userFoundE = userService.findUserByEmail(user.getEmail());
+			User userFoundN = userService.findUser(user.getNickname());
+			User userFoundE = userService.findUserByEmail(user.getEmail());
 
-			if((!userFoundN.isPresent() || (userFoundN.isPresent() && userFoundN.get().getId().equals(authUser.getId()))) &&
-			(!userFoundE.isPresent() || (userFoundE.isPresent() && userFoundE.get().getId().equals(authUser.getId()))) &&
+			if((userFoundN == null || (userFoundN != null && userFoundN.getId().equals(authUser.getId()))) &&
+			(userFoundE == null || (userFoundE != null && userFoundE.getId().equals(authUser.getId()))) &&
 			checkers.checkEmail(user.getEmail()) &&
 			password.length()>=8) { 
 				//Guardalo
@@ -79,9 +79,9 @@ public class UserController {
 			} else {
 				user.setPassword("");
 				List<String> errors = new ArrayList<>();
-				if(userFoundN.isPresent() && !userFoundN.get().getId().equals(authUser.getId())) errors.add("El nombre de usuario ya está en uso.");
+				if(userFoundN != null && !userFoundN.getId().equals(authUser.getId())) errors.add("El nombre de usuario ya está en uso.");
 				if(password.length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
-				if(userFoundE.isPresent() && !userFoundE.get().getId().equals(authUser.getId())) errors.add("El email ya está en uso.");
+				if(userFoundE != null && !userFoundE.getId().equals(authUser.getId())) errors.add("El email ya está en uso.");
 				if(!checkers.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
 				
 				model.put("errors", errors);

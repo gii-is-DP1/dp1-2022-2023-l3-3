@@ -11,7 +11,6 @@ import sevenislands.player.PlayerRepository;
 
 public interface PlayerRepository extends CrudRepository<Player, Integer> {
 
-	
 	public List<Player> findAll();
 
 	@Query("SELECT player FROM Player player WHERE player.nickname=?1")

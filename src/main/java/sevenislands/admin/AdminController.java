@@ -107,7 +107,7 @@ public class AdminController {
 	 */
     @GetMapping("/delete/{id}")
 	public String deleteUser(Principal principal, @PathVariable("id") Integer id){
-		User user = userService.findUser(id).get();
+		User user = userService.findUser(id);
 		List<SessionInformation> infos = sessionRegistry.getAllSessions(user.getNickname(), false);
 		for(SessionInformation info : infos) {
 			info.expireNow(); //expire the session
@@ -142,7 +142,7 @@ public class AdminController {
 	 */
 	@GetMapping("/enable/{id}")
 	public String enableUser(Principal principal, @PathVariable("id") Integer id){
-		User user = userService.findUser(id).get();
+		User user = userService.findUser(id);
 		if(user.isEnabled()) {
 			user.setEnabled(false);
 			userService.update(user);
@@ -216,7 +216,7 @@ public class AdminController {
 	 */
 	@GetMapping("/edit/{id}")
 	public String editUser(@PathVariable Integer id, Map<String, Object> model) {
-		User user = userService.findUser(id).get();
+		User user = userService.findUser(id);
 		List<String> authList = userService.findDistinctAuthorities();
 		user.setPassword("");
 		authList.remove(user.getUserType());
@@ -242,16 +242,16 @@ public class AdminController {
 			System.out.println(result.getFieldErrors());
 			return "àdmin/edit/";
 		} else {
-			User userEdited = userService.findUser(id).get();
+			User userEdited = userService.findUser(id);
 			String password = user.getPassword();
 			
 			user.setCreationDate(userEdited.getCreationDate());
 			user.setId(userEdited.getId());
-			Optional<User> userFoundN = userService.findUser(user.getNickname());
-			Optional<User> userFoundE = userService.findUserByEmail(user.getEmail());
+			User userFoundN = userService.findUser(user.getNickname());
+			User userFoundE = userService.findUserByEmail(user.getEmail());
 			System.out.println(password);
-			if((!userFoundN.isPresent() || (userFoundN.isPresent() && userFoundN.get().getId().equals(userEdited.getId()))) &&
-			(!userFoundE.isPresent() || (userFoundE.isPresent() && userFoundE.get().getId().equals(userEdited.getId()))) &&
+			if((userFoundN == null || (userFoundN != null && userFoundN.getId().equals(userEdited.getId()))) &&
+			(userFoundE == null || (userFoundE != null && userFoundE.getId().equals(userEdited.getId()))) &&
 			checkers.checkEmail(user.getEmail()) &&
 			password.length()>=8) {
 				user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -261,9 +261,9 @@ public class AdminController {
 				return "redirect:/controlPanel?valor=0";
 			} else {
 				List<String> errors = new ArrayList<>();
-				if(userFoundN.isPresent() && !userFoundN.get().getId().equals(userEdited.getId())) errors.add("El nombre de usuario ya está en uso.");
+				if(userFoundN != null && !userFoundN.getId().equals(userEdited.getId())) errors.add("El nombre de usuario ya está en uso.");
 				if(user.getPassword().length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
-				if(userFoundE.isPresent() && !userFoundE.get().getId().equals(userEdited.getId())) errors.add("El email ya está en uso.");
+				if(userFoundE != null && !userFoundE.getId().equals(userEdited.getId())) errors.add("El email ya está en uso.");
 				if(!checkers.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
 				user.setPassword("");
 				model.put("errors", errors);
