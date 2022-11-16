@@ -49,7 +49,7 @@ prefix="sevenislands" tagdir="/WEB-INF/tags" %>
     <a class="btn btn-default" href='<spring:url value="/" htmlEscape="true"/>'>Volver</a>
     <h2><br/>Registrarse</h2>
     <form:form
-      modelAttribute="player"
+      modelAttribute="user"
       class="form-horizontal"
       id="add-player-form"
     >

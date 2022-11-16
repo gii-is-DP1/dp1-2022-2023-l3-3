@@ -27,6 +27,10 @@ public class CardService {
     //     return cardRepository.findById(id);
     // }
 
+    @Transactional(readOnly = true)
+    public List<Card> findCardTypes() throws DataAccessException {
+        return cardRepository.findAll();
+    }
 
     // @Transactional(readOnly = true)
     // public Collection<Card> findCardsByType(String type) throws

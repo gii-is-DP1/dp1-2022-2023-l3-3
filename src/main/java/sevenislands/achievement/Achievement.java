@@ -12,9 +12,6 @@ import javax.persistence.Table;
 
 import sevenislands.enums.AchievementType;
 import sevenislands.model.BaseEntity;
-
-import sevenislands.player.Player;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -33,8 +30,4 @@ public class Achievement extends BaseEntity {
     @Column(name = "achievementType", nullable = false)
     @Enumerated(EnumType.STRING)
     private AchievementType achievementType;
-
-    @ManyToMany
-    @JoinColumn(name = "players")
-    private Collection<Player> players;
 }

@@ -11,7 +11,6 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import sevenislands.game.Game;
-import sevenislands.game.turn.Turn;
 import sevenislands.model.BaseEntity;
 
 import lombok.Getter;
@@ -27,6 +26,4 @@ public class Round extends BaseEntity {
     @NotNull
     private Game game;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "round", fetch = FetchType.LAZY)
-    private List<Turn> turns;
 }

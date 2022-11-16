@@ -17,8 +17,8 @@ INSERT INTO users(nickname,password,enabled,first_name,last_name,email,creation_
 INSERT INTO lobby(code,active) VALUES('aD5f8Lio','TRUE');
 
 -- LOBBY PLAYERS -- 
-INSERT INTO lobby_players(lobby_id,players_id) VALUES (1,8);
-INSERT INTO lobby_players(lobby_id,players_id) VALUES (1,9);
+INSERT INTO lobby_users(lobby_id,users_id) VALUES (1,8);
+INSERT INTO lobby_users(lobby_id,users_id) VALUES (1,9);
 
 -- GAME -- 
 INSERT INTO game(id, creation_date, ending_date, lobby_id) VALUES (1, '2022-11-14', '2022-11-24', 1);
@@ -27,8 +27,8 @@ INSERT INTO game(id, creation_date, ending_date, lobby_id) VALUES (1, '2022-11-1
 INSERT INTO rounds(game_id) VALUES (1);
 
 -- TURNS -- 
-INSERT INTO turns(player_id, round_id, start_time) VALUES (8,1, '2022-11-16 02:52:12');
-INSERT INTO turns(player_id, round_id, start_time) VALUES (9,1,'2022-11-16 18:52:12');
+INSERT INTO turns(user_id, round_id, start_time) VALUES (8,1, '2022-11-16 02:52:12');
+INSERT INTO turns(user_id, round_id, start_time) VALUES (9,1,'2022-11-16 18:52:12');
 
 -- -- CARD --
 -- INSERT INTO cards(tipo, name, multiplicity) VALUES ('Moneda', 'Doblon', 27);

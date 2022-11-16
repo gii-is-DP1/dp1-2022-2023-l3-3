@@ -10,9 +10,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
-import sevenislands.player.Player;
-import sevenislands.player.PlayerService;
 import sevenislands.tools.checkers;
+import sevenislands.user.User;
+import sevenislands.user.UserService;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
@@ -22,14 +23,14 @@ public class GameController {
     private static final String VIEWS_GAME_ASIGN_TURN = "game/asignTurn"; // vista para decidir turnos
 
     private final GameService gameService;
-    private final PlayerService playerService;
     private final LobbyService lobbyService;
+    private final UserService userService;
 
     @Autowired
-    public GameController(GameService gameService, PlayerService playerService, LobbyService lobbyService) {
+    public GameController(UserService userService, GameService gameService, LobbyService lobbyService) {
         this.gameService = gameService;
-        this.playerService = playerService;
         this.lobbyService = lobbyService;
+        this.userService = userService;
     }
 
     @GetMapping("/game")
@@ -40,9 +41,9 @@ public class GameController {
         response.addHeader("Refresh", "1");
 
         //TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
-        Player player = playerService.findPlayer(principal.getName());
+        User user = userService.findUser(principal.getName());
         //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
-        Lobby lobby = lobbyService.findLobbyByPlayer(player.getId()).get();
+        Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
         if(!gameService.findGamebByLobbyId(lobby.getId()).isPresent()) {
             Game game = new Game();
             game.setCreationDate(new Date(System.currentTimeMillis()));

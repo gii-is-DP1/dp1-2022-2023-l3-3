@@ -27,10 +27,4 @@ public class Island extends BaseEntity {
     @Min(value = 1)
     @Max(value = 7)
     private Integer num;
-
-    @ManyToOne
-    @NotNull
-    private Game game;
-
- 
 }
