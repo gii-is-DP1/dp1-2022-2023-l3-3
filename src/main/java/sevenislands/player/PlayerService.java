@@ -35,12 +35,6 @@ public class PlayerService {
 			playerRepository.save(player);
 			userService.save(player);
 		}
-		try {
-			playerRepository.save(player);
-			userService.save(player);
-		} catch (Exception e) {
-			throw e;
-		}
 	}
 
 	@Transactional(readOnly = true)
@@ -50,7 +44,7 @@ public class PlayerService {
 
 	@Transactional
     public Player findPlayer(String name) {
-        return playerRepository.findByName(name);
+        return playerRepository.findByName(name).orElse(null);
     }
 
 	@Transactional 

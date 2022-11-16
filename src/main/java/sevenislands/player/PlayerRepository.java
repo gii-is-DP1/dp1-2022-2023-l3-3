@@ -16,7 +16,7 @@ public interface PlayerRepository extends CrudRepository<Player, Integer> {
 	public List<Player> findAll();
 
 	@Query("SELECT player FROM Player player WHERE player.nickname=?1")
-	public Player findByName(String name);
+	public Optional<Player> findByName(String name);
 
 	@Modifying
 	@Query("UPDATE Player player SET player=?1 WHERE player.id=?2")
