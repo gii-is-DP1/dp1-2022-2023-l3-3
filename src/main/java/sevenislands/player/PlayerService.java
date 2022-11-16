@@ -26,8 +26,15 @@ public class PlayerService {
 		player.setEnabled(true);
 		player.setAvatar("playerAvatar.png");
 		player.setCreationDate(new Date(System.currentTimeMillis()));
-		playerRepository.save(player);
-		userService.save(player);
+		boolean flag = playerRepository.findAll().stream().anyMatch(u -> u.getEmail().equals(player.getEmail()) || u.getNickname().equals(player.getNickname()));
+		if(flag){
+			throw new ExistPlayerException("Existe el jugador");
+		} else{
+			playerRepository.save(player);
+			userService.save(player);
+		}
+		
+		
 	}
 
 	@Transactional(readOnly = true)
@@ -46,7 +53,7 @@ public class PlayerService {
 	}
 
 	@Transactional
-	public void save(Player player) {
+	public void save(Player player) throws DataAccessException{
 		playerRepository.save(player);
 	}
 

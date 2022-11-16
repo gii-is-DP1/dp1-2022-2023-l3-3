@@ -48,7 +48,7 @@ public class checkers {
     public static Boolean checkUserNoExists(HttpServletRequest request) throws ServletException {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
-        if(!userService.checkUserByName(principal.getUsername()) || !userService.findUser(principal.getUsername()).get().isEnabled()) {
+        if(!userService.checkUserByName(principal.getUsername()) || !userService.findUser(principal.getUsername()).isEnabled()) {
             request.getSession().invalidate();
             request.logout();
             return true;
@@ -65,8 +65,8 @@ public class checkers {
     public static Boolean checkUser(HttpServletRequest request) throws ServletException {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
-        if(userService.checkUserByName(principal.getUsername()) && userService.findUser(principal.getUsername()).get().isEnabled()) {
-            User user = userService.findUser(principal.getUsername()).get();
+        if(userService.checkUserByName(principal.getUsername()) && userService.findUser(principal.getUsername()).isEnabled()) {
+            User user = userService.findUser(principal.getUsername());
             if (lobbyService.checkUserLobbyByName(user.getId())) {
                 //TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
                 Player player = playerService.findPlayer(principal.getUsername());
@@ -96,7 +96,7 @@ public class checkers {
      */
     public static Boolean checkUserNoLobby(HttpServletRequest request) throws ServletException {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userService.findUser(principal.getUsername()).get();
+        User user = userService.findUser(principal.getUsername());
 
         if (!lobbyService.checkUserLobbyByName(user.getId())) {
             return true;

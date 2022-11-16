@@ -7,12 +7,16 @@ import java.util.Optional;
 
 
 import sevenislands.user.User;
+
+import org.hibernate.usertype.UserType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import sevenislands.user.UserService;
+import sevenislands.user.Enums.UserTypeEnum;
+
 import org.springframework.stereotype.Service;
 
 @Service

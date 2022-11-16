@@ -9,6 +9,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import sevenislands.player.ExistPlayerException;
+
 @Service
 public class UserService {
 
@@ -21,22 +23,33 @@ public class UserService {
 
 	@Transactional
 	public void save(User user) throws DataAccessException {
-		userRepository.save(user);
+		boolean flag = userRepository.findAll().stream().anyMatch(u -> u.getEmail().equals(user.getEmail()) || u.getNickname().equals(user.getNickname()));
+	
+		if(flag){
+			//System.out.println("Se encuentra similitud");
+			throw new ExistPlayerException("Existe el jugador");
+		} else {
+			userRepository.save(user);
+			//System.out.println("Lista de user tras save: " + userRepository.findAll());
+		}
 	}
 
 	@Transactional(readOnly = true)
-	public Optional<User> findUser(Integer id) {
-		return userRepository.findById(id);
+	public User findUser(Integer id) {
+		Optional<User> user = userRepository.findById(id);
+		return user.isPresent()?user.get():null;
 	}
 
 	@Transactional(readOnly = true)
-	public Optional<User> findUser(String nickname) {
-		return userRepository.findByNickname(nickname);
+	public User findUser(String nickname) {
+		Optional<User> user = userRepository.findByNickname(nickname);
+		return user.isPresent()?user.get():null;
 	}
 
 	@Transactional(readOnly = true)
-	public Optional<User> findUserByEmail(String email) {
-		return userRepository.findByEmail(email);
+	public User findUserByEmail(String email) {
+		Optional<User> user = userRepository.findByEmail(email);
+		return user.isPresent()?user.get():null;
 	}
 
 	@Transactional(readOnly = true)

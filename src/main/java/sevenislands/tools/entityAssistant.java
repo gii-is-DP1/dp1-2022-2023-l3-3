@@ -93,7 +93,7 @@ public class entityAssistant {
      */
     public static Game getGameOfPlayer(HttpServletRequest request) {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userService.findUser(principal.getUsername()).get();
+        User user = userService.findUser(principal.getUsername());
         //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
         Lobby lobby = lobbyService.findLobbyByPlayer(user.getId());
         //TODO: Poner el Game como Optional<Game> y realizar la comprobación de que existe
