@@ -64,43 +64,13 @@ public class UserController {
 
 	@PostMapping("/settings")
 	public String processUpdateplayerForm(Map<String, Object> model, @Valid User user, BindingResult result, Principal principal) {
-		// if(userService.updateUser(model, user, principal, result)) return "redirect:/home";
-		// return VIEWS_PLAYER_UPDATE_FORM;
-		if (result.hasErrors()) {
-			return VIEWS_PLAYER_UPDATE_FORM;
-		} else {
-			User authUser = userService.findUser(principal.getName());
-			String password = user.getPassword();
-			user.setCreationDate(authUser.getCreationDate());
-			user.setEnabled(authUser.isEnabled());
-			user.setId(authUser.getId());
-
-			User userFoundN = userService.findUser(user.getNickname());
-			User userFoundE = userService.findUserByEmail(user.getEmail());
-
-			if((userFoundN == null || (userFoundN != null && userFoundN.getId().equals(authUser.getId()))) &&
-			(userFoundE == null || (userFoundE != null && userFoundE.getId().equals(authUser.getId()))) &&
-			checkers.checkEmail(user.getEmail()) &&
-			password.length()>=8) { 
-				//Guardalo
-				user.setAvatar(authUser.getAvatar());
-				user.setPassword(passwordEncoder.encode(user.getPassword()));
-				userService.save(user);
-				//Cambia las credenciales(token) a las credenciales actualizadas
-				entityAssistant.loginUser(user, password); 
-				return "redirect:/home";
-			} else {
-				user.setPassword("");
-				List<String> errors = new ArrayList<>();
-				if(userFoundN != null && !userFoundN.getId().equals(authUser.getId())) errors.add("El nombre de usuario ya está en uso.");
-				if(password.length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
-				if(userFoundE != null && !userFoundE.getId().equals(authUser.getId())) errors.add("El email ya está en uso.");
-				if(!checkers.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
-				
-				model.put("errors", errors);
-				return VIEWS_PLAYER_UPDATE_FORM; //No me lo guardes
-			}
+		String password = user.getPassword();
+		if(userService.updateUser(model, user, principal, result)) {
+			//Cambia las credenciales(token) a las credenciales actualizadas
+			entityAssistant.loginUser(user, password); 
+			return "redirect:/home";
 		}
+		return VIEWS_PLAYER_UPDATE_FORM;
 	}
 
 		/**
@@ -113,14 +83,6 @@ public class UserController {
 	 * @return
 	 * @throws NotExitPlayerException
 	 */
-    // @GetMapping
-	// public String listUsers(Map<String, Object> model, Principal principal, HttpServletResponse response) throws NotExitPlayerException{
-	// 	response.addHeader("Refresh", "5");
-    //     List<User> users = StreamSupport.stream(userService.findAll().spliterator(), false).collect(Collectors.toList());      
-    //     model.put("users", users);
-	// 	return VIEWS_CONTROL_PANEL;
-	// }
-	
     @RequestMapping(value = "/controlPanel", method = RequestMethod.GET)
 	public String listUsersPagination(Model model, @RequestParam Integer valor) throws NotExitPlayerException{
 		Page<User> paginacion=null;

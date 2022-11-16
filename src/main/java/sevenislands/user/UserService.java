@@ -1,8 +1,11 @@
 package sevenislands.user;
 
 
+import java.security.Principal;
 import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
+
+import sevenislands.tools.checkers;
+import sevenislands.tools.entityAssistant;
 
 @Service
 public class UserService {
@@ -90,48 +97,7 @@ public class UserService {
 		return userRepository.findAll();
 	}
 
-	/*@Transactional
-	public Boolean updateUser(Map<String, Object> model, User user, Principal principal, BindingResult result) {
-		if (result!=null && result.hasErrors()) {
-			return false;
-		} else {
-			User authUser = findUser(principal.getName());
-			String password = user.getPassword();
-			user.setCreationDate(authUser.getCreationDate());
-			user.setEnabled(authUser.isEnabled());
-			user.setId(authUser.getId());
-
-			User userFoundN = findUser(user.getNickname());
-			User userFoundE = findUserByEmail(user.getEmail());
-
-			if((userFoundN == null || (userFoundN != null && userFoundN.getId().equals(authUser.getId()))) &&
-			(userFoundE == null || (userFoundE != null && userFoundE.getId().equals(authUser.getId()))) &&
-			checkers.checkEmail(user.getEmail()) &&
-			password.length()>=8) { 
-				//Guardalo
-				user.setAvatar(authUser.getAvatar());
-				user.setPassword(passwordEncoder.encode(user.getPassword()));
-				if(authUser.getUserType().equals("admin")){
-					adminService.save(entityAssistant.parseAdmin(user));
-				} else save(entityAssistant.parsePlayer(user));
-				//Cambia las credenciales(token) a las credenciales actualizadas
-				entityAssistant.loginUser(user, password); 
-				return true;
-			} else {
-				user.setPassword("");
-				List<String> errors = new ArrayList<>();
-				if(userFoundN != null && !userFoundN.getId().equals(authUser.getId())) errors.add("El nombre de usuario ya está en uso.");
-				if(password.length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
-				if(userFoundE != null && !userFoundE.getId().equals(authUser.getId())) errors.add("El email ya está en uso.");
-				if(!checkers.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
-				
-				model.put("errors", errors);
-				return false; //No me lo guardes
-			}
-		}
-	}*/
-
-	    /**
+	/**
      * Encuentra un admin dado su id.
      * @param id
      * @return
@@ -169,4 +135,39 @@ public class UserService {
     public Page<User> findAllUser(Pageable pageable){
         return userRepository2.findAll(pageable);
     }
+
+	@Transactional
+	public Boolean updateUser(Map<String, Object> model, User user, Principal principal, BindingResult result) {
+		if (result!=null && result.hasErrors()) {
+			return false;
+		} else {
+			User authUser = findUser(principal.getName());
+			String password = user.getPassword();
+			user.setCreationDate(authUser.getCreationDate());
+			user.setEnabled(authUser.isEnabled());
+			user.setId(authUser.getId());
+
+			User userFoundN = findUser(user.getNickname());
+			User userFoundE = findUserByEmail(user.getEmail());
+			if((userFoundN == null || (userFoundN != null && userFoundN.getId().equals(authUser.getId()))) &&
+			(userFoundE == null || (userFoundE != null && userFoundE.getId().equals(authUser.getId()))) &&
+			checkers.checkEmail(user.getEmail()) &&
+			password.length()>=8) {
+				user.setAvatar(authUser.getAvatar());
+				user.setPassword(passwordEncoder.encode(user.getPassword()));
+				userRepository.save(user);
+				return true;
+			} else {
+				user.setPassword("");
+				List<String> errors = new ArrayList<>();
+				if(userFoundN != null && !userFoundN.getId().equals(authUser.getId())) errors.add("El nombre de usuario ya está en uso.");
+				if(password.length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
+				if(userFoundE != null && !userFoundE.getId().equals(authUser.getId())) errors.add("El email ya está en uso.");
+				if(!checkers.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
+				
+				model.put("errors", errors);
+				return false;
+			}
+		}
+	}
 }
