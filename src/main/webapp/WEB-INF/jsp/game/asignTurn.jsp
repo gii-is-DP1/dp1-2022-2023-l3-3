@@ -21,7 +21,9 @@
         </div>
         <div>
             <center>
-                <a title="partida" href="/turn/newRound"><img src="/resources/images/grafics/boton.png" alt="partida" height="150" width="150"/></a>
+                <marquee behavior="alternate" scrollamount="50px">
+                <a title="partida" href="/turn/newRound"><img src="/resources/images/grafics/boton.png" alt="partida" height="190" width="190"/></a>
+                </marquee>
             </center>
         </div>
     </body>

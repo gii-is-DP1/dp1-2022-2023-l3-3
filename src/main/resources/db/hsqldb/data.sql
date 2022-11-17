@@ -32,9 +32,20 @@ INSERT INTO turn(user_id, round_id, start_time) VALUES (9,1,'2022-11-16 18:52:12
 
 -- -- -- CARD --
 INSERT INTO card(tipo, name, multiplicity) VALUES ('Moneda', 'Doblon', 27);
-INSERT INTO card(tipo, name, multiplicity) VALUES ('Tesoro', 'Diamante', 3);
+INSERT INTO card(tipo, name, multiplicity) VALUES ('Tesoro', 'Caliz', 3);
 INSERT INTO card(tipo, name, multiplicity) VALUES ('Tesoro', 'Rubi', 3);
-INSERT INTO card(tipo, name, multiplicity) VALUES ('Tesoro', 'Collar', 3);
+INSERT INTO card(tipo, name, multiplicity) VALUES ('Tesoro', 'Diamante', 3);
+INSERT INTO card(tipo, name, multiplicity) VALUES ('Tesoro', 'Collar', 4);
+INSERT INTO card(tipo, name, multiplicity) VALUES ('Tesoro', 'MapaTesoro', 4);
+INSERT INTO card(tipo, name, multiplicity) VALUES ('Tesoro', 'Corona', 4);
+INSERT INTO card(tipo, name, multiplicity) VALUES ('Tesoro', 'Revolver', 6);
+INSERT INTO card(tipo, name, multiplicity) VALUES ('Tesoro', 'Espada', 6);
+INSERT INTO card(tipo, name, multiplicity) VALUES ('Tesoro', 'BarrillRon', 6);
+
+
+
+
+
 
 -- -- -- -- ISLA --
 INSERT INTO island(island_number) VALUES (1);

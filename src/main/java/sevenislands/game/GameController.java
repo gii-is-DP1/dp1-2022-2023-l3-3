@@ -38,7 +38,7 @@ public class GameController {
         if(checkers.checkUserNoExists(request)) return "redirect:/";
         if(checkers.checkUserNoLobby(request)) return "redirect:/home";
         if(checkers.checkUserNoGame(request)) return "redirect:/turn";
-        response.addHeader("Refresh", "1");
+        response.addHeader("Refresh", "5");
 
         User user = userService.findUser(principal.getName());
         Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();

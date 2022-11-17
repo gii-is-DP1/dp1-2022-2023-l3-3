@@ -32,7 +32,7 @@
     <form:form modelAttribute="code" class="form-horizontal" id="validate-code">
         <br/>
         <div class="form-group has-feedback">
-            <sevenislands:inputField label="Códido" name="code" required="required"/>
+            <sevenislands:inputField label="Código" name="code" required="required"/>
         </div>
         <div class="form-group">
             <div class="col-sm-offset-2 col-sm-10">
