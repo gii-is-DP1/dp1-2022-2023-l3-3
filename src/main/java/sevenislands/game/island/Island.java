@@ -22,7 +22,7 @@ import lombok.Setter;
 
 public class Island extends BaseEntity {
 
-    // número para saber de qué isla se trata
+    // Número para saber de qué isla se trata
     @Column(name = "island_number", nullable = false)
     @Min(value = 1)
     @Max(value = 7)

@@ -18,15 +18,12 @@ import lombok.Setter;
 @Entity
 public class Card extends BaseEntity {
 
-        
         @NotNull
         private String tipo;
 
-       
         @NotNull
         private String name;
 
-        
         @NotNull
         private Integer multiplicity;
 

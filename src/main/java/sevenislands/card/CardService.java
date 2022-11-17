@@ -26,19 +26,8 @@ public class CardService {
         return StreamSupport.stream(cardRepository.findAll().spliterator(), false).collect(Collectors.toList());
     }
 
-    // @Transactional(readOnly = true)
-    // public Optional<Card> findCardById(Integer id) throws DataAccessException {
-    //     return cardRepository.findById(id);
-    // }
-
     @Transactional(readOnly = true)
     public List<Card> findCardTypes() throws DataAccessException {
         return cardRepository.findAll();
     }
-
-    // @Transactional(readOnly = true)
-    // public Collection<Card> findCardsByType(String type) throws
-    // DataAccessException {
-    // return cardRepository.findCardsByType(type);
-    // }
 }

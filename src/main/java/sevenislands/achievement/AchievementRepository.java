@@ -14,7 +14,6 @@ public interface AchievementRepository extends CrudRepository<Achievement, Integ
     /**
      * Encuentra todos los logros de un tipo dado.
      * @param achievementType
-     * @return
      */
     @Query("SELECT achievement FROM Achievement achievement WHERE achievement.achievementType=:achievementType")
     List<Achievement> findByType(@Param("achievementType") AchievementType achievementType);

@@ -76,12 +76,4 @@ public class LobbyService {
 	public Boolean checkUserLobbyByName(Integer id) {
 	    return lobbyRepository.findLobbyIdByPlayer(id)!=null;
 	}
-
-    /*@Transactional(rollbackFor = NotExistLobbyException.class)
-    public void addPlayerToLobby(Integer code, Player player) throws NotExistLobbyException{
-        Lobby lobby = getByCode(code);
-        lobby.getMembers().add(player);
-        lobbyRepository.save(lobby);
-    }*/
-
 }

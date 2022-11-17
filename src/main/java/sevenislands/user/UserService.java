@@ -199,14 +199,13 @@ public class UserService {
 		User user = findUser(id);
 		List<SessionInformation> infos = sessionRegistry.getAllSessions(user.getNickname(), false);
 		for(SessionInformation info : infos) {
-			info.expireNow(); //expire the session
+			info.expireNow(); //Termina la sesión
 		}
 		if(user.getNickname().equals(principal.getName())){
 			deleteUser(id);
 			return false;
 		}else{
 			if(lobbyService.checkUserLobbyByName(user.getId())) {
-				//TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
 				Lobby Lobby = lobbyService.findLobbyByPlayer(id).get();
 				List<User> userList = Lobby.getPlayerInternal();
 				userList.remove(user);
