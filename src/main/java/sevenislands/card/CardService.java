@@ -26,8 +26,5 @@ public class CardService {
         return StreamSupport.stream(cardRepository.findAll().spliterator(), false).collect(Collectors.toList());
     }
 
-    @Transactional(readOnly = true)
-    public List<Card> findCardTypes() throws DataAccessException {
-        return cardRepository.findAll();
-    }
+   
 }

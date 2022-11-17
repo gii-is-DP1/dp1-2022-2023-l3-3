@@ -4,6 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.junit.jupiter.api.Test;
@@ -19,7 +20,9 @@ public class CardRepositoryTest {
 
     @Test
     public void TestDataAllFindAllSuccess(){
-        List<Card> card= cardRepository.findAll();
+        List<Card> card= new ArrayList<>();
+        cardRepository.findAll().iterator().forEachRemaining(card::add);
+        
 
         assertNotNull(card);
         assertFalse(card.isEmpty());
