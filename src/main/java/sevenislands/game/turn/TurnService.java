@@ -19,7 +19,7 @@ public class TurnService {
     }
 
     @Transactional(readOnly = true)
-    public Iterable<Turn> findAllTurns() throws DataAccessException {
+    public List<Turn> findAllTurns() throws DataAccessException {
         return turnRepository.findAll();
     }
 

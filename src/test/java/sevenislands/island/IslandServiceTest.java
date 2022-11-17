@@ -53,9 +53,7 @@ public class IslandServiceTest {
     @Test
     public void allIslandsFoundSuccessful() {
         IslandService islandService = new IslandService(mock);
-        Iterable<Island> islandIter = islandService.findAllIslands();
-        List<Island> islands = new ArrayList<>();
-        islandIter.forEach(x -> islands.add(x));
+        List<Island> islands = islandService.findAllIslands();
         assertNotNull(islands, "El service devuelve un objeto nulo");
         assertFalse(islands.isEmpty(), "El service devuelve una colección vacía");
         assertEquals(1, islands.size(), "El service no devuelve la cantidad de islas esperada");

@@ -42,11 +42,6 @@ INSERT INTO card(tipo, name, multiplicity) VALUES ('Tesoro', 'Revolver', 6);
 INSERT INTO card(tipo, name, multiplicity) VALUES ('Tesoro', 'Espada', 6);
 INSERT INTO card(tipo, name, multiplicity) VALUES ('Tesoro', 'BarrillRon', 6);
 
-
-
-
-
-
 -- -- -- -- ISLA --
 INSERT INTO island(island_number) VALUES (1);
 INSERT INTO island(island_number,game_id) VALUES (2,1);

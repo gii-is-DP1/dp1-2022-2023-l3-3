@@ -1,5 +1,9 @@
 package sevenislands.game.island;
 
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 
@@ -17,8 +21,8 @@ public class IslandService {
     }
 
     @Transactional(readOnly = true)
-    public Iterable<Island> findAllIslands() throws DataAccessException {
-        return islandRepository.findAll();
+    public List<Island> findAllIslands() throws DataAccessException {
+        return StreamSupport.stream(islandRepository.findAll().spliterator(), false).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
