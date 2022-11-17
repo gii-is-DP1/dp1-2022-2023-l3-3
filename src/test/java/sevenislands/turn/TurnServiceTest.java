@@ -15,6 +15,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import sevenislands.game.turn.Turn;
 import sevenislands.game.turn.TurnRepository;
+import sevenislands.game.turn.TurnService;
 import sevenislands.user.User;
 
 @DataJpaTest
@@ -26,19 +27,22 @@ public class TurnServiceTest {
 
     @Test
     public void getAllTurnTest(){
-        List<Turn> listaTurnos = turnRepository.findAll();
+        TurnService turnService = new TurnService(turnRepository);
+        List<Turn> listaTurnos = turnService.findAllTurns();
         assertNotEquals(0, listaTurnos.size());
     }
 
     @Test
     public void getTurnByIdTest(){
-        Turn turno = turnRepository.findById(1).get();
+        TurnService turnService = new TurnService(turnRepository);
+        Turn turno = turnService.findTurnById(1).get();
         assertNotNull(turno);
     }
 
     @Test
     public void getTurnByRoundIdTest(){
-        List<Turn> turnos = turnRepository.findByRoundId(1);
+        TurnService turnService = new TurnService(turnRepository);
+        List<Turn> turnos = turnService.findByRoundId(1);
         assertNotNull(turnos);
     }
 
