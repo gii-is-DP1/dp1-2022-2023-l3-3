@@ -1,8 +1,7 @@
 package sevenislands.user;
 
 import java.security.Principal;
-import java.sql.Date;
-import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -21,7 +20,7 @@ import sevenislands.lobby.exceptions.NotExitPlayerException;
 import sevenislands.tools.checkers;
 import sevenislands.tools.entityAssistant;
 
-import org.springframework.security.core.session.SessionRegistry;
+
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;

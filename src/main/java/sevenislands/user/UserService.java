@@ -22,7 +22,7 @@ import org.springframework.validation.BindingResult;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
 import sevenislands.tools.checkers;
-import sevenislands.tools.entityAssistant;
+
 
 @Service
 public class UserService {
