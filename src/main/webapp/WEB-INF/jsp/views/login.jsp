@@ -6,7 +6,7 @@
 <sevenislands:layout pageName="login">
     <h1>Iniciar sesión</h1>
 
-    <sec:authorize access="hasAuthority('PLAYER')">
+    <sec:authorize access="hasAuthority('player')">
 		<a class="btn btn-default" href='<spring:url value="/lobby" htmlEscape="true"/>'>Crear Partida</a>
 	</sec:authorize>
 </sevenislands:layout>

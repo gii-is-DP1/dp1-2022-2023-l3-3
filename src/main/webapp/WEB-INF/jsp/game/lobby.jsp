@@ -29,14 +29,16 @@
         </div>
 
         <c:if test="${host==player}">
-            <br />
-            <div>
-                <center>
-                    <a class="btn btn-default"
-                        href='<spring:url value="/game" htmlEscape="true"/>'>EMPEZAR
-                        PARTIDA</a>
-                </center>
-            </div>
+            <c:if test="${num_players>1}">
+                <br />
+                <div>
+                    <center>
+                        <a class="btn btn-default"
+                            href='<spring:url value="/game" htmlEscape="true"/>'>EMPEZAR
+                            PARTIDA</a>
+                    </center>
+                </div>
+            </c:if>
             <br />
             <div>
                 <center>
@@ -46,7 +48,13 @@
                 </center>
             </div>
         </c:if>
-
+        <div>
+            <center>
+                <br />
+                <a class="btn btn-default" id="leave_game"
+                    href='<spring:url value="/join" htmlEscape="true"/>'>UNIRSE A PARTIDA</a>
+            </center>
+        </div>
         <div>
             <center>
                 <br />
