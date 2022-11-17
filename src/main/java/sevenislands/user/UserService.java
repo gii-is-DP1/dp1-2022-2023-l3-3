@@ -1,41 +1,49 @@
 package sevenislands.user;
 
 
+import java.security.Principal;
+import java.sql.Date;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.session.SessionInformation;
+import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 
-import sevenislands.player.ExistPlayerException;
+import sevenislands.lobby.Lobby;
+import sevenislands.lobby.LobbyService;
+import sevenislands.tools.checkers;
 
 @Service
 public class UserService {
 
 	private UserRepository userRepository;
+	private PasswordEncoder passwordEncoder;
+	private UserRepository2 userRepository2;
+	private SessionRegistry sessionRegistry;
+	private LobbyService lobbyService;
 
 	@Autowired
-	public UserService(UserRepository userRepository) {
+	public UserService(LobbyService lobbyService, SessionRegistry sessionRegistry, UserRepository2 userRepository2, PasswordEncoder passwordEncoder, UserRepository userRepository) {
 		this.userRepository = userRepository;
+		this.passwordEncoder = passwordEncoder;
+		this.userRepository2 = userRepository2;
+		this.sessionRegistry = sessionRegistry;
+		this.lobbyService = lobbyService;
 	}
 
 	@Transactional
 	public void save(User user) throws DataAccessException {
-		boolean flag = userRepository.findAll().stream().anyMatch(u -> u.getEmail().equals(user.getEmail()) || u.getNickname().equals(user.getNickname()));
-	try {
-		if(flag){
-			//System.out.println("Se encuentra similitud");
-			throw new ExistPlayerException("Existe el jugador");
-		} else {
-			userRepository.save(user);
-			//System.out.println("Lista de user tras save: " + userRepository.findAll());
-		}
-	} catch (Exception e) {
-		throw e;
-	}
-		
+		userRepository.save(user);		
 	}
 
 	@Transactional(readOnly = true)
@@ -57,7 +65,7 @@ public class UserService {
 	}
 
 	@Transactional(readOnly = true)
-	public Iterable<User> findAll() {
+	public List<User> findAll() {
 		return userRepository.findAll();
 	}
 
@@ -68,12 +76,21 @@ public class UserService {
 
 	@Transactional
 	public void deleteUser(String nickname) {
-		userRepository.delete(nickname);
+		userRepository.deleteByNickname(nickname);
+	}
+
+	/**
+     * Elimina un administrador de la base de datos.
+     * @param admin
+     */
+    @Transactional
+	public void deleteUser(User user) {
+		userRepository.delete(user);
 	}
 
 	@Transactional
 	public Boolean checkUserByName(String nickname) {
-		return userRepository.checkUser(nickname);
+		return userRepository.checkUserNickname(nickname);
 	}
 
 	@Transactional
@@ -81,23 +98,150 @@ public class UserService {
 		return userRepository.checkUserEmail(email);
 	}
 
-	@Transactional 
-	public void update(User user) {
-	    userRepository.updateUser(user, user.getId());
-	}
-
-	@Transactional
-	public void remove(User user) {
-		userRepository.delete(user);
-	}
-
 	@Transactional
 	public List<String> findDistinctAuthorities() {
 		return userRepository.findAuthorities();
 	}
 
+    @Transactional
+    public Page<User> findAllUser(Pageable pageable){
+        return userRepository2.findAll(pageable);
+    }
+
 	@Transactional
-	public List<User> findAllUser() {
-		return userRepository.findAll();
+	public Boolean updateUser(Map<String, Object> model, User user, Principal principal, BindingResult result) {
+		if (result!=null && result.hasErrors()) {
+			return false;
+		} else {
+			User authUser = findUser(principal.getName());
+			String password = user.getPassword();
+			user.setCreationDate(authUser.getCreationDate());
+			user.setEnabled(authUser.isEnabled());
+			user.setId(authUser.getId());
+
+			User userFoundN = findUser(user.getNickname());
+			User userFoundE = findUserByEmail(user.getEmail());
+			if((userFoundN == null || (userFoundN != null && userFoundN.getId().equals(authUser.getId()))) &&
+			(userFoundE == null || (userFoundE != null && userFoundE.getId().equals(authUser.getId()))) &&
+			checkers.checkEmail(user.getEmail()) &&
+			password.length()>=8) {
+				user.setAvatar(authUser.getAvatar());
+				user.setPassword(passwordEncoder.encode(user.getPassword()));
+				userRepository.save(user);
+				return true;
+			} else {
+				user.setPassword("");
+				List<String> errors = new ArrayList<>();
+				if(userFoundN != null && !userFoundN.getId().equals(authUser.getId())) errors.add("El nombre de usuario ya está en uso.");
+				if(password.length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
+				if(userFoundE != null && !userFoundE.getId().equals(authUser.getId())) errors.add("El email ya está en uso.");
+				if(!checkers.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
+				
+				model.put("errors", errors);
+				return false;
+			}
+		}
+	}
+
+	@Transactional
+	public Boolean editUser(Map<String, Object> model, Integer id, User user, BindingResult result) {
+		if(result!=null && result.hasErrors()) {
+			System.out.println(result.getFieldErrors());
+			return false;
+		} else {
+			User userEdited = userRepository.findById(id).get();
+			String password = user.getPassword();
+			
+			user.setCreationDate(userEdited.getCreationDate());
+			user.setId(userEdited.getId());
+			User userFoundN = findUser(user.getNickname());
+			User userFoundE = findUserByEmail(user.getEmail());
+			System.out.println(password);
+			if((userFoundN == null || (userFoundN != null && userFoundN.getId().equals(userEdited.getId()))) &&
+			(userFoundE == null || (userFoundE != null && userFoundE.getId().equals(userEdited.getId()))) &&
+			checkers.checkEmail(user.getEmail()) &&
+			password.length()>=8) {
+				user.setPassword(passwordEncoder.encode(user.getPassword()));
+				save(user);
+				return true;
+			} else {
+				List<String> errors = new ArrayList<>();
+				if(userFoundN != null && !userFoundN.getId().equals(userEdited.getId())) errors.add("El nombre de usuario ya está en uso.");
+				if(user.getPassword().length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
+				if(userFoundE != null && !userFoundE.getId().equals(userEdited.getId())) errors.add("El email ya está en uso.");
+				if(!checkers.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
+				user.setPassword("");
+				model.put("errors", errors);
+				model.put("enabledValues", List.of(Boolean.valueOf(user.isEnabled()).toString(), Boolean.valueOf(!user.isEnabled()).toString()));
+				return false;
+			}
+		}
+	}
+
+	@Transactional
+	public Boolean enableUser(Integer id, Principal principal) {
+		User user = userRepository.findById(id).get();
+		if(user.isEnabled()) {
+			user.setEnabled(false);
+			save(user);
+			if(user.getNickname().equals(principal.getName())) return false;
+			return true;
+		} else {
+			user.setEnabled(true);
+			save(user);
+			if(user.getNickname().equals(principal.getName())) return false;
+			return true;
+		}
+	}
+
+	@Transactional
+	public Boolean deleteUser(Integer id, Principal principal) {
+		User user = findUser(id);
+		List<SessionInformation> infos = sessionRegistry.getAllSessions(user.getNickname(), false);
+		for(SessionInformation info : infos) {
+			info.expireNow(); //Termina la sesión
+		}
+		if(user.getNickname().equals(principal.getName())){
+			deleteUser(id);
+			return false;
+		}else{
+			if(lobbyService.checkUserLobbyByName(user.getId())) {
+				Lobby Lobby = lobbyService.findLobbyByPlayer(id).get();
+				List<User> userList = Lobby.getPlayerInternal();
+				userList.remove(user);
+				Lobby.setUsers(userList);
+				lobbyService.save(Lobby);
+			}
+			deleteUser(id);
+			return true;
+		}	
+	}
+
+	@Transactional
+	public Boolean addUser(Map<String, Object> model, User user, BindingResult result) {
+		if(result!=null &&  result.hasErrors()) {
+			return true;
+		} else if(!checkUserByName(user.getNickname()) &&
+				!checkUserByEmail(user.getEmail()) &&
+				checkers.checkEmail(user.getEmail()) &&
+				user.getPassword().length()>=8) {
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
+			user.setCreationDate(new Date(System.currentTimeMillis()));
+			user.setEnabled(true);
+			if(user.getUserType().equals("admin")) user.setAvatar("adminAvatar.png");
+			else user.setAvatar("playerAvatar.png");
+			save(user);
+			return true;
+		} else {
+			user.setPassword("");
+			List<String> errors = new ArrayList<>();
+			if(checkUserByName(user.getNickname())) errors.add("El nombre de usuario ya está en uso.");
+			if(user.getPassword().length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
+			if(checkUserByEmail(user.getEmail())) errors.add("El email ya está en uso.");
+			if(!checkers.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
+			model.put("errors", errors);
+			model.put("types", findDistinctAuthorities());
+			return false;
+		}
 	}
 }

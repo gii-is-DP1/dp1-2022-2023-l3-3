@@ -5,7 +5,7 @@ import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import sevenislands.lobby.Lobby;
-import sevenislands.util.Exceptions.NotFoundException;
+
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,9 +35,8 @@ public class GameService {
     }
 
     @Transactional
-    public Game findGamebByLobbyId(Integer id) throws NotFoundException{
-        Game game = gameRepository.findGamebByLobbyId(id);
-        return game;
+    public Optional<Game> findGamebByLobbyId(Integer id){
+        return gameRepository.findGamebByLobbyId(id);
     }
 
 }
