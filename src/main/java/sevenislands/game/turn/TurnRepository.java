@@ -10,6 +10,9 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface TurnRepository extends CrudRepository<Turn, Integer> {
+
+    public List<Turn> findAll();
+
     @Modifying
     @Query("UPDATE Turn turn SET turn=?1 WHERE turn.id=?2")
     public void updatePlayers(Turn turn, Integer turn_id);
