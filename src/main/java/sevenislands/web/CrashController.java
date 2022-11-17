@@ -10,5 +10,4 @@ public class CrashController {
 	public String triggerException() {
 		return "exception";
 	}
-
 }

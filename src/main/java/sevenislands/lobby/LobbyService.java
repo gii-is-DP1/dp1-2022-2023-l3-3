@@ -4,9 +4,10 @@ import java.util.Optional;
 import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import sevenislands.lobby.exceptions.NotExistLobbyException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import sevenislands.exceptions.NotExistLobbyException;
 
 
 @Service
@@ -75,12 +76,4 @@ public class LobbyService {
 	public Boolean checkUserLobbyByName(Integer id) {
 	    return lobbyRepository.findLobbyIdByPlayer(id)!=null;
 	}
-
-    /*@Transactional(rollbackFor = NotExistLobbyException.class)
-    public void addPlayerToLobby(Integer code, Player player) throws NotExistLobbyException{
-        Lobby lobby = getByCode(code);
-        lobby.getMembers().add(player);
-        lobbyRepository.save(lobby);
-    }*/
-
 }

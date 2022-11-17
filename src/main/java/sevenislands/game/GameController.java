@@ -40,9 +40,7 @@ public class GameController {
         if(checkers.checkUserNoGame(request)) return "redirect:/turn";
         response.addHeader("Refresh", "1");
 
-        //TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
         User user = userService.findUser(principal.getName());
-        //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
         Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
         if(!gameService.findGamebByLobbyId(lobby.getId()).isPresent()) {
             Game game = new Game();

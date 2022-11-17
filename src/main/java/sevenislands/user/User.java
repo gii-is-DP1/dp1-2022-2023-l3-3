@@ -30,8 +30,6 @@ import lombok.Setter;
 @Entity
 public class User extends BaseEntity {
 	
-	//En caso de cambiar cualquier atribute con unique = true
-	//Cambiar también la comprobación en el signUp
 	@Column(name = "nickname", unique = true, nullable = false, length = 30)
 	private String nickname;
 
