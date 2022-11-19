@@ -16,7 +16,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import sevenislands.game.Game;
-import sevenislands.game.GameService;
 import sevenislands.game.round.Round;
 import sevenislands.game.round.RoundService;
 import sevenislands.lobby.Lobby;
@@ -38,7 +37,6 @@ public class TurnController {
     private final UserService userService;
     private final RoundService roundService;
     private final LobbyService lobbyService;
-    private final GameService gameService;
 
     @Autowired
     public TurnController(LobbyService lobbyService, RoundService roundService, TurnService turnService, UserService userService) {
@@ -46,7 +44,6 @@ public class TurnController {
         this.userService = userService;
         this.roundService = roundService;
         this.lobbyService = lobbyService;
-        this.gameService = gameService;
     }
 
     @GetMapping("/turn")
