@@ -10,7 +10,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+
 
 import javax.validation.constraints.NotNull;
 
@@ -26,7 +26,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "turns")
 public class Turn extends BaseEntity {
 
     @Column(name = "dice", nullable = true)

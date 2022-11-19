@@ -124,11 +124,8 @@ public class TurnController {
     public String gameAsignTurn(Principal principal, HttpServletRequest request) throws ServletException {
         if(checkers.checkUserNoExists(request)) return "redirect:/";
         if(checkers.checkUserNoLobby(request)) return "redirect:/home";
-        //TODO: Poner el Player como Optional<Player> y realizar la comprobación de que existe
         User user = userService.findUser(principal.getName());
-        //TODO: Poner el Game como Optional<Game> y realizar la comprobación de que existe
         Game game = entityAssistant.getGameOfPlayer(request).get();
-        //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
         Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
         List<User> userList = lobby.getUsers();
         List<Round> roundList = roundService.findRoundsByGameId(game.getId()).stream().collect(Collectors.toList());
@@ -141,9 +138,9 @@ public class TurnController {
         turn.setStartTime(LocalDateTime.now());
         if(roundService.findRoundsByGameId(game.getId()).isEmpty()) {
             turn.setUser(user);
-        } else if (turnService.findByRoundId(roundList.get(roundList.size()-1).getId()).size() >= userList.size()) {  //Quizás podríamos poner esta condición
-            Integer nextUser = (userList.indexOf(user)+1)%userList.size();                      //en un método en caso de que lo vayamos
-            turn.setUser(userList.get(nextUser));                                                 //a tener que comprobar en varios sitios
+        } else if (turnService.findByRoundId(roundList.get(roundList.size()-1).getId()).size() >= userList.size()) { 
+            Integer nextUser = (userList.indexOf(user)+1)%userList.size();
+            turn.setUser(userList.get(nextUser));
         } else return "redirect:/turn";
 
         roundService.save(round);

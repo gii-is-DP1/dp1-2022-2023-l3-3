@@ -7,7 +7,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToMany;
-import javax.persistence.Table;
 import sevenislands.model.BaseEntity;
 import sevenislands.user.User;
 import lombok.Getter;
@@ -16,8 +15,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "lobby")
-
 public class Lobby extends BaseEntity {
 
   @Column(name = "code", unique = true, nullable = false)

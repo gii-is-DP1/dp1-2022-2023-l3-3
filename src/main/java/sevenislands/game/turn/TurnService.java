@@ -19,7 +19,7 @@ public class TurnService {
     }
 
     @Transactional(readOnly = true)
-    public Iterable<Turn> findAllTurns() throws DataAccessException {
+    public List<Turn> findAllTurns() throws DataAccessException {
         return turnRepository.findAll();
     }
 
@@ -36,10 +36,5 @@ public class TurnService {
     @Transactional
     public void save(Turn turn) {
         turnRepository.save(turn);
-    }
-
-    @Transactional
-    public void update(Turn turn, Integer turn_id) {
-        turnRepository.updatePlayers(turn, turn_id);
     }
 }

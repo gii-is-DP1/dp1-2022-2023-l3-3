@@ -1,8 +1,6 @@
 package sevenislands.user;
 
 import java.security.Principal;
-import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -16,15 +14,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
-import sevenislands.lobby.Lobby;
-import sevenislands.lobby.LobbyService;
-import sevenislands.lobby.exceptions.NotExitPlayerException;
+import sevenislands.exceptions.NotExitPlayerException;
 import sevenislands.tools.checkers;
 import sevenislands.tools.entityAssistant;
 
-import org.springframework.security.core.session.SessionInformation;
-import org.springframework.security.core.session.SessionRegistry;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -41,16 +34,10 @@ public class UserController {
 	private static final String VIEWS_PLAYER_UPDATE_FORM = "views/updateUserForm";
 
 	private final UserService userService;
-	private final LobbyService lobbyService;
-	private PasswordEncoder passwordEncoder;
-	private SessionRegistry sessionRegistry;
 
 	@Autowired
-	public UserController(LobbyService lobbyService, SessionRegistry sessionRegistry, PasswordEncoder passwordEncoder, UserService userService) {
+	public UserController(UserService userService) {
 		this.userService = userService;
-		this.passwordEncoder = passwordEncoder;
-		this.sessionRegistry = sessionRegistry;
-		this.lobbyService = lobbyService;
 	}
 
 	@GetMapping("/settings")
@@ -73,7 +60,7 @@ public class UserController {
 		return VIEWS_PLAYER_UPDATE_FORM;
 	}
 
-		/**
+	/**
 	 * Vista principal del panel de control del administrador.
 	 * <p> Muestra un listado de todos los usuarios almacenados en la base de datos y permite la eliminación o el baneo
 	 * de cualquiera de estos.
@@ -86,8 +73,8 @@ public class UserController {
     @RequestMapping(value = "/controlPanel", method = RequestMethod.GET)
 	public String listUsersPagination(Model model, @RequestParam Integer valor) throws NotExitPlayerException{
 		Page<User> paginacion=null;
-		Integer totalUsers=(userService.findAllUser().size())/5;
-		Pageable page2=PageRequest.of(valor,5) ;
+		Integer totalUsers=(userService.findAll().size())/5;
+		Pageable page2=PageRequest.of(valor,5);
 		paginacion=userService.findAllUser(page2);
 		model.addAttribute("paginas", totalUsers);
 		model.addAttribute("valores", valor);	
@@ -106,27 +93,8 @@ public class UserController {
 	 */
     @GetMapping("/controlPanel/delete/{id}")
 	public String deleteUser(Principal principal, @PathVariable("id") Integer id){
-		User user = userService.findUser(id);
-		List<SessionInformation> infos = sessionRegistry.getAllSessions(user.getNickname(), false);
-		for(SessionInformation info : infos) {
-			info.expireNow(); //expire the session
-		}
-
-		if(user.getNickname().equals(principal.getName())){
-			userService.deleteUser(id);
-			return "redirect:/";
-		}else{
-			if(lobbyService.checkUserLobbyByName(user.getId())) {
-				//TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
-				Lobby Lobby = lobbyService.findLobbyByPlayer(id).get();
-				List<User> userList = Lobby.getPlayerInternal();
-				userList.remove(user);
-				Lobby.setUsers(userList);
-				lobbyService.update(Lobby);
-			}
-			userService.deleteUser(id);
-			return "redirect:/controlPanel?valor=0";
-		}	
+		if(userService.deleteUser(id, principal)) return "redirect:/controlPanel?valor=0";
+		return "redirect:/";
 	}
 
 	/**
@@ -139,24 +107,8 @@ public class UserController {
 	 */
 	@GetMapping("/controlPanel/enable/{id}")
 	public String enableUser(Principal principal, @PathVariable("id") Integer id){
-		User user = userService.findUser(id);
-		if(user.isEnabled()) {
-			user.setEnabled(false);
-			userService.update(user);
-			if(user.getNickname().equals(principal.getName())){
-				return "redirect:/";
-			} else {
-				return "redirect:/controlPanel?valor=0";
-			}
-		} else {
-			user.setEnabled(true);
-			userService.update(user);
-			if(user.getNickname().equals(principal.getName())){
-				return "redirect:/";
-			} else {
-				return "redirect:/controlPanel?valor=0";
-			}
-		}
+		if(userService.enableUser(id, principal)) return "redirect:/controlPanel?valor=0";
+		return "redirect:/";
 	}
 
 	/**
@@ -181,34 +133,8 @@ public class UserController {
 	 */
 	@PostMapping("/controlPanel/add")
 	public String processCreationUserForm(Map<String, Object> model, @Valid User user, BindingResult result) {
-		if(result.hasErrors()) {
-			return "redirect:/controlPanel/add";
-		} else if(!userService.checkUserByName(user.getNickname()) &&
-				!userService.checkUserByEmail(user.getEmail()) &&
-				checkers.checkEmail(user.getEmail()) &&
-				user.getPassword().length()>=8) {
-			user.setPassword(passwordEncoder.encode(user.getPassword()));
-			user.setCreationDate(new Date(System.currentTimeMillis()));
-			user.setEnabled(true);
-			if(user.getUserType().equals("admin")){
-				user.setAvatar("adminAvatar.png");
-				userService.save(user);
-			} else {
-				user.setAvatar("playerAvatar.png");
-				userService.save(user);
-			}
-			return "redirect:/controlPanel/add";
-		} else {
-			user.setPassword("");
-			List<String> errors = new ArrayList<>();
-			if(userService.checkUserByName(user.getNickname())) errors.add("El nombre de usuario ya está en uso.");
-			if(user.getPassword().length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
-			if(userService.checkUserByEmail(user.getEmail())) errors.add("El email ya está en uso.");
-			if(!checkers.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
-			model.put("errors", errors);
-			model.put("types", userService.findDistinctAuthorities());
-			return "admin/addUser";
-		}
+		if(userService.addUser(model, user, result)) return "redirect:/controlPanel/add";
+		return "admin/addUser";
 	}
 
 	/**
@@ -241,39 +167,8 @@ public class UserController {
 	 */
 	@PostMapping("/controlPanel/edit/{id}")
 	public String processEditUserForm(Map<String, Object> model, @PathVariable Integer id, @Valid User user, BindingResult result) {
-		if(result.hasErrors()) {
-			System.out.println(result.getFieldErrors());
-			return "àdmin/edit/";
-		} else {
-			User userEdited = userService.findUser(id);
-			String password = user.getPassword();
-			
-			user.setCreationDate(userEdited.getCreationDate());
-			user.setId(userEdited.getId());
-			User userFoundN = userService.findUser(user.getNickname());
-			User userFoundE = userService.findUserByEmail(user.getEmail());
-			System.out.println(password);
-			if((userFoundN == null || (userFoundN != null && userFoundN.getId().equals(userEdited.getId()))) &&
-			(userFoundE == null || (userFoundE != null && userFoundE.getId().equals(userEdited.getId()))) &&
-			checkers.checkEmail(user.getEmail()) &&
-			password.length()>=8) {
-				user.setPassword(passwordEncoder.encode(user.getPassword()));
-				if(userEdited.getUserType().equals("admin")) {
-					userService.save(user);
-				} else userService.save(user);
-				return "redirect:/controlPanel?valor=0";
-			} else {
-				List<String> errors = new ArrayList<>();
-				if(userFoundN != null && !userFoundN.getId().equals(userEdited.getId())) errors.add("El nombre de usuario ya está en uso.");
-				if(user.getPassword().length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
-				if(userFoundE != null && !userFoundE.getId().equals(userEdited.getId())) errors.add("El email ya está en uso.");
-				if(!checkers.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
-				user.setPassword("");
-				model.put("errors", errors);
-				model.put("enabledValues", List.of(Boolean.valueOf(user.isEnabled()).toString(), Boolean.valueOf(!user.isEnabled()).toString()));
-				return "admin/editUser";
-			}
-		}
+		if(userService.editUser(model, id, user, result)) return "redirect:/controlPanel?valor=0";
+		return "admin/editUser";
 	}
 
 }

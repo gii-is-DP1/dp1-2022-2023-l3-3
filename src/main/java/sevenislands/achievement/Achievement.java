@@ -7,7 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 
-import javax.persistence.Table;
+
 
 import sevenislands.enums.AchievementType;
 import sevenislands.model.BaseEntity;
@@ -20,7 +20,6 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-@Table(name = "achievements")
 public class Achievement extends BaseEntity {
 
     @Column(name = "description", nullable = false)

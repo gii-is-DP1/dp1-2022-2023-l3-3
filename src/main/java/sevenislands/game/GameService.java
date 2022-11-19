@@ -13,8 +13,13 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class GameService {
 
-    @Autowired
+    
     private GameRepository gameRepository;
+
+    @Autowired
+    public GameService(GameRepository gameRepository) {
+        this.gameRepository = gameRepository;
+    }
 
     @Transactional
     public Integer gameCount() {

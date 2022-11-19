@@ -1,8 +1,9 @@
 package sevenislands.user;
 
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.when;
-
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -10,19 +11,22 @@ import java.util.List;
 
 
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
     
     @Mock
-    private UserRepository userRepository;
+    UserRepository mock;
 
-    public User createUser(Integer id, String nickname,String email) {
-        User user = new User();
+    User user;
+    List<User> usersRepo;
+
+    private User createUser(Integer id, String nickname,String email) {
+        user = new User();
         user.setId(id);
         user.setNickname(nickname);
         user.setEmail(email);
@@ -39,31 +43,21 @@ public class UserServiceTest {
 
     @BeforeEach
     public void config() {
-        User user = createUser(666, "prueba", "prueba@sevenislands.com");
-        List<User> users = new ArrayList<>();
-        users.add(user);
+        user = createUser(1, "prueba", "prueba@sevenislands.com");
+        
+        usersRepo = new ArrayList<>();
+        usersRepo.add(user);
 
-        when(userRepository.findAll()).thenReturn(users);
+        when(mock.findAll()).thenReturn(usersRepo);
     }
 
-    // @Test
-    // public void saveTestUnsuccessfulDueToExistence() {
-    //     UserService userService = new UserService(userRepository);
-    //     User newUser = createUser(555, "prueba", "prueba@sevenislands.com");
-    //     assertThrows(DataAccessException.class, () -> userService.save(newUser));
-    // }
-
-    // @Test
-    // public void saveTestSuccessful() {
-    //     UserService userService = new UserService(userRepository);
-    //     User user = createUser(123, "prueba2", "prueba2@sevenislands.com");
-    //     try {
-    //         userService.save(user);
-    //         verify(userRepository).save(user);
-    //     } catch (Exception e) {
-    //         fail("No se debe lanzar ninguna excepción");
-    //     }
-    // }
-
-    
+    @Test
+    public void allUsersFoundSuccessful() {
+        UserService userService = new UserService(null, null,
+         null, null, mock);
+        List<User> users = userService.findAll();
+        assertNotNull(users, "El servicio devuelve un objeto nulo");
+        assertFalse(users.isEmpty(), "El servicio de vuelve una colección vacia");
+        assertEquals(1, users.size(), "El servicio devuelve una colección con un tamaño diferente");
+    }
 }
