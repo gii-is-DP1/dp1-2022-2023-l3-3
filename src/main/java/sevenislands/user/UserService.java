@@ -123,7 +123,7 @@ public class UserService {
 			User userFoundE = findUserByEmail(user.getEmail());
 			if((userFoundN == null || (userFoundN != null && userFoundN.getId().equals(authUser.getId()))) &&
 			(userFoundE == null || (userFoundE != null && userFoundE.getId().equals(authUser.getId()))) &&
-			checkers.checkEmail(user.getEmail()) &&
+			checkEmail(user.getEmail()) &&
 			password.length()>=8) {
 				user.setAvatar(authUser.getAvatar());
 				user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -135,7 +135,7 @@ public class UserService {
 				if(userFoundN != null && !userFoundN.getId().equals(authUser.getId())) errors.add("El nombre de usuario ya está en uso.");
 				if(password.length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
 				if(userFoundE != null && !userFoundE.getId().equals(authUser.getId())) errors.add("El email ya está en uso.");
-				if(!checkers.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
+				if(!checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
 				
 				model.put("errors", errors);
 				return false;
@@ -159,7 +159,7 @@ public class UserService {
 			System.out.println(password);
 			if((userFoundN == null || (userFoundN != null && userFoundN.getId().equals(userEdited.getId()))) &&
 			(userFoundE == null || (userFoundE != null && userFoundE.getId().equals(userEdited.getId()))) &&
-			checkers.checkEmail(user.getEmail()) &&
+			checkEmail(user.getEmail()) &&
 			password.length()>=8) {
 				user.setPassword(passwordEncoder.encode(user.getPassword()));
 				save(user);
@@ -169,7 +169,7 @@ public class UserService {
 				if(userFoundN != null && !userFoundN.getId().equals(userEdited.getId())) errors.add("El nombre de usuario ya está en uso.");
 				if(user.getPassword().length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
 				if(userFoundE != null && !userFoundE.getId().equals(userEdited.getId())) errors.add("El email ya está en uso.");
-				if(!checkers.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
+				if(!checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
 				user.setPassword("");
 				model.put("errors", errors);
 				model.put("enabledValues", List.of(Boolean.valueOf(user.isEnabled()).toString(), Boolean.valueOf(!user.isEnabled()).toString()));
@@ -218,12 +218,13 @@ public class UserService {
 	}
 
 	@Transactional
-	public Boolean addUser(Map<String, Object> model, User user, BindingResult result) throws IllegalArgumentException {
-		if(result!=null &&  result.hasErrors()) {
-			return true;
-		} else if(true) {
-			try {
-				user.setPassword(passwordEncoder.encode(user.getPassword()));
+	public Boolean addUser(User user) throws IllegalArgumentException {
+		if(!checkUserByName(user.getNickname()) &&
+		!checkUserByEmail(user.getEmail()) &&
+		checkEmail(user.getEmail()) &&
+		user.getPassword().length()>=8) {
+		try {
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
 			user.setCreationDate(new Date(System.currentTimeMillis()));
 			user.setEnabled(true);
 			if(user.getUserType().equals("admin")) user.setAvatar("adminAvatar.png");
@@ -233,16 +234,16 @@ public class UserService {
 				throw e;
 			}
 			return true;
-		} else {
-			user.setPassword("");
-			List<String> errors = new ArrayList<>();
-			if(checkUserByName(user.getNickname())) errors.add("El nombre de usuario ya está en uso.");
-			if(user.getPassword().length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
-			if(checkUserByEmail(user.getEmail())) errors.add("El email ya está en uso.");
-			if(!checkers.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
-			model.put("errors", errors);
-			model.put("types", findDistinctAuthorities());
-			return false;
-		}
+		} else return false;
 	}
+
+	/**
+     * Comprueba si el email pasado como parámetro es válido, es decir que cumpla el patrón "_@_._"
+     * @param email
+     * @return false (en caso de que el email no sea válido) o true (en caso de que sí lo sea)
+     */
+    public Boolean checkEmail(String email) {
+        String regexPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
+        return email.matches(regexPattern);
+    }
 }

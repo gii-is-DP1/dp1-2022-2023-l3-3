@@ -1,6 +1,7 @@
 package sevenislands.user;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -133,11 +134,21 @@ public class UserController {
 	 */
 	@PostMapping("/controlPanel/add")
 	public String processCreationUserForm(Map<String, Object> model, @Valid User user, BindingResult result) {
+		if(result.hasErrors()) return "admin/addUser";
+		
 		try {
-			if(userService.addUser(model, user, result)) return "redirect:/controlPanel/add";
+			if(userService.addUser(user)) return "redirect:/controlPanel/add";
 		} catch (Exception e) {
 			// TODO: handle exception
 		}
+		user.setPassword("");
+		List<String> errors = new ArrayList<>();
+		if(userService.checkUserByName(user.getNickname())) errors.add("El nombre de usuario ya está en uso.");
+		if(user.getPassword().length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
+		if(userService.checkUserByEmail(user.getEmail())) errors.add("El email ya está en uso.");
+		if(!userService.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
+		model.put("errors", errors);
+		model.put("types", userService.findDistinctAuthorities());
 		return "admin/addUser";
 	}
 

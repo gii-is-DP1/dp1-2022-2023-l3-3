@@ -122,15 +122,7 @@ public class checkers {
         return true;
     }
 
-    /**
-     * Comprueba si el email pasado como parámetro es válido, es decir que cumpla el patrón "_@_._"
-     * @param email
-     * @return false (en caso de que el email no sea válido) o true (en caso de que sí lo sea)
-     */
-    public static Boolean checkEmail(String email) {
-        String regexPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
-        return email.matches(regexPattern);
-    }
+    
 
     public static void checkGame(HttpServletRequest request) {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
