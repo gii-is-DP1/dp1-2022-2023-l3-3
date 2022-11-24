@@ -225,4 +225,35 @@ public class UserService {
             return true;
         } else return false;
     }
+
+	/**
+     * Comprueba que el usuario existe en la base de datos y que no está baneado.
+     * <p> En este caso, si el usuario estaba en una lobby es expulsado.
+     * @param request (Importar HttpServletRequest request en la función)
+     * @return true (si está baneado o no se encuentra en la base de datos) o false (en otro caso)
+     * @throws ServletException
+     */
+    public Boolean checkUser(HttpServletRequest request) throws ServletException {
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
+        if(checkUserByName(principal.getUsername()) && findUser(principal.getUsername()).isEnabled()) {
+            User user = findUser(principal.getUsername());
+            if (lobbyService.checkUserLobbyByName(user.getId())) {
+                //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
+                Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
+                List<User> users = lobby.getPlayerInternal();
+                if (users.size() == 1) {
+                    lobby.setActive(false);
+                }
+                users.remove(user);
+                lobby.setUsers(users);
+                lobbyService.update(lobby);
+            }
+            return false;
+        } else {
+            request.getSession().invalidate();
+            request.logout();
+            return true;
+        }
+    }
 }

@@ -78,7 +78,7 @@ public class LobbyController {
 
 	@GetMapping("/join")
 	public String join(HttpServletRequest request, Map<String, Object> model) throws ServletException {
-		if(checkers.checkUser(request)) return "redirect:/";
+		if(userService.checkUser(request)) return "redirect:/";
 		model.put("code", new Lobby());
 		return "views/join";
 	}

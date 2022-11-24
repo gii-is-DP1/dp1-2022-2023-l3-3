@@ -16,7 +16,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import sevenislands.exceptions.NotExitPlayerException;
-import sevenislands.tools.checkers;
 import sevenislands.tools.entityAssistant;
 
 import org.springframework.stereotype.Controller;
@@ -43,7 +42,7 @@ public class UserController {
 
 	@GetMapping("/settings")
 	public String initUpdateOwnerForm(HttpServletRequest request, Map<String, Object> model, Principal principal) throws ServletException {
-		if(checkers.checkUser(request)) return "redirect:/";
+		if(userService.checkUser(request)) return "redirect:/";
 		User user = userService.findUser(principal.getName());
 		user.setPassword("");
 		model.put("user", user);
