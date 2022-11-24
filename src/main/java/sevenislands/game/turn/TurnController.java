@@ -48,7 +48,7 @@ public class TurnController {
 
     @GetMapping("/turn")
     public String gameTurn(Map<String, Object> model, Principal principal, HttpServletRequest request, HttpServletResponse response) throws ServletException {
-        if(checkers.checkUserNoExists(request)) return "redirect:/";
+        if(userService.checkUserNoExists(request)) return "redirect:/";
         if(checkers.checkUserNoLobby(request)) return "redirect:/home";
         response.addHeader("Refresh", "1");
 
@@ -76,7 +76,7 @@ public class TurnController {
 
     @GetMapping("/turn/endTurn")
     public String gameEndTurn(Principal principal, HttpServletRequest request) throws ServletException {
-        if(checkers.checkUserNoExists(request)) return "redirect:/";
+        if(userService.checkUserNoExists(request)) return "redirect:/";
         if(checkers.checkUserNoLobby(request)) return "redirect:/home";
         
         Optional<Game> game = entityAssistant.getGameOfPlayer(request);
@@ -102,7 +102,7 @@ public class TurnController {
 
     @GetMapping("/turn/dice")
     public String gameRollDice(HttpServletRequest request) throws ServletException {
-        if(checkers.checkUserNoExists(request)) return "redirect:/";
+        if(userService.checkUserNoExists(request)) return "redirect:/";
         if(checkers.checkUserNoLobby(request)) return "redirect:/home";
         
         Optional<Game> game = entityAssistant.getGameOfPlayer(request);
@@ -119,7 +119,7 @@ public class TurnController {
 
     @GetMapping("/turn/newRound")
     public String gameAsignTurn(Principal principal, HttpServletRequest request) throws ServletException {
-        if(checkers.checkUserNoExists(request)) return "redirect:/";
+        if(userService.checkUserNoExists(request)) return "redirect:/";
         if(checkers.checkUserNoLobby(request)) return "redirect:/home";
         User user = userService.findUser(principal.getName());
         Game game = entityAssistant.getGameOfPlayer(request).get();

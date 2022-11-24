@@ -5,11 +5,16 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -203,5 +208,21 @@ public class UserService {
     public Boolean checkEmail(String email) {
         String regexPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
         return email.matches(regexPattern);
+    }
+
+	/**
+     * Comprueba si un usuario existe en la base de datos o si está baneado.
+     * @param request (Importar HttpServletRequest request en la función)
+     * @return true (si está baneado o no se encuentra en la base de datos) o false (en otro caso)
+     * @throws ServletException
+     */
+    public Boolean checkUserNoExists(HttpServletRequest request) throws ServletException {
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
+        if(!checkUserByName(principal.getUsername()) || !findUser(principal.getUsername()).isEnabled()) {
+            request.getSession().invalidate();
+            request.logout();
+            return true;
+        } else return false;
     }
 }

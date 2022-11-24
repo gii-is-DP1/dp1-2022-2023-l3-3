@@ -42,7 +42,7 @@ public class LobbyController {
 	@GetMapping("/lobby")
 	public String joinLobby(HttpServletRequest request, Map<String, Object> model, Principal principal, HttpServletResponse response) 
 	throws NotExistLobbyException, ServletException {
-		if(checkers.checkUserNoExists(request)) return "redirect:/";
+		if(userService.checkUserNoExists(request)) return "redirect:/";
 		if(checkers.checkUserNoLobby(request)) return "redirect:/home";
 		
 		response.addHeader("Refresh", "1");

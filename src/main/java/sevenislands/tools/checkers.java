@@ -45,21 +45,6 @@ public class checkers {
         this.gameService = gameService;
         this.turnService = turnService;
 	}
-    /**
-     * Comprueba si un usuario existe en la base de datos o si está baneado.
-     * @param request (Importar HttpServletRequest request en la función)
-     * @return true (si está baneado o no se encuentra en la base de datos) o false (en otro caso)
-     * @throws ServletException
-     */
-    public static Boolean checkUserNoExists(HttpServletRequest request) throws ServletException {
-        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        
-        if(!userService.checkUserByName(principal.getUsername()) || !userService.findUser(principal.getUsername()).isEnabled()) {
-            request.getSession().invalidate();
-            request.logout();
-            return true;
-        } else return false;
-    }
 
     /**
      * Comprueba que el usuario existe en la base de datos y que no está baneado.
