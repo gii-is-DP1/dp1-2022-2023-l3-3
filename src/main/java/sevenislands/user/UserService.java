@@ -144,43 +144,23 @@ public class UserService {
 	}
 
 	@Transactional
-	public Boolean editUser(Map<String, Object> model, Integer id, User user, BindingResult result) {
-		if(result!=null && result.hasErrors()) {
-			System.out.println(result.getFieldErrors());
-			return false;
-		} else {
-			User userEdited = userRepository.findById(id).get();
-			String password = user.getPassword();
-			
-			user.setCreationDate(userEdited.getCreationDate());
-			user.setId(userEdited.getId());
-			User userFoundN = findUser(user.getNickname());
-			User userFoundE = findUserByEmail(user.getEmail());
-			System.out.println(password);
-			if((userFoundN == null || (userFoundN != null && userFoundN.getId().equals(userEdited.getId()))) &&
-			(userFoundE == null || (userFoundE != null && userFoundE.getId().equals(userEdited.getId()))) &&
-			checkEmail(user.getEmail()) &&
-			password.length()>=8) {
-				user.setPassword(passwordEncoder.encode(user.getPassword()));
-				save(user);
-				return true;
-			} else {
-				List<String> errors = new ArrayList<>();
-				if(userFoundN != null && !userFoundN.getId().equals(userEdited.getId())) errors.add("El nombre de usuario ya está en uso.");
-				if(user.getPassword().length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
-				if(userFoundE != null && !userFoundE.getId().equals(userEdited.getId())) errors.add("El email ya está en uso.");
-				if(!checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
-				user.setPassword("");
-				model.put("errors", errors);
-				model.put("enabledValues", List.of(Boolean.valueOf(user.isEnabled()).toString(), Boolean.valueOf(!user.isEnabled()).toString()));
-				return false;
-			}
-		}
+	public Boolean editUser(Integer id, User user, User userEdited, User userFoundN, User userFoundE) {
+		String password = user.getPassword();
+		user.setCreationDate(userEdited.getCreationDate());
+		user.setId(userEdited.getId());
+		if((userFoundN == null || (userFoundN != null && userFoundN.getId().equals(userEdited.getId()))) &&
+		(userFoundE == null || (userFoundE != null && userFoundE.getId().equals(userEdited.getId()))) &&
+		checkEmail(user.getEmail()) &&
+		password.length()>=8) {
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
+			save(user);
+			return true;
+		} else return false;
 	}
 
 	@Transactional
 	public Boolean enableUser(Integer id, Principal principal) {
-		User user = userRepository.findById(id).get();
+		User user = findUser(id);
 		if(user.isEnabled()) {
 			user.setEnabled(false);
 			save(user);

@@ -182,7 +182,22 @@ public class UserController {
 	 */
 	@PostMapping("/controlPanel/edit/{id}")
 	public String processEditUserForm(Map<String, Object> model, @PathVariable Integer id, @Valid User user, BindingResult result) {
-		if(userService.editUser(model, id, user, result)) return "redirect:/controlPanel?valor=0";
+		if(result.hasErrors()) {
+			return "admin/editUser";
+		}
+		User userEdited = userService.findUser(id);
+		User userFoundN = userService.findUser(user.getNickname());
+		User userFoundE = userService.findUserByEmail(user.getEmail());
+		if(userService.editUser(id, user, userEdited, userFoundN, userFoundE)) return "redirect:/controlPanel?valor=0";
+
+		List<String> errors = new ArrayList<>();
+		if(userFoundN != null && !userFoundN.getId().equals(userEdited.getId())) errors.add("El nombre de usuario ya está en uso.");
+		if(user.getPassword().length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
+		if(userFoundE != null && !userFoundE.getId().equals(userEdited.getId())) errors.add("El email ya está en uso.");
+		if(!userService.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
+		user.setPassword("");
+		model.put("errors", errors);
+		model.put("enabledValues", List.of(Boolean.valueOf(user.isEnabled()).toString(), Boolean.valueOf(!user.isEnabled()).toString()));
 		return "admin/editUser";
 	}
 
