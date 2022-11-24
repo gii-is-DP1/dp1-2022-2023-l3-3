@@ -1,15 +1,11 @@
 package sevenislands.user;
 
-
 import java.security.Principal;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.session.SessionInformation;
@@ -17,11 +13,9 @@ import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
 
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
-import sevenislands.tools.checkers;
 
 @Service
 public class UserService {
@@ -109,38 +103,22 @@ public class UserService {
     }
 
 	@Transactional
-	public Boolean updateUser(Map<String, Object> model, User user, Principal principal, BindingResult result) {
-		if (result!=null && result.hasErrors()) {
-			return false;
-		} else {
-			User authUser = findUser(principal.getName());
-			String password = user.getPassword();
-			user.setCreationDate(authUser.getCreationDate());
-			user.setEnabled(authUser.isEnabled());
-			user.setId(authUser.getId());
+	public Boolean updateUser(User user, Principal principal, User authUser, User userFoundN, User userFoundE) {
+		
+		String password = user.getPassword();
+		user.setCreationDate(authUser.getCreationDate());
+		user.setEnabled(authUser.isEnabled());
+		user.setId(authUser.getId());
 
-			User userFoundN = findUser(user.getNickname());
-			User userFoundE = findUserByEmail(user.getEmail());
-			if((userFoundN == null || (userFoundN != null && userFoundN.getId().equals(authUser.getId()))) &&
-			(userFoundE == null || (userFoundE != null && userFoundE.getId().equals(authUser.getId()))) &&
-			checkEmail(user.getEmail()) &&
-			password.length()>=8) {
-				user.setAvatar(authUser.getAvatar());
-				user.setPassword(passwordEncoder.encode(user.getPassword()));
-				userRepository.save(user);
-				return true;
-			} else {
-				user.setPassword("");
-				List<String> errors = new ArrayList<>();
-				if(userFoundN != null && !userFoundN.getId().equals(authUser.getId())) errors.add("El nombre de usuario ya está en uso.");
-				if(password.length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
-				if(userFoundE != null && !userFoundE.getId().equals(authUser.getId())) errors.add("El email ya está en uso.");
-				if(!checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
-				
-				model.put("errors", errors);
-				return false;
-			}
-		}
+		if((userFoundN == null || (userFoundN != null && userFoundN.getId().equals(authUser.getId()))) &&
+		(userFoundE == null || (userFoundE != null && userFoundE.getId().equals(authUser.getId()))) &&
+		checkEmail(user.getEmail()) &&
+		password.length()>=8) {
+			user.setAvatar(authUser.getAvatar());
+			user.setPassword(passwordEncoder.encode(user.getPassword()));
+			userRepository.save(user);
+			return true;
+		} else return false;
 	}
 
 	@Transactional

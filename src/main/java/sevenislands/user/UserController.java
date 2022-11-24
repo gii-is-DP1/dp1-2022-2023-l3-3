@@ -53,12 +53,26 @@ public class UserController {
 	@PostMapping("/settings")
 	public String processUpdateplayerForm(Map<String, Object> model, @Valid User user, BindingResult result, Principal principal) {
 		String password = user.getPassword();
-		if(userService.updateUser(model, user, principal, result)) {
+		User authUser = userService.findUser(principal.getName());
+		User userFoundN = userService.findUser(user.getNickname());
+		User userFoundE = userService.findUserByEmail(user.getEmail());
+		if (result.hasErrors()) {
+			return VIEWS_PLAYER_UPDATE_FORM;
+		} else if(userService.updateUser(user, principal, authUser, userFoundN, userFoundE)) {
 			//Cambia las credenciales(token) a las credenciales actualizadas
 			entityAssistant.loginUser(user, password); 
 			return "redirect:/home";
+		} else {
+			user.setPassword("");
+			List<String> errors = new ArrayList<>();
+			if(userFoundN != null && !userFoundN.getId().equals(authUser.getId())) errors.add("El nombre de usuario ya está en uso.");
+			if(password.length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
+			if(userFoundE != null && !userFoundE.getId().equals(authUser.getId())) errors.add("El email ya está en uso.");
+			if(!userService.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
+			
+			model.put("errors", errors);
+			return VIEWS_PLAYER_UPDATE_FORM;
 		}
-		return VIEWS_PLAYER_UPDATE_FORM;
 	}
 
 	/**
