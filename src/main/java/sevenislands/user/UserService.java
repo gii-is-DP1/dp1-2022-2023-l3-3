@@ -42,7 +42,7 @@ public class UserService {
 	}
 
 	@Transactional
-	public void save(User user) throws DataAccessException {
+	public void save(User user) throws IllegalArgumentException {
 		userRepository.save(user);		
 	}
 
@@ -218,19 +218,20 @@ public class UserService {
 	}
 
 	@Transactional
-	public Boolean addUser(Map<String, Object> model, User user, BindingResult result) {
+	public Boolean addUser(Map<String, Object> model, User user, BindingResult result) throws IllegalArgumentException {
 		if(result!=null &&  result.hasErrors()) {
 			return true;
-		} else if(!checkUserByName(user.getNickname()) &&
-				!checkUserByEmail(user.getEmail()) &&
-				checkers.checkEmail(user.getEmail()) &&
-				user.getPassword().length()>=8) {
-			user.setPassword(passwordEncoder.encode(user.getPassword()));
+		} else if(true) {
+			try {
+				user.setPassword(passwordEncoder.encode(user.getPassword()));
 			user.setCreationDate(new Date(System.currentTimeMillis()));
 			user.setEnabled(true);
 			if(user.getUserType().equals("admin")) user.setAvatar("adminAvatar.png");
 			else user.setAvatar("playerAvatar.png");
 			save(user);
+			} catch (Exception e) {
+				throw e;
+			}
 			return true;
 		} else {
 			user.setPassword("");

@@ -133,7 +133,11 @@ public class UserController {
 	 */
 	@PostMapping("/controlPanel/add")
 	public String processCreationUserForm(Map<String, Object> model, @Valid User user, BindingResult result) {
-		if(userService.addUser(model, user, result)) return "redirect:/controlPanel/add";
+		try {
+			if(userService.addUser(model, user, result)) return "redirect:/controlPanel/add";
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		return "admin/addUser";
 	}
 
