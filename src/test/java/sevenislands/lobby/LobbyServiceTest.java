@@ -40,7 +40,7 @@ public class LobbyServiceTest {
     public void checksLobbyTest() throws NotExistLobbyException {
         LobbyService lobbyService = new LobbyService(lobbyRepository);
         
-        assertTrue(lobbyService.checkUserLobbyByName(8));
+        assertTrue(lobbyService.checkUserLobbyById(8));
         assertTrue(lobbyService.checkLobbyByCode("aD5f8Lio"));
         assertFalse(lobbyService.checkLobbyByCode("aD5f8Lvbnio"));
     }

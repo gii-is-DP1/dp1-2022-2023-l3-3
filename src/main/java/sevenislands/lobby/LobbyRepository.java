@@ -1,7 +1,7 @@
 package sevenislands.lobby;
 
 import java.util.Collection;
-
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
@@ -20,6 +20,9 @@ public interface LobbyRepository extends CrudRepository<Lobby,Integer> {
     
     @Query(value = "SELECT l.id FROM Lobby l INNER JOIN l.users u WHERE u.id=?1")
     public Integer findLobbyIdByPlayer(Integer player_id);
+
+    @Query(value = "SELECT l.id FROM Lobby l INNER JOIN l.users u WHERE u.nickname=?1 AND l.active=true")
+    public Optional<Integer> findLobbyByNicknamePlayer(String nickname);
     
     @Query("SELECT DISTINCT lobby FROM Lobby lobby where lobby.active=true")
     public Collection<Lobby> findAllActiveLobby();

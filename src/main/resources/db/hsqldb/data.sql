@@ -15,10 +15,12 @@ INSERT INTO user(nickname,password,enabled,first_name,last_name,email,creation_d
 
 -- LOBBY --
 INSERT INTO lobby(code,active) VALUES('aD5f8Lio','TRUE');
+INSERT INTO lobby(code,active) VALUES('a10f8Lio','FALSE');
 
 -- LOBBY PLAYERS -- 
-INSERT INTO lobby_users(lobby_id,users_id) VALUES (1,8);
+INSERT INTO lobby_users(lobby_id,users_id) VALUES (1,7);
 INSERT INTO lobby_users(lobby_id,users_id) VALUES (1,9);
+INSERT INTO lobby_users(lobby_id,users_id) VALUES (2,8);
 
 -- -- GAME -- 
 INSERT INTO game(id, creation_date, ending_date, lobby_id) VALUES (1, '2022-11-14', '2022-11-24', 1);
