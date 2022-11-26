@@ -43,7 +43,7 @@ public class UserRepositoryTest {
         assertNotEquals(user1.getEmail(), oldEmail);
     }
 
-    
+    @Test
     public void retrieveAllUsersSuccess() {
         List<User> users = userRepository.findAll();
         assertNotNull(users, "El repositorio devuelve una colección nula");

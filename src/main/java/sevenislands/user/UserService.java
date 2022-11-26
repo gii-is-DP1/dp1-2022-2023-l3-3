@@ -48,19 +48,19 @@ public class UserService {
 	@Transactional(readOnly = true)
 	public User findUser(Integer id) {
 		Optional<User> user = userRepository.findById(id);
-		return user.isPresent()?user.get():null;
+		return user.orElse(null);
 	}
 
 	@Transactional(readOnly = true)
 	public User findUser(String nickname) {
 		Optional<User> user = userRepository.findByNickname(nickname);
-		return user.isPresent()?user.get():null;
+		return user.orElse(null);
 	}
 
 	@Transactional(readOnly = true)
 	public User findUserByEmail(String email) {
 		Optional<User> user = userRepository.findByEmail(email);
-		return user.isPresent()?user.get():null;
+		return user.orElse(null);
 	}
 
 	@Transactional(readOnly = true)

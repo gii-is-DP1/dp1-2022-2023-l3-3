@@ -10,14 +10,13 @@ import static org.mockito.Mockito.when;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.dao.DataAccessException;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
@@ -67,10 +66,19 @@ public class UserServiceTest {
     public void saveTestUnsuccessfulDueToExistence() {
         when(mock.save(any())).thenThrow(new IllegalArgumentException());
         UserService userService = new UserService(null,null,null,null, mock);
-        //userService.save(newUser);
         User newUser2 = createUser(555, "prueba", "prueba@sevenislands.com");
         assertThrows(IllegalArgumentException.class, () -> userService.save(newUser2));
         
+    }
+
+    @Test
+    public void findByIdTest(){
+        user = createUser(1, "prueba", "prueba@sevenislands.com");
+        UserService userService = new UserService(null,null,null,null, mock);
+        when(mock.findById(1)).thenReturn(Optional.of(user));
+        assertEquals(user, userService.findUser(1));
+        assertEquals(null, userService.findUser(2));
+
     }
 
    
