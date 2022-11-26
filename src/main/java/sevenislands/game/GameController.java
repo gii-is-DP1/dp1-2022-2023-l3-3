@@ -35,12 +35,12 @@ public class GameController {
 
     @GetMapping("/game")
     public String createGame(HttpServletRequest request, Principal principal, HttpServletResponse response) throws ServletException {
-        if(checkers.checkUserNoExists(request)) return "redirect:/";
+        if(userService.checkUserNoExists(request)) return "redirect:/";
         if(checkers.checkUserNoLobby(request)) return "redirect:/home";
         if(checkers.checkUserNoGame(request)) return "redirect:/turn";
         response.addHeader("Refresh", "5");
 
-        User user = userService.findUser(principal.getName());
+        User user = userService.findUserByNickname(principal.getName());
         Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
         if(!gameService.findGamebByLobbyId(lobby.getId()).isPresent()) {
             Game game = new Game();

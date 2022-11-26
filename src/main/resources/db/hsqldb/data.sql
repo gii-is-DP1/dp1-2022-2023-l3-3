@@ -41,11 +41,14 @@ INSERT INTO card(tipo, name, multiplicity) VALUES ('Tesoro', 'Corona', 4);
 INSERT INTO card(tipo, name, multiplicity) VALUES ('Tesoro', 'Revolver', 6);
 INSERT INTO card(tipo, name, multiplicity) VALUES ('Tesoro', 'Espada', 6);
 INSERT INTO card(tipo, name, multiplicity) VALUES ('Tesoro', 'BarrillRon', 6);
+<<<<<<< .merge_file_xGPJYp
 
 
 
 
 
+=======
+>>>>>>> .merge_file_FKKv0U
 
 -- -- -- -- ISLA --
 INSERT INTO island(island_number) VALUES (1);

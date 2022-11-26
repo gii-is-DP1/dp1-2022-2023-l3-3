@@ -1,6 +1,5 @@
 package sevenislands.card;
 
-
 import java.util.List;
 
 import java.util.stream.Collectors;
@@ -25,6 +24,4 @@ public class CardService {
     public List<Card> findAllCards() throws DataAccessException {
         return StreamSupport.stream(cardRepository.findAll().spliterator(), false).collect(Collectors.toList());
     }
-
-   
 }

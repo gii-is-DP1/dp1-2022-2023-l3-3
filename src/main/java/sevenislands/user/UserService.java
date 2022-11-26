@@ -1,27 +1,31 @@
 package sevenislands.user;
 
-
 import java.security.Principal;
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
 
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
-import sevenislands.tools.checkers;
+import sevenislands.tools.entityAssistant;
 
 @Service
 public class UserService {
@@ -42,26 +46,26 @@ public class UserService {
 	}
 
 	@Transactional
-	public void save(User user) throws DataAccessException {
+	public void save(User user) throws IllegalArgumentException {
 		userRepository.save(user);		
 	}
 
 	@Transactional(readOnly = true)
 	public User findUser(Integer id) {
 		Optional<User> user = userRepository.findById(id);
-		return user.isPresent()?user.get():null;
+		return user.orElse(null);
 	}
 
 	@Transactional(readOnly = true)
-	public User findUser(String nickname) {
+	public User findUserByNickname(String nickname) {
 		Optional<User> user = userRepository.findByNickname(nickname);
-		return user.isPresent()?user.get():null;
+		return user.orElse(null);
 	}
 
 	@Transactional(readOnly = true)
 	public User findUserByEmail(String email) {
 		Optional<User> user = userRepository.findByEmail(email);
-		return user.isPresent()?user.get():null;
+		return user.orElse(null);
 	}
 
 	@Transactional(readOnly = true)
@@ -89,7 +93,7 @@ public class UserService {
 	}
 
 	@Transactional
-	public Boolean checkUserByName(String nickname) {
+	public Boolean checkUserByNickname(String nickname) {
 		return userRepository.checkUserNickname(nickname);
 	}
 
@@ -109,78 +113,8 @@ public class UserService {
     }
 
 	@Transactional
-	public Boolean updateUser(Map<String, Object> model, User user, Principal principal, BindingResult result) {
-		if (result!=null && result.hasErrors()) {
-			return false;
-		} else {
-			User authUser = findUser(principal.getName());
-			String password = user.getPassword();
-			user.setCreationDate(authUser.getCreationDate());
-			user.setEnabled(authUser.isEnabled());
-			user.setId(authUser.getId());
-
-			User userFoundN = findUser(user.getNickname());
-			User userFoundE = findUserByEmail(user.getEmail());
-			if((userFoundN == null || (userFoundN != null && userFoundN.getId().equals(authUser.getId()))) &&
-			(userFoundE == null || (userFoundE != null && userFoundE.getId().equals(authUser.getId()))) &&
-			checkers.checkEmail(user.getEmail()) &&
-			password.length()>=8) {
-				user.setAvatar(authUser.getAvatar());
-				user.setPassword(passwordEncoder.encode(user.getPassword()));
-				userRepository.save(user);
-				return true;
-			} else {
-				user.setPassword("");
-				List<String> errors = new ArrayList<>();
-				if(userFoundN != null && !userFoundN.getId().equals(authUser.getId())) errors.add("El nombre de usuario ya está en uso.");
-				if(password.length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
-				if(userFoundE != null && !userFoundE.getId().equals(authUser.getId())) errors.add("El email ya está en uso.");
-				if(!checkers.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
-				
-				model.put("errors", errors);
-				return false;
-			}
-		}
-	}
-
-	@Transactional
-	public Boolean editUser(Map<String, Object> model, Integer id, User user, BindingResult result) {
-		if(result!=null && result.hasErrors()) {
-			System.out.println(result.getFieldErrors());
-			return false;
-		} else {
-			User userEdited = userRepository.findById(id).get();
-			String password = user.getPassword();
-			
-			user.setCreationDate(userEdited.getCreationDate());
-			user.setId(userEdited.getId());
-			User userFoundN = findUser(user.getNickname());
-			User userFoundE = findUserByEmail(user.getEmail());
-			System.out.println(password);
-			if((userFoundN == null || (userFoundN != null && userFoundN.getId().equals(userEdited.getId()))) &&
-			(userFoundE == null || (userFoundE != null && userFoundE.getId().equals(userEdited.getId()))) &&
-			checkers.checkEmail(user.getEmail()) &&
-			password.length()>=8) {
-				user.setPassword(passwordEncoder.encode(user.getPassword()));
-				save(user);
-				return true;
-			} else {
-				List<String> errors = new ArrayList<>();
-				if(userFoundN != null && !userFoundN.getId().equals(userEdited.getId())) errors.add("El nombre de usuario ya está en uso.");
-				if(user.getPassword().length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
-				if(userFoundE != null && !userFoundE.getId().equals(userEdited.getId())) errors.add("El email ya está en uso.");
-				if(!checkers.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
-				user.setPassword("");
-				model.put("errors", errors);
-				model.put("enabledValues", List.of(Boolean.valueOf(user.isEnabled()).toString(), Boolean.valueOf(!user.isEnabled()).toString()));
-				return false;
-			}
-		}
-	}
-
-	@Transactional
 	public Boolean enableUser(Integer id, Principal principal) {
-		User user = userRepository.findById(id).get();
+		User user = findUser(id);
 		if(user.isEnabled()) {
 			user.setEnabled(false);
 			save(user);
@@ -217,31 +151,135 @@ public class UserService {
 		}	
 	}
 
+
+
+	/**
+     * Comprueba si el email pasado como parámetro es válido, es decir que cumpla el patrón "_@_._"
+     * @param email
+     * @return false (en caso de que el email no sea válido) o true (en caso de que sí lo sea)
+     */
+    public Boolean checkEmail(String email) {
+        String regexPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
+        return email.matches(regexPattern);
+    }
+
+	/**
+     * Comprueba si un usuario existe en la base de datos o si está baneado.
+     * @param request (Importar HttpServletRequest request en la función)
+     * @return true (si está baneado o no se encuentra en la base de datos) o false (en otro caso)
+     * @throws ServletException
+     */
+    public Boolean checkUserNoExists(HttpServletRequest request) throws ServletException {
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
+        if(!checkUserByNickname(principal.getUsername()) || !findUserByNickname(principal.getUsername()).isEnabled()) {
+            request.getSession().invalidate();
+            request.logout();
+            return true;
+        } else return false;
+    }
+
+	/**
+     * Comprueba que el usuario existe en la base de datos y que no está baneado.
+     * <p> En este caso, si el usuario estaba en una lobby es expulsado.
+     * @param request (Importar HttpServletRequest request en la función)
+     * @return true (si está baneado o no se encuentra en la base de datos) o false (en otro caso)
+     * @throws ServletException
+     */
+    public Boolean checkUser(HttpServletRequest request) throws ServletException {
+        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        
+        if(checkUserByNickname(principal.getUsername()) && findUserByNickname(principal.getUsername()).isEnabled()) {
+            User user = findUserByNickname(principal.getUsername());
+            if (lobbyService.checkUserLobbyByName(user.getId())) {
+                //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
+                Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
+                List<User> users = lobby.getPlayerInternal();
+                if (users.size() == 1) {
+                    lobby.setActive(false);
+                }
+                users.remove(user);
+                lobby.setUsers(users);
+                lobbyService.update(lobby);
+            }
+            return false;
+        } else {
+            request.getSession().invalidate();
+            request.logout();
+            return true;
+        }
+    }
+
 	@Transactional
-	public Boolean addUser(Map<String, Object> model, User user, BindingResult result) {
-		if(result!=null &&  result.hasErrors()) {
-			return true;
-		} else if(!checkUserByName(user.getNickname()) &&
-				!checkUserByEmail(user.getEmail()) &&
-				checkers.checkEmail(user.getEmail()) &&
-				user.getPassword().length()>=8) {
-			user.setPassword(passwordEncoder.encode(user.getPassword()));
+	public void addUser(User user, Boolean isAdmin, AuthenticationManager authenticationManager, HttpServletRequest request){
+		try {
+			String password = user.getPassword();
+			if(password.length() < 8){
+				throw new IllegalArgumentException("Contraseña no válida, longitud mínima de contraseña = 8");
+			} else if(!checkEmail(user.getEmail())){
+				throw new IllegalArgumentException("Email no válido, formato no válido"); 
+			}
+			user.setPassword(passwordEncoder.encode(password));
+			
 			user.setCreationDate(new Date(System.currentTimeMillis()));
 			user.setEnabled(true);
-			if(user.getUserType().equals("admin")) user.setAvatar("adminAvatar.png");
-			else user.setAvatar("playerAvatar.png");
+			
+			
+
+			if(user.getUserType().equals("player")){
+				user.setAvatar("playerAvatar.png");
+				
+
+			} else if(user.getUserType().equals("admin")){
+				user.setAvatar("adminAvatar.png");
+			}
 			save(user);
-			return true;
-		} else {
-			user.setPassword("");
-			List<String> errors = new ArrayList<>();
-			if(checkUserByName(user.getNickname())) errors.add("El nombre de usuario ya está en uso.");
-			if(user.getPassword().length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
-			if(checkUserByEmail(user.getEmail())) errors.add("El email ya está en uso.");
-			if(!checkers.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
-			model.put("errors", errors);
-			model.put("types", findDistinctAuthorities());
-			return false;
+			if(!isAdmin){
+				UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user.getNickname(), password);
+				Authentication authentication = authenticationManager.authenticate(authToken);
+				SecurityContextHolder.getContext().setAuthentication(authentication);
+				authToken.setDetails(new WebAuthenticationDetails(request));
+			}
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
+
+
+	@Transactional
+	public void updateUser(User newUserData, String param, Integer op){
+		User oldUser;
+		if(newUserData.getPassword().length() < 8){
+			throw new IllegalArgumentException("Contraseña no válida, longitud mínima de contraseña = 8");
+		} else if(!checkEmail(newUserData.getEmail())){
+			throw new IllegalArgumentException("Email no válido, formato no válido"); 
+		}
+		try {
+			switch (op) {
+				case 0: // quiero por id
+					oldUser = userRepository.findById(Integer.valueOf(param)).orElse(null);
+					break;
+				case 1: // por email
+					oldUser = userRepository.findByEmail(param).orElse(null);
+					break;
+				case 2:  // por nickname
+					oldUser = userRepository.findByNickname(param).orElse(null);
+					break;
+				default:
+					oldUser = userRepository.findById(Integer.valueOf(param)).orElse(null);
+					break;
+			}
+			oldUser.setNickname(newUserData.getNickname());
+			oldUser.setEmail(newUserData.getEmail());
+			oldUser.setBirthDate(newUserData.getBirthDate());
+			oldUser.setFirstName(newUserData.getFirstName());
+			oldUser.setLastName(newUserData.getLastName());
+			oldUser.setPassword(passwordEncoder.encode(newUserData.getPassword()));
+			if(op.equals(3)) {oldUser.setEnabled(newUserData.isEnabled());}
+			save(oldUser);
+		} catch (Exception e) {
+			throw e;
 		}
 	}
 }

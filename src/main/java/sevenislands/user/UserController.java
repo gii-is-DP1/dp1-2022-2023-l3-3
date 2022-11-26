@@ -1,6 +1,7 @@
 package sevenislands.user;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -15,7 +16,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import sevenislands.exceptions.NotExitPlayerException;
-import sevenislands.tools.checkers;
 import sevenislands.tools.entityAssistant;
 
 import org.springframework.stereotype.Controller;
@@ -42,8 +42,8 @@ public class UserController {
 
 	@GetMapping("/settings")
 	public String initUpdateOwnerForm(HttpServletRequest request, Map<String, Object> model, Principal principal) throws ServletException {
-		if(checkers.checkUser(request)) return "redirect:/";
-		User user = userService.findUser(principal.getName());
+		if(userService.checkUser(request)) return "redirect:/";
+		User user = userService.findUserByNickname(principal.getName());
 		user.setPassword("");
 		model.put("user", user);
 		return VIEWS_PLAYER_UPDATE_FORM;
@@ -52,12 +52,27 @@ public class UserController {
 	@PostMapping("/settings")
 	public String processUpdateplayerForm(Map<String, Object> model, @Valid User user, BindingResult result, Principal principal) {
 		String password = user.getPassword();
-		if(userService.updateUser(model, user, principal, result)) {
-			//Cambia las credenciales(token) a las credenciales actualizadas
+		if(result.hasErrors()) {
+			return VIEWS_PLAYER_UPDATE_FORM;
+		}
+		try {
+			userService.updateUser(user, principal.getName(), 2);
 			entityAssistant.loginUser(user, password); 
 			return "redirect:/home";
+		} catch (Exception e) {
+			List<String> errors = new ArrayList<>();
+			if(e.getMessage().contains("PUBLIC.USER(NICKNAME)")) {
+				errors.add("El nombre de usuario ya esta en uso");
+			}
+			else if (e.getMessage().contains("PUBLIC.USER(EMAIL)")){
+				errors.add("El email ya esta en uso");
+			} else {
+				errors.add(e.getMessage());
+			}
+			user.setPassword("");
+			model.put("errors", errors);
+			return VIEWS_PLAYER_UPDATE_FORM;
 		}
-		return VIEWS_PLAYER_UPDATE_FORM;
 	}
 
 	/**
@@ -133,8 +148,27 @@ public class UserController {
 	 */
 	@PostMapping("/controlPanel/add")
 	public String processCreationUserForm(Map<String, Object> model, @Valid User user, BindingResult result) {
-		if(userService.addUser(model, user, result)) return "redirect:/controlPanel/add";
-		return "admin/addUser";
+		if(result.hasErrors()) return "admin/addUser";
+		
+		try {
+			userService.addUser(user, true, null, null);
+			 return "redirect:/controlPanel/add";
+		} catch (Exception e) {
+			user.setPassword("");
+			List<String> errors = new ArrayList<>();
+			if(e.getMessage().contains("PUBLIC.USER(NICKNAME)")) {
+				errors.add("El nombre de usuario ya esta en uso");
+			} else if (e.getMessage().contains("PUBLIC.USER(EMAIL)")){
+				errors.add("El email ya esta en uso");
+			} else {
+				errors.add(e.getMessage());
+			}		
+			model.put("types", userService.findDistinctAuthorities());
+			model.put("errors", errors);
+			return "admin/addUser";
+		}
+		
+		
 	}
 
 	/**
@@ -167,8 +201,27 @@ public class UserController {
 	 */
 	@PostMapping("/controlPanel/edit/{id}")
 	public String processEditUserForm(Map<String, Object> model, @PathVariable Integer id, @Valid User user, BindingResult result) {
-		if(userService.editUser(model, id, user, result)) return "redirect:/controlPanel?valor=0";
-		return "admin/editUser";
+		if(result.hasErrors()) {
+			return "admin/editUser";
+		}
+		try {
+			userService.updateUser(user, id.toString(), 3);
+			return "redirect:/controlPanel?valor=0";
+		} catch (Exception e) {
+			List<String> errors = new ArrayList<>();
+			if(e.getMessage().contains("PUBLIC.USER(NICKNAME)")) {
+				errors.add("El nombre de usuario ya esta en uso");
+			} else if (e.getMessage().contains("PUBLIC.USER(EMAIL)")){
+				errors.add("El email ya esta en uso");
+			} else {
+				errors.add(e.getMessage());
+			}
+			user.setPassword("");
+			model.put("errors", errors);
+			model.put("enabledValues", List.of(Boolean.valueOf(user.isEnabled()).toString(), Boolean.valueOf(!user.isEnabled()).toString()));
+			return "admin/editUser";
+		}
+		
 	}
 
 }

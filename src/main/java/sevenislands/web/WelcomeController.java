@@ -25,7 +25,7 @@ public class WelcomeController {
 	public String welcome(Map<String, Object> model, Principal principal) {	 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication(); 
 		
-		if (authentication == null || authentication instanceof AnonymousAuthenticationToken || !userService.checkUserByName(principal.getName())){
+		if (authentication == null || authentication instanceof AnonymousAuthenticationToken || !userService.checkUserByNickname(principal.getName())){
 			return "welcome";
 		} else {
 			return "redirect:/home";

@@ -45,52 +45,6 @@ public class checkers {
         this.gameService = gameService;
         this.turnService = turnService;
 	}
-    /**
-     * Comprueba si un usuario existe en la base de datos o si está baneado.
-     * @param request (Importar HttpServletRequest request en la función)
-     * @return true (si está baneado o no se encuentra en la base de datos) o false (en otro caso)
-     * @throws ServletException
-     */
-    public static Boolean checkUserNoExists(HttpServletRequest request) throws ServletException {
-        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        
-        if(!userService.checkUserByName(principal.getUsername()) || !userService.findUser(principal.getUsername()).isEnabled()) {
-            request.getSession().invalidate();
-            request.logout();
-            return true;
-        } else return false;
-    }
-
-    /**
-     * Comprueba que el usuario existe en la base de datos y que no está baneado.
-     * <p> En este caso, si el usuario estaba en una lobby es expulsado.
-     * @param request (Importar HttpServletRequest request en la función)
-     * @return true (si está baneado o no se encuentra en la base de datos) o false (en otro caso)
-     * @throws ServletException
-     */
-    public static Boolean checkUser(HttpServletRequest request) throws ServletException {
-        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        
-        if(userService.checkUserByName(principal.getUsername()) && userService.findUser(principal.getUsername()).isEnabled()) {
-            User user = userService.findUser(principal.getUsername());
-            if (lobbyService.checkUserLobbyByName(user.getId())) {
-                //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
-                Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
-                List<User> users = lobby.getPlayerInternal();
-                if (users.size() == 1) {
-                    lobby.setActive(false);
-                }
-                users.remove(user);
-                lobby.setUsers(users);
-                lobbyService.update(lobby);
-            }
-            return false;
-        } else {
-            request.getSession().invalidate();
-            request.logout();
-            return true;
-        }
-    }
 
     /**
      * Compruena si el usuario se encuentra en una lobby.
@@ -100,7 +54,7 @@ public class checkers {
      */
     public static Boolean checkUserNoLobby(HttpServletRequest request) throws ServletException {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userService.findUser(principal.getUsername());
+        User user = userService.findUserByNickname(principal.getUsername());
 
         if (!lobbyService.checkUserLobbyByName(user.getId())) {
             return true;
@@ -122,19 +76,11 @@ public class checkers {
         return true;
     }
 
-    /**
-     * Comprueba si el email pasado como parámetro es válido, es decir que cumpla el patrón "_@_._"
-     * @param email
-     * @return false (en caso de que el email no sea válido) o true (en caso de que sí lo sea)
-     */
-    public static Boolean checkEmail(String email) {
-        String regexPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
-        return email.matches(regexPattern);
-    }
+    
 
     public static void checkGame(HttpServletRequest request) {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userService.findUser(principal.getUsername());
+        User user = userService.findUserByNickname(principal.getUsername());
         if (lobbyService.checkUserLobbyByName(user.getId())) {
             //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
             Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
