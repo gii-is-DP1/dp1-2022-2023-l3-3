@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.session.SessionInformation;
@@ -27,15 +28,13 @@ public class UserService {
 
 	private UserRepository userRepository;
 	private PasswordEncoder passwordEncoder;
-	private UserRepository2 userRepository2;
 	private SessionRegistry sessionRegistry;
 	private LobbyService lobbyService;
 
 	@Autowired
-	public UserService(LobbyService lobbyService, SessionRegistry sessionRegistry, UserRepository2 userRepository2, PasswordEncoder passwordEncoder, UserRepository userRepository) {
+	public UserService(LobbyService lobbyService, SessionRegistry sessionRegistry, PasswordEncoder passwordEncoder, UserRepository userRepository) {
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
-		this.userRepository2 = userRepository2;
 		this.sessionRegistry = sessionRegistry;
 		this.lobbyService = lobbyService;
 	}
@@ -104,7 +103,22 @@ public class UserService {
 
     @Transactional
     public Page<User> findAllUser(Pageable pageable){
-        return userRepository2.findAll(pageable);
+		List<User> users=userRepository.findAll();
+		Page<User> page=null;
+		if(pageable.getPageNumber()==0){
+			int valor=(int)pageable.getPageSize();
+			page = new PageImpl<>(users.subList(0,valor));
+		}else if((pageable.getPageNumber()*5)+5>=users.size()){
+			int numPag=pageable.getPageNumber();
+			page = new PageImpl<>(users.subList((5*(numPag-1))+5,users.size()));
+		}else{
+			int numPag=pageable.getPageNumber();
+			int valor=(int)pageable.getPageSize();
+			page = new PageImpl<>(users.subList((5*(numPag-1))+5, valor*(numPag+1)));
+		}
+		
+		//userRepository2.findAll(pageable)
+		return page;
     }
 
 	@Transactional

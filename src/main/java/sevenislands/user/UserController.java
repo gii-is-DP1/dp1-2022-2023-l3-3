@@ -89,7 +89,9 @@ public class UserController {
 		Page<User> paginacion=null;
 		Integer totalUsers=(userService.findAll().size())/5;
 		Pageable page2=PageRequest.of(valor,5);
+		System.out.println("PAGE="+ page2.getPageNumber());
 		paginacion=userService.findAllUser(page2);
+		System.out.println("--------------------"+paginacion.getNumberOfElements());
 		model.addAttribute("paginas", totalUsers);
 		model.addAttribute("valores", valor);	
 		model.addAttribute("users", paginacion.get().collect(Collectors.toList()));
