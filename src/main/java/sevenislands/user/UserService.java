@@ -88,7 +88,7 @@ public class UserService {
 	}
 
 	@Transactional
-	public Boolean checkUserByName(String nickname) {
+	public Boolean checkUserByNickname(String nickname) {
 		return userRepository.checkUserNickname(nickname);
 	}
 

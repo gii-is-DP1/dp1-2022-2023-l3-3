@@ -52,7 +52,7 @@ public class SignUpController {
 	public String processCreationForm(Map<String, Object> model, HttpServletRequest request, @Valid User user, BindingResult result) {
 		if(result.hasErrors()) {
 			return VIEWS_PLAYER_SIGNUP;
-		} else if(!userService.checkUserByName(user.getNickname()) &&
+		} else if(!userService.checkUserByNickname(user.getNickname()) &&
 				!userService.checkUserByEmail(user.getEmail()) &&
 				userService.checkEmail(user.getEmail()) &&
 				user.getPassword().length()>=8) {
@@ -70,7 +70,7 @@ public class SignUpController {
 			return "redirect:/home";
 		} else {
 			List<String> errors = new ArrayList<>();
-			if(userService.checkUserByName(user.getNickname())) errors.add("El nombre de usuario ya está en uso.");
+			if(userService.checkUserByNickname(user.getNickname())) errors.add("El nombre de usuario ya está en uso.");
 			if(user.getPassword().length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
 			if(userService.checkUserByEmail(user.getEmail())) errors.add("El email ya está en uso.");
 			if(!userService.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
