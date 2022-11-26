@@ -11,16 +11,21 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.session.SessionInformation;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
+import sevenislands.tools.entityAssistant;
 
 @Service
 public class UserService {
@@ -180,25 +185,7 @@ public class UserService {
 		}	
 	}
 
-	@Transactional
-	public Boolean addUser(User user) throws IllegalArgumentException {
-		if(!checkUserByNickname(user.getNickname()) &&
-		!checkUserByEmail(user.getEmail()) &&
-		checkEmail(user.getEmail()) &&
-		user.getPassword().length()>=8) {
-		try {
-			user.setPassword(passwordEncoder.encode(user.getPassword()));
-			user.setCreationDate(new Date(System.currentTimeMillis()));
-			user.setEnabled(true);
-			if(user.getUserType().equals("admin")) user.setAvatar("adminAvatar.png");
-			else user.setAvatar("playerAvatar.png");
-			save(user);
-			} catch (Exception e) {
-				throw e;
-			}
-			return true;
-		} else return false;
-	}
+
 
 	/**
      * Comprueba si el email pasado como parámetro es válido, es decir que cumpla el patrón "_@_._"
@@ -257,18 +244,55 @@ public class UserService {
         }
     }
 
+	@Transactional
+	public void addUser(User user, Boolean isAdmin, AuthenticationManager authenticationManager, HttpServletRequest request){
+		try {
+			String password = user.getPassword();
+			if(password.length() < 8){
+				throw new IllegalArgumentException("Contraseña no válida, longitud mínima de contraseña = 8");
+			} else if(!checkEmail(user.getEmail())){
+				throw new IllegalArgumentException("Email no válido, formato no válido"); 
+			}
+			user.setPassword(passwordEncoder.encode(password));
+			
+			user.setCreationDate(new Date(System.currentTimeMillis()));
+			user.setEnabled(true);
+			
+			
+
+			if(user.getUserType().equals("player")){
+				user.setAvatar("playerAvatar.png");
+				
+
+			} else if(user.getUserType().equals("admin")){
+				user.setAvatar("adminAvatar.png");
+			}
+			save(user);
+			if(!isAdmin){
+				UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user.getNickname(), password);
+				Authentication authentication = authenticationManager.authenticate(authToken);
+				SecurityContextHolder.getContext().setAuthentication(authentication);
+				authToken.setDetails(new WebAuthenticationDetails(request));
+			}
+		} catch (Exception e) {
+			throw e;
+		}
+	}
+
 
 
 	@Transactional
-	public Boolean editUserRenovated(User newUserData, String param, Integer op){
+	public void editUserRenovated(User newUserData, String param, Integer op){
 		User oldUser;
-		if(newUserData.getPassword().length() < 8 || !checkEmail(newUserData.getEmail())){
-			return false;
+		if(newUserData.getPassword().length() < 8){
+			throw new IllegalArgumentException("Contraseña no válida, longitud mínima de contraseña = 8");
+		} else if(!checkEmail(newUserData.getEmail())){
+			throw new IllegalArgumentException("Email no válido, formato no válido"); 
 		}
 		try {
 			switch (op) {
 				case 0: // quiero por id
-					oldUser = userRepository.findById(newUserData.getId()).orElse(null);
+					oldUser = userRepository.findById(Integer.valueOf(param)).orElse(null);
 					break;
 				case 1: // por email
 					oldUser = userRepository.findByEmail(param).orElse(null);
@@ -277,7 +301,7 @@ public class UserService {
 					oldUser = userRepository.findByNickname(param).orElse(null);
 					break;
 				default:
-					oldUser = userRepository.findById(newUserData.getId()).orElse(null);
+					oldUser = userRepository.findById(Integer.valueOf(param)).orElse(null);
 					break;
 			}
 			oldUser.setNickname(newUserData.getNickname());
@@ -288,7 +312,6 @@ public class UserService {
 			oldUser.setPassword(passwordEncoder.encode(newUserData.getPassword()));
 			if(op.equals(3)) {oldUser.setEnabled(newUserData.isEnabled());}
 			save(oldUser);
-			return true;
 		} catch (Exception e) {
 			throw e;
 		}

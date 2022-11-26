@@ -40,7 +40,7 @@ public class GameController {
         if(checkers.checkUserNoGame(request)) return "redirect:/turn";
         response.addHeader("Refresh", "5");
 
-        User user = userService.findUser(principal.getName());
+        User user = userService.findUserByNickname(principal.getName());
         Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
         if(!gameService.findGamebByLobbyId(lobby.getId()).isPresent()) {
             Game game = new Game();

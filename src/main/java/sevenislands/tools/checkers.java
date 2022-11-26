@@ -54,7 +54,7 @@ public class checkers {
      */
     public static Boolean checkUserNoLobby(HttpServletRequest request) throws ServletException {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userService.findUser(principal.getUsername());
+        User user = userService.findUserByNickname(principal.getUsername());
 
         if (!lobbyService.checkUserLobbyByName(user.getId())) {
             return true;
@@ -80,7 +80,7 @@ public class checkers {
 
     public static void checkGame(HttpServletRequest request) {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userService.findUser(principal.getUsername());
+        User user = userService.findUserByNickname(principal.getUsername());
         if (lobbyService.checkUserLobbyByName(user.getId())) {
             //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
             Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();

@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import sevenislands.tools.checkers;
 import sevenislands.user.User;
 import sevenislands.user.UserService;
 
@@ -32,13 +31,11 @@ public class SignUpController {
 	private static final String VIEWS_PLAYER_SIGNUP = "views/signup";
 
 	private final UserService userService;
-	private PasswordEncoder passwordEncoder;
 	private AuthenticationManager authenticationManager;
 
 	@Autowired
 	public SignUpController (UserService userService, AuthenticationManager authenticationManager, PasswordEncoder passwordEncoder) {
 		this.authenticationManager = authenticationManager;
-		this.passwordEncoder = passwordEncoder;
 		this.userService = userService;
 	}
 
@@ -52,30 +49,24 @@ public class SignUpController {
 	public String processCreationForm(Map<String, Object> model, HttpServletRequest request, @Valid User user, BindingResult result) {
 		if(result.hasErrors()) {
 			return VIEWS_PLAYER_SIGNUP;
-		} else if(!userService.checkUserByNickname(user.getNickname()) &&
-				!userService.checkUserByEmail(user.getEmail()) &&
-				userService.checkEmail(user.getEmail()) &&
-				user.getPassword().length()>=8) {
-			String password = user.getPassword();
-			user.setPassword(passwordEncoder.encode(password));
-			user.setAvatar("playerAvatar.png");
-			user.setCreationDate(new Date(System.currentTimeMillis()));
-			user.setEnabled(true);
+		} 
+		try {
 			user.setUserType("player");
-			userService.save(user);
-			UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user.getNickname(), password);
-    		authToken.setDetails(new WebAuthenticationDetails(request));
-    		Authentication authentication = authenticationManager.authenticate(authToken);
-    		SecurityContextHolder.getContext().setAuthentication(authentication);
+			userService.addUser(user, false, authenticationManager, request);
 			return "redirect:/home";
-		} else {
+		} catch (Exception e) {
 			List<String> errors = new ArrayList<>();
-			if(userService.checkUserByNickname(user.getNickname())) errors.add("El nombre de usuario ya está en uso.");
-			if(user.getPassword().length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
-			if(userService.checkUserByEmail(user.getEmail())) errors.add("El email ya está en uso.");
-			if(!userService.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
+			if(e.getMessage().contains("PUBLIC.USER(NICKNAME)")) {
+				errors.add("El nombre de usuario ya esta en uso");
+			} else if (e.getMessage().contains("PUBLIC.USER(EMAIL)")){
+				errors.add("El email ya esta en uso");
+			} else {
+				errors.add(e.getMessage());
+			}	
 			model.put("errors", errors);
+			user.setPassword("");
 			return VIEWS_PLAYER_SIGNUP;
 		}
+		
 	}
 }

@@ -43,7 +43,7 @@ public class UserController {
 	@GetMapping("/settings")
 	public String initUpdateOwnerForm(HttpServletRequest request, Map<String, Object> model, Principal principal) throws ServletException {
 		if(userService.checkUser(request)) return "redirect:/";
-		User user = userService.findUser(principal.getName());
+		User user = userService.findUserByNickname(principal.getName());
 		user.setPassword("");
 		model.put("user", user);
 		return VIEWS_PLAYER_UPDATE_FORM;
@@ -52,23 +52,24 @@ public class UserController {
 	@PostMapping("/settings")
 	public String processUpdateplayerForm(Map<String, Object> model, @Valid User user, BindingResult result, Principal principal) {
 		String password = user.getPassword();
-		User authUser = userService.findUser(principal.getName());
-		User userFoundN = userService.findUser(user.getNickname());
-		User userFoundE = userService.findUserByEmail(user.getEmail());
-		if (result.hasErrors()) {
+		if(result.hasErrors()) {
 			return VIEWS_PLAYER_UPDATE_FORM;
-		} else if(userService.updateUser(user, principal, authUser, userFoundN, userFoundE)) {
-			//Cambia las credenciales(token) a las credenciales actualizadas
+		}
+		try {
+			userService.editUserRenovated(user, principal.getName(), 2);
 			entityAssistant.loginUser(user, password); 
 			return "redirect:/home";
-		} else {
-			user.setPassword("");
+		} catch (Exception e) {
 			List<String> errors = new ArrayList<>();
-			if(userFoundN != null && !userFoundN.getId().equals(authUser.getId())) errors.add("El nombre de usuario ya está en uso.");
-			if(password.length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
-			if(userFoundE != null && !userFoundE.getId().equals(authUser.getId())) errors.add("El email ya está en uso.");
-			if(!userService.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
-			
+			if(e.getMessage().contains("PUBLIC.USER(NICKNAME)")) {
+				errors.add("El nombre de usuario ya esta en uso");
+			}
+			else if (e.getMessage().contains("PUBLIC.USER(EMAIL)")){
+				errors.add("El email ya esta en uso");
+			} else {
+				errors.add(e.getMessage());
+			}
+			user.setPassword("");
 			model.put("errors", errors);
 			return VIEWS_PLAYER_UPDATE_FORM;
 		}
@@ -150,19 +151,24 @@ public class UserController {
 		if(result.hasErrors()) return "admin/addUser";
 		
 		try {
-			if(userService.addUser(user)) return "redirect:/controlPanel/add";
+			userService.addUser(user, true, null, null);
+			 return "redirect:/controlPanel/add";
 		} catch (Exception e) {
-			// TODO: handle exception
+			user.setPassword("");
+			List<String> errors = new ArrayList<>();
+			if(e.getMessage().contains("PUBLIC.USER(NICKNAME)")) {
+				errors.add("El nombre de usuario ya esta en uso");
+			} else if (e.getMessage().contains("PUBLIC.USER(EMAIL)")){
+				errors.add("El email ya esta en uso");
+			} else {
+				errors.add(e.getMessage());
+			}		
+			model.put("types", userService.findDistinctAuthorities());
+			model.put("errors", errors);
+			return "admin/addUser";
 		}
-		user.setPassword("");
-		List<String> errors = new ArrayList<>();
-		if(userService.checkUserByNickname(user.getNickname())) errors.add("El nombre de usuario ya está en uso.");
-		if(user.getPassword().length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
-		if(userService.checkUserByEmail(user.getEmail())) errors.add("El email ya está en uso.");
-		if(!userService.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
-		model.put("errors", errors);
-		model.put("types", userService.findDistinctAuthorities());
-		return "admin/addUser";
+		
+		
 	}
 
 	/**
@@ -198,20 +204,24 @@ public class UserController {
 		if(result.hasErrors()) {
 			return "admin/editUser";
 		}
-		User userEdited = userService.findUser(id);
-		User userFoundN = userService.findUser(user.getNickname());
-		User userFoundE = userService.findUserByEmail(user.getEmail());
-		if(userService.editUser(id, user, userEdited, userFoundN, userFoundE)) return "redirect:/controlPanel?valor=0";
-
-		List<String> errors = new ArrayList<>();
-		if(userFoundN != null && !userFoundN.getId().equals(userEdited.getId())) errors.add("El nombre de usuario ya está en uso.");
-		if(user.getPassword().length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
-		if(userFoundE != null && !userFoundE.getId().equals(userEdited.getId())) errors.add("El email ya está en uso.");
-		if(!userService.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
-		user.setPassword("");
-		model.put("errors", errors);
-		model.put("enabledValues", List.of(Boolean.valueOf(user.isEnabled()).toString(), Boolean.valueOf(!user.isEnabled()).toString()));
-		return "admin/editUser";
+		try {
+			userService.editUserRenovated(user, id.toString(), 3);
+			return "redirect:/controlPanel?valor=0";
+		} catch (Exception e) {
+			List<String> errors = new ArrayList<>();
+			if(e.getMessage().contains("PUBLIC.USER(NICKNAME)")) {
+				errors.add("El nombre de usuario ya esta en uso");
+			} else if (e.getMessage().contains("PUBLIC.USER(EMAIL)")){
+				errors.add("El email ya esta en uso");
+			} else {
+				errors.add(e.getMessage());
+			}
+			user.setPassword("");
+			model.put("errors", errors);
+			model.put("enabledValues", List.of(Boolean.valueOf(user.isEnabled()).toString(), Boolean.valueOf(!user.isEnabled()).toString()));
+			return "admin/editUser";
+		}
+		
 	}
 
 }
