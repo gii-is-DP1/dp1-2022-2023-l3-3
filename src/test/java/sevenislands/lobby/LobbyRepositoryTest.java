@@ -3,11 +3,13 @@ package sevenislands.lobby;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +55,18 @@ public class LobbyRepositoryTest {
     public void TestFindLobbyIdByPlayer(){
         Integer lobby=lobbyRepository.findLobbyIdByPlayer(8);
         assertNotNull(lobby);
+    }  
+
+    @Test
+    public void TestFindLobbyByNicknameSuccess(){
+        Optional<Integer> lobby=lobbyRepository.findLobbyByNicknamePlayer("player1");
+        assertNotNull(lobby);
+    }  
+
+    @Test
+    public void TestFindLobbyByNicknameFail(){
+        Optional<Integer> lobby=lobbyRepository.findLobbyByNicknamePlayer("player2");
+        assertNull(lobby.orElse(null));
     }  
 
     @Test

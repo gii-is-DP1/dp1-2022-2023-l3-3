@@ -182,7 +182,7 @@ public class UserService {
 			deleteUser(id);
 			return false;
 		}else{
-			if(lobbyService.checkUserLobbyByName(user.getId())) {
+			if(lobbyService.checkUserLobbyById(user.getId())) {
 				Lobby Lobby = lobbyService.findLobbyByPlayer(id).get();
 				List<User> userList = Lobby.getPlayerInternal();
 				userList.remove(user);
@@ -252,7 +252,7 @@ public class UserService {
         
         if(checkUserByName(principal.getUsername()) && findUser(principal.getUsername()).isEnabled()) {
             User user = findUser(principal.getUsername());
-            if (lobbyService.checkUserLobbyByName(user.getId())) {
+            if (lobbyService.checkUserLobbyById(user.getId())) {
                 //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
                 Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
                 List<User> users = lobby.getPlayerInternal();
