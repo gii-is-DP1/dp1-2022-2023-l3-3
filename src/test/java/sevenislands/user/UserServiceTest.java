@@ -56,7 +56,7 @@ public class UserServiceTest {
     public void allUsersFoundSuccessful() {
         when(mock.findAll()).thenReturn(usersRepo);
        
-        UserService userService = new UserService(null, null,
+        UserService userService = new UserService(null,
          null, null, mock);
         List<User> users = userService.findAll();
         assertNotNull(users, "El servicio devuelve un objeto nulo");
@@ -66,7 +66,7 @@ public class UserServiceTest {
     @Test
     public void saveTestUnsuccessfulDueToExistence() {
         when(mock.save(any())).thenThrow(new IllegalArgumentException());
-        UserService userService = new UserService(null,null,null,null, mock);
+        UserService userService = new UserService(null,null,null, mock);
         //userService.save(newUser);
         User newUser2 = createUser(555, "prueba", "prueba@sevenislands.com");
         assertThrows(IllegalArgumentException.class, () -> userService.save(newUser2));

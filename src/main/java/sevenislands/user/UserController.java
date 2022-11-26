@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 
 import sevenislands.exceptions.NotExitPlayerException;
 import sevenislands.tools.entityAssistant;
+import sevenislands.tools.metodosReutilizables;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -87,11 +88,10 @@ public class UserController {
     @RequestMapping(value = "/controlPanel", method = RequestMethod.GET)
 	public String listUsersPagination(Model model, @RequestParam Integer valor) throws NotExitPlayerException{
 		Page<User> paginacion=null;
-		Integer totalUsers=(userService.findAll().size())/5;
+		Integer totalUsers=(userService.findAll().size()-1)/5;
 		Pageable page2=PageRequest.of(valor,5);
-		System.out.println("PAGE="+ page2.getPageNumber());
+		System.out.println("jugadoresTotal="+ totalUsers);
 		paginacion=userService.findAllUser(page2);
-		System.out.println("--------------------"+paginacion.getNumberOfElements());
 		model.addAttribute("paginas", totalUsers);
 		model.addAttribute("valores", valor);	
 		model.addAttribute("users", paginacion.get().collect(Collectors.toList()));
@@ -107,9 +107,10 @@ public class UserController {
 	 * @param id
 	 * @return
 	 */
+	
     @GetMapping("/controlPanel/delete/{id}")
 	public String deleteUser(Principal principal, @PathVariable("id") Integer id){
-		if(userService.deleteUser(id, principal)) return "redirect:/controlPanel?valor=0";
+		if(userService.deleteUser(id, principal)) return "redirect:/controlPanel?valor="+metodosReutilizables.DeletePaginaControlPanel(id);
 		return "redirect:/";
 	}
 
@@ -123,7 +124,7 @@ public class UserController {
 	 */
 	@GetMapping("/controlPanel/enable/{id}")
 	public String enableUser(Principal principal, @PathVariable("id") Integer id){
-		if(userService.enableUser(id, principal)) return "redirect:/controlPanel?valor=0";
+		if(userService.enableUser(id, principal)) return "redirect:/controlPanel?valor="+metodosReutilizables.EditPaginaControlPanel(id);
 		return "redirect:/";
 	}
 
@@ -203,7 +204,7 @@ public class UserController {
 		User userEdited = userService.findUser(id);
 		User userFoundN = userService.findUser(user.getNickname());
 		User userFoundE = userService.findUserByEmail(user.getEmail());
-		if(userService.editUser(id, user, userEdited, userFoundN, userFoundE)) return "redirect:/controlPanel?valor=0";
+		if(userService.editUser(id, user, userEdited, userFoundN, userFoundE)) return "redirect:/controlPanel?valor="+metodosReutilizables.EditPaginaControlPanel(id);
 
 		List<String> errors = new ArrayList<>();
 		if(userFoundN != null && !userFoundN.getId().equals(userEdited.getId())) errors.add("El nombre de usuario ya está en uso.");
