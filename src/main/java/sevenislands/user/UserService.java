@@ -182,7 +182,7 @@ public class UserService {
 
 	@Transactional
 	public Boolean addUser(User user) throws IllegalArgumentException {
-		if(!checkUserByName(user.getNickname()) &&
+		if(!checkUserByNickname(user.getNickname()) &&
 		!checkUserByEmail(user.getEmail()) &&
 		checkEmail(user.getEmail()) &&
 		user.getPassword().length()>=8) {
@@ -219,7 +219,7 @@ public class UserService {
     public Boolean checkUserNoExists(HttpServletRequest request) throws ServletException {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
-        if(!checkUserByName(principal.getUsername()) || !findUser(principal.getUsername()).isEnabled()) {
+        if(!checkUserByNickname(principal.getUsername()) || !findUser(principal.getUsername()).isEnabled()) {
             request.getSession().invalidate();
             request.logout();
             return true;
@@ -236,7 +236,7 @@ public class UserService {
     public Boolean checkUser(HttpServletRequest request) throws ServletException {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
-        if(checkUserByName(principal.getUsername()) && findUser(principal.getUsername()).isEnabled()) {
+        if(checkUserByNickname(principal.getUsername()) && findUser(principal.getUsername()).isEnabled()) {
             User user = findUser(principal.getUsername());
             if (lobbyService.checkUserLobbyByName(user.getId())) {
                 //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
