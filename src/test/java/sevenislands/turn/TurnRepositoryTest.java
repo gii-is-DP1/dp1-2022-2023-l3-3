@@ -1,6 +1,5 @@
 package sevenislands.turn;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
@@ -25,4 +24,11 @@ public class TurnRepositoryTest {
         assertNotNull(turnos);
         assertNotNull(turnRepository.findById(98765));
     }
+
+    @Test
+    public void TestFindTurnByNickname(){
+        List<Turn> turns = turnRepository.findTurnByNickname("player2");
+        assertNotNull(turns);
+    }  
+
 }
