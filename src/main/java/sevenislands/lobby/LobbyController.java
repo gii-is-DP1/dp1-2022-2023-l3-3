@@ -48,7 +48,7 @@ public class LobbyController {
 		response.addHeader("Refresh", "1");
 		User user = userService.findUser(principal.getName());
 		Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
-		if (lobbyService.checkUserLobbyByName(user.getId())) {
+		if (lobbyService.checkUserLobbyById(user.getId())) {
 			if (gameService.findGamebByLobbyId(lobby.getId()).isPresent()) {
 				return "redirect:/game";
 			}
