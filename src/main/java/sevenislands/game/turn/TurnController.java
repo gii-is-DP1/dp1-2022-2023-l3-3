@@ -52,7 +52,7 @@ public class TurnController {
         if(checkers.checkUserNoLobby(request)) return "redirect:/home";
         response.addHeader("Refresh", "1");
 
-        User user = userService.findUser(principal.getName());
+        User user = userService.findUserByNickname(principal.getName());
         Optional<Game> game = entityAssistant.getGameOfPlayer(request);
         List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream().collect(Collectors.toList());
         Round round = roundList.get(roundList.size()-1);
@@ -61,7 +61,7 @@ public class TurnController {
         
       
 
-        model.put("player", userService.findUser(principal.getName()));
+        model.put("player", userService.findUserByNickname(principal.getName()));
         model.put("player_turn", turn.getUser());
         model.put("dice", turn.getDice());
     
@@ -84,7 +84,7 @@ public class TurnController {
         Round round = roundList.get(roundList.size()-1);
         List<Turn> turnList = turnService.findByRoundId(round.getId());
         Turn lastTurn = turnList.get(turnList.size()-1);
-        User user = userService.findUser(principal.getName());
+        User user = userService.findUserByNickname(principal.getName());
         Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
         List<User> userList = lobby.getUsers();
 
@@ -121,7 +121,7 @@ public class TurnController {
     public String gameAsignTurn(Principal principal, HttpServletRequest request) throws ServletException {
         if(userService.checkUserNoExists(request)) return "redirect:/";
         if(checkers.checkUserNoLobby(request)) return "redirect:/home";
-        User user = userService.findUser(principal.getName());
+        User user = userService.findUserByNickname(principal.getName());
         Game game = entityAssistant.getGameOfPlayer(request).get();
         Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
         List<User> userList = lobby.getUsers();

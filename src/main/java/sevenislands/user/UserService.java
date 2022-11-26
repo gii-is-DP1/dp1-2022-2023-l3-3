@@ -52,7 +52,7 @@ public class UserService {
 	}
 
 	@Transactional(readOnly = true)
-	public User findUser(String nickname) {
+	public User findUserByNickname(String nickname) {
 		Optional<User> user = userRepository.findByNickname(nickname);
 		return user.orElse(null);
 	}
@@ -219,7 +219,7 @@ public class UserService {
     public Boolean checkUserNoExists(HttpServletRequest request) throws ServletException {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
-        if(!checkUserByNickname(principal.getUsername()) || !findUser(principal.getUsername()).isEnabled()) {
+        if(!checkUserByNickname(principal.getUsername()) || !findUserByNickname(principal.getUsername()).isEnabled()) {
             request.getSession().invalidate();
             request.logout();
             return true;
@@ -236,8 +236,8 @@ public class UserService {
     public Boolean checkUser(HttpServletRequest request) throws ServletException {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
-        if(checkUserByNickname(principal.getUsername()) && findUser(principal.getUsername()).isEnabled()) {
-            User user = findUser(principal.getUsername());
+        if(checkUserByNickname(principal.getUsername()) && findUserByNickname(principal.getUsername()).isEnabled()) {
+            User user = findUserByNickname(principal.getUsername());
             if (lobbyService.checkUserLobbyByName(user.getId())) {
                 //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
                 Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
@@ -256,4 +256,41 @@ public class UserService {
             return true;
         }
     }
+
+
+
+	@Transactional
+	public Boolean editUserRenovated(User newUserData, String param, Integer op){
+		User oldUser;
+		if(newUserData.getPassword().length() < 8 || !checkEmail(newUserData.getEmail())){
+			return false;
+		}
+		try {
+			switch (op) {
+				case 0: // quiero por id
+					oldUser = userRepository.findById(newUserData.getId()).orElse(null);
+					break;
+				case 1: // por email
+					oldUser = userRepository.findByEmail(param).orElse(null);
+					break;
+				case 2:  // por nickname
+					oldUser = userRepository.findByNickname(param).orElse(null);
+					break;
+				default:
+					oldUser = userRepository.findById(newUserData.getId()).orElse(null);
+					break;
+			}
+			oldUser.setNickname(newUserData.getNickname());
+			oldUser.setEmail(newUserData.getEmail());
+			oldUser.setBirthDate(newUserData.getBirthDate());
+			oldUser.setFirstName(newUserData.getFirstName());
+			oldUser.setLastName(newUserData.getLastName());
+			oldUser.setPassword(passwordEncoder.encode(newUserData.getPassword()));
+			if(op.equals(3)) {oldUser.setEnabled(newUserData.isEnabled());}
+			save(oldUser);
+			return true;
+		} catch (Exception e) {
+			throw e;
+		}
+	}
 }

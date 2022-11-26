@@ -46,7 +46,7 @@ public class LobbyController {
 		if(checkers.checkUserNoLobby(request)) return "redirect:/home";
 		
 		response.addHeader("Refresh", "1");
-		User user = userService.findUser(principal.getName());
+		User user = userService.findUserByNickname(principal.getName());
 		Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
 		if (lobbyService.checkUserLobbyByName(user.getId())) {
 			if (gameService.findGamebByLobbyId(lobby.getId()).isPresent()) {
@@ -66,7 +66,7 @@ public class LobbyController {
 	@GetMapping("/lobby/create")
 	public String createLobby(HttpServletRequest request, Principal principal) throws ServletException {
 		if(!checkers.checkUserNoLobby(request)) return "redirect:/home";
-		User user = userService.findUser(principal.getName());
+		User user = userService.findUserByNickname(principal.getName());
 		Lobby lobby = new Lobby();
 
 		lobby.setCode(lobbyService.generatorCode());
@@ -91,7 +91,7 @@ public class LobbyController {
 			Lobby lobby = lobbyService.findLobbyByCode(code);
 			Integer userNumber = lobby.getUsers().size();
 			if (lobby.isActive() == true && userNumber > 0 && userNumber < 4) {
-				User user = userService.findUser(principal.getName());
+				User user = userService.findUserByNickname(principal.getName());
 				lobby.addPlayer(user);
 				model.put("lobby", lobby);
 				lobbyService.update(lobby);
@@ -110,7 +110,7 @@ public class LobbyController {
 
 	@GetMapping("/lobby/delete")
 	public String leaveLobby(Principal principal) {
-		User user = userService.findUser(principal.getName());
+		User user = userService.findUserByNickname(principal.getName());
 		Lobby Lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
 		List<User> users = Lobby.getPlayerInternal();
 		if (users.size() == 1) {
@@ -125,7 +125,7 @@ public class LobbyController {
 	@GetMapping("/lobby/players")
 	public String listaPlayer(Map<String, Object> model, Principal principal, HttpServletResponse response) {
 		response.addHeader("Refresh", "2");
-		User user = userService.findUser(principal.getName());
+		User user = userService.findUserByNickname(principal.getName());
 		Lobby Lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
 		model.put("players", Lobby.getPlayerInternal());
 		return "game/lobbyPlayers";
