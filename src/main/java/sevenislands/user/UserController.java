@@ -56,7 +56,7 @@ public class UserController {
 			return VIEWS_PLAYER_UPDATE_FORM;
 		}
 		try {
-			userService.editUserRenovated(user, principal.getName(), 2);
+			userService.updateUser(user, principal.getName(), 2);
 			entityAssistant.loginUser(user, password); 
 			return "redirect:/home";
 		} catch (Exception e) {
@@ -205,7 +205,7 @@ public class UserController {
 			return "admin/editUser";
 		}
 		try {
-			userService.editUserRenovated(user, id.toString(), 3);
+			userService.updateUser(user, id.toString(), 3);
 			return "redirect:/controlPanel?valor=0";
 		} catch (Exception e) {
 			List<String> errors = new ArrayList<>();

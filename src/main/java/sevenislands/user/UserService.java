@@ -113,40 +113,6 @@ public class UserService {
     }
 
 	@Transactional
-	public Boolean updateUser(User user, Principal principal, User authUser, User userFoundN, User userFoundE) {
-		
-		String password = user.getPassword();
-		user.setCreationDate(authUser.getCreationDate());
-		user.setEnabled(authUser.isEnabled());
-		user.setId(authUser.getId());
-
-		if((userFoundN == null || (userFoundN != null && userFoundN.getId().equals(authUser.getId()))) &&
-		(userFoundE == null || (userFoundE != null && userFoundE.getId().equals(authUser.getId()))) &&
-		checkEmail(user.getEmail()) &&
-		password.length()>=8) {
-			user.setAvatar(authUser.getAvatar());
-			user.setPassword(passwordEncoder.encode(user.getPassword()));
-			userRepository.save(user);
-			return true;
-		} else return false;
-	}
-
-	@Transactional
-	public Boolean editUser(Integer id, User user, User userEdited, User userFoundN, User userFoundE) {
-		String password = user.getPassword();
-		user.setCreationDate(userEdited.getCreationDate());
-		user.setId(userEdited.getId());
-		if((userFoundN == null || (userFoundN != null && userFoundN.getId().equals(userEdited.getId()))) &&
-		(userFoundE == null || (userFoundE != null && userFoundE.getId().equals(userEdited.getId()))) &&
-		checkEmail(user.getEmail()) &&
-		password.length()>=8) {
-			user.setPassword(passwordEncoder.encode(user.getPassword()));
-			save(user);
-			return true;
-		} else return false;
-	}
-
-	@Transactional
 	public Boolean enableUser(Integer id, Principal principal) {
 		User user = findUser(id);
 		if(user.isEnabled()) {
@@ -282,7 +248,7 @@ public class UserService {
 
 
 	@Transactional
-	public void editUserRenovated(User newUserData, String param, Integer op){
+	public void updateUser(User newUserData, String param, Integer op){
 		User oldUser;
 		if(newUserData.getPassword().length() < 8){
 			throw new IllegalArgumentException("Contraseña no válida, longitud mínima de contraseña = 8");
