@@ -33,4 +33,12 @@ public class GameRepositoryTest {
         Integer numGames = gameRepository.getNumOfGames();
         assertEquals(games.size(), numGames, "El repositorio no ha devuelto el número de games esperado");
     }
+
+
+    @Test
+    public void TestFindLobbyByNicknameSuccess(){
+        Integer game = gameRepository.findGameByNickname("player1");
+        assertNotNull(game);
+    }  
+
 }

@@ -74,7 +74,12 @@ public class LobbyService {
 	}
 
     @Transactional
-	public Boolean checkUserLobbyByName(Integer id) {
+	public Boolean checkUserLobbyById(Integer id) {
 	    return lobbyRepository.findLobbyIdByPlayer(id)!=null;
+	}
+
+    @Transactional
+	public Boolean checkUserLobbyByNickname(String name) {
+	    return lobbyRepository.findLobbyByNicknamePlayer(name)!=null;
 	}
 }
