@@ -26,7 +26,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
-import sevenislands.tools.entityAssistant;
 
 @Service
 public class UserService {
@@ -239,8 +238,6 @@ public class UserService {
 			user.setCreationDate(new Date(System.currentTimeMillis()));
 			user.setEnabled(true);
 			
-			
-
 			if(user.getUserType().equals("player")){
 				user.setAvatar("playerAvatar.png");
 				

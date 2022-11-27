@@ -1,6 +1,5 @@
 package sevenislands.lobby;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -48,7 +47,7 @@ public class LobbyRepositoryTest {
 
     @Test
     public void TestFindByCode(){
-        Lobby lobby=lobbyRepository.findByCode("aD5f8Lio");
+        Optional<Lobby> lobby=lobbyRepository.findByCode("aD5f8Lio");
         assertNotNull(lobby);
     }
     

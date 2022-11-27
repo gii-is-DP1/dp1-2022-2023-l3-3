@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -67,12 +66,7 @@ public class LobbyController {
 	public String createLobby(HttpServletRequest request, Principal principal) throws ServletException {
 		if(!checkers.checkUserNoLobby(request)) return "redirect:/home";
 		User user = userService.findUserByNickname(principal.getName());
-		Lobby lobby = new Lobby();
-
-		lobby.setCode(lobbyService.generatorCode());
-		lobby.setActive(true);
-		lobby.addPlayer(user);
-		lobbyService.save(lobby);
+		lobbyService.createLobby(user);
 		return "redirect:/lobby";
 	}
 
@@ -85,40 +79,22 @@ public class LobbyController {
 
 	@PostMapping("/join")
 	public String validateJoin(Map<String, Object> model, @ModelAttribute("code") String code, Principal principal) throws NotExistLobbyException {
-		code = code.trim();
-		List<String> errors = new ArrayList<>();
-		if (lobbyService.checkLobbyByCode(code)) {
-			Lobby lobby = lobbyService.findLobbyByCode(code);
-			Integer userNumber = lobby.getUsers().size();
-			if (lobby.isActive() == true && userNumber > 0 && userNumber < 4) {
-				User user = userService.findUserByNickname(principal.getName());
-				lobby.addPlayer(user);
-				model.put("lobby", lobby);
-				lobbyService.update(lobby);
-				return "redirect:/lobby";
-			}
-			if(!lobby.isActive()) errors.add("La partida ya ha empezado");
-			if(userNumber == 4) errors.add("La lobby está llena");
-		}
-		if(!lobbyService.checkLobbyByCode(code)) errors.add("No existe ninguna partida con ese código");
+		User user = userService.findUserByNickname(principal.getName());
+		if(lobbyService.validateJoin(code, user)) return "redirect:/lobby";
+		List<String> errors = lobbyService.checkLobbyErrors(code);
+		
 		model.put("errors", errors);
-		Lobby lobby = new Lobby();
-		lobby.setCode(code);
-		model.put("code", lobby);
+		Lobby lobby2 = new Lobby();
+		lobby2.setCode(code);
+		model.put("code", lobby2);
 		return "views/join";
+		
 	}
 
 	@GetMapping("/lobby/delete")
 	public String leaveLobby(Principal principal) {
 		User user = userService.findUserByNickname(principal.getName());
-		Lobby Lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
-		List<User> users = Lobby.getPlayerInternal();
-		if (users.size() == 1) {
-			Lobby.setActive(false);
-		}
-		users.remove(user);
-		Lobby.setUsers(users);
-		lobbyService.update(Lobby);
+		lobbyService.leaveLobby(user);
 		return "redirect:/home";
 	}
 
@@ -130,25 +106,12 @@ public class LobbyController {
 		model.put("players", Lobby.getPlayerInternal());
 		return "game/lobbyPlayers";
 	}
-
+	//TODO:
 	@GetMapping("/lobby/players/delete/{id}")
 	public String ejectPlayer(Principal principal, @PathVariable("id") Integer id) {
-		User user = userService.findUser(id);
-		Lobby Lobby = lobbyService.findLobbyByPlayer(id).get();
-		List<User> users = Lobby.getPlayerInternal();
-		if (users.size() == 1) {
-			return "redirect:/lobby/delete";
-		} else {
-			users.remove(user);
-			Lobby.setUsers(users);
-			lobbyService.update(Lobby);
-			if (user.getNickname().equals(principal.getName())) {
-				return "redirect:/home";
-			} else {
-				return "redirect:/lobby/players";
-			}
-
-		}
+		User authUser = userService.findUserByNickname(principal.getName());
+		User userEjected = userService.findUser(id);
+		if(lobbyService.ejectPlayer(authUser, userEjected)) return "redirect:/lobby/players";
+		return "redirect:/home";
 	}
-
 }

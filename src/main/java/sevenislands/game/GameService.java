@@ -44,4 +44,8 @@ public class GameService {
         return gameRepository.findGamebByLobbyId(id);
     }
 
+    @Transactional
+    public Optional<Game> findGameByNickname(String nickname) {
+        return gameRepository.findGameByNickname(nickname);
+    }
 }

@@ -18,5 +18,5 @@ public interface GameRepository extends CrudRepository<Game, Integer> {
 
     //SELECT G.ID  FROM GAME G JOIN LOBBY L ON  G.LOBBY_ID = L.ID INNER JOIN USER U WHERE U.NICKNAME='player1'
     @Query("SELECT g.id FROM Game g INNER JOIN g.lobby l INNER JOIN l.users u WHERE u.nickname=?1")
-    public Integer findGameByNickname(String nickname);
+    public Optional<Game> findGameByNickname(String nickname);
 }

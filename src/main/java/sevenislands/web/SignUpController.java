@@ -1,6 +1,4 @@
 package sevenislands.web;
-
-import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -13,11 +11,7 @@ import sevenislands.user.User;
 import sevenislands.user.UserService;
 
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -60,9 +54,7 @@ public class SignUpController {
 				errors.add("El nombre de usuario ya esta en uso");
 			} else if (e.getMessage().contains("PUBLIC.USER(EMAIL)")){
 				errors.add("El email ya esta en uso");
-			} else {
-				errors.add(e.getMessage());
-			}	
+			} else errors.add(e.getMessage());
 			model.put("errors", errors);
 			user.setPassword("");
 			return VIEWS_PLAYER_SIGNUP;

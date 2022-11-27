@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.Optional;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -32,7 +34,7 @@ public class LobbyServiceTest {
         lobby.setCode("fgcvcjcljhdbla.kv");
         lobbyService.update(lobby);
         assertNotEquals(lobby.getCode(), lobbyService.findLobbyByPlayer(8).get());
-        Lobby lobby2 = lobbyService.findLobbyByCode("fgcvcjcljhdbla.kv");
+        Optional<Lobby> lobby2 = lobbyService.findLobbyByCode("fgcvcjcljhdbla.kv");
         assertNotNull(lobby2);
     }
     

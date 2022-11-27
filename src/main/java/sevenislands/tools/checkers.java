@@ -81,13 +81,13 @@ public class checkers {
     public static void checkGame(HttpServletRequest request) {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.findUserByNickname(principal.getUsername());
-        if (lobbyService.checkUserLobbyById(user.getId())) {
+        if (gameService.findGameByNickname(principal.getUsername()).isPresent()) {
 
             //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
             Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
+            Optional<Game> game = gameService.findGamebByLobbyId(lobby.getId());
             List<User> userList = lobby.getPlayerInternal();
-            Game game = gameService.findGamebByLobbyId(lobby.getId()).get();
-            List<Round> roundList = roundService.findRoundsByGameId(game.getId()).stream().collect(Collectors.toList());
+            List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream().collect(Collectors.toList());
             if(roundList.size()!=0) {
                 Round lastRound = roundList.get(roundList.size()-1);
                 List<Turn> turnList = turnService.findByRoundId(lastRound.getId());

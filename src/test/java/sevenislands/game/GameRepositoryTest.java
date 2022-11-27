@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,7 +38,7 @@ public class GameRepositoryTest {
 
     @Test
     public void TestFindLobbyByNicknameSuccess(){
-        Integer game = gameRepository.findGameByNickname("player1");
+        Optional<Game> game = gameRepository.findGameByNickname("player1");
         assertNotNull(game);
     }  
 
