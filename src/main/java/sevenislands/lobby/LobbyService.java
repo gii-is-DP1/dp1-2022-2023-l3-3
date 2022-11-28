@@ -116,8 +116,9 @@ public class LobbyService {
     @Transactional
     public Boolean validateJoin(String code, User user) throws NotExistLobbyException {
         code = code.trim();
+        Integer userNumber = null;
         Optional<Lobby> lobby = findLobbyByCode(code);
-        Integer userNumber = lobby.get().getUsers().size();
+        if(lobby.isPresent()) userNumber = lobby.get().getUsers().size();
 		if (lobby.isPresent() && lobby.get().isActive() && userNumber != null && userNumber >= minPlayers && userNumber < maxPlayers) {
 			lobby.get().addPlayer(user);
 			save(lobby.get());

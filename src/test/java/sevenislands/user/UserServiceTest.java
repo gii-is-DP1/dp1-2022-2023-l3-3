@@ -55,7 +55,7 @@ public class UserServiceTest {
     public void allUsersFoundSuccessful() {
         when(mock.findAll()).thenReturn(usersRepo);
        
-        UserService userService = new UserService(null,
+        UserService userService = new UserService(null, null,
          null, null, mock);
         List<User> users = userService.findAll();
         assertNotNull(users, "El servicio devuelve un objeto nulo");
@@ -65,7 +65,7 @@ public class UserServiceTest {
     @Test
     public void saveTestUnsuccessfulDueToExistence() {
         when(mock.save(any())).thenThrow(new IllegalArgumentException());
-        UserService userService = new UserService(null,null,null, mock);
+        UserService userService = new UserService(null, null,null,null, mock);
 
         User newUser2 = createUser(555, "prueba", "prueba@sevenislands.com");
         assertThrows(IllegalArgumentException.class, () -> userService.save(newUser2));
@@ -75,7 +75,7 @@ public class UserServiceTest {
     @Test
     public void findByIdTest(){
         user = createUser(1, "prueba", "prueba@sevenislands.com");
-        UserService userService = new UserService(null,null,null, mock);
+        UserService userService = new UserService(null, null,null,null, mock);
         when(mock.findById(1)).thenReturn(Optional.of(user));
         assertEquals(user, userService.findUser(1));
         assertEquals(null, userService.findUser(2));
@@ -85,7 +85,7 @@ public class UserServiceTest {
     @Test
     public void findByEmailTest(){
         user = createUser(1, "prueba", "prueba@sevenislands.com");
-        UserService userService = new UserService(null,null,null, mock);
+        UserService userService = new UserService(null, null,null,null, mock);
         when(mock.findByEmail("prueba@sevenislands.com")).thenReturn(Optional.of(user));
         assertEquals(user, userService.findUserByEmail("prueba@sevenislands.com"));
         assertEquals(null, userService.findUserByEmail("pruebaMal@sevenislands.com"));
@@ -95,7 +95,7 @@ public class UserServiceTest {
     @Test
     public void findAllTest(){
         user = createUser(1, "prueba", "prueba@sevenislands.com");
-        UserService userService = new UserService(null,null,null, mock);
+        UserService userService = new UserService(null, null,null,null, mock);
         when(mock.findAll()).thenReturn(usersRepo);
         assertEquals(usersRepo, userService.findAll());
     }
@@ -103,7 +103,7 @@ public class UserServiceTest {
     @Test
     public void checkersTest(){
         user = createUser(1, "prueba", "prueba@sevenislands.com");
-        UserService userService = new UserService(null,null,null, mock);
+        UserService userService = new UserService(null, null,null,null, mock);
         when(mock.checkUserEmail("prueba@sevenislands.com")).thenReturn(true);
         when(mock.checkUserEmail("pruebaFalso@sevenislands.com")).thenReturn(false);
 
