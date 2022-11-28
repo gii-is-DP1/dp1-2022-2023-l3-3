@@ -33,13 +33,15 @@ public class UserService {
 	private PasswordEncoder passwordEncoder;
 	private SessionRegistry sessionRegistry;
 	private LobbyService lobbyService;
+	private AuthenticationManager authenticationManager;
 
 	@Autowired
-	public UserService(LobbyService lobbyService, SessionRegistry sessionRegistry, PasswordEncoder passwordEncoder, UserRepository userRepository) {
+	public UserService(AuthenticationManager authenticationManager, LobbyService lobbyService, SessionRegistry sessionRegistry, PasswordEncoder passwordEncoder, UserRepository userRepository) {
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.sessionRegistry = sessionRegistry;
 		this.lobbyService = lobbyService;
+		this.authenticationManager = authenticationManager;
 	}
 
 	@Transactional
@@ -246,12 +248,7 @@ public class UserService {
 				user.setAvatar("adminAvatar.png");
 			}
 			save(user);
-			if(!isAdmin){
-				UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user.getNickname(), password);
-				Authentication authentication = authenticationManager.authenticate(authToken);
-				SecurityContextHolder.getContext().setAuthentication(authentication);
-				authToken.setDetails(new WebAuthenticationDetails(request));
-			}
+			if(!isAdmin) loginUser(user, password, request);
 		} catch (Exception e) {
 			throw e;
 		}
@@ -292,4 +289,17 @@ public class UserService {
 			throw e;
 		}
 	}
+
+	/**
+     * Realiza el logeo automático del usuario actual.
+     * @param user
+     * @param password
+     */
+	@Transactional
+    public void loginUser(User user, String password, HttpServletRequest request) {
+        UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(user.getNickname(), password);
+		Authentication authentication = authenticationManager.authenticate(authToken);
+		SecurityContextHolder.getContext().setAuthentication(authentication);
+		authToken.setDetails(new WebAuthenticationDetails(request));
+    }
 }

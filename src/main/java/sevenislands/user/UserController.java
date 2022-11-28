@@ -14,7 +14,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import sevenislands.exceptions.NotExitPlayerException;
-import sevenislands.tools.entityAssistant;
 import sevenislands.tools.metodosReutilizables;
 
 import org.springframework.stereotype.Controller;
@@ -49,14 +48,14 @@ public class UserController {
 	}
 
 	@PostMapping("/settings")
-	public String processUpdateplayerForm(ModelMap model, @Valid User user, BindingResult result, @ModelAttribute("logedUser") User logedUser) {
+	public String processUpdateplayerForm(HttpServletRequest request, ModelMap model, @Valid User user, BindingResult result, @ModelAttribute("logedUser") User logedUser) {
 		String password = user.getPassword();
 		if(result.hasErrors()) {
 			return VIEWS_PLAYER_UPDATE_FORM;
 		}
 		try {
 			userService.updateUser(user, logedUser.getNickname(), 2);
-			entityAssistant.loginUser(user, password); 
+			userService.loginUser(user, password, request); 
 			return "redirect:/home";
 		} catch (Exception e) {
 			List<String> errors = new ArrayList<>();

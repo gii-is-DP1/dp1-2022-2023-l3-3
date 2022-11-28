@@ -14,11 +14,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import sevenislands.game.Game;
+import sevenislands.game.GameService;
 import sevenislands.game.round.Round;
 import sevenislands.game.round.RoundService;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
-import sevenislands.tools.entityAssistant;
 import sevenislands.user.User;
 import sevenislands.user.UserService;
 
@@ -36,13 +36,15 @@ public class TurnController {
     private final UserService userService;
     private final RoundService roundService;
     private final LobbyService lobbyService;
+    private final GameService gameService;
 
     @Autowired
-    public TurnController(LobbyService lobbyService, RoundService roundService, TurnService turnService, UserService userService) {
+    public TurnController(GameService gameService, LobbyService lobbyService, RoundService roundService, TurnService turnService, UserService userService) {
         this.turnService = turnService;
         this.userService = userService;
         this.roundService = roundService;
         this.lobbyService = lobbyService;
+        this.gameService = gameService;
     }
 
     @GetMapping("/turn")
@@ -51,7 +53,7 @@ public class TurnController {
         if(lobbyService.checkUserNoLobby(logedUser)) return "redirect:/home";
         response.addHeader("Refresh", "1");
 
-        Optional<Game> game = entityAssistant.getGameOfPlayer(request);
+        Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
         List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream().collect(Collectors.toList());
         Round round = roundList.get(roundList.size()-1);
         List<Turn> turnList = turnService.findByRoundId(round.getId());
@@ -75,7 +77,7 @@ public class TurnController {
         if(userService.checkUserNoExists(request)) return "redirect:/";
         if(lobbyService.checkUserNoLobby(logedUser)) return "redirect:/home";
         
-        Optional<Game> game = entityAssistant.getGameOfPlayer(request);
+        Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
         List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream().collect(Collectors.toList());
         Round round = roundList.get(roundList.size()-1);
         List<Turn> turnList = turnService.findByRoundId(round.getId());
@@ -100,7 +102,7 @@ public class TurnController {
         if(userService.checkUserNoExists(request)) return "redirect:/";
         if(lobbyService.checkUserNoLobby(logedUser)) return "redirect:/home";
         
-        Optional<Game> game = entityAssistant.getGameOfPlayer(request);
+        Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
         List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream().collect(Collectors.toList());
         Round round = roundList.get(roundList.size()-1);
         List<Turn> turnList = turnService.findByRoundId(round.getId());
@@ -116,27 +118,29 @@ public class TurnController {
     public String gameAsignTurn(@ModelAttribute("logedUser") User logedUser, HttpServletRequest request) throws ServletException {
         if(userService.checkUserNoExists(request)) return "redirect:/";
         if(lobbyService.checkUserNoLobby(logedUser)) return "redirect:/home";
-        Game game = entityAssistant.getGameOfPlayer(request).get();
-        Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId()).get();
-        List<User> userList = lobby.getUsers();
-        List<Round> roundList = roundService.findRoundsByGameId(game.getId()).stream().collect(Collectors.toList());
-
-        Round round = new Round();
-        Turn turn = new Turn();
-
-        round.setGame(game);
-        turn.setRound(round);
-        turn.setStartTime(LocalDateTime.now());
-        if(roundService.findRoundsByGameId(game.getId()).isEmpty()) {
-            turn.setUser(logedUser);
-        } else if (turnService.findByRoundId(roundList.get(roundList.size()-1).getId()).size() >= userList.size()) { 
-            Integer nextUser = (userList.indexOf(logedUser)+1)%userList.size();
-            turn.setUser(userList.get(nextUser));
-        } else return "redirect:/turn";
-
-        roundService.save(round);
-        turnService.save(turn);
-        return "redirect:/turn";
+        Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
+        if(game.isPresent()) {
+            Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId()).get();
+            List<User> userList = lobby.getUsers();
+            List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream().collect(Collectors.toList());
+    
+            Round round = new Round();
+            Turn turn = new Turn();
+    
+            round.setGame(game.get());
+            turn.setRound(round);
+            turn.setStartTime(LocalDateTime.now());
+            if(roundService.findRoundsByGameId(game.get().getId()).isEmpty()) {
+                turn.setUser(logedUser);
+            } else if (turnService.findByRoundId(roundList.get(roundList.size()-1).getId()).size() >= userList.size()) { 
+                Integer nextUser = (userList.indexOf(logedUser)+1)%userList.size();
+                turn.setUser(userList.get(nextUser));
+            } else return "redirect:/turn";
+    
+            roundService.save(round);
+            turnService.save(turn);
+            return "redirect:/turn";
+        } else return "redirect:/home";
     }
 
 }
