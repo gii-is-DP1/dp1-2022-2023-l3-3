@@ -152,8 +152,8 @@ public class UserService {
 			deleteUser(id);
 			return false;
 		}else{
-			if(lobbyService.checkUserLobbyById(user.getId())) {
-				Lobby Lobby = lobbyService.findLobbyByPlayer(id).get();
+			if(lobbyService.findLobbyByPlayerId(user.getId())!=null) {
+				Lobby Lobby = lobbyService.findLobbyByPlayerId(id).get();
 				List<User> userList = Lobby.getPlayerInternal();
 				userList.remove(user);
 				Lobby.setUsers(userList);
@@ -204,17 +204,17 @@ public class UserService {
         
         if(checkUserByNickname(principal.getUsername()) && findUserByNickname(principal.getUsername()).isEnabled()) {
             User user = findUserByNickname(principal.getUsername());
-            if (lobbyService.checkUserLobbyById(user.getId())) {
+            if (lobbyService.findLobbyByPlayerId(user.getId())!=null) {
 
                 //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
-                Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
+                Lobby lobby = lobbyService.findLobbyByPlayerId(user.getId()).get();
                 List<User> users = lobby.getPlayerInternal();
                 if (users.size() == 1) {
                     lobby.setActive(false);
                 }
                 users.remove(user);
                 lobby.setUsers(users);
-                lobbyService.update(lobby);
+                lobbyService.save(lobby);
             }
             return false;
         } else {
@@ -256,8 +256,6 @@ public class UserService {
 			throw e;
 		}
 	}
-
-
 
 	@Transactional
 	public void updateUser(User newUserData, String param, Integer op){

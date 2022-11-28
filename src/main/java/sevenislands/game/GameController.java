@@ -41,14 +41,14 @@ public class GameController {
         response.addHeader("Refresh", "5");
 
         User user = userService.findUserByNickname(principal.getName());
-        Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
+        Lobby lobby = lobbyService.findLobbyByPlayerId(user.getId()).get();
         if(!gameService.findGamebByLobbyId(lobby.getId()).isPresent()) {
             Game game = new Game();
             game.setCreationDate(new Date(System.currentTimeMillis()));
             game.setLobby(lobby);
             gameService.save(game);
             lobby.setActive(false);
-            lobbyService.update(lobby);
+            lobbyService.save(lobby);
         }
         return VIEWS_GAME_ASIGN_TURN;
     }

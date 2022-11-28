@@ -85,7 +85,7 @@ public class TurnController {
         List<Turn> turnList = turnService.findByRoundId(round.getId());
         Turn lastTurn = turnList.get(turnList.size()-1);
         User user = userService.findUserByNickname(principal.getName());
-        Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
+        Lobby lobby = lobbyService.findLobbyByPlayerId(user.getId()).get();
         List<User> userList = lobby.getUsers();
 
         if(user.getId()==lastTurn.getUser().getId()) {
@@ -123,7 +123,7 @@ public class TurnController {
         if(checkers.checkUserNoLobby(request)) return "redirect:/home";
         User user = userService.findUserByNickname(principal.getName());
         Game game = entityAssistant.getGameOfPlayer(request).get();
-        Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
+        Lobby lobby = lobbyService.findLobbyByPlayerId(user.getId()).get();
         List<User> userList = lobby.getUsers();
         List<Round> roundList = roundService.findRoundsByGameId(game.getId()).stream().collect(Collectors.toList());
 

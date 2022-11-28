@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -17,7 +19,7 @@ import sevenislands.user.User;
 public class LobbyService {
     
     private LobbyRepository lobbyRepository;
-    private final Integer minPlayers = 0;
+    private final Integer minPlayers = 1;
     private final Integer maxPlayers = 4;
 
     @Autowired
@@ -41,21 +43,16 @@ public class LobbyService {
         }
         return randomString.toString();
     }
-    
-    @Transactional(readOnly = true)
-    public Integer numPartidas() {
-        return lobbyRepository.getNumOfLobby();
-    }
 
     @Transactional
 	public void save(Lobby lobby) {
         lobbyRepository.save(lobby);
 	}
-    //TODO: eliminar método
-    @Transactional 
-	public void update(Lobby lobby) {
-	    lobbyRepository.updateLobby(lobby, lobby.getId());
-	}
+
+    @Transactional
+    public List<Lobby> findAll() {
+        return StreamSupport.stream(lobbyRepository.findAll().spliterator(), false).collect(Collectors.toList());
+    }
 
     @Transactional(readOnly = true, rollbackFor = NotExistLobbyException.class)
     public Optional<Lobby> findLobbyByCode(String code) throws NotExistLobbyException {
@@ -68,20 +65,9 @@ public class LobbyService {
     }
 
     @Transactional(rollbackFor = NotExistLobbyException.class)
-    public Optional<Lobby> findLobbyByPlayer(Integer user_id) {
+    public Optional<Lobby> findLobbyByPlayerId(Integer user_id) {
         return lobbyRepository.findById(lobbyRepository.findLobbyIdByPlayer(user_id));
-
     }
-
-    @Transactional
-	public Boolean checkLobbyByCode(String code) {
-		return lobbyRepository.checkLobby(code);
-	}
-
-    @Transactional
-	public Boolean checkUserLobbyById(Integer id) {
-	    return lobbyRepository.findLobbyIdByPlayer(id)!=null;
-	}
 
     @Transactional
 	public Boolean checkUserLobbyByNickname(String name) {
@@ -99,11 +85,11 @@ public class LobbyService {
 
     @Transactional
     public void leaveLobby(User user) {
-		Optional<Lobby> lobby = findLobbyByPlayer(user.getId());
+		Optional<Lobby> lobby = findLobbyByPlayerId(user.getId());
 		if(lobby.isPresent()) {
             Lobby lobby2 = lobby.get();
             List<User> users = lobby2.getPlayerInternal();
-		if (users.size() == 1) {
+		if (users.size() == minPlayers) {
 			lobby2.setActive(false);
 		}
 		users.remove(user);
@@ -114,7 +100,7 @@ public class LobbyService {
 
     @Transactional
     public Boolean ejectPlayer(User authUser, User userEjected) {
-		Lobby lobby = findLobbyByPlayer(userEjected.getId()).get();
+		Lobby lobby = findLobbyByPlayerId(userEjected.getId()).get();
 		List<User> users = lobby.getPlayerInternal();
 		if (userEjected.getNickname().equals(authUser.getNickname())) {
             leaveLobby(authUser);
@@ -132,7 +118,7 @@ public class LobbyService {
         code = code.trim();
         Optional<Lobby> lobby = findLobbyByCode(code);
         Integer userNumber = lobby.get().getUsers().size();
-		if (lobby.isPresent() && lobby.get().isActive() && userNumber != null && userNumber > minPlayers && userNumber < maxPlayers) {
+		if (lobby.isPresent() && lobby.get().isActive() && userNumber != null && userNumber >= minPlayers && userNumber < maxPlayers) {
 			lobby.get().addPlayer(user);
 			save(lobby.get());
             return true;

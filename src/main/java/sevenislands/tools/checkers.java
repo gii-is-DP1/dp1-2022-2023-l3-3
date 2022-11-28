@@ -56,7 +56,7 @@ public class checkers {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.findUserByNickname(principal.getUsername());
 
-        if (!lobbyService.checkUserLobbyById(user.getId())) {
+        if (lobbyService.findLobbyByPlayerId(user.getId())==null) {
             return true;
         } return false;
     }
@@ -84,7 +84,7 @@ public class checkers {
         if (gameService.findGameByNickname(principal.getUsername()).isPresent()) {
 
             //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
-            Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
+            Lobby lobby = lobbyService.findLobbyByPlayerId(user.getId()).get();
             Optional<Game> game = gameService.findGamebByLobbyId(lobby.getId());
             List<User> userList = lobby.getPlayerInternal();
             List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream().collect(Collectors.toList());

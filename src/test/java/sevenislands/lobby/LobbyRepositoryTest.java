@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class LobbyRepositoryTest {
         Lobby lobby=lobbies.get(0);
         lobby.setActive(false);
         lobby.setCode("123465445");
-        lobbyRepository.updateLobby(lobby, lobby.getId());
+        lobbyRepository.save(lobby);
         assertNotNull(lobby);
         assertTrue(lobby.getCode().equals("123465445"));
     }
@@ -76,14 +77,8 @@ public class LobbyRepositoryTest {
     }
 
     @Test
-    public void TestCheckLobby(){
-        Boolean lobby=lobbyRepository.checkLobby("aD5f8Lio");
-        assertTrue(lobby);
-    } 
-
-    @Test
     public void TestGetNumOfLobby(){
-        Integer numOfLobby=lobbyRepository.getNumOfLobby();
+        Long numOfLobby= StreamSupport.stream(lobbyRepository.findAll().spliterator(), false).count();
         assertTrue(numOfLobby>0);
     }
 

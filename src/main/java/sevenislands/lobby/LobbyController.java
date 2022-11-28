@@ -46,8 +46,8 @@ public class LobbyController {
 		
 		response.addHeader("Refresh", "1");
 		User user = userService.findUserByNickname(principal.getName());
-		Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
-		if (lobbyService.checkUserLobbyById(user.getId())) {
+		Lobby lobby = lobbyService.findLobbyByPlayerId(user.getId()).get();
+		if (lobbyService.findLobbyByPlayerId(user.getId())!=null) {
 			if (gameService.findGamebByLobbyId(lobby.getId()).isPresent()) {
 				return "redirect:/game";
 			}
@@ -102,7 +102,7 @@ public class LobbyController {
 	public String listaPlayer(Map<String, Object> model, Principal principal, HttpServletResponse response) {
 		response.addHeader("Refresh", "2");
 		User user = userService.findUserByNickname(principal.getName());
-		Lobby Lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
+		Lobby Lobby = lobbyService.findLobbyByPlayerId(user.getId()).get();
 		model.put("players", Lobby.getPlayerInternal());
 		return "game/lobbyPlayers";
 	}
