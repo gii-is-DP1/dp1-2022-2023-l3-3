@@ -46,20 +46,6 @@ public class checkers {
         this.turnService = turnService;
 	}
 
-    /**
-     * Compruena si el usuario se encuentra en una lobby.
-     * @param request (Importar HttpServletRequest request en la función)
-     * @return true (en caso de que no esté en una lobby) o false (en otro caso)
-     * @throws ServletException
-     */
-    public static Boolean checkUserNoLobby() throws ServletException {
-        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = userService.findUserByNickname(principal.getUsername());
-        if (!lobbyService.findLobbyByPlayerId(user.getId()).isPresent()) {
-            return true;
-        } return false;
-    }
-
     public static void checkGame() {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.findUserByNickname(principal.getUsername());

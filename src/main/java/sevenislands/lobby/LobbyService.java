@@ -137,4 +137,15 @@ public class LobbyService {
         errors.add("No existe ninguna partida con ese código");
         return errors;
     }
+
+    /**
+     * Compruena si el usuario se encuentra en una lobby.
+     * @param request (Importar HttpServletRequest request en la función)
+     * @return true (en caso de que no esté en una lobby) o false (en otro caso)
+     * @throws ServletException
+     */
+    @Transactional
+    public Boolean checkUserNoLobby(User loggedUser) {
+        return !lobbyRepository.findByPlayerId(loggedUser.getId()).isPresent();
+    }
 }

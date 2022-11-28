@@ -18,7 +18,6 @@ import sevenislands.game.round.Round;
 import sevenislands.game.round.RoundService;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
-import sevenislands.tools.checkers;
 import sevenislands.tools.entityAssistant;
 import sevenislands.user.User;
 import sevenislands.user.UserService;
@@ -49,7 +48,7 @@ public class TurnController {
     @GetMapping("/turn")
     public String gameTurn(ModelMap model, @ModelAttribute("logedUser") User logedUser, HttpServletRequest request, HttpServletResponse response) throws ServletException {
         if(userService.checkUserNoExists(request)) return "redirect:/";
-        if(checkers.checkUserNoLobby()) return "redirect:/home";
+        if(lobbyService.checkUserNoLobby(logedUser)) return "redirect:/home";
         response.addHeader("Refresh", "1");
 
         Optional<Game> game = entityAssistant.getGameOfPlayer(request);
@@ -74,7 +73,7 @@ public class TurnController {
     @GetMapping("/turn/endTurn")
     public String gameEndTurn(@ModelAttribute("logedUser") User logedUser, HttpServletRequest request) throws ServletException {
         if(userService.checkUserNoExists(request)) return "redirect:/";
-        if(checkers.checkUserNoLobby()) return "redirect:/home";
+        if(lobbyService.checkUserNoLobby(logedUser)) return "redirect:/home";
         
         Optional<Game> game = entityAssistant.getGameOfPlayer(request);
         List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream().collect(Collectors.toList());
@@ -97,9 +96,9 @@ public class TurnController {
     }
 
     @GetMapping("/turn/dice")
-    public String gameRollDice(HttpServletRequest request) throws ServletException {
+    public String gameRollDice(@ModelAttribute("logedUser") User logedUser, HttpServletRequest request) throws ServletException {
         if(userService.checkUserNoExists(request)) return "redirect:/";
-        if(checkers.checkUserNoLobby()) return "redirect:/home";
+        if(lobbyService.checkUserNoLobby(logedUser)) return "redirect:/home";
         
         Optional<Game> game = entityAssistant.getGameOfPlayer(request);
         List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream().collect(Collectors.toList());
@@ -116,7 +115,7 @@ public class TurnController {
     @GetMapping("/turn/newRound")
     public String gameAsignTurn(@ModelAttribute("logedUser") User logedUser, HttpServletRequest request) throws ServletException {
         if(userService.checkUserNoExists(request)) return "redirect:/";
-        if(checkers.checkUserNoLobby()) return "redirect:/home";
+        if(lobbyService.checkUserNoLobby(logedUser)) return "redirect:/home";
         Game game = entityAssistant.getGameOfPlayer(request).get();
         Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId()).get();
         List<User> userList = lobby.getUsers();

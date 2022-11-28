@@ -9,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
-import sevenislands.tools.checkers;
 import sevenislands.user.User;
 import sevenislands.user.UserService;
 
@@ -36,7 +35,7 @@ public class GameController {
     @GetMapping("/game")
     public String createGame(HttpServletRequest request, @ModelAttribute("logedUser") User logedUser, HttpServletResponse response) throws ServletException {
         if(userService.checkUserNoExists(request)) return "redirect:/";
-        if(checkers.checkUserNoLobby()) return "redirect:/home";
+        if(lobbyService.checkUserNoLobby(logedUser)) return "redirect:/home";
         if(gameService.checkUserNoGame(logedUser)) return "redirect:/turn";
         response.addHeader("Refresh", "5");
         Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId()).get();

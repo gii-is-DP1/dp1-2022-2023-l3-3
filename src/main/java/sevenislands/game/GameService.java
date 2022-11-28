@@ -56,13 +56,16 @@ public class GameService {
     /**
      * Comprueba si el usuario está en una partida o si existe una ronda asociada a la partida en la que se
      * encuentra el usuario.
-     * @param request (Importar HttpServletRequest request en la función)
+     * @param
      * @return false (en caso de que no esté en una partida, o esta esté empezada) o true (en otro caso)
      * @throws ServletException
      */
     @Transactional
     public Boolean checkUserNoGame(User logedUser) {
         Optional<Game> game = gameRepository.findGameByNickname(logedUser.getNickname());
+        //return game.isPresent() && !roundService.checkNoRoundByGameId(game.get().getId());
+
+        
          if (!game.isPresent() || roundService.checkNoRoundByGameId(game.get().getId())) {
              return false;
          } 

@@ -17,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.GameService;
-import sevenislands.tools.checkers;
 import sevenislands.user.User;
 import sevenislands.user.UserService;
 
@@ -41,7 +40,7 @@ public class LobbyController {
 	public String joinLobby(HttpServletRequest request, ModelMap model, @ModelAttribute("logedUser") User logedUser, HttpServletResponse response) 
 	throws NotExistLobbyException, ServletException {
 		if(userService.checkUserNoExists(request)) return "redirect:/";
-		if(checkers.checkUserNoLobby()) return "redirect:/home";
+		if(lobbyService.checkUserNoLobby(logedUser)) return "redirect:/home";
 		
 		response.addHeader("Refresh", "1");
 		Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId()).get();
@@ -62,7 +61,7 @@ public class LobbyController {
 
 	@GetMapping("/lobby/create")
 	public String createLobby(HttpServletRequest request, @ModelAttribute("logedUser") User logedUser) throws ServletException {
-		if(!checkers.checkUserNoLobby()) return "redirect:/home";
+		if(!lobbyService.checkUserNoLobby(logedUser)) return "redirect:/home";
 		lobbyService.createLobby(logedUser);
 		return "redirect:/lobby";
 	}
