@@ -36,6 +36,7 @@ public class GameController {
     public String createGame(HttpServletRequest request, @ModelAttribute("logedUser") User logedUser, HttpServletResponse response) throws ServletException {
         if(userService.checkUserNoExists(request)) return "redirect:/";
         if(lobbyService.checkUserNoLobby(logedUser)) return "redirect:/home";
+        if(lobbyService.checkLobbyNoAllPlayers(logedUser)) return "redirect:/lobby";
         if(gameService.checkUserGameWithRounds(logedUser)) return "redirect:/turn";
         response.addHeader("Refresh", "5");
         Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId()).get();

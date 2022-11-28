@@ -149,4 +149,14 @@ public class LobbyService {
     public Boolean checkUserNoLobby(User loggedUser) {
         return !lobbyRepository.findByPlayerId(loggedUser.getId()).isPresent();
     }
+
+    @Transactional
+    public Boolean checkLobbyNoAllPlayers(User logedUser) {
+        Integer userNumber = null;
+        Optional<Lobby> lobby = findLobbyByPlayerId(logedUser.getId());
+        if(lobby.isPresent()) userNumber = lobby.get().getUsers().size();
+		if (lobby.isPresent() && userNumber != null && userNumber > minPlayers && userNumber < maxPlayers) {
+            return false;
+		} else return true;
+    }
 }
