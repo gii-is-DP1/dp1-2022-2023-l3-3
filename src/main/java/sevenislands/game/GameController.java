@@ -1,6 +1,5 @@
 package sevenislands.game;
 
-import java.security.Principal;
 import java.sql.Date;
 
 import javax.servlet.ServletException;
@@ -16,6 +15,7 @@ import sevenislands.user.UserService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
 public class GameController {
@@ -34,14 +34,13 @@ public class GameController {
     }
 
     @GetMapping("/game")
-    public String createGame(HttpServletRequest request, Principal principal, HttpServletResponse response) throws ServletException {
+    public String createGame(HttpServletRequest request, @ModelAttribute("logedUser") User logedUser, HttpServletResponse response) throws ServletException {
         if(userService.checkUserNoExists(request)) return "redirect:/";
         if(checkers.checkUserNoLobby(request)) return "redirect:/home";
         if(checkers.checkUserNoGame(request)) return "redirect:/turn";
         response.addHeader("Refresh", "5");
 
-        User user = userService.findUserByNickname(principal.getName());
-        Lobby lobby = lobbyService.findLobbyByPlayerId(user.getId()).get();
+        Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId()).get();
         if(!gameService.findGamebByLobbyId(lobby.getId()).isPresent()) {
             Game game = new Game();
             game.setCreationDate(new Date(System.currentTimeMillis()));

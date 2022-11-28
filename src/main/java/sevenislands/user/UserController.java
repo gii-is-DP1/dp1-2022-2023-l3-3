@@ -1,9 +1,7 @@
 package sevenislands.user;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
@@ -20,9 +18,10 @@ import sevenislands.tools.entityAssistant;
 import sevenislands.tools.metodosReutilizables;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,22 +41,21 @@ public class UserController {
 	}
 
 	@GetMapping("/settings")
-	public String initUpdateOwnerForm(HttpServletRequest request, Map<String, Object> model, Principal principal) throws ServletException {
+	public String initUpdateOwnerForm(HttpServletRequest request, ModelMap model, @ModelAttribute("logedUser") User logedUser) throws ServletException {
 		if(userService.checkUser(request)) return "redirect:/";
-		User user = userService.findUserByNickname(principal.getName());
-		user.setPassword("");
-		model.put("user", user);
+		logedUser.setPassword("");
+		model.put("user", logedUser);
 		return VIEWS_PLAYER_UPDATE_FORM;
 	}
 
 	@PostMapping("/settings")
-	public String processUpdateplayerForm(Map<String, Object> model, @Valid User user, BindingResult result, Principal principal) {
+	public String processUpdateplayerForm(ModelMap model, @Valid User user, BindingResult result, @ModelAttribute("logedUser") User logedUser) {
 		String password = user.getPassword();
 		if(result.hasErrors()) {
 			return VIEWS_PLAYER_UPDATE_FORM;
 		}
 		try {
-			userService.updateUser(user, principal.getName(), 2);
+			userService.updateUser(user, logedUser.getNickname(), 2);
 			entityAssistant.loginUser(user, password); 
 			return "redirect:/home";
 		} catch (Exception e) {
@@ -87,7 +85,7 @@ public class UserController {
 	 * @throws NotExitPlayerException
 	 */
     @RequestMapping(value = "/controlPanel", method = RequestMethod.GET)
-	public String listUsersPagination(Model model, @RequestParam Integer valor) throws NotExitPlayerException{
+	public String listUsersPagination(ModelMap model, @RequestParam Integer valor) throws NotExitPlayerException{
 		Page<User> paginacion=null;
 		Integer totalUsers=(userService.findAll().size()-1)/5;
 		Pageable page2=PageRequest.of(valor,5);
@@ -110,8 +108,8 @@ public class UserController {
 	 */
 	
     @GetMapping("/controlPanel/delete/{id}")
-	public String deleteUser(Principal principal, @PathVariable("id") Integer id){
-		if(userService.deleteUser(id, principal)) return "redirect:/controlPanel?valor="+metodosReutilizables.DeletePaginaControlPanel(id);
+	public String deleteUser(@ModelAttribute("logedUser") User logedUser, @PathVariable("id") Integer id){
+		if(userService.deleteUser(id, logedUser)) return "redirect:/controlPanel?valor="+metodosReutilizables.DeletePaginaControlPanel(id);
 		return "redirect:/";
 	}
 
@@ -124,8 +122,8 @@ public class UserController {
 	 * @return
 	 */
 	@GetMapping("/controlPanel/enable/{id}")
-	public String enableUser(Principal principal, @PathVariable("id") Integer id){
-		if(userService.enableUser(id, principal)) return "redirect:/controlPanel?valor="+metodosReutilizables.EditPaginaControlPanel(id);
+	public String enableUser(@ModelAttribute("logedUser") User logedUser, @PathVariable("id") Integer id){
+		if(userService.enableUser(id, logedUser)) return "redirect:/controlPanel?valor="+metodosReutilizables.EditPaginaControlPanel(id);
 		return "redirect:/";
 	}
 
@@ -135,7 +133,7 @@ public class UserController {
 	 * @return
 	 */
 	@GetMapping("/controlPanel/add")
-	public String addUser(Map<String, Object> model) {
+	public String addUser(ModelMap model) {
 		model.put("user", new User());
 		model.put("types", userService.findDistinctAuthorities());
 		return "admin/addUser";
@@ -150,7 +148,7 @@ public class UserController {
 	 * @return
 	 */
 	@PostMapping("/controlPanel/add")
-	public String processCreationUserForm(Map<String, Object> model, @Valid User user, BindingResult result) {
+	public String processCreationUserForm(ModelMap model, @Valid User user, BindingResult result) {
 		if(result.hasErrors()) return "admin/addUser";
 		
 		try {
@@ -181,7 +179,7 @@ public class UserController {
 	 * @return
 	 */
 	@GetMapping("/controlPanel/edit/{id}")
-	public String editUser(@PathVariable Integer id, Map<String, Object> model) {
+	public String editUser(@PathVariable Integer id, ModelMap model) {
 		User user = userService.findUser(id);
 		List<String> authList = userService.findDistinctAuthorities();
 		user.setPassword("");
@@ -203,7 +201,7 @@ public class UserController {
 	 * @return
 	 */
 	@PostMapping("/controlPanel/edit/{id}")
-	public String processEditUserForm(Map<String, Object> model, @PathVariable Integer id, @Valid User user, BindingResult result) {
+	public String processEditUserForm(ModelMap model, @PathVariable Integer id, @Valid User user, BindingResult result) {
 		if(result.hasErrors()) {
 			return "admin/editUser";
 		}

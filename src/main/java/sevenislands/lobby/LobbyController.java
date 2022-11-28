@@ -1,14 +1,13 @@
 package sevenislands.lobby;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.security.Principal;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -39,15 +38,14 @@ public class LobbyController {
 	}
 
 	@GetMapping("/lobby")
-	public String joinLobby(HttpServletRequest request, Map<String, Object> model, Principal principal, HttpServletResponse response) 
+	public String joinLobby(HttpServletRequest request, ModelMap model, @ModelAttribute("logedUser") User logedUser, HttpServletResponse response) 
 	throws NotExistLobbyException, ServletException {
 		if(userService.checkUserNoExists(request)) return "redirect:/";
 		if(checkers.checkUserNoLobby(request)) return "redirect:/home";
 		
 		response.addHeader("Refresh", "1");
-		User user = userService.findUserByNickname(principal.getName());
-		Lobby lobby = lobbyService.findLobbyByPlayerId(user.getId()).get();
-		if (lobbyService.findLobbyByPlayerId(user.getId())!=null) {
+		Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId()).get();
+		if (lobbyService.findLobbyByPlayerId(logedUser.getId())!=null) {
 			if (gameService.findGamebByLobbyId(lobby.getId()).isPresent()) {
 				return "redirect:/game";
 			}
@@ -55,7 +53,7 @@ public class LobbyController {
 			model.put("num_players", lobby.getUsers().size());
 			model.put("lobby", lobby);
 			model.put("host", host);
-			model.put("player", user);
+			model.put("player", logedUser);
 			return VIEWS_LOBBY;
 		} else {
 			return "redirect:/home";
@@ -63,24 +61,22 @@ public class LobbyController {
 	}
 
 	@GetMapping("/lobby/create")
-	public String createLobby(HttpServletRequest request, Principal principal) throws ServletException {
+	public String createLobby(HttpServletRequest request, @ModelAttribute("logedUser") User logedUser) throws ServletException {
 		if(!checkers.checkUserNoLobby(request)) return "redirect:/home";
-		User user = userService.findUserByNickname(principal.getName());
-		lobbyService.createLobby(user);
+		lobbyService.createLobby(logedUser);
 		return "redirect:/lobby";
 	}
 
 	@GetMapping("/join")
-	public String join(HttpServletRequest request, Map<String, Object> model) throws ServletException {
+	public String join(HttpServletRequest request, ModelMap model) throws ServletException {
 		if(userService.checkUser(request)) return "redirect:/";
 		model.put("code", new Lobby());
 		return "views/join";
 	}
 
 	@PostMapping("/join")
-	public String validateJoin(Map<String, Object> model, @ModelAttribute("code") String code, Principal principal) throws NotExistLobbyException {
-		User user = userService.findUserByNickname(principal.getName());
-		if(lobbyService.validateJoin(code, user)) return "redirect:/lobby";
+	public String validateJoin(ModelMap model, @ModelAttribute("code") String code, @ModelAttribute("logedUser") User logedUser) throws NotExistLobbyException {
+		if(lobbyService.validateJoin(code, logedUser)) return "redirect:/lobby";
 		List<String> errors = lobbyService.checkLobbyErrors(code);
 		
 		model.put("errors", errors);
@@ -92,26 +88,23 @@ public class LobbyController {
 	}
 
 	@GetMapping("/lobby/delete")
-	public String leaveLobby(Principal principal) {
-		User user = userService.findUserByNickname(principal.getName());
-		lobbyService.leaveLobby(user);
+	public String leaveLobby(@ModelAttribute("logedUser") User logedUser) {
+		lobbyService.leaveLobby(logedUser);
 		return "redirect:/home";
 	}
 
 	@GetMapping("/lobby/players")
-	public String listaPlayer(Map<String, Object> model, Principal principal, HttpServletResponse response) {
+	public String listaPlayer(ModelMap model, @ModelAttribute("logedUser") User logedUser, HttpServletResponse response) {
 		response.addHeader("Refresh", "2");
-		User user = userService.findUserByNickname(principal.getName());
-		Lobby Lobby = lobbyService.findLobbyByPlayerId(user.getId()).get();
+		Lobby Lobby = lobbyService.findLobbyByPlayerId(logedUser.getId()).get();
 		model.put("players", Lobby.getPlayerInternal());
 		return "game/lobbyPlayers";
 	}
 	//TODO:
 	@GetMapping("/lobby/players/delete/{id}")
-	public String ejectPlayer(Principal principal, @PathVariable("id") Integer id) {
-		User authUser = userService.findUserByNickname(principal.getName());
+	public String ejectPlayer(@ModelAttribute("logedUser") User logedUser, @PathVariable("id") Integer id) {
 		User userEjected = userService.findUser(id);
-		if(lobbyService.ejectPlayer(authUser, userEjected)) return "redirect:/lobby/players";
+		if(lobbyService.ejectPlayer(logedUser, userEjected)) return "redirect:/lobby/players";
 		return "redirect:/home";
 	}
 }

@@ -1,10 +1,8 @@
 package sevenislands.game.turn;
 
-import java.security.Principal;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 import java.util.stream.Collectors;
@@ -26,7 +24,9 @@ import sevenislands.user.User;
 import sevenislands.user.UserService;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
 public class TurnController {
@@ -47,27 +47,24 @@ public class TurnController {
     }
 
     @GetMapping("/turn")
-    public String gameTurn(Map<String, Object> model, Principal principal, HttpServletRequest request, HttpServletResponse response) throws ServletException {
+    public String gameTurn(ModelMap model, @ModelAttribute("logedUser") User logedUser, HttpServletRequest request, HttpServletResponse response) throws ServletException {
         if(userService.checkUserNoExists(request)) return "redirect:/";
         if(checkers.checkUserNoLobby(request)) return "redirect:/home";
         response.addHeader("Refresh", "1");
 
-        User user = userService.findUserByNickname(principal.getName());
         Optional<Game> game = entityAssistant.getGameOfPlayer(request);
         List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream().collect(Collectors.toList());
         Round round = roundList.get(roundList.size()-1);
         List<Turn> turnList = turnService.findByRoundId(round.getId());
         Turn turn = turnList.get(turnList.size()-1);
         
-      
-
-        model.put("player", userService.findUserByNickname(principal.getName()));
+        model.put("player", logedUser);
         model.put("player_turn", turn.getUser());
         model.put("dice", turn.getDice());
     
         Duration timeElapsed = Duration.between(turn.getStartTime(), LocalDateTime.now());
         model.put("time_left", 40-timeElapsed.toSeconds());
-        if(turn.getUser().getId()==user.getId() && timeElapsed.toSeconds()>=40) {
+        if(turn.getUser().getId()==logedUser.getId() && timeElapsed.toSeconds()>=40) {
             return "redirect:/turn/endTurn";
         }
 
@@ -75,7 +72,7 @@ public class TurnController {
     }
 
     @GetMapping("/turn/endTurn")
-    public String gameEndTurn(Principal principal, HttpServletRequest request) throws ServletException {
+    public String gameEndTurn(@ModelAttribute("logedUser") User logedUser, HttpServletRequest request) throws ServletException {
         if(userService.checkUserNoExists(request)) return "redirect:/";
         if(checkers.checkUserNoLobby(request)) return "redirect:/home";
         
@@ -84,14 +81,13 @@ public class TurnController {
         Round round = roundList.get(roundList.size()-1);
         List<Turn> turnList = turnService.findByRoundId(round.getId());
         Turn lastTurn = turnList.get(turnList.size()-1);
-        User user = userService.findUserByNickname(principal.getName());
-        Lobby lobby = lobbyService.findLobbyByPlayerId(user.getId()).get();
+        Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId()).get();
         List<User> userList = lobby.getUsers();
 
-        if(user.getId()==lastTurn.getUser().getId()) {
+        if(logedUser.getId()==lastTurn.getUser().getId()) {
             if(turnList.size()>=userList.size()) return "redirect:/turn/newRound";
             Turn turn = new Turn();
-            Integer nextUser = (userList.indexOf(user)+1)%userList.size();
+            Integer nextUser = (userList.indexOf(logedUser)+1)%userList.size();
             turn.setStartTime(LocalDateTime.now());
             turn.setRound(round);
             turn.setUser(userList.get(nextUser));
@@ -118,12 +114,11 @@ public class TurnController {
     }
 
     @GetMapping("/turn/newRound")
-    public String gameAsignTurn(Principal principal, HttpServletRequest request) throws ServletException {
+    public String gameAsignTurn(@ModelAttribute("logedUser") User logedUser, HttpServletRequest request) throws ServletException {
         if(userService.checkUserNoExists(request)) return "redirect:/";
         if(checkers.checkUserNoLobby(request)) return "redirect:/home";
-        User user = userService.findUserByNickname(principal.getName());
         Game game = entityAssistant.getGameOfPlayer(request).get();
-        Lobby lobby = lobbyService.findLobbyByPlayerId(user.getId()).get();
+        Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId()).get();
         List<User> userList = lobby.getUsers();
         List<Round> roundList = roundService.findRoundsByGameId(game.getId()).stream().collect(Collectors.toList());
 
@@ -134,9 +129,9 @@ public class TurnController {
         turn.setRound(round);
         turn.setStartTime(LocalDateTime.now());
         if(roundService.findRoundsByGameId(game.getId()).isEmpty()) {
-            turn.setUser(user);
+            turn.setUser(logedUser);
         } else if (turnService.findByRoundId(roundList.get(roundList.size()-1).getId()).size() >= userList.size()) { 
-            Integer nextUser = (userList.indexOf(user)+1)%userList.size();
+            Integer nextUser = (userList.indexOf(logedUser)+1)%userList.size();
             turn.setUser(userList.get(nextUser));
         } else return "redirect:/turn";
 

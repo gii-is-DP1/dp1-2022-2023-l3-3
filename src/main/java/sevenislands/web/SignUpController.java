@@ -1,7 +1,6 @@
 package sevenislands.web;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
@@ -13,6 +12,7 @@ import sevenislands.user.UserService;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,13 +34,13 @@ public class SignUpController {
 	}
 
 	@GetMapping
-	public String signup(Map<String, Object> model) {
+	public String signup(ModelMap model) {
 		model.put("user", new User());
 		return VIEWS_PLAYER_SIGNUP;
 	}
 
 	@PostMapping
-	public String processCreationForm(Map<String, Object> model, HttpServletRequest request, @Valid User user, BindingResult result) {
+	public String processCreationForm(ModelMap model, HttpServletRequest request, @Valid User user, BindingResult result) {
 		if(result.hasErrors()) {
 			return VIEWS_PLAYER_SIGNUP;
 		} 

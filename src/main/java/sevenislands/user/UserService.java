@@ -1,6 +1,5 @@
 package sevenislands.user;
 
-import java.security.Principal;
 import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
@@ -126,29 +125,29 @@ public class UserService {
     }
 
 	@Transactional
-	public Boolean enableUser(Integer id, Principal principal) {
+	public Boolean enableUser(Integer id, User logedUser) {
 		User user = findUser(id);
 		if(user.isEnabled()) {
 			user.setEnabled(false);
 			save(user);
-			if(user.getNickname().equals(principal.getName())) return false;
+			if(user.getNickname().equals(logedUser.getNickname())) return false;
 			return true;
 		} else {
 			user.setEnabled(true);
 			save(user);
-			if(user.getNickname().equals(principal.getName())) return false;
+			if(user.getNickname().equals(logedUser.getNickname())) return false;
 			return true;
 		}
 	}
 
 	@Transactional
-	public Boolean deleteUser(Integer id, Principal principal) {
+	public Boolean deleteUser(Integer id, User logedUser) {
 		User user = findUser(id);
 		List<SessionInformation> infos = sessionRegistry.getAllSessions(user.getNickname(), false);
 		for(SessionInformation info : infos) {
 			info.expireNow(); //Termina la sesión
 		}
-		if(user.getNickname().equals(principal.getName())){
+		if(user.getNickname().equals(logedUser.getNickname())){
 			deleteUser(id);
 			return false;
 		}else{

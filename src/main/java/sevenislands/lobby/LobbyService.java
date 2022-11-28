@@ -99,11 +99,11 @@ public class LobbyService {
     }
 
     @Transactional
-    public Boolean ejectPlayer(User authUser, User userEjected) {
+    public Boolean ejectPlayer(User logedUser, User userEjected) {
 		Lobby lobby = findLobbyByPlayerId(userEjected.getId()).get();
 		List<User> users = lobby.getPlayerInternal();
-		if (userEjected.getNickname().equals(authUser.getNickname())) {
-            leaveLobby(authUser);
+		if (userEjected.getNickname().equals(logedUser.getNickname())) {
+            leaveLobby(logedUser);
 			return false;
 		} else {
 			users.remove(userEjected);
