@@ -99,7 +99,7 @@ public class LobbyController {
 		model.put("players", Lobby.getPlayerInternal());
 		return "game/lobbyPlayers";
 	}
-	//TODO:
+	
 	@GetMapping("/lobby/players/delete/{id}")
 	public String ejectPlayer(@ModelAttribute("logedUser") User logedUser, @PathVariable("id") Integer id) {
 		User userEjected = userService.findUser(id);

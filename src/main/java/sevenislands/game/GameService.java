@@ -61,14 +61,8 @@ public class GameService {
      * @throws ServletException
      */
     @Transactional
-    public Boolean checkUserNoGame(User logedUser) {
+    public Boolean checkUserGameWithRounds(User logedUser) {
         Optional<Game> game = gameRepository.findGameByNickname(logedUser.getNickname());
-        //return game.isPresent() && !roundService.checkNoRoundByGameId(game.get().getId());
-
-        
-         if (!game.isPresent() || roundService.checkNoRoundByGameId(game.get().getId())) {
-             return false;
-         } 
-         return true;
+        return game.isPresent() && roundService.checkRoundByGameId(game.get().getId());
      }
 }

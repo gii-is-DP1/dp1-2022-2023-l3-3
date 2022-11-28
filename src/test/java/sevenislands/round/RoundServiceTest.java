@@ -1,6 +1,5 @@
 package sevenislands.round;
 
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -71,9 +70,9 @@ public class RoundServiceTest {
     @Test
     public void TestCheckNoRoundByGameId(){
         RoundService roundService=new RoundService(roundRepository);
-        Boolean gameWithoutRound=roundService.checkNoRoundByGameId(1);
+        Boolean gameWithoutRound=roundService.checkRoundByGameId(1);
         assertNotNull(gameWithoutRound);
-        assertFalse(gameWithoutRound);
+        assertTrue(gameWithoutRound);
 
     }
 
