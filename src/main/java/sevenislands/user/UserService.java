@@ -204,7 +204,7 @@ public class UserService {
         
         if(checkUserByNickname(principal.getUsername()) && findUserByNickname(principal.getUsername()).isEnabled()) {
             User user = findUserByNickname(principal.getUsername());
-            if (lobbyService.findLobbyByPlayerId(user.getId())!=null) {
+            if (lobbyService.findLobbyByPlayerId(user.getId()).isPresent()) {
 
                 //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
                 Lobby lobby = lobbyService.findLobbyByPlayerId(user.getId()).get();

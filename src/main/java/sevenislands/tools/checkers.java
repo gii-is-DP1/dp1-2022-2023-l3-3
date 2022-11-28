@@ -55,8 +55,7 @@ public class checkers {
     public static Boolean checkUserNoLobby(HttpServletRequest request) throws ServletException {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.findUserByNickname(principal.getUsername());
-
-        if (lobbyService.findLobbyByPlayerId(user.getId())==null) {
+        if (!lobbyService.findLobbyByPlayerId(user.getId()).isPresent()) {
             return true;
         } return false;
     }

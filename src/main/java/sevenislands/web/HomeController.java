@@ -28,7 +28,7 @@ public class HomeController {
 	public String home(Map<String, Object> model, HttpServletRequest request, Principal principal) throws ServletException {
 		checkers.checkGame(request);
 		if(userService.checkUser(request)) return "redirect:/";
-		User user = userService.findUserByNickname(principal.getName());      
+		User user = userService.findUserByNickname(principal.getName());     
 		model.put("user", user);
 		return "views/home";
 	}
