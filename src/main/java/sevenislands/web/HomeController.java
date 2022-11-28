@@ -5,7 +5,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
-import sevenislands.tools.checkers;
+import sevenislands.game.turn.TurnService;
 import sevenislands.user.User;
 import sevenislands.user.UserService;
 import org.springframework.stereotype.Controller;
@@ -17,15 +17,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 public class HomeController {
 
 	private final UserService userService;
+	private final TurnService turnService;
 
 	@Autowired
-	public HomeController(UserService userService) {
+	public HomeController(UserService userService, TurnService turnService) {
 		this.userService = userService;
+		this.turnService = turnService;
 	}
 	
 	@GetMapping("/home")
 	public String home(ModelMap model, HttpServletRequest request, @ModelAttribute("logedUser") User logedUser) throws ServletException {
-		checkers.checkGame();
+		turnService.checkUserGame(logedUser);
 		if(userService.checkUser(request)) return "redirect:/";   
 		model.put("user", logedUser);
 		return "views/home";
