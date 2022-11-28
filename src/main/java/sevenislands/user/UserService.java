@@ -163,13 +163,12 @@ public class UserService {
 		}	
 	}
 
-
-
 	/**
      * Comprueba si el email pasado como parámetro es válido, es decir que cumpla el patrón "_@_._"
      * @param email
      * @return false (en caso de que el email no sea válido) o true (en caso de que sí lo sea)
      */
+	@Transactional
     public Boolean checkEmail(String email) {
         String regexPattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
         return email.matches(regexPattern);
@@ -181,6 +180,7 @@ public class UserService {
      * @return true (si está baneado o no se encuentra en la base de datos) o false (en otro caso)
      * @throws ServletException
      */
+	@Transactional
     public Boolean checkUserNoExists(HttpServletRequest request) throws ServletException {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         
@@ -198,6 +198,7 @@ public class UserService {
      * @return true (si está baneado o no se encuentra en la base de datos) o false (en otro caso)
      * @throws ServletException
      */
+	@Transactional
     public Boolean checkUser(HttpServletRequest request) throws ServletException {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         

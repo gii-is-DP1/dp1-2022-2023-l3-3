@@ -52,7 +52,7 @@ public class checkers {
      * @return true (en caso de que no esté en una lobby) o false (en otro caso)
      * @throws ServletException
      */
-    public static Boolean checkUserNoLobby(HttpServletRequest request) throws ServletException {
+    public static Boolean checkUserNoLobby() throws ServletException {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.findUserByNickname(principal.getUsername());
         if (!lobbyService.findLobbyByPlayerId(user.getId()).isPresent()) {
@@ -60,24 +60,7 @@ public class checkers {
         } return false;
     }
 
-    /**
-     * Comprueba si el usuario está en una partida o si existe una ronda asociada a la partida en la que se
-     * encuentra el usuario.
-     * @param request (Importar HttpServletRequest request en la función)
-     * @return false (en caso de que no esté en una partida, o esta esté empezada) o true (en otro caso)
-     * @throws ServletException
-     */
-    public static Boolean checkUserNoGame(HttpServletRequest request) throws ServletException {
-       Optional<Game> game = entityAssistant.getGameOfPlayer(request);
-        if (!game.isPresent() || roundService.checkNoRoundByGameId(game.get().getId())) {
-            return false;
-        } 
-        return true;
-    }
-
-    
-
-    public static void checkGame(HttpServletRequest request) {
+    public static void checkGame() {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User user = userService.findUserByNickname(principal.getUsername());
         if (gameService.findGameByNickname(principal.getUsername()).isPresent()) {
