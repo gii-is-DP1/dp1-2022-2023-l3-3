@@ -50,17 +50,16 @@ public class UserService {
 	}
 
 	@Transactional(readOnly = true)
-	public User findUser(Integer id) {
-		Optional<User> user = userRepository.findById(id);
-		return user.orElse(null);
+	public Optional<User> findUserById(Integer id) {
+		return userRepository.findById(id);
 	}
 
 	@Transactional(readOnly = true)
-	public User findUserByNickname(String nickname) {
-		Optional<User> user = userRepository.findByNickname(nickname);
-		return user.orElse(null);
+	public Optional<User> findUserByNickname(String nickname) {
+		return userRepository.findByNickname(nickname);
 	}
 
+	//No se usa en ningún lado
 	@Transactional(readOnly = true)
 	public User findUserByEmail(String email) {
 		Optional<User> user = userRepository.findByEmail(email);
@@ -73,13 +72,8 @@ public class UserService {
 	}
 
 	@Transactional
-	public void deleteUser(Integer id) {
+	public void deleteUserById(Integer id) {
 		userRepository.deleteById(id);
-	}
-
-	@Transactional
-	public void deleteUser(String nickname) {
-		userRepository.deleteByNickname(nickname);
 	}
 
 	/**
@@ -89,11 +83,6 @@ public class UserService {
     @Transactional
 	public void deleteUser(User user) {
 		userRepository.delete(user);
-	}
-
-	@Transactional
-	public Boolean checkUserByNickname(String nickname) {
-		return userRepository.checkUserNickname(nickname);
 	}
 
 	@Transactional
@@ -128,41 +117,42 @@ public class UserService {
 
 	@Transactional
 	public Boolean enableUser(Integer id, User logedUser) {
-		User user = findUser(id);
-		if(user.isEnabled()) {
-			user.setEnabled(false);
-			save(user);
-			if(user.getNickname().equals(logedUser.getNickname())) return false;
-			return true;
-		} else {
-			user.setEnabled(true);
-			save(user);
-			if(user.getNickname().equals(logedUser.getNickname())) return false;
-			return true;
-		}
+		Optional<User> userEdited = findUserById(id);
+		if(userEdited.isPresent()) {
+			if(userEdited.get().isEnabled()) {
+				userEdited.get().setEnabled(false);
+				save(userEdited.get());
+				if(userEdited.get().getNickname().equals(logedUser.getNickname())) return false;
+			} else {
+				userEdited.get().setEnabled(true);
+				save(userEdited.get());
+				if(userEdited.get().getNickname().equals(logedUser.getNickname())) return false;
+			}
+		} return true;
 	}
 
 	@Transactional
 	public Boolean deleteUser(Integer id, User logedUser) {
-		User user = findUser(id);
-		List<SessionInformation> infos = sessionRegistry.getAllSessions(user.getNickname(), false);
-		for(SessionInformation info : infos) {
-			info.expireNow(); //Termina la sesión
-		}
-		if(user.getNickname().equals(logedUser.getNickname())){
-			deleteUser(id);
-			return false;
-		}else{
-			if(lobbyService.findLobbyByPlayerId(user.getId())!=null) {
-				Lobby Lobby = lobbyService.findLobbyByPlayerId(id).get();
-				List<User> userList = Lobby.getPlayerInternal();
-				userList.remove(user);
-				Lobby.setUsers(userList);
-				lobbyService.save(Lobby);
+		Optional<User> userDeleted = findUserById(id);
+		if(userDeleted.isPresent()) {
+			List<SessionInformation> infos = sessionRegistry.getAllSessions(userDeleted.get().getNickname(), false);
+			for(SessionInformation info : infos) {
+				info.expireNow(); //Termina la sesión
 			}
-			deleteUser(id);
-			return true;
-		}	
+			if(userDeleted.get().getNickname().equals(logedUser.getNickname())){
+				deleteUserById(id);
+				return false;
+			}else{
+				if(lobbyService.findLobbyByPlayerId(userDeleted.get().getId())!=null) {
+					Lobby Lobby = lobbyService.findLobbyByPlayerId(id).get();
+					List<User> userList = Lobby.getPlayerInternal();
+					userList.remove(userDeleted.get());
+					Lobby.setUsers(userList);
+					lobbyService.save(Lobby);
+				}
+				deleteUserById(id);
+			} 
+		} return true;
 	}
 
 	/**
@@ -185,8 +175,8 @@ public class UserService {
 	@Transactional
     public Boolean checkUserNoExists(HttpServletRequest request) throws ServletException {
         UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        
-        if(!checkUserByNickname(principal.getUsername()) || !findUserByNickname(principal.getUsername()).isEnabled()) {
+        Optional<User> user = findUserByNickname(principal.getUsername());
+        if(user.isEmpty() || !user.get().isEnabled()) {
             request.getSession().invalidate();
             request.logout();
             return true;
@@ -201,22 +191,17 @@ public class UserService {
      * @throws ServletException
      */
 	@Transactional
-    public Boolean checkUser(HttpServletRequest request) throws ServletException {
-        UserDetails principal = (UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        
-        if(checkUserByNickname(principal.getUsername()) && findUserByNickname(principal.getUsername()).isEnabled()) {
-            User user = findUserByNickname(principal.getUsername());
-            if (lobbyService.findLobbyByPlayerId(user.getId()).isPresent()) {
-
-                //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
-                Lobby lobby = lobbyService.findLobbyByPlayerId(user.getId()).get();
-                List<User> users = lobby.getPlayerInternal();
+    public Boolean checkUser(HttpServletRequest request, User logedUser) throws ServletException {
+        if(logedUser!=null && logedUser.isEnabled()) {
+			Optional<Lobby> lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
+            if (lobby.isPresent()) {
+                List<User> users = lobby.get().getPlayerInternal();
                 if (users.size() == 1) {
-                    lobby.setActive(false);
+                    lobby.get().setActive(false);
                 }
-                users.remove(user);
-                lobby.setUsers(users);
-                lobbyService.save(lobby);
+                users.remove(logedUser);
+                lobby.get().setUsers(users);
+                lobbyService.save(lobby.get());
             }
             return false;
         } else {

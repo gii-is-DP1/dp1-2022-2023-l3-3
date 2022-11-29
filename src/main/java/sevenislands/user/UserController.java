@@ -2,6 +2,7 @@ package sevenislands.user;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
@@ -41,7 +42,7 @@ public class UserController {
 
 	@GetMapping("/settings")
 	public String initUpdateOwnerForm(HttpServletRequest request, ModelMap model, @ModelAttribute("logedUser") User logedUser) throws ServletException {
-		if(userService.checkUser(request)) return "redirect:/";
+		if(userService.checkUser(request, logedUser)) return "redirect:/";
 		logedUser.setPassword("");
 		model.put("user", logedUser);
 		return VIEWS_PLAYER_UPDATE_FORM;
@@ -88,7 +89,6 @@ public class UserController {
 		Page<User> paginacion=null;
 		Integer totalUsers=(userService.findAll().size()-1)/5;
 		Pageable page2=PageRequest.of(valor,5);
-		System.out.println("jugadoresTotal="+ totalUsers);
 		paginacion=userService.findAllUser(page2);
 		model.addAttribute("paginas", totalUsers);
 		model.addAttribute("valores", valor);	
@@ -179,15 +179,18 @@ public class UserController {
 	 */
 	@GetMapping("/controlPanel/edit/{id}")
 	public String editUser(@PathVariable Integer id, ModelMap model) {
-		User user = userService.findUser(id);
-		List<String> authList = userService.findDistinctAuthorities();
-		user.setPassword("");
-		authList.remove(user.getUserType());
-		authList.add(0, user.getUserType());
-		model.put("user", user);
-		model.put("types", authList);
-		model.put("enabledValues", List.of(Boolean.valueOf(user.isEnabled()).toString(), Boolean.valueOf(!user.isEnabled()).toString()));
-		return "admin/editUser";
+		Optional<User> userEdited = userService.findUserById(id);
+		if(userEdited.isPresent()) {
+			List<String> authList = userService.findDistinctAuthorities();
+			userEdited.get().setPassword("");
+			authList.remove(userEdited.get().getUserType());
+			authList.add(0, userEdited.get().getUserType());
+			model.put("user", userEdited.get());
+			model.put("types", authList);
+			model.put("enabledValues", List.of(Boolean.valueOf(userEdited.get().isEnabled()).toString(), Boolean.valueOf(!userEdited.get().isEnabled()).toString()));
+			return "admin/editUser";
+		} else return "redirect:/controlPanel/?valor=0";
+		
 	}
 
 	/**

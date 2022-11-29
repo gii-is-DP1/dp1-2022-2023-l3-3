@@ -49,6 +49,7 @@ public class LobbyService {
         lobbyRepository.save(lobby);
 	}
 
+    //No se usa en ningún lado
     @Transactional
     public List<Lobby> findAll() {
         return StreamSupport.stream(lobbyRepository.findAll().spliterator(), false).collect(Collectors.toList());
@@ -69,6 +70,7 @@ public class LobbyService {
         return lobbyRepository.findByPlayerId(user_id);
     }
 
+    //No se usa en ningún lado
     @Transactional
 	public Boolean checkUserLobbyByNickname(String name) {
 	    return lobbyRepository.findLobbyByNicknamePlayer(name)!=null;
@@ -99,18 +101,22 @@ public class LobbyService {
     }
 
     @Transactional
-    public Boolean ejectPlayer(User logedUser, User userEjected) {
-		Lobby lobby = findLobbyByPlayerId(userEjected.getId()).get();
-		List<User> users = lobby.getPlayerInternal();
-		if (userEjected.getNickname().equals(logedUser.getNickname())) {
-            leaveLobby(logedUser);
-			return false;
-		} else {
-			users.remove(userEjected);
-			lobby.setUsers(users);
-			save(lobby);
-			return true;
-		}
+    public Boolean ejectPlayer(User logedUser, User ejectedUser) {
+		Optional<Lobby> lobbyEjectedUser = findLobbyByPlayerId(ejectedUser.getId());
+        Optional<Lobby> lobbyLogedUser = findLobbyByPlayerId(logedUser.getId());
+        if(lobbyEjectedUser.isPresent() && lobbyLogedUser.isPresent() && lobbyEjectedUser.get().equals(lobbyLogedUser.get())) {
+            List<User> users = lobbyEjectedUser.get().getPlayerInternal();
+            if (ejectedUser.getNickname().equals(logedUser.getNickname())) {
+                leaveLobby(logedUser);
+                return false;
+            } else {
+                users.remove(ejectedUser);
+                lobbyEjectedUser.get().setUsers(users);
+                save(lobbyEjectedUser.get());
+                return true;
+            }
+        } return true;
+        
     }
 
     @Transactional

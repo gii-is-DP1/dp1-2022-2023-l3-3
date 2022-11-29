@@ -23,9 +23,6 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     @Query("DELETE FROM User user WHERE user.nickname=:nickname")
     public void deleteByNickname(@Param("nickname") String nickname);
 
-    @Query("SELECT count(user) = 1 FROM User user WHERE user.nickname=?1")
-    public Boolean checkUserNickname(String nickname);
-
     @Query("SELECT count(user) = 1 FROM User user WHERE user.email=?1")
     public Boolean checkUserEmail(String email);
 

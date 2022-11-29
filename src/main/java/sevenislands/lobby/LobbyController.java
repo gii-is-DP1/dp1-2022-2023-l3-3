@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -41,16 +42,13 @@ public class LobbyController {
 	throws NotExistLobbyException, ServletException {
 		if(userService.checkUserNoExists(request)) return "redirect:/";
 		if(lobbyService.checkUserNoLobby(logedUser)) return "redirect:/home";
-		
 		response.addHeader("Refresh", "1");
-		Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId()).get();
-		if (lobbyService.findLobbyByPlayerId(logedUser.getId())!=null) {
-			if (gameService.findGamebByLobbyId(lobby.getId()).isPresent()) {
-				return "redirect:/game";
-			}
-			User host = lobby.getUsers().get(0);
-			model.put("num_players", lobby.getUsers().size());
-			model.put("lobby", lobby);
+		Optional<Lobby> lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
+		if (lobby.isPresent()) {
+			if (gameService.findGameByNickname(logedUser.getNickname()).isPresent()) return "redirect:/game";
+			User host = lobby.get().getUsers().get(0);
+			model.put("num_players", lobby.get().getUsers().size());
+			model.put("lobby", lobby.get());
 			model.put("host", host);
 			model.put("player", logedUser);
 			return VIEWS_LOBBY;
@@ -67,8 +65,8 @@ public class LobbyController {
 	}
 
 	@GetMapping("/join")
-	public String join(HttpServletRequest request, ModelMap model) throws ServletException {
-		if(userService.checkUser(request)) return "redirect:/";
+	public String join(HttpServletRequest request, ModelMap model, @ModelAttribute("logedUser") User logedUser) throws ServletException {
+		if(userService.checkUser(request, logedUser)) return "redirect:/";
 		model.put("code", new Lobby());
 		return "views/join";
 	}
@@ -100,10 +98,10 @@ public class LobbyController {
 		return "game/lobbyPlayers";
 	}
 	
-	@GetMapping("/lobby/players/delete/{id}")
-	public String ejectPlayer(@ModelAttribute("logedUser") User logedUser, @PathVariable("id") Integer id) {
-		User userEjected = userService.findUser(id);
-		if(lobbyService.ejectPlayer(logedUser, userEjected)) return "redirect:/lobby/players";
+	@GetMapping("/lobby/players/delete/{idEjectedUser}")
+	public String ejectPlayer(@ModelAttribute("logedUser") User logedUser, @PathVariable("idEjectedUser") Integer id) {
+		Optional<User> userEjected = userService.findUserById(id);
+		if(userEjected.isPresent() && lobbyService.ejectPlayer(logedUser, userEjected.get())) return "redirect:/lobby/players";
 		return "redirect:/home";
 	}
 }
