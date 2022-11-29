@@ -57,15 +57,15 @@ public class TurnController {
         List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream().collect(Collectors.toList());
         Round round = roundList.get(roundList.size()-1);
         List<Turn> turnList = turnService.findByRoundId(round.getId());
-        Turn turn = turnList.get(turnList.size()-1);
+        Turn lastTurn = turnList.get(turnList.size()-1);
         
         model.put("player", logedUser);
-        model.put("player_turn", turn.getUser());
-        model.put("dice", turn.getDice());
+        model.put("player_turn", lastTurn.getUser());
+        model.put("dice", lastTurn.getDice());
     
-        Duration timeElapsed = Duration.between(turn.getStartTime(), LocalDateTime.now());
+        Duration timeElapsed = Duration.between(lastTurn.getStartTime(), LocalDateTime.now());
         model.put("time_left", 40-timeElapsed.toSeconds());
-        if(turn.getUser().getId()==logedUser.getId() && timeElapsed.toSeconds()>=40) {
+        if(lastTurn.getUser().getId()==logedUser.getId() && timeElapsed.toSeconds()>=40) {
             return "redirect:/turn/endTurn";
         }
 

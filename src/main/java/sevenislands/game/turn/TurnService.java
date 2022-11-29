@@ -78,4 +78,9 @@ public class TurnService {
             }
         }
     }
+
+    @Transactional
+    public List<Turn> findTurnByNickname(String nickname) {
+        return turnRepository.findTurnByNickname(nickname);
+    }
 }
