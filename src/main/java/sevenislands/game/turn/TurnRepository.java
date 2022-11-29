@@ -13,6 +13,7 @@ public interface TurnRepository extends CrudRepository<Turn, Integer> {
     @Query("SELECT turn FROM Turn turn WHERE turn.round.id=?1")
     public List<Turn> findByRoundId(int Id) throws DataAccessException;
 
+    //No se usa en ningún lado
     public List<Turn> findAll();
 
     //SELECT * FROM TURN T JOIN USER U ON U.ID=T.USER_ID WHERE U.NICKNAME='player2' ORDER BY T.ROUND_ID DESC LIMIT 1
