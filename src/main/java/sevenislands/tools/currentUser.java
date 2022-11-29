@@ -1,5 +1,8 @@
 package sevenislands.tools;
 
+import java.security.Principal;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,10 +23,13 @@ public class currentUser {
     }
 
     @ModelAttribute("logedUser")
-    public User getCurrentUser() {
+    public User getCurrentUser(Principal principal) {
         User currentUser = null;
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth!=null && auth.isAuthenticated()) currentUser = userService.findUserByNickname(auth.getName());
+        if (auth!=null && auth.isAuthenticated()) {
+            Optional<User> user = userService.findUserByNickname(principal.getName());
+            if(user.isPresent()) currentUser = user.get();
+        }
         return currentUser;
     }
 }
