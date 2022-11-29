@@ -34,11 +34,13 @@ public class TurnService {
         this.lobbyService = lobbyService;
     }
 
+    //No se usa en ningún lado
     @Transactional(readOnly = true)
     public List<Turn> findAllTurns() throws DataAccessException {
         return turnRepository.findAll();
     }
 
+    //No se usa en ningún lado
     @Transactional(readOnly = true)
     public Optional<Turn> findTurnById(int id) throws DataAccessException {
         return turnRepository.findById(id);
@@ -60,7 +62,7 @@ public class TurnService {
 
             //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
             Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId()).get();
-            Optional<Game> game = gameService.findGamebByLobbyId(lobby.getId());
+            Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
             List<User> userList = lobby.getPlayerInternal();
             List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream().collect(Collectors.toList());
             if(roundList.size()!=0) {

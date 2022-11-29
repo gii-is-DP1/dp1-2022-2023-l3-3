@@ -36,17 +36,11 @@ public class GameService {
         game.setCreationDate(new Date(System.currentTimeMillis()));
         game.setLobby(lobby);
         gameRepository.save(game);
-
     }
     
     @Transactional
     public void save(Game game) {
          gameRepository.save(game);
-    }
-
-    @Transactional
-    public Optional<Game> findGamebByLobbyId(Integer id){
-        return gameRepository.findGamebByLobbyId(id);
     }
 
     @Transactional
