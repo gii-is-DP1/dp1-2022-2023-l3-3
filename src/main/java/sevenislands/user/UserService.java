@@ -143,7 +143,7 @@ public class UserService {
 				deleteUserById(id);
 				return false;
 			}else{
-				if(lobbyService.findLobbyByPlayerId(userDeleted.get().getId())!=null) {
+				if(lobbyService.findLobbyByPlayerId(userDeleted.get().getId()).isPresent()) {
 					Lobby Lobby = lobbyService.findLobbyByPlayerId(id).get();
 					List<User> userList = Lobby.getPlayerInternal();
 					userList.remove(userDeleted.get());
