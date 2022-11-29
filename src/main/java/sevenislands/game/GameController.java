@@ -1,5 +1,7 @@
 package sevenislands.game;
 
+import java.util.Optional;
+
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -37,10 +39,10 @@ public class GameController {
         if(lobbyService.checkLobbyNoAllPlayers(logedUser)) return "redirect:/lobby";
         if(gameService.checkUserGameWithRounds(logedUser)) return "redirect:/turn";
         response.addHeader("Refresh", "5");
-        Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId()).get();
-        if(gameService.findGamebByLobbyId(lobby.getId()).isEmpty()) {
-            gameService.initGame(lobby);
-            lobbyService.disableLobby(lobby);
+        Optional<Lobby> lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
+        if(lobby.isPresent() && gameService.findGameByNickname(logedUser.getNickname()).isEmpty()) {
+            gameService.initGame(lobby.get());
+            lobbyService.disableLobby(lobby.get());
         }
         return VIEWS_GAME_ASIGN_TURN;
     }
