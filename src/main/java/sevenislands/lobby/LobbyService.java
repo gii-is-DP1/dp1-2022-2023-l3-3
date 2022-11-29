@@ -147,7 +147,7 @@ public class LobbyService {
      */
     @Transactional
     public Boolean checkUserNoLobby(User loggedUser) {
-        return !lobbyRepository.findByPlayerId(loggedUser.getId()).isPresent();
+        return lobbyRepository.findByPlayerId(loggedUser.getId()).isEmpty();
     }
 
     @Transactional
@@ -159,4 +159,10 @@ public class LobbyService {
             return false;
 		} else return true;
     }
+
+    @Transactional
+    public void disableLobby(Lobby lobby) {
+        lobby.setActive(false);
+        lobbyRepository.save(lobby);
+    } 
 }

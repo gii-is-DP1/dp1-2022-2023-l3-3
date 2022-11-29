@@ -1,7 +1,5 @@
 package sevenislands.game;
 
-import java.sql.Date;
-
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -40,13 +38,9 @@ public class GameController {
         if(gameService.checkUserGameWithRounds(logedUser)) return "redirect:/turn";
         response.addHeader("Refresh", "5");
         Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId()).get();
-        if(!gameService.findGamebByLobbyId(lobby.getId()).isPresent()) {
-            Game game = new Game();
-            game.setCreationDate(new Date(System.currentTimeMillis()));
-            game.setLobby(lobby);
-            gameService.save(game);
-            lobby.setActive(false);
-            lobbyService.save(lobby);
+        if(gameService.findGamebByLobbyId(lobby.getId()).isEmpty()) {
+            gameService.initGame(lobby);
+            lobbyService.disableLobby(lobby);
         }
         return VIEWS_GAME_ASIGN_TURN;
     }
