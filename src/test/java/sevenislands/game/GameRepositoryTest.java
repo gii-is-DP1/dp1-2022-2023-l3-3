@@ -18,13 +18,6 @@ public class GameRepositoryTest {
     GameRepository gameRepository;
 
     @Test
-    public void retrieveGameByLobbyIdSuccessful() {
-        Game game = gameRepository.findGamebByLobbyId(1).get();
-        assertNotNull(game, "El repositorio ha devuelto un objeto nulo");
-        assertEquals(1, game.getLobby().getId());
-    }
-
-    @Test
     public void checkNumOfGames() {
         Iterable<Game> gameIter = gameRepository.findAll();
         List<Game> games = new ArrayList<>();

@@ -77,8 +77,8 @@ public class UserServiceTest {
         user = createUser(1, "prueba", "prueba@sevenislands.com");
         UserService userService = new UserService(null, null,null,null, mock);
         when(mock.findById(1)).thenReturn(Optional.of(user));
-        assertEquals(user, userService.findUser(1));
-        assertEquals(null, userService.findUser(2));
+        assertEquals(user, userService.findUserById(1).get());
+        assertEquals(null, userService.findUserById(2).orElse(null));
 
     }
 
@@ -107,12 +107,8 @@ public class UserServiceTest {
         when(mock.checkUserEmail("prueba@sevenislands.com")).thenReturn(true);
         when(mock.checkUserEmail("pruebaFalso@sevenislands.com")).thenReturn(false);
 
-        when(mock.checkUserNickname("prueba")).thenReturn(true);
-        when(mock.checkUserNickname("pruebaFalsa")).thenReturn(false);
         assertEquals(true, userService.checkUserByEmail("prueba@sevenislands.com"));
         assertEquals(false, userService.checkUserByEmail("pruebaFalso@sevenislands.com"));
-        assertEquals(true, userService.checkUserByNickname("prueba"));
-        assertEquals(false, userService.checkUserByNickname("pruebaFalsa"));
     
     }
 

@@ -26,7 +26,7 @@ public class IslandRepositoryTest {
         Island island = islandRepository.findById(1).get();
         Integer cambio = 2;
         island.setNum(cambio);
-        islandRepository.updateIsland(island, island.getId());
+        islandRepository.save(island);
 
         Island newIsland = islandRepository.findById(1).get();
         assertEquals(cambio, newIsland.getNum());
