@@ -106,8 +106,8 @@ public class UserController {
 	 * @return
 	 */
 	
-    @GetMapping("/controlPanel/delete/{id}")
-	public String deleteUser(@ModelAttribute("logedUser") User logedUser, @PathVariable("id") Integer id){
+    @GetMapping("/controlPanel/delete/{idUserDeleted}")
+	public String deleteUser(@ModelAttribute("logedUser") User logedUser, @PathVariable("idUserDeleted") Integer id){
 		if(userService.deleteUser(id, logedUser)) return "redirect:/controlPanel?valor="+metodosReutilizables.DeletePaginaControlPanel(id);
 		return "redirect:/";
 	}
@@ -120,8 +120,8 @@ public class UserController {
 	 * @param id
 	 * @return
 	 */
-	@GetMapping("/controlPanel/enable/{id}")
-	public String enableUser(@ModelAttribute("logedUser") User logedUser, @PathVariable("id") Integer id){
+	@GetMapping("/controlPanel/enable/{idUserEdited}")
+	public String enableUser(@ModelAttribute("logedUser") User logedUser, @PathVariable("idUserEdited") Integer id){
 		if(userService.enableUser(id, logedUser)) return "redirect:/controlPanel?valor="+metodosReutilizables.EditPaginaControlPanel(id);
 		return "redirect:/";
 	}
@@ -177,8 +177,8 @@ public class UserController {
 	 * @param model
 	 * @return
 	 */
-	@GetMapping("/controlPanel/edit/{id}")
-	public String editUser(@PathVariable Integer id, ModelMap model) {
+	@GetMapping("/controlPanel/edit/{idUserEdited}")
+	public String editUser(@PathVariable("idUserEdited") Integer id, ModelMap model) {
 		Optional<User> userEdited = userService.findUserById(id);
 		if(userEdited.isPresent()) {
 			List<String> authList = userService.findDistinctAuthorities();
@@ -202,8 +202,8 @@ public class UserController {
 	 * @param result
 	 * @return
 	 */
-	@PostMapping("/controlPanel/edit/{id}")
-	public String processEditUserForm(ModelMap model, @PathVariable Integer id, @Valid User user, BindingResult result) {
+	@PostMapping("/controlPanel/edit/{idUserEdited}")
+	public String processEditUserForm(ModelMap model, @PathVariable("idUserEdited") Integer id, @Valid User user, BindingResult result) {
 		if(result.hasErrors()) {
 			return "admin/editUser";
 		}
