@@ -4,8 +4,8 @@
 
 <sevenislands:layout2 pageName="error">
 
-    <h2>Something happened...</h2>
+    <h2>Algo ha salido mal...</h2>
 
-    <p>${exception.message}</p>
+    <p>${exception}</p>
 
 </sevenislands:layout2>
