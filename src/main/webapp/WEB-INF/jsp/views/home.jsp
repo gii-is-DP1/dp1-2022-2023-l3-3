@@ -10,16 +10,24 @@
 	bottom: 35px;
 	right: 35px;
   }
+.posicion {
+	position: absolute;
+    bottom: 15px;
+    right: 5px;
+}
 </style>
 
-<sevenislands:layout2 pageName="home">
+<sevenislands:layout3 pageName="home">
 	<body style="background: url(resources/images/grafics/fondo1920x1080.jpg)">
 		<div>
 			<div>${onlineUsers}</div>
 			<div class="text-right" style="margin-bottom: 24px">
 				<a href="/settings">
-					<strong>${user.nickname}</strong>&thinsp;<img src="/resources/images/avatars/${user.avatar}" height="25" width="25">
+					<strong>${user.nickname}</strong>&thinsp;<img src="/resources/images/avatars/${user.avatar}" height="20" width="20">
 				</a>
+			</div>
+			<div class="posicion">
+				<img src="/resources/images/grafics/pirataLoroAnimado.gif" width="550" height="688">
 			</div>
 		</div>
         <div>
@@ -113,4 +121,4 @@
 			</div>
 		  </div>
     </body>
-</sevenislands:layout2>
+</sevenislands:layout3>
