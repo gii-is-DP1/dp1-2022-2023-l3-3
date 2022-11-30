@@ -13,7 +13,6 @@
         background-position: center;
         background-attachment: fixed;
     }
-
     .cuadrado {
         width: 500px;
         /* Ancho de 150 píxeles */
@@ -27,7 +26,6 @@
         bottom: 50px;
         right: 45px;
     }
-
 #turn {
     color: black;
     text-align: center;
@@ -38,7 +36,6 @@
     margin: 3px;
     width: 50%;
 }
-
 #dice {
     color: rgb(0, 0, 0);
     text-align: center;
@@ -49,7 +46,6 @@
     margin: 3px;
     width: 25px;
 }
-
 #time_left {
     color: white;
 }
