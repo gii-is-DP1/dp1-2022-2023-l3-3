@@ -13,9 +13,17 @@
         background-position: center;
         background-attachment: fixed;
     }
+    .fondo {
+    background-color: rgb(255, 255, 255);
+    }
 </style>
 <sevenislands:layout2 pageName="lobby_asignTurn">
-    <body>
+<body>
+    <h1>
+        <strong>
+            <center><span class="fondo">Sé el más rápido en darle al botón y empieza tirando</span></center>
+        </strong>
+    </h1>
         <div>
             <a class="btn btn-default" href="<spring:url value='/home' htmlEscape='true'/>">ABANDONAR PARTIDA</a>
         </div>
