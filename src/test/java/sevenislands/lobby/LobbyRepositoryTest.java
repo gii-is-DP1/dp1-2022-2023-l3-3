@@ -1,13 +1,16 @@
 package sevenislands.lobby;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +29,7 @@ public class LobbyRepositoryTest {
 
         assertNotNull(lobby);
         assertFalse(lobby.isEmpty());
-        assertEquals(1, lobby.size());
+        assertNotEquals(0, lobby.size());
     }
 
     @Test
@@ -36,7 +39,7 @@ public class LobbyRepositoryTest {
         Lobby lobby=lobbies.get(0);
         lobby.setActive(false);
         lobby.setCode("123465445");
-        lobbyRepository.updateLobby(lobby, lobby.getId());
+        lobbyRepository.save(lobby);
         assertNotNull(lobby);
         assertTrue(lobby.getCode().equals("123465445"));
     }
@@ -45,7 +48,7 @@ public class LobbyRepositoryTest {
 
     @Test
     public void TestFindByCode(){
-        Lobby lobby=lobbyRepository.findByCode("aD5f8Lio");
+        Optional<Lobby> lobby=lobbyRepository.findByCode("aD5f8Lio");
         assertNotNull(lobby);
     }
     
@@ -56,20 +59,26 @@ public class LobbyRepositoryTest {
     }  
 
     @Test
+    public void TestFindLobbyByNicknameSuccess(){
+        Optional<Integer> lobby=lobbyRepository.findLobbyByNicknamePlayer("player1");
+        assertNotNull(lobby);
+    }  
+
+    @Test
+    public void TestFindLobbyByNicknameFail(){
+        Optional<Integer> lobby=lobbyRepository.findLobbyByNicknamePlayer("player2");
+        assertNull(lobby.orElse(null));
+    }  
+
+    @Test
     public void TestFindAllActiveLobby(){
         Collection<Lobby> lobby=lobbyRepository.findAllActiveLobby();
         assertTrue(!lobby.isEmpty());
     }
 
     @Test
-    public void TestCheckLobby(){
-        Boolean lobby=lobbyRepository.checkLobby("aD5f8Lio");
-        assertTrue(lobby);
-    } 
-
-    @Test
     public void TestGetNumOfLobby(){
-        Integer numOfLobby=lobbyRepository.getNumOfLobby();
+        Long numOfLobby= StreamSupport.stream(lobbyRepository.findAll().spliterator(), false).count();
         assertTrue(numOfLobby>0);
     }
 

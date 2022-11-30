@@ -39,8 +39,8 @@ public class RoundService {
     }
 
     @Transactional
-    public Boolean checkNoRoundByGameId(Integer gameId) {
-        return roundRepository.findRoundByGameId(gameId).size()==0;
+    public Boolean checkRoundByGameId(Integer gameId) {
+        return roundRepository.findRoundByGameId(gameId).size()>0;
     }
 
 }

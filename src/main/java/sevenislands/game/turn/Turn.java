@@ -38,7 +38,7 @@ public class Turn extends BaseEntity {
 
     @ManyToOne
     @NotNull
-    Round round;
+    private Round round;
 
     @ManyToMany
     private List<Card> cards;

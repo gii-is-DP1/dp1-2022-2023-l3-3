@@ -1,0 +1,267 @@
+
+
+_______________________________________________________________________________________________________________________________________________
+                                                                     .:.                                                
+       :::            ..:=**=                                       :+%=:                                               
+      :=%#*+++====++***#%%%*-:              .:-.                    :*%+.                                               
+       :===+**#******+=-*%=.               -=%%=.           .       :+%=.         :.:==-:.:  .            .             
+                      -#%-.                =*%%=      .:-+**#*+:    :+%=.        .=*%%##%%***=:     .:-+**#*+:          
+             :::.....-*%=-...:..           -+%#-    .=*%%**++**-    :*%=         -%%=:...-+%%=:    =*%%**=+**-          
+            -+%%%#%%#%%%####****=          -+%=:    =%#=..   ..     -%%-        :=%==    :+%#=    =%#=..   ..           
+             ..:.:-=%*-.:......            -+%=-   .=%=.            -@*-       .-%#-    :=%%+-    +%=.                  
+                 :+%+:                     -#%=-    :+%*+-:.       :=%*-       -+%=.  .-*%*%+-    :+%*+-:.              
+               .=##=.                      -#%=      .-=*#%#*+-:.   =%+-    .. -#%-  :=%#-*%=.     .:=*#%#*+=:.         
+              :+%+:                        -#%=    .:    .:-=+*%*-  =%+- .:+*=-=%+=:=#%+:-+%=    .:    .:-=+*%*-        
+            :=##=.                         -+%=.  =**=:....:-=*%#-  -%#=*#%*=:.=%++*%*-. :+%+:  =**=:.....-+*%#=        
+          .=*#+:                            =*#-  -*####%%%%##*+-   .+##*+-.   :*#%*-.   .=%%=--=*####%%%%%##+=         
+      .:-+**=:                               .:    .:...:....:        ..         .:.       :..    :...:....:            
+   -:=*#**:.                                                                                                            
+     .:..                                                                                                               
+_______________________________________________________________________________________________________________________________________________
+
+
+2022-11-29 19:55:48.898  INFO 8616 --- [  restartedMain] sevenislands.SevenislandsApplication     : Starting SevenislandsApplication on Juan-Carlos-W11 with PID 8616 (C:\Users\juanc\Repositorios\dp1-2022-2023-l3-3\target\classes started by juanc in C:\Users\juanc\Repositorios\dp1-2022-2023-l3-3)
+2022-11-29 19:55:48.898  INFO 8616 --- [  restartedMain] sevenislands.SevenislandsApplication     : No active profile set, falling back to default profiles: default
+2022-11-29 19:55:49.062  INFO 8616 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-11-29 19:55:49.094  INFO 8616 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 31ms. Found 8 JPA repository interfaces.
+2022-11-29 19:55:49.173  INFO 8616 --- [  restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-11-29 19:55:49.216  INFO 8616 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-11-29 19:55:49.217  INFO 8616 --- [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-11-29 19:55:49.217  INFO 8616 --- [  restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.30]
+2022-11-29 19:55:49.277  INFO 8616 --- [  restartedMain] org.apache.jasper.servlet.TldScanner     : At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2022-11-29 19:55:49.278  INFO 8616 --- [  restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-11-29 19:55:49.278  INFO 8616 --- [  restartedMain] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 379 ms
+2022-11-29 19:55:49.285  INFO 8616 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-17 - Starting...
+2022-11-29 19:55:49.286  INFO 8616 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-17 - Start completed.
+2022-11-29 19:55:49.286  INFO 8616 --- [  restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2022-11-29 19:55:49.312  INFO 8616 --- [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-11-29 19:55:49.318  INFO 8616 --- [  restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+Hibernate: 
+    
+    drop table achievement if exists
+Hibernate: 
+    
+    drop table card if exists
+Hibernate: 
+    
+    drop table card_islands if exists
+Hibernate: 
+    
+    drop table game if exists
+Hibernate: 
+    
+    drop table island if exists
+Hibernate: 
+    
+    drop table lobby if exists
+Hibernate: 
+    
+    drop table lobby_users if exists
+Hibernate: 
+    
+    drop table round if exists
+Hibernate: 
+    
+    drop table turn if exists
+Hibernate: 
+    
+    drop table turn_cards if exists
+Hibernate: 
+    
+    drop table user if exists
+Hibernate: 
+    
+    drop table user_achievements if exists
+Hibernate: 
+    
+    create table achievement (
+       id integer generated by default as identity,
+        achievement_type varchar(255) not null,
+        description varchar(255) not null,
+        primary key (id)
+    )
+Hibernate: 
+    
+    create table card (
+       id integer generated by default as identity,
+        multiplicity integer,
+        name varchar(255),
+        tipo varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    
+    create table card_islands (
+       card_id integer not null,
+        islands_id integer not null
+    )
+Hibernate: 
+    
+    create table game (
+       id integer generated by default as identity,
+        creation_date date not null,
+        ending_date date,
+        lobby_id integer,
+        primary key (id)
+    )
+Hibernate: 
+    
+    create table island (
+       id integer generated by default as identity,
+        island_number integer not null,
+        game_id integer,
+        primary key (id)
+    )
+Hibernate: 
+    
+    create table lobby (
+       id integer generated by default as identity,
+        active boolean not null,
+        code varchar(255) not null,
+        primary key (id)
+    )
+Hibernate: 
+    
+    create table lobby_users (
+       lobby_id integer not null,
+        users_id integer not null
+    )
+Hibernate: 
+    
+    create table round (
+       id integer generated by default as identity,
+        game_id integer,
+        primary key (id)
+    )
+Hibernate: 
+    
+    create table turn (
+       id integer generated by default as identity,
+        dice integer,
+        start_time timestamp not null,
+        round_id integer,
+        user_id integer,
+        primary key (id)
+    )
+Hibernate: 
+    
+    create table turn_cards (
+       turn_id integer not null,
+        cards_id integer not null
+    )
+Hibernate: 
+    
+    create table user (
+       id integer generated by default as identity,
+        avatar varchar(255) not null,
+        birth_date date not null,
+        creation_date date default now() not null,
+        email varchar(50) not null,
+        enabled boolean default true not null,
+        first_name varchar(255) not null,
+        last_name varchar(255) not null,
+        nickname varchar(30) not null,
+        password varchar(255) not null,
+        type varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    
+    create table user_achievements (
+       user_id integer not null,
+        achievements_id integer not null
+    )
+Hibernate: 
+    
+    alter table lobby 
+       add constraint UK_3d50pai5tf4m9e56srcq0iqlq unique (code)
+Hibernate: 
+    
+    alter table user 
+       add constraint UK_ob8kqyqqgmefl0aco34akdtpe unique (email)
+Hibernate: 
+    
+    alter table user 
+       add constraint UK_n4swgcf30j6bmtb4l4cjryuym unique (nickname)
+Hibernate: 
+    
+    alter table card_islands 
+       add constraint FKkfj66cihp28vp8udw74ju09ye 
+       foreign key (islands_id) 
+       references card
+Hibernate: 
+    
+    alter table card_islands 
+       add constraint FK2t2dv1547iww196v1favd4u2s 
+       foreign key (card_id) 
+       references card
+Hibernate: 
+    
+    alter table game 
+       add constraint FKoxjim81ppwnik0r3f4tcgmd6 
+       foreign key (lobby_id) 
+       references lobby
+Hibernate: 
+    
+    alter table island 
+       add constraint FKdeklqlg9risrcot0w70wv0lkq 
+       foreign key (game_id) 
+       references game
+Hibernate: 
+    
+    alter table lobby_users 
+       add constraint FK1asqqo9j2ny5odql32k1gjur4 
+       foreign key (users_id) 
+       references user
+Hibernate: 
+    
+    alter table lobby_users 
+       add constraint FKk7f51vvv73d7rxyhccphwcoxu 
+       foreign key (lobby_id) 
+       references lobby
+Hibernate: 
+    
+    alter table round 
+       add constraint FKppxonwn9e98lccy46m2eve67m 
+       foreign key (game_id) 
+       references game
+Hibernate: 
+    
+    alter table turn 
+       add constraint FK36qkir0tfd8c2pk2ivul819uv 
+       foreign key (round_id) 
+       references round
+Hibernate: 
+    
+    alter table turn 
+       add constraint FK7sig8em75iwhfxdlafewitjf3 
+       foreign key (user_id) 
+       references user
+Hibernate: 
+    
+    alter table turn_cards 
+       add constraint FKmo6kod1lyikmqtnfcfcejsefd 
+       foreign key (cards_id) 
+       references card
+Hibernate: 
+    
+    alter table turn_cards 
+       add constraint FKq6jn1f80kgjnt3uv35alrvjcu 
+       foreign key (turn_id) 
+       references turn
+Hibernate: 
+    
+    alter table user_achievements 
+       add constraint FKaav56uy6a2hnutdnngb245ihb 
+       foreign key (achievements_id) 
+       references achievement
+Hibernate: 
+    
+    alter table user_achievements 
+       add constraint FK2gp4wt3thphhd9yucjl9p6jui 
+       foreign key (user_id) 
+       references user
+2022-11-29 19:55:49.372  INFO 8616 --- [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-11-29 19:55:49.372  INFO 8616 --- [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-11-29 19:55:49.375  INFO 8616 --- [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-11-29 19:55:49.440  WARN 8616 --- [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning

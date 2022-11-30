@@ -43,7 +43,7 @@ public class UserRepositoryTest {
         assertNotEquals(user1.getEmail(), oldEmail);
     }
 
-    
+    @Test
     public void retrieveAllUsersSuccess() {
         List<User> users = userRepository.findAll();
         assertNotNull(users, "El repositorio devuelve una colección nula");
@@ -79,8 +79,6 @@ public class UserRepositoryTest {
 
     @Test
     public void checkUserInfoExists() {
-        Boolean exists = userRepository.checkUserNickname("admin1");
-        assertTrue(exists, "El repositorio no devuelve el usuario admin1");
         Boolean email = userRepository.checkUserEmail("admin1@sevenislands.com");
         assertTrue(email, "El repositorio no devuelve el usuario con email admin1@sevenislands.com"); 
     }

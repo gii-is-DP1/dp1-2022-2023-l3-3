@@ -1,7 +1,6 @@
 package sevenislands.game;
 
-import java.security.Principal;
-import java.sql.Date;
+import java.util.Optional;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -10,12 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
-import sevenislands.tools.checkers;
 import sevenislands.user.User;
 import sevenislands.user.UserService;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 
 @Controller
 public class GameController {
@@ -34,21 +33,16 @@ public class GameController {
     }
 
     @GetMapping("/game")
-    public String createGame(HttpServletRequest request, Principal principal, HttpServletResponse response) throws ServletException {
-        if(checkers.checkUserNoExists(request)) return "redirect:/";
-        if(checkers.checkUserNoLobby(request)) return "redirect:/home";
-        if(checkers.checkUserNoGame(request)) return "redirect:/turn";
+    public String createGame(HttpServletRequest request, @ModelAttribute("logedUser") User logedUser, HttpServletResponse response) throws ServletException {
+        if(userService.checkUserNoExists(request)) return "redirect:/";
+        if(lobbyService.checkUserNoLobby(logedUser)) return "redirect:/home";
+        if(lobbyService.checkLobbyNoAllPlayers(logedUser)) return "redirect:/lobby";
+        if(gameService.checkUserGameWithRounds(logedUser)) return "redirect:/turn";
         response.addHeader("Refresh", "5");
-
-        User user = userService.findUser(principal.getName());
-        Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
-        if(!gameService.findGamebByLobbyId(lobby.getId()).isPresent()) {
-            Game game = new Game();
-            game.setCreationDate(new Date(System.currentTimeMillis()));
-            game.setLobby(lobby);
-            gameService.save(game);
-            lobby.setActive(false);
-            lobbyService.update(lobby);
+        Optional<Lobby> lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
+        if(lobby.isPresent() && gameService.findGameByNickname(logedUser.getNickname()).isEmpty()) {
+            gameService.initGame(lobby.get());
+            lobbyService.disableLobby(lobby.get());
         }
         return VIEWS_GAME_ASIGN_TURN;
     }
