@@ -29,6 +29,9 @@ public class Game extends BaseEntity {
 	@Column(name = "creation_date", nullable = false)
 	private Date creationDate;
 
+	@Column(name = "active", unique = false, nullable = false)
+	private boolean active;
+
 	@Past
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
