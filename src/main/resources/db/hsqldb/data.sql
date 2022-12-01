@@ -23,7 +23,7 @@ INSERT INTO lobby_users(lobby_id,users_id) VALUES (1,9);
 INSERT INTO lobby_users(lobby_id,users_id) VALUES (2,8);
 
 -- -- GAME -- 
-INSERT INTO game(id, creation_date, ending_date, lobby_id) VALUES (1, '2022-11-14', '2022-11-24', 1);
+INSERT INTO game(id, creation_date, ending_date, active, lobby_id) VALUES (1, '2022-11-14', '2022-11-24', 'TRUE' ,1);
 
 -- -- ROUNDS --
 INSERT INTO round(game_id) VALUES (1);

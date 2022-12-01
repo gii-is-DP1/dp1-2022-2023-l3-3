@@ -34,9 +34,10 @@ public class Game extends BaseEntity {
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private Date endingDate;
 
+	@Column(name = "active", unique = false, nullable = false)
+	private boolean active;
+
 	@OneToOne
 	@NotNull
 	private Lobby lobby;
-
-
 }
