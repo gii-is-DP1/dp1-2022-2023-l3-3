@@ -20,22 +20,27 @@ ________________________________________________________________________________
 _______________________________________________________________________________________________________________________________________________
 
 
-2022-11-29 20:03:53.871  INFO 23124 --- [  restartedMain] sevenislands.SevenislandsApplication     : Starting SevenislandsApplication on Juan-Carlos-W11 with PID 23124 (C:\Users\juanc\Repositorios\dp1-2022-2023-l3-3\target\classes started by juanc in C:\Users\juanc\Repositorios\dp1-2022-2023-l3-3)
-2022-11-29 20:03:53.871  INFO 23124 --- [  restartedMain] sevenislands.SevenislandsApplication     : No active profile set, falling back to default profiles: default
-2022-11-29 20:03:54.122  INFO 23124 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-2022-11-29 20:03:54.160  INFO 23124 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 37ms. Found 8 JPA repository interfaces.
-2022-11-29 20:03:54.223  INFO 23124 --- [  restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-2022-11-29 20:03:54.264  INFO 23124 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
-2022-11-29 20:03:54.266  INFO 23124 --- [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
-2022-11-29 20:03:54.266  INFO 23124 --- [  restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.30]
-2022-11-29 20:03:54.347  INFO 23124 --- [  restartedMain] org.apache.jasper.servlet.TldScanner     : At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
-2022-11-29 20:03:54.350  INFO 23124 --- [  restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
-2022-11-29 20:03:54.350  INFO 23124 --- [  restartedMain] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 476 ms
-2022-11-29 20:03:54.362  INFO 23124 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Starting...
-2022-11-29 20:03:54.364  INFO 23124 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Start completed.
-2022-11-29 20:03:54.364  INFO 23124 --- [  restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
-2022-11-29 20:03:54.401  INFO 23124 --- [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
-2022-11-29 20:03:54.413  INFO 23124 --- [  restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+2022-12-01 18:28:20.341  INFO 15268 --- [  restartedMain] sevenislands.SevenislandsApplication     : Starting SevenislandsApplication on DESKTOP-O9O6Q3R with PID 15268 (C:\Users\aleja\OneDrive\Escritorio\DP1\proyecto\dp1-2022-2023-l3-3\target\classes started by aleja in C:\Users\aleja\OneDrive\Escritorio\DP1\proyecto\dp1-2022-2023-l3-3)
+2022-12-01 18:28:20.344  INFO 15268 --- [  restartedMain] sevenislands.SevenislandsApplication     : No active profile set, falling back to default profiles: default
+2022-12-01 18:28:20.379  INFO 15268 --- [  restartedMain] o.s.b.devtools.restart.ChangeableUrls    : The Class-Path manifest attribute in C:\Users\aleja\.m2\repository\org\glassfish\jaxb\jaxb-runtime\2.3.2\jaxb-runtime-2.3.2.jar referenced one or more files that do not exist: file:/C:/Users/aleja/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.xml.bind-api-2.3.2.jar,file:/C:/Users/aleja/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/txw2-2.3.2.jar,file:/C:/Users/aleja/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/istack-commons-runtime-3.0.8.jar,file:/C:/Users/aleja/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/stax-ex-1.8.1.jar,file:/C:/Users/aleja/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/FastInfoset-1.2.16.jar,file:/C:/Users/aleja/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.activation-api-1.2.1.jar
+2022-12-01 18:28:20.379  INFO 15268 --- [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2022-12-01 18:28:20.379  INFO 15268 --- [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2022-12-01 18:28:20.926  INFO 15268 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-12-01 18:28:21.003  INFO 15268 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 71ms. Found 8 JPA repository interfaces.
+2022-12-01 18:28:21.238  INFO 15268 --- [  restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-12-01 18:28:21.806  INFO 15268 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-12-01 18:28:21.818  INFO 15268 --- [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-12-01 18:28:21.819  INFO 15268 --- [  restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.30]
+2022-12-01 18:28:22.059  INFO 15268 --- [  restartedMain] org.apache.jasper.servlet.TldScanner     : At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2022-12-01 18:28:22.068  INFO 15268 --- [  restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-12-01 18:28:22.068  INFO 15268 --- [  restartedMain] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 1689 ms
+2022-12-01 18:28:22.096  INFO 15268 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-12-01 18:28:22.185  INFO 15268 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-12-01 18:28:22.190  INFO 15268 --- [  restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2022-12-01 18:28:22.303  INFO 15268 --- [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-12-01 18:28:22.347  INFO 15268 --- [  restartedMain] org.hibernate.Version                    : HHH000412: Hibernate Core {5.4.10.Final}
+2022-12-01 18:28:22.421  INFO 15268 --- [  restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2022-12-01 18:28:22.495  INFO 15268 --- [  restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
 Hibernate: 
     
     drop table achievement if exists
@@ -261,120 +266,18 @@ Hibernate:
        add constraint FK2gp4wt3thphhd9yucjl9p6jui 
        foreign key (user_id) 
        references user
-2022-11-29 20:03:54.581  INFO 23124 --- [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-2022-11-29 20:03:54.581  INFO 23124 --- [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
-2022-11-29 20:03:54.586  INFO 23124 --- [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
-2022-11-29 20:03:54.665  WARN 23124 --- [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-2022-11-29 20:03:54.851  INFO 23124 --- [  restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@a907f46, org.springframework.security.web.context.SecurityContextPersistenceFilter@469e2909, org.springframework.security.web.header.HeaderWriterFilter@630f19df, org.springframework.security.web.csrf.CsrfFilter@6830862b, org.springframework.security.web.authentication.logout.LogoutFilter@15297004, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@273a17cc, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@5ffebb45, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@5899388f, org.springframework.security.web.session.ConcurrentSessionFilter@46808cba, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@5dc411e4, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@1d591108, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@58e1e715, org.springframework.security.web.session.SessionManagementFilter@2a6d4602, org.springframework.security.web.access.ExceptionTranslationFilter@2504b350, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@68dd04a5]
-2022-11-29 20:03:54.883  INFO 23124 --- [  restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
-2022-11-29 20:03:55.136  INFO 23124 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
-2022-11-29 20:03:55.136  INFO 23124 --- [  restartedMain] sevenislands.SevenislandsApplication     : Started SevenislandsApplication in 1.284 seconds (JVM running for 296.217)
-2022-11-29 20:03:55.137  INFO 23124 --- [  restartedMain] .ConditionEvaluationDeltaLoggingListener : Condition evaluation unchanged
-2022-11-29 20:04:10.240  INFO 23124 --- [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
-2022-11-29 20:04:10.241  INFO 23124 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
-2022-11-29 20:04:10.243  INFO 23124 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 2 ms
-Hibernate: 
-    select
-        user0_.id as id1_10_,
-        user0_.avatar as avatar2_10_,
-        user0_.birth_date as birth_da3_10_,
-        user0_.creation_date as creation4_10_,
-        user0_.email as email5_10_,
-        user0_.enabled as enabled6_10_,
-        user0_.first_name as first_na7_10_,
-        user0_.last_name as last_nam8_10_,
-        user0_.nickname as nickname9_10_,
-        user0_.password as passwor10_10_,
-        user0_.type as type11_10_ 
-    from
-        user user0_ 
-    where
-        user0_.nickname=?
-Hibernate: 
-    select
-        user0_.id as id1_10_,
-        user0_.avatar as avatar2_10_,
-        user0_.birth_date as birth_da3_10_,
-        user0_.creation_date as creation4_10_,
-        user0_.email as email5_10_,
-        user0_.enabled as enabled6_10_,
-        user0_.first_name as first_na7_10_,
-        user0_.last_name as last_nam8_10_,
-        user0_.nickname as nickname9_10_,
-        user0_.password as passwor10_10_,
-        user0_.type as type11_10_ 
-    from
-        user user0_ 
-    where
-        user0_.nickname=?
-Hibernate: 
-    select
-        game0_.id as id1_3_,
-        game0_.creation_date as creation2_3_,
-        game0_.ending_date as ending_d3_3_,
-        game0_.lobby_id as lobby_id4_3_ 
-    from
-        game game0_ 
-    inner join
-        lobby lobby1_ 
-            on game0_.lobby_id=lobby1_.id 
-    inner join
-        lobby_users users2_ 
-            on lobby1_.id=users2_.lobby_id 
-    inner join
-        user user3_ 
-            on users2_.users_id=user3_.id 
-    where
-        user3_.nickname=?
-Hibernate: 
-    select
-        lobby0_.id as id1_5_,
-        lobby0_.active as active2_5_,
-        lobby0_.code as code3_5_ 
-    from
-        lobby lobby0_ 
-    inner join
-        lobby_users users1_ 
-            on lobby0_.id=users1_.lobby_id 
-    inner join
-        user user2_ 
-            on users1_.users_id=user2_.id 
-    where
-        user2_.id=?
-Hibernate: 
-    select
-        user0_.id as id1_10_,
-        user0_.avatar as avatar2_10_,
-        user0_.birth_date as birth_da3_10_,
-        user0_.creation_date as creation4_10_,
-        user0_.email as email5_10_,
-        user0_.enabled as enabled6_10_,
-        user0_.first_name as first_na7_10_,
-        user0_.last_name as last_nam8_10_,
-        user0_.nickname as nickname9_10_,
-        user0_.password as passwor10_10_,
-        user0_.type as type11_10_ 
-    from
-        user user0_ 
-    where
-        user0_.nickname=?
-Hibernate: 
-    select
-        user0_.id as id1_10_,
-        user0_.avatar as avatar2_10_,
-        user0_.birth_date as birth_da3_10_,
-        user0_.creation_date as creation4_10_,
-        user0_.email as email5_10_,
-        user0_.enabled as enabled6_10_,
-        user0_.first_name as first_na7_10_,
-        user0_.last_name as last_nam8_10_,
-        user0_.nickname as nickname9_10_,
-        user0_.password as passwor10_10_,
-        user0_.type as type11_10_ 
-    from
-        user user0_ 
-    where
-        user0_.nickname=?
+2022-12-01 18:28:23.069  INFO 15268 --- [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-12-01 18:28:23.075  INFO 15268 --- [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-12-01 18:28:23.086  INFO 15268 --- [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-12-01 18:28:23.370  WARN 15268 --- [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-12-01 18:28:23.619  INFO 15268 --- [  restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@43e1b2e3, org.springframework.security.web.context.SecurityContextPersistenceFilter@7d27e79f, org.springframework.security.web.header.HeaderWriterFilter@40093599, org.springframework.security.web.csrf.CsrfFilter@14679468, org.springframework.security.web.authentication.logout.LogoutFilter@2455505e, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@701e2505, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@19a73fec, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@58817e62, org.springframework.security.web.session.ConcurrentSessionFilter@7fd3290a, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@2c60d557, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3eb08a1d, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5ca40b09, org.springframework.security.web.session.SessionManagementFilter@5b9282d1, org.springframework.security.web.access.ExceptionTranslationFilter@5099d272, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@3fc3f429]
+2022-12-01 18:28:23.712  INFO 15268 --- [  restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-12-01 18:28:24.095  INFO 15268 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-12-01 18:28:24.098  INFO 15268 --- [  restartedMain] sevenislands.SevenislandsApplication     : Started SevenislandsApplication in 4.047 seconds (JVM running for 4.499)
+2022-12-01 18:28:43.530  INFO 15268 --- [nio-8080-exec-1] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring DispatcherServlet 'dispatcherServlet'
+2022-12-01 18:28:43.530  INFO 15268 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Initializing Servlet 'dispatcherServlet'
+2022-12-01 18:28:43.537  INFO 15268 --- [nio-8080-exec-1] o.s.web.servlet.DispatcherServlet        : Completed initialization in 7 ms
+2022-12-01 18:28:48.542  WARN 15268 --- [nio-8080-exec-1] o.a.c.util.SessionIdGeneratorBase        : Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [301] milliseconds.
 Hibernate: 
     select
         user0_.id as id1_10_,
@@ -576,19 +479,66 @@ Hibernate:
         user0_.nickname=?
 Hibernate: 
     select
-        user0_.id as id1_10_,
-        user0_.avatar as avatar2_10_,
-        user0_.birth_date as birth_da3_10_,
-        user0_.creation_date as creation4_10_,
-        user0_.email as email5_10_,
-        user0_.enabled as enabled6_10_,
-        user0_.first_name as first_na7_10_,
-        user0_.last_name as last_nam8_10_,
-        user0_.nickname as nickname9_10_,
-        user0_.password as passwor10_10_,
-        user0_.type as type11_10_ 
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
     from
-        user user0_
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    delete 
+    from
+        lobby_users 
+    where
+        lobby_id=?
 Hibernate: 
     select
         user0_.id as id1_10_,
@@ -603,7 +553,38 @@ Hibernate:
         user0_.password as passwor10_10_,
         user0_.type as type11_10_ 
     from
-        user user0_
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    insert 
+    into
+        lobby
+        (id, active, code) 
+    values
+        (null, ?, ?)
+Hibernate: 
+    insert 
+    into
+        lobby_users
+        (lobby_id, users_id) 
+    values
+        (?, ?)
 Hibernate: 
     select
         user0_.id as id1_10_,
@@ -635,22 +616,80 @@ Hibernate:
         user0_.password as passwor10_10_,
         user0_.type as type11_10_ 
     from
-        user user0_
+        user user0_ 
+    where
+        user0_.nickname=?
 Hibernate: 
     select
-        user0_.id as id1_10_,
-        user0_.avatar as avatar2_10_,
-        user0_.birth_date as birth_da3_10_,
-        user0_.creation_date as creation4_10_,
-        user0_.email as email5_10_,
-        user0_.enabled as enabled6_10_,
-        user0_.first_name as first_na7_10_,
-        user0_.last_name as last_nam8_10_,
-        user0_.nickname as nickname9_10_,
-        user0_.password as passwor10_10_,
-        user0_.type as type11_10_ 
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
     from
-        user user0_
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
 Hibernate: 
     select
         user0_.id as id1_10_,
@@ -670,83 +709,731 @@ Hibernate:
         user0_.nickname=?
 Hibernate: 
     select
-        user0_.id as id1_10_0_,
-        user0_.avatar as avatar2_10_0_,
-        user0_.birth_date as birth_da3_10_0_,
-        user0_.creation_date as creation4_10_0_,
-        user0_.email as email5_10_0_,
-        user0_.enabled as enabled6_10_0_,
-        user0_.first_name as first_na7_10_0_,
-        user0_.last_name as last_nam8_10_0_,
-        user0_.nickname as nickname9_10_0_,
-        user0_.password as passwor10_10_0_,
-        user0_.type as type11_10_0_ 
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
     from
         user user0_ 
     where
-        user0_.id=?
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    insert 
+    into
+        lobby
+        (id, active, code) 
+    values
+        (null, ?, ?)
+Hibernate: 
+    insert 
+    into
+        lobby_users
+        (lobby_id, users_id) 
+    values
+        (?, ?)
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
 Hibernate: 
     update
-        user 
+        lobby 
     set
-        avatar=?,
-        birth_date=?,
-        creation_date=?,
-        email=?,
-        enabled=?,
-        first_name=?,
-        last_name=?,
-        nickname=?,
-        password=? 
+        active=?,
+        code=? 
     where
         id=?
 Hibernate: 
-    select
-        user0_.id as id1_10_,
-        user0_.avatar as avatar2_10_,
-        user0_.birth_date as birth_da3_10_,
-        user0_.creation_date as creation4_10_,
-        user0_.email as email5_10_,
-        user0_.enabled as enabled6_10_,
-        user0_.first_name as first_na7_10_,
-        user0_.last_name as last_nam8_10_,
-        user0_.nickname as nickname9_10_,
-        user0_.password as passwor10_10_,
-        user0_.type as type11_10_ 
+    delete 
     from
-        user user0_ 
+        lobby_users 
     where
-        user0_.nickname=?
-Hibernate: 
-    select
-        user0_.id as id1_10_,
-        user0_.avatar as avatar2_10_,
-        user0_.birth_date as birth_da3_10_,
-        user0_.creation_date as creation4_10_,
-        user0_.email as email5_10_,
-        user0_.enabled as enabled6_10_,
-        user0_.first_name as first_na7_10_,
-        user0_.last_name as last_nam8_10_,
-        user0_.nickname as nickname9_10_,
-        user0_.password as passwor10_10_,
-        user0_.type as type11_10_ 
-    from
-        user user0_
-Hibernate: 
-    select
-        user0_.id as id1_10_,
-        user0_.avatar as avatar2_10_,
-        user0_.birth_date as birth_da3_10_,
-        user0_.creation_date as creation4_10_,
-        user0_.email as email5_10_,
-        user0_.enabled as enabled6_10_,
-        user0_.first_name as first_na7_10_,
-        user0_.last_name as last_nam8_10_,
-        user0_.nickname as nickname9_10_,
-        user0_.password as passwor10_10_,
-        user0_.type as type11_10_ 
-    from
-        user user0_
+        lobby_id=?
 Hibernate: 
     select
         user0_.id as id1_10_,
@@ -785,6 +1472,1645 @@ Hibernate:
         user3_.nickname=?
 Hibernate: 
     select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    where
+        lobby0_.code=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    delete 
+    from
+        lobby_users 
+    where
+        lobby_id=?
+Hibernate: 
+    insert 
+    into
+        lobby_users
+        (lobby_id, users_id) 
+    values
+        (?, ?)
+Hibernate: 
+    insert 
+    into
+        lobby_users
+        (lobby_id, users_id) 
+    values
+        (?, ?)
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    select
         user0_.id as id1_10_,
         user0_.avatar as avatar2_10_,
         user0_.birth_date as birth_da3_10_,
@@ -818,20 +3144,124 @@ Hibernate:
     where
         user0_.id=?
 Hibernate: 
-    update
-        user 
-    set
-        avatar=?,
-        birth_date=?,
-        creation_date=?,
-        email=?,
-        enabled=?,
-        first_name=?,
-        last_name=?,
-        nickname=?,
-        password=? 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
     where
-        id=?
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    delete 
+    from
+        lobby_users 
+    where
+        lobby_id=?
+Hibernate: 
+    insert 
+    into
+        lobby_users
+        (lobby_id, users_id) 
+    values
+        (?, ?)
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
 Hibernate: 
     select
         user0_.id as id1_10_,
@@ -863,406 +3293,24 @@ Hibernate:
         user0_.password as passwor10_10_,
         user0_.type as type11_10_ 
     from
-        user user0_
-Hibernate: 
-    select
-        user0_.id as id1_10_,
-        user0_.avatar as avatar2_10_,
-        user0_.birth_date as birth_da3_10_,
-        user0_.creation_date as creation4_10_,
-        user0_.email as email5_10_,
-        user0_.enabled as enabled6_10_,
-        user0_.first_name as first_na7_10_,
-        user0_.last_name as last_nam8_10_,
-        user0_.nickname as nickname9_10_,
-        user0_.password as passwor10_10_,
-        user0_.type as type11_10_ 
-    from
-        user user0_
-Hibernate: 
-    select
-        user0_.id as id1_10_,
-        user0_.avatar as avatar2_10_,
-        user0_.birth_date as birth_da3_10_,
-        user0_.creation_date as creation4_10_,
-        user0_.email as email5_10_,
-        user0_.enabled as enabled6_10_,
-        user0_.first_name as first_na7_10_,
-        user0_.last_name as last_nam8_10_,
-        user0_.nickname as nickname9_10_,
-        user0_.password as passwor10_10_,
-        user0_.type as type11_10_ 
-    from
         user user0_ 
     where
         user0_.nickname=?
 Hibernate: 
     select
-        user0_.id as id1_10_0_,
-        user0_.avatar as avatar2_10_0_,
-        user0_.birth_date as birth_da3_10_0_,
-        user0_.creation_date as creation4_10_0_,
-        user0_.email as email5_10_0_,
-        user0_.enabled as enabled6_10_0_,
-        user0_.first_name as first_na7_10_0_,
-        user0_.last_name as last_nam8_10_0_,
-        user0_.nickname as nickname9_10_0_,
-        user0_.password as passwor10_10_0_,
-        user0_.type as type11_10_0_ 
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
     from
-        user user0_ 
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
     where
-        user0_.id=?
-Hibernate: 
-    update
-        user 
-    set
-        avatar=?,
-        birth_date=?,
-        creation_date=?,
-        email=?,
-        enabled=?,
-        first_name=?,
-        last_name=?,
-        nickname=?,
-        password=? 
-    where
-        id=?
-Hibernate: 
-    select
-        user0_.id as id1_10_,
-        user0_.avatar as avatar2_10_,
-        user0_.birth_date as birth_da3_10_,
-        user0_.creation_date as creation4_10_,
-        user0_.email as email5_10_,
-        user0_.enabled as enabled6_10_,
-        user0_.first_name as first_na7_10_,
-        user0_.last_name as last_nam8_10_,
-        user0_.nickname as nickname9_10_,
-        user0_.password as passwor10_10_,
-        user0_.type as type11_10_ 
-    from
-        user user0_ 
-    where
-        user0_.nickname=?
-Hibernate: 
-    select
-        user0_.id as id1_10_,
-        user0_.avatar as avatar2_10_,
-        user0_.birth_date as birth_da3_10_,
-        user0_.creation_date as creation4_10_,
-        user0_.email as email5_10_,
-        user0_.enabled as enabled6_10_,
-        user0_.first_name as first_na7_10_,
-        user0_.last_name as last_nam8_10_,
-        user0_.nickname as nickname9_10_,
-        user0_.password as passwor10_10_,
-        user0_.type as type11_10_ 
-    from
-        user user0_
-Hibernate: 
-    select
-        user0_.id as id1_10_,
-        user0_.avatar as avatar2_10_,
-        user0_.birth_date as birth_da3_10_,
-        user0_.creation_date as creation4_10_,
-        user0_.email as email5_10_,
-        user0_.enabled as enabled6_10_,
-        user0_.first_name as first_na7_10_,
-        user0_.last_name as last_nam8_10_,
-        user0_.nickname as nickname9_10_,
-        user0_.password as passwor10_10_,
-        user0_.type as type11_10_ 
-    from
-        user user0_
-Hibernate: 
-    select
-        user0_.id as id1_10_,
-        user0_.avatar as avatar2_10_,
-        user0_.birth_date as birth_da3_10_,
-        user0_.creation_date as creation4_10_,
-        user0_.email as email5_10_,
-        user0_.enabled as enabled6_10_,
-        user0_.first_name as first_na7_10_,
-        user0_.last_name as last_nam8_10_,
-        user0_.nickname as nickname9_10_,
-        user0_.password as passwor10_10_,
-        user0_.type as type11_10_ 
-    from
-        user user0_ 
-    where
-        user0_.nickname=?
-Hibernate: 
-    select
-        user0_.id as id1_10_0_,
-        user0_.avatar as avatar2_10_0_,
-        user0_.birth_date as birth_da3_10_0_,
-        user0_.creation_date as creation4_10_0_,
-        user0_.email as email5_10_0_,
-        user0_.enabled as enabled6_10_0_,
-        user0_.first_name as first_na7_10_0_,
-        user0_.last_name as last_nam8_10_0_,
-        user0_.nickname as nickname9_10_0_,
-        user0_.password as passwor10_10_0_,
-        user0_.type as type11_10_0_ 
-    from
-        user user0_ 
-    where
-        user0_.id=?
-Hibernate: 
-    update
-        user 
-    set
-        avatar=?,
-        birth_date=?,
-        creation_date=?,
-        email=?,
-        enabled=?,
-        first_name=?,
-        last_name=?,
-        nickname=?,
-        password=? 
-    where
-        id=?
-Hibernate: 
-    select
-        user0_.id as id1_10_,
-        user0_.avatar as avatar2_10_,
-        user0_.birth_date as birth_da3_10_,
-        user0_.creation_date as creation4_10_,
-        user0_.email as email5_10_,
-        user0_.enabled as enabled6_10_,
-        user0_.first_name as first_na7_10_,
-        user0_.last_name as last_nam8_10_,
-        user0_.nickname as nickname9_10_,
-        user0_.password as passwor10_10_,
-        user0_.type as type11_10_ 
-    from
-        user user0_ 
-    where
-        user0_.nickname=?
-Hibernate: 
-    select
-        user0_.id as id1_10_,
-        user0_.avatar as avatar2_10_,
-        user0_.birth_date as birth_da3_10_,
-        user0_.creation_date as creation4_10_,
-        user0_.email as email5_10_,
-        user0_.enabled as enabled6_10_,
-        user0_.first_name as first_na7_10_,
-        user0_.last_name as last_nam8_10_,
-        user0_.nickname as nickname9_10_,
-        user0_.password as passwor10_10_,
-        user0_.type as type11_10_ 
-    from
-        user user0_
-Hibernate: 
-    select
-        user0_.id as id1_10_,
-        user0_.avatar as avatar2_10_,
-        user0_.birth_date as birth_da3_10_,
-        user0_.creation_date as creation4_10_,
-        user0_.email as email5_10_,
-        user0_.enabled as enabled6_10_,
-        user0_.first_name as first_na7_10_,
-        user0_.last_name as last_nam8_10_,
-        user0_.nickname as nickname9_10_,
-        user0_.password as passwor10_10_,
-        user0_.type as type11_10_ 
-    from
-        user user0_
-Hibernate: 
-    select
-        user0_.id as id1_10_,
-        user0_.avatar as avatar2_10_,
-        user0_.birth_date as birth_da3_10_,
-        user0_.creation_date as creation4_10_,
-        user0_.email as email5_10_,
-        user0_.enabled as enabled6_10_,
-        user0_.first_name as first_na7_10_,
-        user0_.last_name as last_nam8_10_,
-        user0_.nickname as nickname9_10_,
-        user0_.password as passwor10_10_,
-        user0_.type as type11_10_ 
-    from
-        user user0_ 
-    where
-        user0_.nickname=?
-Hibernate: 
-    select
-        user0_.id as id1_10_0_,
-        user0_.avatar as avatar2_10_0_,
-        user0_.birth_date as birth_da3_10_0_,
-        user0_.creation_date as creation4_10_0_,
-        user0_.email as email5_10_0_,
-        user0_.enabled as enabled6_10_0_,
-        user0_.first_name as first_na7_10_0_,
-        user0_.last_name as last_nam8_10_0_,
-        user0_.nickname as nickname9_10_0_,
-        user0_.password as passwor10_10_0_,
-        user0_.type as type11_10_0_ 
-    from
-        user user0_ 
-    where
-        user0_.id=?
-Hibernate: 
-    update
-        user 
-    set
-        avatar=?,
-        birth_date=?,
-        creation_date=?,
-        email=?,
-        enabled=?,
-        first_name=?,
-        last_name=?,
-        nickname=?,
-        password=? 
-    where
-        id=?
-Hibernate: 
-    select
-        user0_.id as id1_10_,
-        user0_.avatar as avatar2_10_,
-        user0_.birth_date as birth_da3_10_,
-        user0_.creation_date as creation4_10_,
-        user0_.email as email5_10_,
-        user0_.enabled as enabled6_10_,
-        user0_.first_name as first_na7_10_,
-        user0_.last_name as last_nam8_10_,
-        user0_.nickname as nickname9_10_,
-        user0_.password as passwor10_10_,
-        user0_.type as type11_10_ 
-    from
-        user user0_ 
-    where
-        user0_.nickname=?
-Hibernate: 
-    select
-        user0_.id as id1_10_,
-        user0_.avatar as avatar2_10_,
-        user0_.birth_date as birth_da3_10_,
-        user0_.creation_date as creation4_10_,
-        user0_.email as email5_10_,
-        user0_.enabled as enabled6_10_,
-        user0_.first_name as first_na7_10_,
-        user0_.last_name as last_nam8_10_,
-        user0_.nickname as nickname9_10_,
-        user0_.password as passwor10_10_,
-        user0_.type as type11_10_ 
-    from
-        user user0_
-Hibernate: 
-    select
-        user0_.id as id1_10_,
-        user0_.avatar as avatar2_10_,
-        user0_.birth_date as birth_da3_10_,
-        user0_.creation_date as creation4_10_,
-        user0_.email as email5_10_,
-        user0_.enabled as enabled6_10_,
-        user0_.first_name as first_na7_10_,
-        user0_.last_name as last_nam8_10_,
-        user0_.nickname as nickname9_10_,
-        user0_.password as passwor10_10_,
-        user0_.type as type11_10_ 
-    from
-        user user0_
-Hibernate: 
-    select
-        user0_.id as id1_10_,
-        user0_.avatar as avatar2_10_,
-        user0_.birth_date as birth_da3_10_,
-        user0_.creation_date as creation4_10_,
-        user0_.email as email5_10_,
-        user0_.enabled as enabled6_10_,
-        user0_.first_name as first_na7_10_,
-        user0_.last_name as last_nam8_10_,
-        user0_.nickname as nickname9_10_,
-        user0_.password as passwor10_10_,
-        user0_.type as type11_10_ 
-    from
-        user user0_ 
-    where
-        user0_.nickname=?
-Hibernate: 
-    select
-        user0_.id as id1_10_0_,
-        user0_.avatar as avatar2_10_0_,
-        user0_.birth_date as birth_da3_10_0_,
-        user0_.creation_date as creation4_10_0_,
-        user0_.email as email5_10_0_,
-        user0_.enabled as enabled6_10_0_,
-        user0_.first_name as first_na7_10_0_,
-        user0_.last_name as last_nam8_10_0_,
-        user0_.nickname as nickname9_10_0_,
-        user0_.password as passwor10_10_0_,
-        user0_.type as type11_10_0_ 
-    from
-        user user0_ 
-    where
-        user0_.id=?
-Hibernate: 
-    update
-        user 
-    set
-        avatar=?,
-        birth_date=?,
-        creation_date=?,
-        email=?,
-        enabled=?,
-        first_name=?,
-        last_name=?,
-        nickname=?,
-        password=? 
-    where
-        id=?
-Hibernate: 
-    select
-        user0_.id as id1_10_,
-        user0_.avatar as avatar2_10_,
-        user0_.birth_date as birth_da3_10_,
-        user0_.creation_date as creation4_10_,
-        user0_.email as email5_10_,
-        user0_.enabled as enabled6_10_,
-        user0_.first_name as first_na7_10_,
-        user0_.last_name as last_nam8_10_,
-        user0_.nickname as nickname9_10_,
-        user0_.password as passwor10_10_,
-        user0_.type as type11_10_ 
-    from
-        user user0_ 
-    where
-        user0_.nickname=?
-Hibernate: 
-    select
-        user0_.id as id1_10_,
-        user0_.avatar as avatar2_10_,
-        user0_.birth_date as birth_da3_10_,
-        user0_.creation_date as creation4_10_,
-        user0_.email as email5_10_,
-        user0_.enabled as enabled6_10_,
-        user0_.first_name as first_na7_10_,
-        user0_.last_name as last_nam8_10_,
-        user0_.nickname as nickname9_10_,
-        user0_.password as passwor10_10_,
-        user0_.type as type11_10_ 
-    from
-        user user0_
-Hibernate: 
-    select
-        user0_.id as id1_10_,
-        user0_.avatar as avatar2_10_,
-        user0_.birth_date as birth_da3_10_,
-        user0_.creation_date as creation4_10_,
-        user0_.email as email5_10_,
-        user0_.enabled as enabled6_10_,
-        user0_.first_name as first_na7_10_,
-        user0_.last_name as last_nam8_10_,
-        user0_.nickname as nickname9_10_,
-        user0_.password as passwor10_10_,
-        user0_.type as type11_10_ 
-    from
-        user user0_
+        user2_.id=?
 Hibernate: 
     select
         user0_.id as id1_10_,
@@ -1333,6 +3381,1881 @@ Hibernate:
         user0_.nickname=?
 Hibernate: 
     select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    where
+        lobby0_.code=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    delete 
+    from
+        lobby_users 
+    where
+        lobby_id=?
+Hibernate: 
+    insert 
+    into
+        lobby_users
+        (lobby_id, users_id) 
+    values
+        (?, ?)
+Hibernate: 
+    insert 
+    into
+        lobby_users
+        (lobby_id, users_id) 
+    values
+        (?, ?)
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    insert 
+    into
+        game
+        (id, creation_date, ending_date, lobby_id) 
+    values
+        (null, ?, ?, ?)
+Hibernate: 
+    update
+        lobby 
+    set
+        active=?,
+        code=? 
+    where
+        id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        round0_.id as id1_7_,
+        round0_.game_id as game_id2_7_ 
+    from
+        round round0_ 
+    where
+        round0_.game_id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        round0_.id as id1_7_,
+        round0_.game_id as game_id2_7_ 
+    from
+        round round0_ 
+    where
+        round0_.game_id=?
+Hibernate: 
+    select
+        round0_.id as id1_7_,
+        round0_.game_id as game_id2_7_ 
+    from
+        round round0_ 
+    where
+        round0_.game_id=?
+Hibernate: 
+    insert 
+    into
+        round
+        (id, game_id) 
+    values
+        (null, ?)
+Hibernate: 
+    insert 
+    into
+        turn
+        (id, dice, round_id, start_time, user_id) 
+    values
+        (null, ?, ?, ?, ?)
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        round0_.id as id1_7_,
+        round0_.game_id as game_id2_7_ 
+    from
+        round round0_ 
+    where
+        round0_.game_id=?
+Hibernate: 
+    select
+        turn0_.id as id1_8_,
+        turn0_.dice as dice2_8_,
+        turn0_.round_id as round_id4_8_,
+        turn0_.start_time as start_ti3_8_,
+        turn0_.user_id as user_id5_8_ 
+    from
+        turn turn0_ 
+    where
+        turn0_.round_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        round0_.id as id1_7_,
+        round0_.game_id as game_id2_7_ 
+    from
+        round round0_ 
+    where
+        round0_.game_id=?
+Hibernate: 
+    select
+        turn0_.id as id1_8_,
+        turn0_.dice as dice2_8_,
+        turn0_.round_id as round_id4_8_,
+        turn0_.start_time as start_ti3_8_,
+        turn0_.user_id as user_id5_8_ 
+    from
+        turn turn0_ 
+    where
+        turn0_.round_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        round0_.id as id1_7_,
+        round0_.game_id as game_id2_7_ 
+    from
+        round round0_ 
+    where
+        round0_.game_id=?
+Hibernate: 
+    select
+        turn0_.id as id1_8_,
+        turn0_.dice as dice2_8_,
+        turn0_.round_id as round_id4_8_,
+        turn0_.start_time as start_ti3_8_,
+        turn0_.user_id as user_id5_8_ 
+    from
+        turn turn0_ 
+    where
+        turn0_.round_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        round0_.id as id1_7_,
+        round0_.game_id as game_id2_7_ 
+    from
+        round round0_ 
+    where
+        round0_.game_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        round0_.id as id1_7_,
+        round0_.game_id as game_id2_7_ 
+    from
+        round round0_ 
+    where
+        round0_.game_id=?
+Hibernate: 
+    select
+        turn0_.id as id1_8_,
+        turn0_.dice as dice2_8_,
+        turn0_.round_id as round_id4_8_,
+        turn0_.start_time as start_ti3_8_,
+        turn0_.user_id as user_id5_8_ 
+    from
+        turn turn0_ 
+    where
+        turn0_.round_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_0_,
+        user0_.avatar as avatar2_10_0_,
+        user0_.birth_date as birth_da3_10_0_,
+        user0_.creation_date as creation4_10_0_,
+        user0_.email as email5_10_0_,
+        user0_.enabled as enabled6_10_0_,
+        user0_.first_name as first_na7_10_0_,
+        user0_.last_name as last_nam8_10_0_,
+        user0_.nickname as nickname9_10_0_,
+        user0_.password as passwor10_10_0_,
+        user0_.type as type11_10_0_ 
+    from
+        user user0_ 
+    where
+        user0_.id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        round0_.id as id1_7_,
+        round0_.game_id as game_id2_7_ 
+    from
+        round round0_ 
+    where
+        round0_.game_id=?
+Hibernate: 
+    select
+        turn0_.id as id1_8_,
+        turn0_.dice as dice2_8_,
+        turn0_.round_id as round_id4_8_,
+        turn0_.start_time as start_ti3_8_,
+        turn0_.user_id as user_id5_8_ 
+    from
+        turn turn0_ 
+    where
+        turn0_.round_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        round0_.id as id1_7_,
+        round0_.game_id as game_id2_7_ 
+    from
+        round round0_ 
+    where
+        round0_.game_id=?
+Hibernate: 
+    select
+        turn0_.id as id1_8_,
+        turn0_.dice as dice2_8_,
+        turn0_.round_id as round_id4_8_,
+        turn0_.start_time as start_ti3_8_,
+        turn0_.user_id as user_id5_8_ 
+    from
+        turn turn0_ 
+    where
+        turn0_.round_id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_0_,
+        user0_.avatar as avatar2_10_0_,
+        user0_.birth_date as birth_da3_10_0_,
+        user0_.creation_date as creation4_10_0_,
+        user0_.email as email5_10_0_,
+        user0_.enabled as enabled6_10_0_,
+        user0_.first_name as first_na7_10_0_,
+        user0_.last_name as last_nam8_10_0_,
+        user0_.nickname as nickname9_10_0_,
+        user0_.password as passwor10_10_0_,
+        user0_.type as type11_10_0_ 
+    from
+        user user0_ 
+    where
+        user0_.id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_0_,
+        lobby0_.active as active2_5_0_,
+        lobby0_.code as code3_5_0_ 
+    from
+        lobby lobby0_ 
+    where
+        lobby0_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
+        round0_.id as id1_7_,
+        round0_.game_id as game_id2_7_ 
+    from
+        round round0_ 
+    where
+        round0_.game_id=?
+Hibernate: 
+    select
+        turn0_.id as id1_8_,
+        turn0_.dice as dice2_8_,
+        turn0_.round_id as round_id4_8_,
+        turn0_.start_time as start_ti3_8_,
+        turn0_.user_id as user_id5_8_ 
+    from
+        turn turn0_ 
+    where
+        turn0_.round_id=?
+Hibernate: 
+    select
         user0_.id as id1_10_0_,
         user0_.avatar as avatar2_10_0_,
         user0_.birth_date as birth_da3_10_0_,
@@ -1365,6 +5288,94 @@ Hibernate:
         user2_.id=?
 Hibernate: 
     select
+        users0_.lobby_id as lobby_id1_6_0_,
+        users0_.users_id as users_id2_6_0_,
+        user1_.id as id1_10_1_,
+        user1_.avatar as avatar2_10_1_,
+        user1_.birth_date as birth_da3_10_1_,
+        user1_.creation_date as creation4_10_1_,
+        user1_.email as email5_10_1_,
+        user1_.enabled as enabled6_10_1_,
+        user1_.first_name as first_na7_10_1_,
+        user1_.last_name as last_nam8_10_1_,
+        user1_.nickname as nickname9_10_1_,
+        user1_.password as passwor10_10_1_,
+        user1_.type as type11_10_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    delete 
+    from
+        lobby_users 
+    where
+        lobby_id=?
+Hibernate: 
+    insert 
+    into
+        lobby_users
+        (lobby_id, users_id) 
+    values
+        (?, ?)
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        game0_.id as id1_3_,
+        game0_.creation_date as creation2_3_,
+        game0_.ending_date as ending_d3_3_,
+        game0_.lobby_id as lobby_id4_3_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=?
+Hibernate: 
+    select
         lobby0_.id as id1_5_,
         lobby0_.active as active2_5_,
         lobby0_.code as code3_5_ 
@@ -1378,19 +5389,362 @@ Hibernate:
             on users1_.users_id=user2_.id 
     where
         user2_.id=?
-2022-11-29 20:05:13.636  WARN 23124 --- [nio-8080-exec-1] .m.m.a.ExceptionHandlerExceptionResolver : Resolved [java.util.NoSuchElementException: No value present]
-2022-11-29 20:05:40.124  INFO 23124 --- [extShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
-2022-11-29 20:05:40.125  INFO 23124 --- [extShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
-2022-11-29 20:05:40.125  INFO 23124 --- [extShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_0_,
+        user0_.avatar as avatar2_10_0_,
+        user0_.birth_date as birth_da3_10_0_,
+        user0_.creation_date as creation4_10_0_,
+        user0_.email as email5_10_0_,
+        user0_.enabled as enabled6_10_0_,
+        user0_.first_name as first_na7_10_0_,
+        user0_.last_name as last_nam8_10_0_,
+        user0_.nickname as nickname9_10_0_,
+        user0_.password as passwor10_10_0_,
+        user0_.type as type11_10_0_ 
+    from
+        user user0_ 
+    where
+        user0_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_5_,
+        lobby0_.active as active2_5_,
+        lobby0_.code as code3_5_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        turns0_.user_id as user_id5_8_0_,
+        turns0_.id as id1_8_0_,
+        turns0_.id as id1_8_1_,
+        turns0_.dice as dice2_8_1_,
+        turns0_.round_id as round_id4_8_1_,
+        turns0_.start_time as start_ti3_8_1_,
+        turns0_.user_id as user_id5_8_1_,
+        round1_.id as id1_7_2_,
+        round1_.game_id as game_id2_7_2_,
+        game2_.id as id1_3_3_,
+        game2_.creation_date as creation2_3_3_,
+        game2_.ending_date as ending_d3_3_3_,
+        game2_.lobby_id as lobby_id4_3_3_,
+        lobby3_.id as id1_5_4_,
+        lobby3_.active as active2_5_4_,
+        lobby3_.code as code3_5_4_ 
+    from
+        turn turns0_ 
+    left outer join
+        round round1_ 
+            on turns0_.round_id=round1_.id 
+    left outer join
+        game game2_ 
+            on round1_.game_id=game2_.id 
+    left outer join
+        lobby lobby3_ 
+            on game2_.lobby_id=lobby3_.id 
+    where
+        turns0_.user_id=?
+Hibernate: 
+    delete 
+    from
+        user_achievements 
+    where
+        user_id=?
+Hibernate: 
+    delete 
+    from
+        user 
+    where
+        id=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_
+Hibernate: 
+    select
+        user0_.id as id1_10_,
+        user0_.avatar as avatar2_10_,
+        user0_.birth_date as birth_da3_10_,
+        user0_.creation_date as creation4_10_,
+        user0_.email as email5_10_,
+        user0_.enabled as enabled6_10_,
+        user0_.first_name as first_na7_10_,
+        user0_.last_name as last_nam8_10_,
+        user0_.nickname as nickname9_10_,
+        user0_.password as passwor10_10_,
+        user0_.type as type11_10_ 
+    from
+        user user0_
+2022-12-01 18:30:21.331  INFO 15268 --- [extShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2022-12-01 18:30:21.331  INFO 15268 --- [extShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-12-01 18:30:21.331  INFO 15268 --- [extShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
 Hibernate: 
     
     drop table achievement if exists
-2022-11-29 20:05:40.126 ERROR 23124 --- [extShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000478: Unsuccessful: 
+2022-12-01 18:30:21.333 ERROR 15268 --- [extShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000478: Unsuccessful: 
     drop table achievement if exists
 Hibernate: 
     
     drop table card if exists
-2022-11-29 20:05:40.126 ERROR 23124 --- [extShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000478: Unsuccessful: 
+2022-12-01 18:30:21.334 ERROR 15268 --- [extShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000478: Unsuccessful: 
     drop table card if exists
 Hibernate: 
     
@@ -1398,7 +5752,7 @@ Hibernate:
 Hibernate: 
     
     drop table game if exists
-2022-11-29 20:05:40.128 ERROR 23124 --- [extShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000478: Unsuccessful: 
+2022-12-01 18:30:21.336 ERROR 15268 --- [extShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000478: Unsuccessful: 
     drop table game if exists
 Hibernate: 
     
@@ -1406,7 +5760,7 @@ Hibernate:
 Hibernate: 
     
     drop table lobby if exists
-2022-11-29 20:05:40.129 ERROR 23124 --- [extShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000478: Unsuccessful: 
+2022-12-01 18:30:21.336 ERROR 15268 --- [extShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000478: Unsuccessful: 
     drop table lobby if exists
 Hibernate: 
     
@@ -1414,12 +5768,12 @@ Hibernate:
 Hibernate: 
     
     drop table round if exists
-2022-11-29 20:05:40.129 ERROR 23124 --- [extShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000478: Unsuccessful: 
+2022-12-01 18:30:21.337 ERROR 15268 --- [extShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000478: Unsuccessful: 
     drop table round if exists
 Hibernate: 
     
     drop table turn if exists
-2022-11-29 20:05:40.129 ERROR 23124 --- [extShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000478: Unsuccessful: 
+2022-12-01 18:30:21.337 ERROR 15268 --- [extShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000478: Unsuccessful: 
     drop table turn if exists
 Hibernate: 
     
@@ -1427,12 +5781,12 @@ Hibernate:
 Hibernate: 
     
     drop table user if exists
-2022-11-29 20:05:40.129 ERROR 23124 --- [extShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000478: Unsuccessful: 
+2022-12-01 18:30:21.337 ERROR 15268 --- [extShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000478: Unsuccessful: 
     drop table user if exists
 Hibernate: 
     
     drop table user_achievements if exists
-2022-11-29 20:05:40.344  WARN 23124 --- [extShutdownHook] o.s.b.f.support.DisposableBeanAdapter    : Invocation of destroy method failed on bean with name 'inMemoryDatabaseShutdownExecutor': org.h2.jdbc.JdbcSQLNonTransientConnectionException: La base de datos ya esta cerrada (para des-habilitar el cerrado automatico durante el shutdown de la VM, agregue ";DB_CLOSE_ON_EXIT=FALSE" a la URL de conexión)
+2022-12-01 18:30:21.553  WARN 15268 --- [extShutdownHook] o.s.b.f.support.DisposableBeanAdapter    : Invocation of destroy method failed on bean with name 'inMemoryDatabaseShutdownExecutor': org.h2.jdbc.JdbcSQLNonTransientConnectionException: La base de datos ya esta cerrada (para des-habilitar el cerrado automatico durante el shutdown de la VM, agregue ";DB_CLOSE_ON_EXIT=FALSE" a la URL de conexión)
 Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-200]
-2022-11-29 20:05:40.344  INFO 23124 --- [extShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown initiated...
-2022-11-29 20:05:40.351  INFO 23124 --- [extShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-6 - Shutdown completed.
+2022-12-01 18:30:21.553  INFO 15268 --- [extShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2022-12-01 18:30:21.556  INFO 15268 --- [extShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
