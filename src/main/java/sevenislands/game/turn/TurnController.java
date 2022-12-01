@@ -4,7 +4,6 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
@@ -87,12 +86,7 @@ public class TurnController {
 
         if(logedUser.getId()==lastTurn.getUser().getId()) {
             if(turnList.size()>=userList.size()) return "redirect:/turn/newRound";
-            Turn turn = new Turn();
-            Integer nextUser = (userList.indexOf(logedUser)+1)%userList.size();
-            turn.setStartTime(LocalDateTime.now());
-            turn.setRound(round);
-            turn.setUser(userList.get(nextUser));
-            turnService.save(turn);
+            turnService.initTurn(logedUser, round, userList);
         } 
         return "redirect:/turn";
     }
@@ -107,10 +101,7 @@ public class TurnController {
         Round round = roundList.get(roundList.size()-1);
         List<Turn> turnList = turnService.findByRoundId(round.getId());
         Turn lastTurn = turnList.get(turnList.size()-1);
-        Random randomGenerator = new Random();
-        Integer dice = randomGenerator.nextInt(6)+1;
-        lastTurn.setDice(dice);
-        turnService.save(lastTurn);
+        turnService.dice(lastTurn);
         return "redirect:/turn";
     }
 
@@ -124,21 +115,8 @@ public class TurnController {
             List<User> userList = lobby.getUsers();
             List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream().collect(Collectors.toList());
     
-            Round round = new Round();
-            Turn turn = new Turn();
+            turnService.assignTurn(logedUser, game, userList, roundList);
     
-            round.setGame(game.get());
-            turn.setRound(round);
-            turn.setStartTime(LocalDateTime.now());
-            if(roundService.findRoundsByGameId(game.get().getId()).isEmpty()) {
-                turn.setUser(logedUser);
-            } else if (turnService.findByRoundId(roundList.get(roundList.size()-1).getId()).size() >= userList.size()) { 
-                Integer nextUser = (userList.indexOf(logedUser)+1)%userList.size();
-                turn.setUser(userList.get(nextUser));
-            } else return "redirect:/turn";
-    
-            roundService.save(round);
-            turnService.save(turn);
             return "redirect:/turn";
         } else return "redirect:/home";
     }
