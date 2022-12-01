@@ -3,6 +3,7 @@ package sevenislands.game.turn;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
+import java.util.Random;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,6 +55,45 @@ public class TurnService {
     @Transactional
     public void save(Turn turn) {
         turnRepository.save(turn);
+    }
+
+    @Transactional
+    public void initTurn(User logedUser, Round round, List<User> userList) {
+        Turn turn = new Turn();
+        Integer nextUser = (userList.indexOf(logedUser)+1)%userList.size();
+        turn.setStartTime(LocalDateTime.now());
+        turn.setRound(round);
+        turn.setUser(userList.get(nextUser));
+        save(turn);
+    }
+
+    @Transactional
+    public void dice(Turn turn) {
+        Random randomGenerator = new Random();
+        Integer dice = randomGenerator.nextInt(6)+1;
+        turn.setDice(dice);
+        save(turn);
+    }
+
+    @Transactional
+    public void assignTurn(User logedUser, Optional<Game> game, List<User> userList, List<Round> roundList) {
+        Round round = new Round();
+        Turn turn = new Turn();
+    
+        round.setGame(game.get());
+        turn.setRound(round);
+        turn.setStartTime(LocalDateTime.now());
+        if(roundService.findRoundsByGameId(game.get().getId()).isEmpty()) {
+            turn.setUser(logedUser);
+            roundService.save(round);
+            save(turn);
+        } else if (findByRoundId(roundList.get(roundList.size()-1).getId()).size() >= userList.size()) { 
+            Integer nextUser = (userList.indexOf(logedUser)+1)%userList.size();
+            turn.setUser(userList.get(nextUser));
+            roundService.save(round);
+            save(turn);
+        }
+        
     }
 
     @Transactional
