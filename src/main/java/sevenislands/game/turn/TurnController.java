@@ -76,12 +76,13 @@ public class TurnController {
         if(userService.checkUserNoExists(request)) return "redirect:/";
         if(lobbyService.checkUserNoLobby(logedUser)) return "redirect:/home";
         
+       try {
         Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
         List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream().collect(Collectors.toList());
         Round round = roundList.get(roundList.size()-1);
         List<Turn> turnList = turnService.findByRoundId(round.getId());
         Turn lastTurn = turnList.get(turnList.size()-1);
-        Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId()).get();
+        Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
         List<User> userList = lobby.getUsers();
 
         if(logedUser.getId()==lastTurn.getUser().getId()) {
@@ -89,6 +90,9 @@ public class TurnController {
             turnService.initTurn(logedUser, round, userList);
         } 
         return "redirect:/turn";
+       } catch (Exception e) {
+            return "redirect:/home";
+       }
     }
 
     @GetMapping("/turn/dice")
@@ -109,9 +113,10 @@ public class TurnController {
     public String gameAsignTurn(@ModelAttribute("logedUser") User logedUser, HttpServletRequest request) throws ServletException {
         if(userService.checkUserNoExists(request)) return "redirect:/";
         if(lobbyService.checkUserNoLobby(logedUser)) return "redirect:/home";
-        Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
+        try {
+            Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
         if(game.isPresent()) {
-            Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId()).get();
+            Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
             List<User> userList = lobby.getUsers();
             List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream().collect(Collectors.toList());
     
@@ -119,6 +124,9 @@ public class TurnController {
     
             return "redirect:/turn";
         } else return "redirect:/home";
+        } catch (Exception e) {
+            return "redirect:/home";
+        }
     }
 
 }

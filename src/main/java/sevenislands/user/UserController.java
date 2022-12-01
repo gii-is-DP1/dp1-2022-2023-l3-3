@@ -42,10 +42,15 @@ public class UserController {
 
 	@GetMapping("/settings")
 	public String initUpdateOwnerForm(HttpServletRequest request, ModelMap model, @ModelAttribute("logedUser") User logedUser) throws ServletException {
-		if(userService.checkUser(request, logedUser)) return "redirect:/";
-		logedUser.setPassword("");
-		model.put("user", logedUser);
-		return VIEWS_PLAYER_UPDATE_FORM;
+		try {
+			userService.checkUser(request, logedUser);
+			logedUser.setPassword("");
+			model.put("user", logedUser);
+			return VIEWS_PLAYER_UPDATE_FORM;
+		} catch (Exception e) {
+			return "redirect:/";
+		}
+		
 	}
 
 	@PostMapping("/settings")
@@ -108,8 +113,13 @@ public class UserController {
 	
     @GetMapping("/controlPanel/delete/{idUserDeleted}")
 	public String deleteUser(@ModelAttribute("logedUser") User logedUser, @PathVariable("idUserDeleted") Integer id){
-		if(userService.deleteUser(id, logedUser)) return "redirect:/controlPanel?valor="+metodosReutilizables.DeletePaginaControlPanel(id);
-		return "redirect:/";
+		try {
+			if(userService.deleteUser(id, logedUser)) return "redirect:/controlPanel?valor="+metodosReutilizables.DeletePaginaControlPanel(id);
+			else return "redirect:/";
+		} catch (Exception e) {
+			return "redirect:/";
+		}
+		
 	}
 
 	/**

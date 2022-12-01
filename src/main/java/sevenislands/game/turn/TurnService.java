@@ -11,6 +11,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.Game;
 import sevenislands.game.GameService;
 import sevenislands.game.round.Round;
@@ -97,11 +98,12 @@ public class TurnService {
     }
 
     @Transactional
-     public void checkUserGame(User logedUser) {
+     public void checkUserGame(User logedUser) throws NotExistLobbyException {
+       try {
         if (gameService.findGameByNickname(logedUser.getNickname()).isPresent()) {
 
             //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
-            Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId()).get();
+            Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
             Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
             List<User> userList = lobby.getPlayerInternal();
             List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream().collect(Collectors.toList());
@@ -119,6 +121,9 @@ public class TurnService {
                 }
             }
         }
+       } catch (NotExistLobbyException e) {
+         throw e;
+       }
     }
 
     @Transactional

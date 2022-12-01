@@ -4,8 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,22 +50,27 @@ public class LobbyService {
     //No se usa en ningún lado
     @Transactional
     public List<Lobby> findAll() {
-        return StreamSupport.stream(lobbyRepository.findAll().spliterator(), false).collect(Collectors.toList());
+        return lobbyRepository.findAll();
     }
 
     @Transactional(readOnly = true, rollbackFor = NotExistLobbyException.class)
-    public Optional<Lobby> findLobbyByCode(String code) throws NotExistLobbyException {
+    public Lobby findLobbyByCode(String code) throws NotExistLobbyException {
         Optional<Lobby> lobby = lobbyRepository.findByCode(code);
-        if(lobby != null){
-            return lobby;
+        if(lobby.isPresent() && lobby != null){
+            return lobby.get();
         } else {
             throw new NotExistLobbyException();
         }
     }
 
-    @Transactional(rollbackFor = NotExistLobbyException.class)
-    public Optional<Lobby> findLobbyByPlayerId(Integer user_id) {
-        return lobbyRepository.findByPlayerId(user_id);
+    @Transactional
+    public  Lobby findLobbyByPlayerId(Integer user_id) throws NotExistLobbyException {
+        Optional<Lobby> lobby = lobbyRepository.findByPlayerId(user_id);
+        if(lobby.isPresent()){
+            return lobbyRepository.findByPlayerId(user_id).get();
+        } else {
+            throw new NotExistLobbyException();
+        }
     }
 
     //No se usa en ningún lado
@@ -76,46 +79,56 @@ public class LobbyService {
 	    return lobbyRepository.findLobbyByNicknamePlayer(name)!=null;
 	}
 
-    @Transactional
-    public void createLobby(User user) {
+    public Lobby createLobbyEntity(User user) {
 		Lobby lobby = new Lobby();
 		lobby.setCode(generatorCode());
 		lobby.setActive(true);
 		lobby.addPlayer(user);
+    return lobby;
+    }
+
+    @Transactional
+    public void createLobby(User user) {
+		Lobby lobby = createLobbyEntity(user);
 		save(lobby);
     }
 
     @Transactional
-    public void leaveLobby(User user) {
-		Optional<Lobby> lobby = findLobbyByPlayerId(user.getId());
-		if(lobby.isPresent()) {
-            Lobby lobby2 = lobby.get();
-            List<User> users = lobby2.getPlayerInternal();
+    public void leaveLobby(User user) throws NotExistLobbyException {
+		
+            Lobby lobby = findLobbyByPlayerId(user.getId());
+            List<User> users = lobby.getPlayerInternal();
 		if (users.size() == minPlayers) {
-			lobby2.setActive(false);
+			lobby.setActive(false);
 		}
 		users.remove(user);
-		lobby2.setUsers(users);
-		save(lobby2);
-        }
+		lobby.setUsers(users);
+		save(lobby);
+        
+       
     }
 
     @Transactional
-    public Boolean ejectPlayer(User logedUser, User ejectedUser) {
-		Optional<Lobby> lobbyEjectedUser = findLobbyByPlayerId(ejectedUser.getId());
-        Optional<Lobby> lobbyLogedUser = findLobbyByPlayerId(logedUser.getId());
-        if(lobbyEjectedUser.isPresent() && lobbyLogedUser.isPresent() && lobbyEjectedUser.get().equals(lobbyLogedUser.get())) {
-            List<User> users = lobbyEjectedUser.get().getPlayerInternal();
+    public Boolean ejectPlayer(User logedUser, User ejectedUser) throws Exception {
+		try {
+            Lobby lobbyEjectedUser = findLobbyByPlayerId(ejectedUser.getId());
+        Lobby lobbyLogedUser = findLobbyByPlayerId(logedUser.getId());
+        Boolean res;
+        if(lobbyEjectedUser.equals(lobbyLogedUser)) {
+            List<User> users = lobbyEjectedUser.getPlayerInternal();
             if (ejectedUser.getNickname().equals(logedUser.getNickname())) {
                 leaveLobby(logedUser);
-                return false;
+                res = false;
             } else {
                 users.remove(ejectedUser);
-                lobbyEjectedUser.get().setUsers(users);
-                save(lobbyEjectedUser.get());
-                return true;
+                lobbyEjectedUser.setUsers(users);
+                save(lobbyEjectedUser);
+                res = true;
             }
-        } return true;
+        } else{res= true;} return res;
+        } catch (Exception e) {
+            throw e;
+        }
         
     }
 
@@ -123,26 +136,36 @@ public class LobbyService {
     public Boolean validateJoin(String code, User user) throws NotExistLobbyException {
         code = code.trim();
         Integer userNumber = null;
-        Optional<Lobby> lobby = findLobbyByCode(code);
-        if(lobby.isPresent()) userNumber = lobby.get().getUsers().size();
-		if (lobby.isPresent() && lobby.get().isActive() && userNumber != null && userNumber >= minPlayers && userNumber < maxPlayers) {
-			lobby.get().addPlayer(user);
-			save(lobby.get());
-            return true;
-		} else return false;
+        try {
+            Lobby lobby = findLobbyByCode(code);
+            userNumber = lobby.getUsers().size();
+            if (lobby.isActive() && userNumber != null && userNumber >= minPlayers && userNumber <= maxPlayers) {
+                lobby.addPlayer(user);
+                save(lobby);
+                return true;
+            } else return false;
+        } catch (Exception e) {
+            throw e;
+        }
+       
+        
+		
     }
 
     @Transactional
     public List<String> checkLobbyErrors(String code) throws NotExistLobbyException {
         List<String> errors = new ArrayList<>();
-		Optional<Lobby> lobby = findLobbyByCode(code);
-        if(lobby.isPresent()) {
-            Integer userNumber = lobby.get().getUsers().size();
-		    if(!lobby.get().isActive()) errors.add("La partida ya ha empezado o ha finalizado");
+        try {
+            Lobby lobby = findLobbyByCode(code);
+            Integer userNumber = lobby.getUsers().size();
+		    if(!lobby.isActive()) errors.add("La partida ya ha empezado o ha finalizado");
 		    if(userNumber == maxPlayers) errors.add("La lobby está llena");
+            return errors;
+        } catch (Exception e) {
+            throw e;
         }
-        errors.add("No existe ninguna partida con ese código");
-        return errors;
+        
+       
     }
 
     /**
@@ -157,13 +180,19 @@ public class LobbyService {
     }
 
     @Transactional
-    public Boolean checkLobbyNoAllPlayers(User logedUser) {
-        Integer userNumber = null;
-        Optional<Lobby> lobby = findLobbyByPlayerId(logedUser.getId());
-        if(lobby.isPresent()) userNumber = lobby.get().getUsers().size();
-		if (lobby.isPresent() && userNumber != null && userNumber > minPlayers && userNumber < maxPlayers) {
-            return false;
-		} else return true;
+    public Boolean checkLobbyNoAllPlayers(User logedUser) throws Exception {
+        try {
+            Integer userNumber = null;
+        Lobby lobby = findLobbyByPlayerId(logedUser.getId());
+        Boolean res;
+        userNumber = lobby.getUsers().size();
+		if (userNumber != null && userNumber > minPlayers && userNumber < maxPlayers) {
+            res = false;
+		} else {res= true;}
+        return res;
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     @Transactional
