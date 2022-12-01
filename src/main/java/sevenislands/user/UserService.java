@@ -23,6 +23,8 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.fasterxml.jackson.databind.node.BooleanNode;
+
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
 
@@ -43,6 +45,23 @@ public class UserService {
 		this.lobbyService = lobbyService;
 		this.authenticationManager = authenticationManager;
 	}
+	
+	public User createUser(Integer id, String nickname,String email) {
+        User userCreate;
+        userCreate = new User();
+        userCreate.setId(id);
+        userCreate.setNickname(nickname);
+        userCreate.setEmail(email);
+        userCreate.setPassword("pass");
+        userCreate.setEnabled(true);
+        userCreate.setFirstName("Prueba");
+        userCreate.setLastName("Probando");
+        userCreate.setBirthDate(new Date(System.currentTimeMillis()));
+        userCreate.setAvatar("resource/images/avatars/playerAvatar.png");
+        userCreate.setUserType("player");
+
+        return userCreate;
+    }
 
 	@Transactional
 	public void save(User user) throws IllegalArgumentException {
@@ -132,8 +151,9 @@ public class UserService {
 	}
 
 	@Transactional
-	public Boolean deleteUser(Integer id, User logedUser) {
-		Optional<User> userDeleted = findUserById(id);
+	public Boolean deleteUser(Integer id, User logedUser) throws Exception {
+		try {
+			Optional<User> userDeleted = findUserById(id);
 		if(userDeleted.isPresent()) {
 			List<SessionInformation> infos = sessionRegistry.getAllSessions(userDeleted.get().getNickname(), false);
 			for(SessionInformation info : infos) {
@@ -143,16 +163,19 @@ public class UserService {
 				deleteUserById(id);
 				return false;
 			}else{
-				if(lobbyService.findLobbyByPlayerId(userDeleted.get().getId()).isPresent()) {
-					Lobby Lobby = lobbyService.findLobbyByPlayerId(id).get();
+
+					Lobby Lobby = lobbyService.findLobbyByPlayerId(id);
 					List<User> userList = Lobby.getPlayerInternal();
 					userList.remove(userDeleted.get());
 					Lobby.setUsers(userList);
 					lobbyService.save(Lobby);
-				}
+				
 				deleteUserById(id);
 			} 
 		} return true;
+		} catch (Exception e) {
+			throw e;
+		}
 	}
 
 	/**
@@ -188,27 +211,33 @@ public class UserService {
      * <p> En este caso, si el usuario estaba en una lobby es expulsado.
      * @param request (Importar HttpServletRequest request en la función)
      * @return true (si está baneado o no se encuentra en la base de datos) o false (en otro caso)
-     * @throws ServletException
+	 * @throws Exception
      */
 	@Transactional
-    public Boolean checkUser(HttpServletRequest request, User logedUser) throws ServletException {
-        if(logedUser!=null && logedUser.isEnabled()) {
-			Optional<Lobby> lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
-            if (lobby.isPresent()) {
-                List<User> users = lobby.get().getPlayerInternal();
+    public Boolean checkUser(HttpServletRequest request, User logedUser) throws Exception {
+		try {
+		   Boolean res;
+		if(logedUser!=null && logedUser.isEnabled()) {
+			Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
+    
+                List<User> users = lobby.getPlayerInternal();
                 if (users.size() == 1) {
-                    lobby.get().setActive(false);
+                    lobby.setActive(false);
                 }
                 users.remove(logedUser);
-                lobby.get().setUsers(users);
-                lobbyService.save(lobby.get());
-            }
-            return false;
+                lobby.setUsers(users);
+                lobbyService.save(lobby);
+            
+            res = false;
         } else {
             request.getSession().invalidate();
             request.logout();
-            return true;
+            res = true;
         }
+		return res;
+	   } catch (Exception e) {
+		throw e;
+	   }
     }
 
 	@Transactional

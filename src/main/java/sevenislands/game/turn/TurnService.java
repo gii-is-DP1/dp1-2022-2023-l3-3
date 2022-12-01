@@ -97,11 +97,12 @@ public class TurnService {
     }
 
     @Transactional
-     public void checkUserGame(User logedUser) {
+     public void checkUserGame(User logedUser) throws Exception {
+       try {
         if (gameService.findGameByNickname(logedUser.getNickname()).isPresent()) {
 
             //TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que existe
-            Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId()).get();
+            Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
             Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
             List<User> userList = lobby.getPlayerInternal();
             List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream().collect(Collectors.toList());
@@ -119,6 +120,9 @@ public class TurnService {
                 }
             }
         }
+       } catch (Exception e) {
+         throw e;
+       }
     }
 
     @Transactional

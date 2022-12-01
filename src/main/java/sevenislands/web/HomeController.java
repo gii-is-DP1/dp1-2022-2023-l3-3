@@ -27,10 +27,15 @@ public class HomeController {
 	
 	@GetMapping("/home")
 	public String home(ModelMap model, HttpServletRequest request, @ModelAttribute("logedUser") User logedUser) throws ServletException {
-		turnService.checkUserGame(logedUser);
-		if(userService.checkUser(request, logedUser)) return "redirect:/";   
-		model.put("user", logedUser);
-		return "views/home";
+		try {
+			turnService.checkUserGame(logedUser);
+			userService.checkUser(request, logedUser);
+			model.put("user", logedUser);
+			return "views/home";
+		} catch (Exception e) {
+			return "redirect:/";   
+		}
+		
 	}
 }
 

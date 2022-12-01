@@ -1,8 +1,5 @@
 package sevenislands.game;
 
-import java.util.Optional;
-
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -20,6 +17,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 public class GameController {
 
     private static final String VIEWS_GAME_ASIGN_TURN = "game/asignTurn"; // vista para decidir turnos
+    private static final String VIEW_WELCOME = "redirect:/"; // vista para welcome
+    private static final String VIEWS_HOME =  "redirect:/home"; // vista para home
+    private static final String VIEWS_TURN =  "redirect:/turn"; // vista para turn
+    private static final String VIEWS_LOBBY =  "redirect:/lobby"; // vista para lobby
 
     private final GameService gameService;
     private final LobbyService lobbyService;
@@ -33,17 +34,21 @@ public class GameController {
     }
 
     @GetMapping("/game")
-    public String createGame(HttpServletRequest request, @ModelAttribute("logedUser") User logedUser, HttpServletResponse response) throws ServletException {
-        if(userService.checkUserNoExists(request)) return "redirect:/";
-        if(lobbyService.checkUserNoLobby(logedUser)) return "redirect:/home";
-        if(lobbyService.checkLobbyNoAllPlayers(logedUser)) return "redirect:/lobby";
-        if(gameService.checkUserGameWithRounds(logedUser)) return "redirect:/turn";
+    public String createGame(HttpServletRequest request, @ModelAttribute("logedUser") User logedUser, HttpServletResponse response) throws Exception {
+        if(userService.checkUserNoExists(request)) return VIEW_WELCOME;
+        if(lobbyService.checkUserNoLobby(logedUser)) return VIEWS_HOME;
+        if(lobbyService.checkLobbyNoAllPlayers(logedUser)) return VIEWS_LOBBY;
+        if(gameService.checkUserGameWithRounds(logedUser)) return VIEWS_TURN;
         response.addHeader("Refresh", "5");
-        Optional<Lobby> lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
-        if(lobby.isPresent() && gameService.findGameByNickname(logedUser.getNickname()).isEmpty()) {
-            gameService.initGame(lobby.get());
-            lobbyService.disableLobby(lobby.get());
+       try {
+        Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
+        if(gameService.findGameByNickname(logedUser.getNickname()).isEmpty()) {
+            gameService.initGame(lobby);
+            lobbyService.disableLobby(lobby);
         }
         return VIEWS_GAME_ASIGN_TURN;
+       } catch (Exception e) {
+        return VIEWS_HOME;
+       }
     }
 }
