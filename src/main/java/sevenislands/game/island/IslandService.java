@@ -34,9 +34,4 @@ public class IslandService {
     public void save(Island island) {
         islandRepository.save(island);
     }
-
-    @Transactional
-    public void update(Island island, int island_id) {
-        islandRepository.updateIsland(island, island_id);
-    }
 }

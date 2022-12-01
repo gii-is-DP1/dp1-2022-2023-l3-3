@@ -1,9 +1,8 @@
 package sevenislands.user;
 
-import java.security.Principal;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
@@ -16,12 +15,13 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import sevenislands.exceptions.NotExitPlayerException;
-import sevenislands.tools.entityAssistant;
+import sevenislands.tools.metodosReutilizables;
 
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -41,34 +41,34 @@ public class UserController {
 	}
 
 	@GetMapping("/settings")
-	public String initUpdateOwnerForm(HttpServletRequest request, Map<String, Object> model, Principal principal) throws ServletException {
-		if(userService.checkUser(request)) return "redirect:/";
-		User user = userService.findUser(principal.getName());
-		user.setPassword("");
-		model.put("user", user);
+	public String initUpdateOwnerForm(HttpServletRequest request, ModelMap model, @ModelAttribute("logedUser") User logedUser) throws ServletException {
+		if(userService.checkUser(request, logedUser)) return "redirect:/";
+		logedUser.setPassword("");
+		model.put("user", logedUser);
 		return VIEWS_PLAYER_UPDATE_FORM;
 	}
 
 	@PostMapping("/settings")
-	public String processUpdateplayerForm(Map<String, Object> model, @Valid User user, BindingResult result, Principal principal) {
+	public String processUpdateplayerForm(HttpServletRequest request, ModelMap model, @Valid User user, BindingResult result, @ModelAttribute("logedUser") User logedUser) {
 		String password = user.getPassword();
-		User authUser = userService.findUser(principal.getName());
-		User userFoundN = userService.findUser(user.getNickname());
-		User userFoundE = userService.findUserByEmail(user.getEmail());
-		if (result.hasErrors()) {
+		if(result.hasErrors()) {
 			return VIEWS_PLAYER_UPDATE_FORM;
-		} else if(userService.updateUser(user, principal, authUser, userFoundN, userFoundE)) {
-			//Cambia las credenciales(token) a las credenciales actualizadas
-			entityAssistant.loginUser(user, password); 
+		}
+		try {
+			userService.updateUser(user, logedUser.getNickname(), 2);
+			userService.loginUser(user, password, request); 
 			return "redirect:/home";
-		} else {
-			user.setPassword("");
+		} catch (Exception e) {
 			List<String> errors = new ArrayList<>();
-			if(userFoundN != null && !userFoundN.getId().equals(authUser.getId())) errors.add("El nombre de usuario ya está en uso.");
-			if(password.length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
-			if(userFoundE != null && !userFoundE.getId().equals(authUser.getId())) errors.add("El email ya está en uso.");
-			if(!userService.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
-			
+			if(e.getMessage().contains("PUBLIC.USER(NICKNAME)")) {
+				errors.add("El nombre de usuario ya esta en uso");
+			}
+			else if (e.getMessage().contains("PUBLIC.USER(EMAIL)")){
+				errors.add("El email ya esta en uso");
+			} else {
+				errors.add(e.getMessage());
+			}
+			user.setPassword("");
 			model.put("errors", errors);
 			return VIEWS_PLAYER_UPDATE_FORM;
 		}
@@ -85,9 +85,9 @@ public class UserController {
 	 * @throws NotExitPlayerException
 	 */
     @RequestMapping(value = "/controlPanel", method = RequestMethod.GET)
-	public String listUsersPagination(Model model, @RequestParam Integer valor) throws NotExitPlayerException{
+	public String listUsersPagination(ModelMap model, @RequestParam Integer valor) throws NotExitPlayerException{
 		Page<User> paginacion=null;
-		Integer totalUsers=(userService.findAll().size())/5;
+		Integer totalUsers=(userService.findAll().size()-1)/5;
 		Pageable page2=PageRequest.of(valor,5);
 		paginacion=userService.findAllUser(page2);
 		model.addAttribute("paginas", totalUsers);
@@ -105,9 +105,10 @@ public class UserController {
 	 * @param id
 	 * @return
 	 */
-    @GetMapping("/controlPanel/delete/{id}")
-	public String deleteUser(Principal principal, @PathVariable("id") Integer id){
-		if(userService.deleteUser(id, principal)) return "redirect:/controlPanel?valor=0";
+	
+    @GetMapping("/controlPanel/delete/{idUserDeleted}")
+	public String deleteUser(@ModelAttribute("logedUser") User logedUser, @PathVariable("idUserDeleted") Integer id){
+		if(userService.deleteUser(id, logedUser)) return "redirect:/controlPanel?valor="+metodosReutilizables.DeletePaginaControlPanel(id);
 		return "redirect:/";
 	}
 
@@ -119,9 +120,9 @@ public class UserController {
 	 * @param id
 	 * @return
 	 */
-	@GetMapping("/controlPanel/enable/{id}")
-	public String enableUser(Principal principal, @PathVariable("id") Integer id){
-		if(userService.enableUser(id, principal)) return "redirect:/controlPanel?valor=0";
+	@GetMapping("/controlPanel/enable/{idUserEdited}")
+	public String enableUser(@ModelAttribute("logedUser") User logedUser, @PathVariable("idUserEdited") Integer id){
+		if(userService.enableUser(id, logedUser)) return "redirect:/controlPanel?valor="+metodosReutilizables.EditPaginaControlPanel(id);
 		return "redirect:/";
 	}
 
@@ -131,7 +132,7 @@ public class UserController {
 	 * @return
 	 */
 	@GetMapping("/controlPanel/add")
-	public String addUser(Map<String, Object> model) {
+	public String addUser(ModelMap model) {
 		model.put("user", new User());
 		model.put("types", userService.findDistinctAuthorities());
 		return "admin/addUser";
@@ -146,23 +147,28 @@ public class UserController {
 	 * @return
 	 */
 	@PostMapping("/controlPanel/add")
-	public String processCreationUserForm(Map<String, Object> model, @Valid User user, BindingResult result) {
+	public String processCreationUserForm(ModelMap model, @Valid User user, BindingResult result) {
 		if(result.hasErrors()) return "admin/addUser";
 		
 		try {
-			if(userService.addUser(user)) return "redirect:/controlPanel/add";
+			userService.addUser(user, true, null, null);
+			 return "redirect:/controlPanel/add";
 		} catch (Exception e) {
-			// TODO: handle exception
+			user.setPassword("");
+			List<String> errors = new ArrayList<>();
+			if(e.getMessage().contains("PUBLIC.USER(NICKNAME)")) {
+				errors.add("El nombre de usuario ya esta en uso");
+			} else if (e.getMessage().contains("PUBLIC.USER(EMAIL)")){
+				errors.add("El email ya esta en uso");
+			} else {
+				errors.add(e.getMessage());
+			}		
+			model.put("types", userService.findDistinctAuthorities());
+			model.put("errors", errors);
+			return "admin/addUser";
 		}
-		user.setPassword("");
-		List<String> errors = new ArrayList<>();
-		if(userService.checkUserByName(user.getNickname())) errors.add("El nombre de usuario ya está en uso.");
-		if(user.getPassword().length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
-		if(userService.checkUserByEmail(user.getEmail())) errors.add("El email ya está en uso.");
-		if(!userService.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
-		model.put("errors", errors);
-		model.put("types", userService.findDistinctAuthorities());
-		return "admin/addUser";
+		
+		
 	}
 
 	/**
@@ -171,17 +177,20 @@ public class UserController {
 	 * @param model
 	 * @return
 	 */
-	@GetMapping("/controlPanel/edit/{id}")
-	public String editUser(@PathVariable Integer id, Map<String, Object> model) {
-		User user = userService.findUser(id);
-		List<String> authList = userService.findDistinctAuthorities();
-		user.setPassword("");
-		authList.remove(user.getUserType());
-		authList.add(0, user.getUserType());
-		model.put("user", user);
-		model.put("types", authList);
-		model.put("enabledValues", List.of(Boolean.valueOf(user.isEnabled()).toString(), Boolean.valueOf(!user.isEnabled()).toString()));
-		return "admin/editUser";
+	@GetMapping("/controlPanel/edit/{idUserEdited}")
+	public String editUser(@PathVariable("idUserEdited") Integer id, ModelMap model) {
+		Optional<User> userEdited = userService.findUserById(id);
+		if(userEdited.isPresent()) {
+			List<String> authList = userService.findDistinctAuthorities();
+			userEdited.get().setPassword("");
+			authList.remove(userEdited.get().getUserType());
+			authList.add(0, userEdited.get().getUserType());
+			model.put("user", userEdited.get());
+			model.put("types", authList);
+			model.put("enabledValues", List.of(Boolean.valueOf(userEdited.get().isEnabled()).toString(), Boolean.valueOf(!userEdited.get().isEnabled()).toString()));
+			return "admin/editUser";
+		} else return "redirect:/controlPanel/?valor=0";
+		
 	}
 
 	/**
@@ -193,25 +202,29 @@ public class UserController {
 	 * @param result
 	 * @return
 	 */
-	@PostMapping("/controlPanel/edit/{id}")
-	public String processEditUserForm(Map<String, Object> model, @PathVariable Integer id, @Valid User user, BindingResult result) {
+	@PostMapping("/controlPanel/edit/{idUserEdited}")
+	public String processEditUserForm(ModelMap model, @PathVariable("idUserEdited") Integer id, @Valid User user, BindingResult result) {
 		if(result.hasErrors()) {
 			return "admin/editUser";
 		}
-		User userEdited = userService.findUser(id);
-		User userFoundN = userService.findUser(user.getNickname());
-		User userFoundE = userService.findUserByEmail(user.getEmail());
-		if(userService.editUser(id, user, userEdited, userFoundN, userFoundE)) return "redirect:/controlPanel?valor=0";
-
-		List<String> errors = new ArrayList<>();
-		if(userFoundN != null && !userFoundN.getId().equals(userEdited.getId())) errors.add("El nombre de usuario ya está en uso.");
-		if(user.getPassword().length()<8) errors.add("La contraseña debe tener al menos 8 caracteres");
-		if(userFoundE != null && !userFoundE.getId().equals(userEdited.getId())) errors.add("El email ya está en uso.");
-		if(!userService.checkEmail(user.getEmail())) errors.add("Debe introducir un email válido.");
-		user.setPassword("");
-		model.put("errors", errors);
-		model.put("enabledValues", List.of(Boolean.valueOf(user.isEnabled()).toString(), Boolean.valueOf(!user.isEnabled()).toString()));
-		return "admin/editUser";
+		try {
+			userService.updateUser(user, id.toString(), 3);
+			return "redirect:/controlPanel?valor=0";
+		} catch (Exception e) {
+			List<String> errors = new ArrayList<>();
+			if(e.getMessage().contains("PUBLIC.USER(NICKNAME)")) {
+				errors.add("El nombre de usuario ya esta en uso");
+			} else if (e.getMessage().contains("PUBLIC.USER(EMAIL)")){
+				errors.add("El email ya esta en uso");
+			} else {
+				errors.add(e.getMessage());
+			}
+			user.setPassword("");
+			model.put("errors", errors);
+			model.put("enabledValues", List.of(Boolean.valueOf(user.isEnabled()).toString(), Boolean.valueOf(!user.isEnabled()).toString()));
+			return "admin/editUser";
+		}
+		
 	}
 
 }

@@ -11,12 +11,13 @@ import org.springframework.stereotype.Repository;
 public interface GameRepository extends CrudRepository<Game, Integer> {
 
     @Query("SELECT game FROM Game game WHERE game.lobby.id=?1")
-    public Optional<Game> findGamebByLobbyId(Integer code);
-
+    public Optional<Game> findGamebByLobbyId(Integer code);@Query("SELECT game FROM Game game WHERE game.lobby.id=?1")
+   
     @Query("SELECT count(game) FROM Game game")
     public Integer getNumOfGames();
 
-    //SELECT G.ID  FROM GAME G JOIN LOBBY L ON  G.LOBBY_ID = L.ID INNER JOIN USER U WHERE U.NICKNAME='player1'
+     //SELECT G.ID  FROM GAME G JOIN LOBBY L ON  G.LOBBY_ID = L.ID INNER JOIN USER U WHERE U.NICKNAME='player1'
     @Query("SELECT g.id FROM Game g INNER JOIN g.lobby l INNER JOIN l.users u WHERE u.nickname=?1 AND g.active=true")
     public Integer findGameByNickname(String nickname);
+    
 }
