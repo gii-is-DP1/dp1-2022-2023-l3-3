@@ -46,12 +46,11 @@ public class UserController {
 			userService.checkUser(request, logedUser);
 			logedUser.setPassword("");
 			model.put("user", logedUser);
+			return VIEWS_PLAYER_UPDATE_FORM;
 		} catch (Exception e) {
 			return "redirect:/";
 		}
 		
-		
-		return VIEWS_PLAYER_UPDATE_FORM;
 	}
 
 	@PostMapping("/settings")

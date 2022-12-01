@@ -11,6 +11,7 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.Game;
 import sevenislands.game.GameService;
 import sevenislands.game.round.Round;
@@ -97,7 +98,7 @@ public class TurnService {
     }
 
     @Transactional
-     public void checkUserGame(User logedUser) throws Exception {
+     public void checkUserGame(User logedUser) throws NotExistLobbyException {
        try {
         if (gameService.findGameByNickname(logedUser.getNickname()).isPresent()) {
 
@@ -120,7 +121,7 @@ public class TurnService {
                 }
             }
         }
-       } catch (Exception e) {
+       } catch (NotExistLobbyException e) {
          throw e;
        }
     }

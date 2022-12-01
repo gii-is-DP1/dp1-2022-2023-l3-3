@@ -91,13 +91,18 @@ public class LobbyController {
 	}
 
 	@GetMapping("/lobby/delete")
-	public String leaveLobby(@ModelAttribute("logedUser") User logedUser) throws Exception {
-		try {
-			lobbyService.leaveLobby(logedUser);
-		} catch (Exception e) {
-			
-		}
-		return "redirect:/home";
+	public String leaveLobby(@ModelAttribute("logedUser") User logedUser)  {
+
+			try {
+				lobbyService.leaveLobby(logedUser);
+			} catch (NotExistLobbyException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return "redirect:/home";
+			}
+			return "redirect:/home";
+		
+		
 	}
 
 	@GetMapping("/lobby/players")

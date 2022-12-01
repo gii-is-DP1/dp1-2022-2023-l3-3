@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.fasterxml.jackson.databind.node.BooleanNode;
 
+import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
 
@@ -211,12 +212,13 @@ public class UserService {
      * <p> En este caso, si el usuario estaba en una lobby es expulsado.
      * @param request (Importar HttpServletRequest request en la función)
      * @return true (si está baneado o no se encuentra en la base de datos) o false (en otro caso)
+	 * @throws ServletException
 	 * @throws Exception
      */
 	@Transactional
-    public Boolean checkUser(HttpServletRequest request, User logedUser) throws Exception {
+    public Boolean checkUser(HttpServletRequest request, User logedUser) throws NotExistLobbyException, ServletException {
+		Boolean res;
 		try {
-		   Boolean res;
 		if(logedUser!=null && logedUser.isEnabled()) {
 			Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
     
@@ -236,7 +238,8 @@ public class UserService {
         }
 		return res;
 	   } catch (Exception e) {
-		throw e;
+		res = false;
+		return res;
 	   }
     }
 

@@ -63,9 +63,10 @@ public class LobbyService {
         }
     }
 
-    @Transactional(rollbackFor = NotExistLobbyException.class)
+    @Transactional
     public  Lobby findLobbyByPlayerId(Integer user_id) throws NotExistLobbyException {
-        if(lobbyRepository.findByPlayerId(user_id).isPresent()){
+        Optional<Lobby> lobby = lobbyRepository.findByPlayerId(user_id);
+        if(lobby.isPresent()){
             return lobbyRepository.findByPlayerId(user_id).get();
         } else {
             throw new NotExistLobbyException();
@@ -93,8 +94,8 @@ public class LobbyService {
     }
 
     @Transactional
-    public void leaveLobby(User user) throws Exception {
-		try {
+    public void leaveLobby(User user) throws NotExistLobbyException {
+		
             Lobby lobby = findLobbyByPlayerId(user.getId());
             List<User> users = lobby.getPlayerInternal();
 		if (users.size() == minPlayers) {
@@ -104,9 +105,7 @@ public class LobbyService {
 		lobby.setUsers(users);
 		save(lobby);
         
-        } catch (Exception e) {
-            throw e;
-        }
+       
     }
 
     @Transactional
