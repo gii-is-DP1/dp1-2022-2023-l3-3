@@ -33,33 +33,33 @@ INSERT INTO turn(user_id, round_id, start_time) VALUES (8,1, '2022-11-16 02:52:1
 INSERT INTO turn(user_id, round_id, start_time) VALUES (9,1,'2022-11-16 18:52:12');
 
 -- -- -- CARD --
-INSERT INTO card(tipo, name, multiplicity) VALUES ('Moneda', 'Doblon', 27);
-INSERT INTO card(tipo, name, multiplicity) VALUES ('Tesoro', 'Caliz', 3);
-INSERT INTO card(tipo, name, multiplicity) VALUES ('Tesoro', 'Rubi', 3);
-INSERT INTO card(tipo, name, multiplicity) VALUES ('Tesoro', 'Diamante', 3);
-INSERT INTO card(tipo, name, multiplicity) VALUES ('Tesoro', 'Collar', 4);
-INSERT INTO card(tipo, name, multiplicity) VALUES ('Tesoro', 'MapaTesoro', 4);
-INSERT INTO card(tipo, name, multiplicity) VALUES ('Tesoro', 'Corona', 4);
-INSERT INTO card(tipo, name, multiplicity) VALUES ('Tesoro', 'Revolver', 6);
-INSERT INTO card(tipo, name, multiplicity) VALUES ('Tesoro', 'Espada', 6);
-INSERT INTO card(tipo, name, multiplicity) VALUES ('Tesoro', 'BarrillRon', 6);
+INSERT INTO treasure(name) VALUES ('Doblon'); --27
+INSERT INTO treasure(name) VALUES ('Caliz'); --3
+INSERT INTO treasure(name) VALUES ('Rubi'); --3
+INSERT INTO treasure(name) VALUES ('Diamante'); --3
+INSERT INTO treasure(name) VALUES ('Collar'); --4
+INSERT INTO treasure(name) VALUES ('MapaTesoro'); --4
+INSERT INTO treasure(name) VALUES ('Corona'); --4
+INSERT INTO treasure(name) VALUES ('Revolver'); --6
+INSERT INTO treasure(name) VALUES ('Espada'); --6
+INSERT INTO treasure(name) VALUES ('BarrillRon'); --6
 
 -- -- -- -- ISLA --
-INSERT INTO island(island_number) VALUES (1);
-INSERT INTO island(island_number,game_id) VALUES (2,1);
-INSERT INTO island(island_number, game_id) VALUES (3,1);
-INSERT INTO island(island_number, game_id) VALUES (4,1);
-INSERT INTO island(island_number, game_id) VALUES (5,1);
-INSERT INTO island(island_number, game_id) VALUES (6,1);
+INSERT INTO island(island_number, game_id, treasure_id) VALUES (1,1,1);
+INSERT INTO island(island_number, game_id, treasure_id) VALUES (2,1,2);
+INSERT INTO island(island_number, game_id, treasure_id) VALUES (3,1,3);
+INSERT INTO island(island_number, game_id, treasure_id) VALUES (4,1,4);
+INSERT INTO island(island_number, game_id, treasure_id) VALUES (5,1,5);
+INSERT INTO island(island_number, game_id, treasure_id) VALUES (6,1,6);
 
 -- -- -- CARTA_ISLA --
-INSERT INTO card_islands(card_id,islands_id) VALUES (1,1);
-INSERT INTO card_islands(card_id,islands_id) VALUES (1,2);
-INSERT INTO card_islands(card_id,islands_id) VALUES (2,3);
-INSERT INTO card_islands(card_id,islands_id) VALUES (3,4);
+-- INSERT INTO island_treasure(island_id, treasure_id) VALUES (1,1);
+-- INSERT INTO island_treasure(island_id, treasure_id) VALUES (2,1);
+-- INSERT INTO island_treasure(island_id, treasure_id) VALUES (3,2);
+-- INSERT INTO island_treasure(island_id, treasure_id) VALUES (4,3);
 
 
 -- -- -- -- -- TURNO_CARTA --
-INSERT INTO turn_cards(turn_id,cards_id) VALUES (1, 1);
-INSERT INTO turn_cards(turn_id,cards_id) VALUES (1, 1);
-INSERT INTO turn_cards(turn_id,cards_id) VALUES (1, 1);
+INSERT INTO turn_treasures(turn_id,treasures_id) VALUES (1, 1);
+INSERT INTO turn_treasures(turn_id,treasures_id) VALUES (1, 1);
+INSERT INTO turn_treasures(turn_id,treasures_id) VALUES (1, 1);
