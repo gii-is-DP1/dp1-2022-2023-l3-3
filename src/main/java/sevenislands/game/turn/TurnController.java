@@ -86,7 +86,7 @@ public class TurnController {
 
         if(logedUser.getId()==lastTurn.getUser().getId()) {
             if(turnList.size()>=userList.size()) return "redirect:/turn/newRound";
-            turnService.initTurn(logedUser, round, userList);
+            turnService.initTurn(logedUser, round, userList, null);
         } 
         return "redirect:/turn";
     }

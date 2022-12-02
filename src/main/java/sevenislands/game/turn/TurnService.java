@@ -71,7 +71,7 @@ public class TurnService {
     }
 
     @Transactional
-    public void initTurn(User logedUser, Round round, List<User> userList) {
+    public void initTurn(User logedUser, Round round, List<User> userList, List<Treasure> treasures) {
         Turn turn = new Turn();
         Integer nextUser = (userList.indexOf(logedUser)+1)%userList.size();
         turn.setStartTime(LocalDateTime.now());
@@ -91,21 +91,15 @@ public class TurnService {
     @Transactional
     public void assignTurn(User logedUser, Optional<Game> game, List<User> userList, List<Round> roundList) {
         Round round = new Round();
-        Turn turn = new Turn();
-    
         round.setGame(game.get());
-        turn.setRound(round);
-        turn.setStartTime(LocalDateTime.now());
         if(roundService.findRoundsByGameId(game.get().getId()).isEmpty()) {
             dealtreasures(logedUser, game, userList, roundList);
-            turn.setUser(logedUser);
+            Integer prevUser = userList.indexOf(logedUser)==0?userList.size()-1:userList.indexOf(logedUser)-1;
             roundService.save(round);
-            save(turn);
+            initTurn(userList.get(prevUser), round, userList, null);
         } else if (findByRoundId(roundList.get(roundList.size()-1).getId()).size() >= userList.size()) { 
-            Integer nextUser = (userList.indexOf(logedUser)+1)%userList.size();
-            turn.setUser(userList.get(nextUser));
             roundService.save(round);
-            save(turn);
+            initTurn(logedUser, round, userList, null);
         }
     }
 
