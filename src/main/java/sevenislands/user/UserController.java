@@ -114,9 +114,10 @@ public class UserController {
     @GetMapping("/controlPanel/delete/{idUserDeleted}")
 	public String deleteUser(@ModelAttribute("logedUser") User logedUser, @PathVariable("idUserDeleted") Integer id){
 		try {
-			if(userService.deleteUser(id, logedUser)) return "redirect:/controlPanel?valor="+metodosReutilizables.DeletePaginaControlPanel(id);
+			if(userService.deleteUser(id, logedUser)|| logedUser.getUserType().equals("admin")) return "redirect:/controlPanel?valor="+metodosReutilizables.DeletePaginaControlPanel(id);
 			else return "redirect:/";
 		} catch (Exception e) {
+			System.out.println(e.getMessage());
 			return "redirect:/";
 		}
 		

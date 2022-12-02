@@ -160,11 +160,7 @@ public class UserService {
 			for(SessionInformation info : infos) {
 				info.expireNow(); //Termina la sesión
 			}
-			if(userDeleted.get().getNickname().equals(logedUser.getNickname())){
-				deleteUserById(id);
-				return false;
-			}else{
-
+			try{
 					Lobby Lobby = lobbyService.findLobbyByPlayerId(id);
 					List<User> userList = Lobby.getPlayerInternal();
 					userList.remove(userDeleted.get());
@@ -172,8 +168,11 @@ public class UserService {
 					lobbyService.save(Lobby);
 				
 				deleteUserById(id);
-			} 
-		} return true;
+		}catch(Exception e){
+			deleteUserById(id);
+			return true;
+		}
+		} return false;
 		} catch (Exception e) {
 			throw e;
 		}
