@@ -77,6 +77,12 @@ public class TurnService {
         turn.setStartTime(LocalDateTime.now());
         turn.setRound(round);
         turn.setUser(userList.get(nextUser));
+        List<Treasure> treasureList = new ArrayList<>();
+        if(treasures==null) {
+            Turn prevTurn = turnRepository.findTurnByNickname(userList.get(nextUser).getNickname()).get(0);
+            treasureList.addAll(prevTurn.getTreasures());
+        } else treasureList.addAll(treasures);
+        turn.setTreasures(treasureList);
         save(turn);
     }
 
@@ -161,14 +167,13 @@ public class TurnService {
                 Round lastRound = roundList.get(roundList.size()-1);
                 List<Turn> turnList = findByRoundId(lastRound.getId());
                 Turn lastTurn = turnList.get(turnList.size()-1);
-                if(lastTurn.getUser().getId()==logedUser.getId()) {
-                    Turn turn = new Turn();
-                    Integer nextUser = (userList.indexOf(logedUser)+1)%userList.size();
-                    turn.setStartTime(LocalDateTime.now());
-                    turn.setRound(lastRound);
-                    turn.setUser(userList.get(nextUser));
-                    save(turn);
+                if(lastTurn.getUser().getId()==logedUser.getId() && userList.size()>1) {
+                    initTurn(logedUser, lastRound, userList, null);
                 }
+            }
+            if (userList.size()==1) {
+                game.get().setActive(false);
+                gameService.save(game.get());
             }
         }
     }

@@ -13,7 +13,6 @@ import javax.validation.constraints.Past;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import sevenislands.card.Card;
 import sevenislands.lobby.Lobby;
 import sevenislands.model.BaseEntity;
 
