@@ -33,16 +33,16 @@ INSERT INTO turn(user_id, round_id, start_time) VALUES (8,1, '2022-11-16 02:52:1
 INSERT INTO turn(user_id, round_id, start_time) VALUES (9,1,'2022-11-16 18:52:12');
 
 -- -- -- CARD --
-INSERT INTO treasure(name) VALUES ('Doblon'); --27
-INSERT INTO treasure(name) VALUES ('Caliz'); --3
-INSERT INTO treasure(name) VALUES ('Rubi'); --3
-INSERT INTO treasure(name) VALUES ('Diamante'); --3
-INSERT INTO treasure(name) VALUES ('Collar'); --4
-INSERT INTO treasure(name) VALUES ('MapaTesoro'); --4
-INSERT INTO treasure(name) VALUES ('Corona'); --4
-INSERT INTO treasure(name) VALUES ('Revolver'); --6
-INSERT INTO treasure(name) VALUES ('Espada'); --6
-INSERT INTO treasure(name) VALUES ('BarrillRon'); --6
+INSERT INTO treasure(name) VALUES ('doblon'); --27
+INSERT INTO treasure(name) VALUES ('caliz'); --3
+INSERT INTO treasure(name) VALUES ('rubi'); --3
+INSERT INTO treasure(name) VALUES ('diamante'); --3
+INSERT INTO treasure(name) VALUES ('collar'); --4
+INSERT INTO treasure(name) VALUES ('mapa'); --4
+INSERT INTO treasure(name) VALUES ('corona'); --4
+INSERT INTO treasure(name) VALUES ('revolver'); --6
+INSERT INTO treasure(name) VALUES ('espada'); --6
+INSERT INTO treasure(name) VALUES ('barril'); --6
 
 -- -- -- -- ISLA --
 INSERT INTO island(island_number, game_id, treasure_id) VALUES (1,1,1);

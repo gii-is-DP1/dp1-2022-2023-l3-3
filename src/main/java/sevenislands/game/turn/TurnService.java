@@ -113,7 +113,7 @@ public class TurnService {
     public void dealtreasures(User logedUser, Optional<Game> game, List<User> userList, List<Round> roundList) {
         Round round = new Round();
         cardService.initGameCards(game.get());
-        Treasure doblon = treasureService.findTreasureByName("Doblon").get();
+        Treasure doblon = treasureService.findTreasureByName("doblon").get();
         List<Treasure> treasureList = new ArrayList<>();
         round.setGame(game.get());
         treasureList.add(doblon);
@@ -127,7 +127,7 @@ public class TurnService {
             turn.setStartTime(LocalDateTime.now());
             turn.setUser(user);
             turn.setTreasures(treasureList);
-            Card doblones = cardService.findCardByGameAndTreasure(game.get().getId(), "Doblon");
+            Card doblones = cardService.findCardByGameAndTreasure(game.get().getId(), "doblon");
             doblones.setMultiplicity(doblones.getMultiplicity()-3);
             cardService.save(doblones);
             save(turn);

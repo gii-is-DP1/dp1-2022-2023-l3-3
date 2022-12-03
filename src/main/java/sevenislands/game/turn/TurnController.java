@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import sevenislands.game.Game;
 import sevenislands.game.GameService;
+import sevenislands.game.island.Island;
+import sevenislands.game.island.IslandService;
 import sevenislands.game.round.Round;
 import sevenislands.game.round.RoundService;
 import sevenislands.lobby.Lobby;
@@ -36,14 +38,16 @@ public class TurnController {
     private final RoundService roundService;
     private final LobbyService lobbyService;
     private final GameService gameService;
+    private final IslandService islandService;
 
     @Autowired
-    public TurnController(GameService gameService, LobbyService lobbyService, RoundService roundService, TurnService turnService, UserService userService) {
+    public TurnController(GameService gameService, LobbyService lobbyService, RoundService roundService, TurnService turnService, IslandService islandService, UserService userService) {
         this.turnService = turnService;
         this.userService = userService;
         this.roundService = roundService;
         this.lobbyService = lobbyService;
         this.gameService = gameService;
+        this.islandService = islandService;
     }
 
     @GetMapping("/turn")
@@ -57,10 +61,12 @@ public class TurnController {
         Round round = roundList.get(roundList.size()-1);
         List<Turn> turnList = turnService.findByRoundId(round.getId());
         Turn lastTurn = turnList.get(turnList.size()-1);
+        List<Island> islandList = islandService.findIslandsByGameId(game.get().getId());
         
         model.put("player", logedUser);
         model.put("player_turn", lastTurn.getUser());
         model.put("dice", lastTurn.getDice());
+        model.put("islandList", islandList);
     
         Duration timeElapsed = Duration.between(lastTurn.getStartTime(), LocalDateTime.now());
         model.put("time_left", 40-timeElapsed.toSeconds());
