@@ -105,10 +105,27 @@ body {
     padding: 10px;
     height: 70%;
     width: 100%;
+    display: flex;
+    flex-direction: column;
 }
 
 .game_text{
     color: white;
+}
+
+#playerDetails {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+#playerImg {
+    width: 20%;
+}
+
+#leaveGame {
+    background-color: rgb(167, 16, 16);
 }
 
 </style>
@@ -118,20 +135,15 @@ body {
     <body>
         <div id="section1">
             <div id="options">
-                <a class="btn btn-default" href='<spring:url value="/home" htmlEscape="true"/>'>Abandonar partida</a>
+                <a class="btn btn-default" id="leaveGame" href='<spring:url value="/home" htmlEscape="true"/>'>Abandonar partida</a>
                 <c:if test="${player_turn==player}">
                     <br />
-                    <div>
-                        <center>
-                            <h1 id="turn">ES TU TURNO</h1>
-                        </center>
-                    </div>
                     <c:if test="${dice==null}">
                         <br />
                         <div>
                             <center>
                                 <a class="btn btn-default"
-                                    href='<spring:url value="/turn/dice" htmlEscape="true"/>'>LANZAR DADO</a>
+                                    href='<spring:url value="/turn/dice" htmlEscape="true"/>'>Lanzar dado</a>
                             </center>
                         </div>
                     </c:if>
@@ -145,21 +157,34 @@ body {
                     <div>
                         <center>
                             <a class="btn btn-default"
-                                href='<spring:url value="/turn/endTurn" htmlEscape="true"/>'>TERMINAR TURNO</a>
-                        </center>
-                    </div>
-                </c:if>
-                <c:if test="${player_turn!=player}">
-                    <br />
-                    <div>
-                        <center>
-                            <h1 id="turn">ES EL TURNO DE ${player_turn.nickname}</h1>
+                                href='<spring:url value="/turn/endTurn" htmlEscape="true"/>'>Terminar turno</a>
                         </center>
                     </div>
                 </c:if>
             </div>
             <div id="players">
-                <h1 class="game_text">Aquí irian los jugadores de la partida</h1>
+                <c:forEach items="${userList}" var="user">
+                    <div id="playerDetails">
+                        <h1 class="game_text">${user.nickname}</h1>
+                        <img id="playerImg" src="/resources/images/avatars/${user.avatar}">
+                        <c:if test="${player_turn==user && player_turn==player}">
+                            <br />
+                            <div>
+                                <center>
+                                    <h2 id="turn">Tu turno</h2>
+                                </center>
+                            </div>
+                        </c:if>
+                        <c:if test="${player_turn==user && player_turn!=player}">
+                            <br />
+                            <div>
+                                <center>
+                                    <h2 id="turn">Turno de ${player_turn.nickname}</h2>
+                                </center>
+                            </div>
+                        </c:if>
+                    </div>
+                </c:forEach>
             </div>
         </div>
 

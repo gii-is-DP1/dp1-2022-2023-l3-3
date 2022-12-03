@@ -62,11 +62,14 @@ public class TurnController {
         List<Turn> turnList = turnService.findByRoundId(round.getId());
         Turn lastTurn = turnList.get(turnList.size()-1);
         List<Island> islandList = islandService.findIslandsByGameId(game.get().getId());
+        Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId()).get();
+        List<User> userList = lobby.getUsers();
         
         model.put("player", logedUser);
         model.put("player_turn", lastTurn.getUser());
         model.put("dice", lastTurn.getDice());
         model.put("islandList", islandList);
+        model.put("userList", userList);
     
         Duration timeElapsed = Duration.between(lastTurn.getStartTime(), LocalDateTime.now());
         model.put("time_left", 40-timeElapsed.toSeconds());
