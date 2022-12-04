@@ -1,7 +1,5 @@
 package sevenislands.game.island;
 
-
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +10,7 @@ import javax.validation.constraints.Min;
 
 import sevenislands.game.Game;
 import sevenislands.model.BaseEntity;
-
+import sevenislands.treasure.Treasure;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,4 +28,7 @@ public class Island extends BaseEntity {
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Game game;
+
+    @ManyToOne
+    private Treasure treasure;
 }

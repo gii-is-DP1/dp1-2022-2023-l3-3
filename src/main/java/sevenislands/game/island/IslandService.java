@@ -34,4 +34,9 @@ public class IslandService {
     public void save(Island island) {
         islandRepository.save(island);
     }
+
+    @Transactional
+    public List<Island> findIslandsByGameId(Integer gameId) {
+        return islandRepository.findByGameId(gameId);
+    }
 }

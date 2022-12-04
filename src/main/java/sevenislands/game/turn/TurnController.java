@@ -12,8 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.Game;
 import sevenislands.game.GameService;
+import sevenislands.game.island.Island;
+import sevenislands.game.island.IslandService;
 import sevenislands.game.round.Round;
 import sevenislands.game.round.RoundService;
 import sevenislands.lobby.Lobby;
@@ -36,18 +39,20 @@ public class TurnController {
     private final RoundService roundService;
     private final LobbyService lobbyService;
     private final GameService gameService;
+    private final IslandService islandService;
 
     @Autowired
-    public TurnController(GameService gameService, LobbyService lobbyService, RoundService roundService, TurnService turnService, UserService userService) {
+    public TurnController(GameService gameService, LobbyService lobbyService, RoundService roundService, TurnService turnService, IslandService islandService, UserService userService) {
         this.turnService = turnService;
         this.userService = userService;
         this.roundService = roundService;
         this.lobbyService = lobbyService;
         this.gameService = gameService;
+        this.islandService = islandService;
     }
 
     @GetMapping("/turn")
-    public String gameTurn(ModelMap model, @ModelAttribute("logedUser") User logedUser, HttpServletRequest request, HttpServletResponse response) throws ServletException {
+    public String gameTurn(ModelMap model, @ModelAttribute("logedUser") User logedUser, HttpServletRequest request, HttpServletResponse response) throws ServletException, NotExistLobbyException {
         if(userService.checkUserNoExists(request)) return "redirect:/";
         if(lobbyService.checkUserNoLobby(logedUser)) return "redirect:/home";
         response.addHeader("Refresh", "1");
@@ -57,10 +62,15 @@ public class TurnController {
         Round round = roundList.get(roundList.size()-1);
         List<Turn> turnList = turnService.findByRoundId(round.getId());
         Turn lastTurn = turnList.get(turnList.size()-1);
+        List<Island> islandList = islandService.findIslandsByGameId(game.get().getId());
+        Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
+        List<User> userList = lobby.getUsers();
         
         model.put("player", logedUser);
         model.put("player_turn", lastTurn.getUser());
         model.put("dice", lastTurn.getDice());
+        model.put("islandList", islandList);
+        model.put("userList", userList);
     
         Duration timeElapsed = Duration.between(lastTurn.getStartTime(), LocalDateTime.now());
         model.put("time_left", 40-timeElapsed.toSeconds());
@@ -87,7 +97,7 @@ public class TurnController {
 
         if(logedUser.getId()==lastTurn.getUser().getId()) {
             if(turnList.size()>=userList.size()) return "redirect:/turn/newRound";
-            turnService.initTurn(logedUser, round, userList);
+            turnService.initTurn(logedUser, round, userList, null);
         } 
         return "redirect:/turn";
        } catch (Exception e) {
