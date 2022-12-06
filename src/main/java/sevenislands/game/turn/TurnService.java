@@ -136,14 +136,12 @@ public class TurnService {
         Round round = new Round();
         cardService.initGameCards(game.get());
         Treasure doblon = treasureService.findTreasureByName("doblon").get();
-        Treasure caliz = treasureService.findTreasureByName("caliz").get();
         List<Treasure> treasureList = new ArrayList<>();
         round.setGame(game.get());
         treasureList.add(doblon);
         treasureList.add(doblon);
         treasureList.add(doblon);
         treasureList.add(doblon);
-        treasureList.add(caliz);
         roundService.save(round);
         for (Integer i = 0; i < userList.size(); i++) {
             User user = userList.get((userList.indexOf(logedUser) + i) % userList.size());
