@@ -229,8 +229,10 @@
                                         </center>
                                         <div id="myCards">
                                             <c:forEach items="${playerCardsMap}" var="cards">
-                                                <sevenislands:mycards treasure="${cards.key}"
-                                                    multiplicity="${cards.value}" />
+                                                <img src="/resources/images/cards/${cards.key.name}.png" width="150"
+                                                height="150"> 
+                                                  
+                                                <h3 class="game_text">${cards.value}</h3> 
                                             </c:forEach>
                                         </div>
                                     </div>

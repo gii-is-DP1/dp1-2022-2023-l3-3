@@ -3,6 +3,7 @@ package sevenislands.game.turn;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -135,11 +136,14 @@ public class TurnService {
         Round round = new Round();
         cardService.initGameCards(game.get());
         Treasure doblon = treasureService.findTreasureByName("doblon").get();
+        Treasure caliz = treasureService.findTreasureByName("caliz").get();
         List<Treasure> treasureList = new ArrayList<>();
         round.setGame(game.get());
         treasureList.add(doblon);
         treasureList.add(doblon);
         treasureList.add(doblon);
+        treasureList.add(doblon);
+        treasureList.add(caliz);
         roundService.save(round);
         for (Integer i = 0; i < userList.size(); i++) {
             User user = userList.get((userList.indexOf(logedUser) + i) % userList.size());
@@ -222,6 +226,9 @@ public class TurnService {
                 map.put(t, 1);
             }
         }
-        return map;
+        return map.entrySet()
+        .stream()
+        .sorted(Map.Entry.comparingByValue())
+        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
     }
 }
