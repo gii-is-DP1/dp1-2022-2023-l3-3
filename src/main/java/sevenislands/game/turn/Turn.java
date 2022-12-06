@@ -13,9 +13,9 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.Range;
 
-import sevenislands.card.Card;
 import sevenislands.game.round.Round;
 import sevenislands.model.BaseEntity;
+import sevenislands.treasure.Treasure;
 import sevenislands.user.User;
 import lombok.Getter;
 import lombok.Setter;
@@ -41,7 +41,7 @@ public class Turn extends BaseEntity {
     private Round round;
 
     @ManyToMany
-    private List<Card> cards;
+    private List<Treasure> treasures;
 
     public static Integer rollDice() {
         return 1 + (int) Math.floor(Math.random() * 6);

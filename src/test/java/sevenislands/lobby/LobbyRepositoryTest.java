@@ -24,8 +24,7 @@ public class LobbyRepositoryTest {
 
     @Test
     public void TestDataAllFindAllSuccess(){
-        List<Lobby> lobby= new ArrayList<>();
-        lobbyRepository.findAll().iterator().forEachRemaining(lobby::add);
+        List<Lobby> lobby= lobbyRepository.findAll();
 
         assertNotNull(lobby);
         assertFalse(lobby.isEmpty());

@@ -1,32 +1,28 @@
 package sevenislands.card;
 
-import java.util.List;
-
-
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
-
+import javax.persistence.FetchType;
+import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
-
-import sevenislands.model.BaseEntity;
 
 import lombok.Getter;
 import lombok.Setter;
+import sevenislands.game.Game;
+import sevenislands.model.BaseEntity;
+import sevenislands.treasure.Treasure;
 
 @Getter
 @Setter
 @Entity
-public class Card extends BaseEntity {
+public class Card extends BaseEntity{
+    
+    @ManyToOne
+    private Treasure treasure;
 
-        @NotNull
-        private String tipo;
+    @NotNull
+    private Integer multiplicity;
 
-        @NotNull
-        private String name;
-
-        @NotNull
-        private Integer multiplicity;
-
-        @ManyToMany
-        private List<Card> islands;
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Game game;
 }

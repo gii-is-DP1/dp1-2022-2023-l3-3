@@ -35,6 +35,7 @@ public class GameService {
         Game game = new Game();
         game.setCreationDate(new Date(System.currentTimeMillis()));
         game.setLobby(lobby);
+        game.setActive(true);
         gameRepository.save(game);
     }
     
