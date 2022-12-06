@@ -69,6 +69,20 @@ public class TurnService {
     public List<Turn> findByRoundId(Integer id) throws DataAccessException {
         return turnRepository.findByRoundId(id);
     }
+    @Transactional
+    public List<Integer> IslandToChoose(Turn turn,String nickName){
+        List<Integer> islas=new ArrayList<>();
+        Map<Treasure, Integer> playerCardsMap=findPlayerCardsLastTurn(nickName);
+        if(turn.getDice()==null){
+            islas.add(0);
+            
+        }else{
+            for(int i=1; i<=(turn.getDice()+playerCardsMap.values().stream().mapToInt(x->x).sum());i++){
+                islas.add(i);
+        }
+    }
+        return islas;
+    }
 
     @Transactional
     public void save(Turn turn) {
@@ -91,6 +105,7 @@ public class TurnService {
         turn.setTreasures(treasureList);
         save(turn);
     }
+
 
     @Transactional
     public void dice(Turn turn) {

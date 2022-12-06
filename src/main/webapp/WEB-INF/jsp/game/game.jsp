@@ -234,10 +234,26 @@
                                             </c:forEach>
                                         </div>
                                     </div>
-                                    <div id="selected_cards">
+                                    <div id="Islas a escoger">
                                         <center>
-                                            <h1 class="game_text">Cartas seleccionadas</h1>
+                                            <h1 class="game_text">Islas a escoger</h1>
                                         </center>
+                                        <c:if test="${player_turn==player}">
+                                            <br />
+                                            <c:if test="${dice!=null && IslasToChose!=null}">
+                                                <br />
+                                                <center>
+                                                    <c:forEach items="${IslasToChose}" var="isla">
+                                                        <c:if test="${isla<=NumIslands}">    
+                                                            <a class="btn btn-default"
+                                                            href='<spring:url value="/turn/endTurn" htmlEscape="true"/>'>Isla ${isla}
+                                                            </a>
+                                                        </c:if>
+                                            </c:forEach>
+                                                    
+                                                </center>
+                                            </c:if>
+                                        </c:if>
                                     </div>
                                 </div>
                             </body>
