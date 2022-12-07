@@ -141,7 +141,7 @@ public class TurnService {
         treasureList.add(doblon);
         treasureList.add(doblon);
         treasureList.add(doblon);
-        treasureList.add(doblon);
+        
         roundService.save(round);
         for (Integer i = 0; i < userList.size(); i++) {
             User user = userList.get((userList.indexOf(logedUser) + i) % userList.size());
