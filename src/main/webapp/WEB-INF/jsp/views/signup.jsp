@@ -5,6 +5,7 @@ uri="http://java.sun.com/jsp/jstl/core" %> <%@ taglib prefix="fn"
 uri="http://java.sun.com/jsp/jstl/functions" %> <%@ taglib prefix="form"
 uri="http://www.springframework.org/tags/form" %> <%@ taglib
 prefix="sevenislands" tagdir="/WEB-INF/tags" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 
 <style>
   body {
@@ -35,6 +36,7 @@ prefix="sevenislands" tagdir="/WEB-INF/tags" %>
     margin: 3px;
     width: 50%;
   }
+
 </style>
 
 <sevenislands:layout2 pageName="signup">
@@ -46,6 +48,11 @@ prefix="sevenislands" tagdir="/WEB-INF/tags" %>
     </script>
   </jsp:attribute>
   <jsp:body>
+    <h1>
+      <strong>
+          <center>Únete y sé el pirata más despiadado</center>
+      </strong>
+    </h1>
     <a class="btn btn-default" href='<spring:url value="/" htmlEscape="true"/>'>Volver</a>
     <h2><br/>Registrarse</h2>
     <form:form

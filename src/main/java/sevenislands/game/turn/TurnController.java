@@ -128,9 +128,8 @@ public class TurnController {
             return "redirect:/home";
 
         Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
-        List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
-                .collect(Collectors.toList());
-        Round round = roundList.get(roundList.size() - 1);
+        List<Round> roundList = roundService.findRoundsByGameId(game.get().getId());
+        Round round = roundList.get(roundList.size()-1);
         List<Turn> turnList = turnService.findByRoundId(round.getId());
         Turn lastTurn = turnList.get(turnList.size() - 1);
         turnService.dice(lastTurn);
@@ -146,17 +145,15 @@ public class TurnController {
             return "redirect:/home";
         try {
             Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
-            if (game.isPresent()) {
-                Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
-                List<User> userList = lobby.getUsers();
-                List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
-                        .collect(Collectors.toList());
-
-                turnService.assignTurn(logedUser, game, userList, roundList);
-
-                return "redirect:/turn";
-            } else
-                return "redirect:/home";
+        if(game.isPresent()) {
+            Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
+            List<User> userList = lobby.getUsers();
+            List<Round> roundList = roundService.findRoundsByGameId(game.get().getId());
+    
+            turnService.assignTurn(logedUser, game, userList, roundList);
+    
+            return "redirect:/turn";
+        } else return "redirect:/home";
         } catch (Exception e) {
             return "redirect:/home";
         }
