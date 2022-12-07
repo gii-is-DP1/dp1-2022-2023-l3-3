@@ -15,6 +15,11 @@
     bottom: 15px;
     right: 5px;
 }
+.trofeo {
+	position: absolute;
+    top: 34px;
+    right: 270px;
+}
 </style>
 
 <sevenislands:layout3 pageName="home">
@@ -23,8 +28,15 @@
 			<div>${onlineUsers}</div>
 			<div class="text-right" style="margin-bottom: 24px">
 				<a href="/settings">
-					<strong>${user.nickname}</strong>&thinsp;<img src="/resources/images/avatars/${user.avatar}" height="20" width="20">
+					<strong>${user.nickname}</strong>&thinsp;<img src="/resources/images/avatars/${user.avatar}" height="25" width="25">
 				</a>
+			</div>
+			<div class="trofeo">
+				<sec:authorize access="hasAuthority('player')">
+					<a href="/achievements">
+						<img src="/resources/images/grafics/trofeoIcono.png" height="35" width="35">
+					</a>
+				</sec:authorize>
 			</div>
 			<div class="posicion">
 				<img src="/resources/images/grafics/pirataLoroAnimado.gif" width="550" height="688">
