@@ -111,7 +111,7 @@ public class TurnController {
         if(lobbyService.checkUserNoLobby(logedUser)) return "redirect:/home";
         
         Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
-        List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream().collect(Collectors.toList());
+        List<Round> roundList = roundService.findRoundsByGameId(game.get().getId());
         Round round = roundList.get(roundList.size()-1);
         List<Turn> turnList = turnService.findByRoundId(round.getId());
         Turn lastTurn = turnList.get(turnList.size()-1);
@@ -128,7 +128,7 @@ public class TurnController {
         if(game.isPresent()) {
             Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
             List<User> userList = lobby.getUsers();
-            List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream().collect(Collectors.toList());
+            List<Round> roundList = roundService.findRoundsByGameId(game.get().getId());
     
             turnService.assignTurn(logedUser, game, userList, roundList);
     
