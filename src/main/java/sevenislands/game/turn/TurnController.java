@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import sevenislands.card.Card;
 import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.Game;
 import sevenislands.game.GameService;
@@ -22,7 +23,6 @@ import sevenislands.game.round.Round;
 import sevenislands.game.round.RoundService;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
-import sevenislands.treasure.Treasure;
 import sevenislands.user.User;
 import sevenislands.user.UserService;
 
@@ -72,7 +72,7 @@ public class TurnController {
         List<Island> islandList = islandService.findIslandsByGameId(game.get().getId());
         Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
         List<User> userList = lobby.getUsers();
-        Map<Treasure, Integer> playerCardsMap = turnService.findPlayerCardsLastTurn(logedUser.getNickname());
+        Map<Card, Integer> playerCardsMap = turnService.findPlayerCardsLastTurn(logedUser.getNickname());
         List<Integer> islasToChose=turnService.IslandToChoose(lastTurn,logedUser.getNickname());
         model.put("player", logedUser);
         model.put("player_turn", lastTurn.getUser());
@@ -89,7 +89,7 @@ public class TurnController {
             return "redirect:/turn/endTurn";
         }
 
-        return VIEWS_GAME;
+        return "game/prueba";
     }
 
     @GetMapping("/turn/endTurn")
@@ -153,13 +153,14 @@ public class TurnController {
                 List<User> userList = lobby.getUsers();
                 List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
                         .collect(Collectors.toList());
-
                 turnService.assignTurn(logedUser, game, userList, roundList);
-
                 return "redirect:/turn";
             } else
+            
                 return "redirect:/home";
         } catch (Exception e) {
+            
+            System.out.println(e.getMessage());
             return "redirect:/home";
         }
     }

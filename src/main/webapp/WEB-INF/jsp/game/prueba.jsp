@@ -1,4 +1,3 @@
-<!--
 <%@ page session="false" trimDirectiveWhitespaces="true" %>
     <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
         <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -146,9 +145,7 @@
                                 display: flex;
                             }
                         </style>
-                    -->
                         <h2>HOla</h2>
-<!--
                         <sevenislands:gameContent pageName="lobby">
 
                             <body>
@@ -184,7 +181,6 @@
                                             </div>
                                         </c:if>
                                     </div>
-                                    
                                     <div id="players">
                                         <c:forEach items="${userList}" var="user">
                                             <div id="playerDetails">
@@ -217,16 +213,11 @@
                                     </center>
                                     <div id="board">
                                         <sevenislands:game>
-                                        PROBLEMAS=========================    
-                                        <c:forEach items="${islandList}" var="island">
-                                                <sevenislands:island island="${island}" />
-                                            </c:forEach>
+                                            
                                             <sevenislands:deck />
-                                            PROBLEMAS=====================================
                                         </sevenislands:game>
                                     </div>
                                 </div>
-
                                 <div id="section3">
 
                                     <div id="cards">
@@ -264,6 +255,5 @@
                                         </c:if>
                                     </div>
                                 </div>
-                            </body>
-                        </sevenislands:gameContent>
-                        -->
+                                </body>
+                            </sevenislands:gameContent>

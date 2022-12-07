@@ -8,9 +8,9 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+import sevenislands.card.Card;
 import sevenislands.game.Game;
 import sevenislands.model.BaseEntity;
-import sevenislands.treasure.Treasure;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,5 +30,5 @@ public class Island extends BaseEntity {
     private Game game;
 
     @ManyToOne
-    private Treasure treasure;
+    private Card card;
 }

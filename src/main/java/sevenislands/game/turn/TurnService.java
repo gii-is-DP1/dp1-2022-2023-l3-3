@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import sevenislands.card.Card;
 import sevenislands.card.CardService;
+import sevenislands.enums.Tipo;
 import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.Game;
 import sevenislands.game.GameService;
@@ -26,8 +27,7 @@ import sevenislands.game.round.Round;
 import sevenislands.game.round.RoundService;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
-import sevenislands.treasure.Treasure;
-import sevenislands.treasure.TreasureService;
+
 import sevenislands.user.User;
 
 @Service
@@ -37,19 +37,16 @@ public class TurnService {
     private final GameService gameService;
     private final RoundService roundService;
     private final LobbyService lobbyService;
-    private final TreasureService treasureService;
     private final IslandService islandService;
     private final CardService cardService;
 
     @Autowired
     public TurnService(TurnRepository turnRepository, GameService gameService, RoundService roundService,
-            LobbyService lobbyService, IslandService islandService, TreasureService treasureService,
-            CardService cardService) {
+            LobbyService lobbyService, IslandService islandService,CardService cardService) {
         this.turnRepository = turnRepository;
         this.gameService = gameService;
         this.roundService = roundService;
         this.lobbyService = lobbyService;
-        this.treasureService = treasureService;
         this.islandService = islandService;
         this.cardService = cardService;
     }
@@ -73,7 +70,7 @@ public class TurnService {
     @Transactional
     public List<Integer> IslandToChoose(Turn turn,String nickName){
         List<Integer> islas=new ArrayList<>();
-        Map<Treasure, Integer> playerCardsMap=findPlayerCardsLastTurn(nickName);
+        Map<Card, Integer> playerCardsMap=findPlayerCardsLastTurn(nickName);
         if(turn.getDice()==null){
             islas.add(0);
             
@@ -91,19 +88,19 @@ public class TurnService {
     }
 
     @Transactional
-    public void initTurn(User logedUser, Round round, List<User> userList, List<Treasure> treasures) {
+    public void initTurn(User logedUser, Round round, List<User> userList, List<Card> cards) {
         Turn turn = new Turn();
         Integer nextUser = (userList.indexOf(logedUser) + 1) % userList.size();
         turn.setStartTime(LocalDateTime.now());
         turn.setRound(round);
         turn.setUser(userList.get(nextUser));
-        List<Treasure> treasureList = new ArrayList<>();
-        if (treasures == null) {
+        List<Card> treasureList = new ArrayList<>();
+        if (cards == null) {
             Turn prevTurn = turnRepository.findTurnByNickname(userList.get(nextUser).getNickname()).get(0);
-            treasureList.addAll(prevTurn.getTreasures());
+            treasureList.addAll(prevTurn.getCards());
         } else
-            treasureList.addAll(treasures);
-        turn.setTreasures(treasureList);
+            treasureList.addAll(cards);
+        turn.setCards(treasureList);
         save(turn);
     }
 
@@ -121,7 +118,9 @@ public class TurnService {
         Round round = new Round();
         round.setGame(game.get());
         if (roundService.findRoundsByGameId(game.get().getId()).isEmpty()) {
+            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx1");
             dealtreasures(logedUser, game, userList, roundList);
+            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx2");
             Integer prevUser = userList.indexOf(logedUser) == 0 ? userList.size() - 1 : userList.indexOf(logedUser) - 1;
             roundService.save(round);
             initTurn(userList.get(prevUser), round, userList, null);
@@ -134,14 +133,15 @@ public class TurnService {
     @Transactional
     public void dealtreasures(User logedUser, Optional<Game> game, List<User> userList, List<Round> roundList) {
         Round round = new Round();
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx3");
         cardService.initGameCards(game.get());
-        Treasure doblon = treasureService.findTreasureByName("doblon").get();
-        List<Treasure> treasureList = new ArrayList<>();
+        List<Card> treasureList = new ArrayList<>();
         round.setGame(game.get());
-        treasureList.add(doblon);
-        treasureList.add(doblon);
-        treasureList.add(doblon);
-        
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx4");
+        treasureList.add(cardService.findCardByTreasureName(Tipo.Doblon));
+        treasureList.add(cardService.findCardByTreasureName(Tipo.Doblon));
+        treasureList.add(cardService.findCardByTreasureName(Tipo.Doblon));
+        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx5");
         roundService.save(round);
         for (Integer i = 0; i < userList.size(); i++) {
             User user = userList.get((userList.indexOf(logedUser) + i) % userList.size());
@@ -149,8 +149,8 @@ public class TurnService {
             turn.setRound(round);
             turn.setStartTime(LocalDateTime.now());
             turn.setUser(user);
-            turn.setTreasures(treasureList);
-            Card doblones = cardService.findCardByGameAndTreasure(game.get().getId(), "doblon");
+            turn.setCards(treasureList);
+            Card doblones = cardService.findCardByGameAndTreasure(game.get().getId(), Tipo.Doblon);
             doblones.setMultiplicity(doblones.getMultiplicity() - 3);
             cardService.save(doblones);
             save(turn);
@@ -169,8 +169,7 @@ public class TurnService {
             Random randomGenerator = new Random();
             Integer randomCardNumber = randomGenerator.nextInt(cardList.size() - 1);
             Card selectedCard = allCards.get(cardList.get(randomCardNumber));
-            Treasure selectedTreasure = selectedCard.getTreasure();
-            island.setTreasure(selectedTreasure);
+            island.setCard(selectedCard);
             selectedCard.setMultiplicity(selectedCard.getMultiplicity() - 1);
             cardService.save(selectedCard);
             islandService.save(island);
@@ -213,10 +212,10 @@ public class TurnService {
     }
 
     @Transactional
-    public Map<Treasure, Integer> findPlayerCardsLastTurn(String nickname) {
+    public Map<Card, Integer> findPlayerCardsLastTurn(String nickname) {
         Turn lastPlayerTurn = turnRepository.findTurnByNickname(nickname).get(0);
-        Map<Treasure, Integer> map = new HashMap<>();
-        for (Treasure t : lastPlayerTurn.getTreasures()) {
+        Map<Card, Integer> map = new HashMap<>();
+        for (Card t : lastPlayerTurn.getCards()) {
             if (map.containsKey(t)) {
                 Integer newValue = map.get(t) + 1;
                 map.put(t, newValue);

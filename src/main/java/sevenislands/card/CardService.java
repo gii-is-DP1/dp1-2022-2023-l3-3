@@ -6,20 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import sevenislands.enums.Tipo;
 import sevenislands.game.Game;
-import sevenislands.treasure.Treasure;
-import sevenislands.treasure.TreasureService;
+
 
 @Service
 public class CardService {
     
-    private CardRepository cardRepository;
-    private final TreasureService TreasureService;
+    private final CardRepository cardRepository;
+   
 
     @Autowired
-    public CardService(CardRepository cardRepository, TreasureService TreasureService) {
+    public CardService(CardRepository cardRepository) {
         this.cardRepository = cardRepository;
-        this.TreasureService = TreasureService;
     }
 
     @Transactional
@@ -29,15 +28,16 @@ public class CardService {
 
     @Transactional
     public void initGameCards(Game game) {
-        for (Treasure c : TreasureService.findAllTreasures()) {
+        for (Tipo c : Tipo.values()) {
             Card card = new Card();
-            if(c.getId()==1) card.setMultiplicity(27);
-            if(c.getId()==2 || c.getId()==3 || c.getId()==4) card.setMultiplicity(3);
-            if(c.getId()==5 || c.getId()==6 || c.getId()==7) card.setMultiplicity(4);
-            if(c.getId()==8 || c.getId()==9 || c.getId()==10) card.setMultiplicity(6);
-            card.setTreasure(c);
+            if(c==c.Doblon) card.setMultiplicity(27);
+            if(c==c.Caliz || c==c.Rubi || c==c.Diamante) card.setMultiplicity(3);
+            if(c==c.Collar || c==c.MapaTesoro || c==c.Corona) card.setMultiplicity(4);
+            if(c==c.Revolver || c==c.Espada || c==c.BarrilRon) card.setMultiplicity(6);
+            card.setTipo(c);
             card.setGame(game);
             cardRepository.save(card);
+           
         }
     }
 
@@ -47,8 +47,14 @@ public class CardService {
     }
 
     @Transactional
-    public Card findCardByGameAndTreasure(Integer gameId, String treasure) {
-        return cardRepository.findByGameAndTreasure(gameId, treasure);
+    public Card findCardByGameAndTreasure(Integer gameId, Tipo tipo) {
+        return cardRepository.findByGameAndTreasure(gameId, tipo);
 
     }
+
+    @Transactional
+    public Card findCardByTreasureName(Tipo tipo){
+        return cardRepository.findCardByTreasureName(tipo);
+    }
 }
+

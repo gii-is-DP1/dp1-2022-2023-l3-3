@@ -1,7 +1,10 @@
 package sevenislands.card;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotNull;
@@ -10,16 +13,15 @@ import lombok.Getter;
 import lombok.Setter;
 import sevenislands.game.Game;
 import sevenislands.model.BaseEntity;
-import sevenislands.treasure.Treasure;
 
 @Getter
 @Setter
 @Entity
 public class Card extends BaseEntity{
-    
-    @ManyToOne
-    private Treasure treasure;
 
+    @Enumerated(value = EnumType.STRING)
+    private sevenislands.enums.Tipo Tipo;
+    
     @NotNull
     private Integer multiplicity;
 
