@@ -185,10 +185,11 @@ public class TurnController {
     @RequestMapping(value ="/turn/chooseCard",method = RequestMethod.GET)
         public String chooseCard(ModelMap model,@RequestParam Integer islaId,@RequestParam Integer NumCartasDelete, @ModelAttribute("logedUser") User logedUser){
         Card cardAnadida=cardService.findCardById(islaId);
-
+        Optional<Game> game=gameService.findGameByNickname(logedUser.getNickname());
         Map<Card, Integer> playerCardsMap = turnService.findPlayerCardsLastTurn(logedUser.getNickname());
         if(NumCartasDelete.equals(0)){ 
             turnService.AnadirCarta(islaId,logedUser.getNickname());
+            turnService.refreshDesk(islaId, logedUser, game);
             return "redirect:/turn/endTurn";
         }else{
             model.put("cardAnadida", cardAnadida);

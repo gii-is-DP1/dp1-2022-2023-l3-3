@@ -121,9 +121,7 @@ public class TurnService {
         Round round = new Round();
         round.setGame(game.get());
         if (roundService.findRoundsByGameId(game.get().getId()).isEmpty()) {
-            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx1");
             dealtreasures(logedUser, game, userList, roundList);
-            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx2");
             Integer prevUser = userList.indexOf(logedUser) == 0 ? userList.size() - 1 : userList.indexOf(logedUser) - 1;
             roundService.save(round);
             initTurn(userList.get(prevUser), round, userList, null);
@@ -176,6 +174,21 @@ public class TurnService {
         }
     }
 
+    @Transactional
+    public void refreshDesk(Integer idIsla,User logedUser, Optional<Game> game){
+        int random = (int)(Math.random()*5+0);
+        Card newCard=cardService.findCardById(random);
+        List<Island> islandList = islandService.findIslandsByGameId(game.get().getId());
+        Island isla=islandList.get(idIsla-1);
+        isla.setCard(newCard);
+        newCard.setMultiplicity(newCard.getMultiplicity()-1);
+        cardService.save(newCard);
+        islandService.save(isla);
+        
+        
+      
+
+    }
     @Transactional
     public void checkUserGame(User logedUser) throws NotExistLobbyException {
         try {
