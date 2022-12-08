@@ -10,9 +10,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface IslandRepository extends CrudRepository<Island, Integer> {
 
+
     @Query("SELECT island.num FROM Island island WHERE island.id=?1")
     public Integer getIslandNumberById(int id) throws DataAccessException;
 
     @Query("SELECT island FROM Island island WHERE island.game.id=?1")
     public List<Island> findByGameId(Integer gameId);
+
+    @Query("SELECT island FROM Island island WHERE island.card.id=?1")
+    public Island findByCardId(Integer cardId);
 }

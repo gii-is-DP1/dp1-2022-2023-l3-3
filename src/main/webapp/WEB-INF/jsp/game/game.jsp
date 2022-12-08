@@ -1,4 +1,3 @@
-<!--
 <%@ page session="false" trimDirectiveWhitespaces="true" %>
     <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
         <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
@@ -146,9 +145,6 @@
                                 display: flex;
                             }
                         </style>
-                    -->
-                        <h2>HOla</h2>
-<!--
                         <sevenislands:gameContent pageName="lobby">
 
                             <body>
@@ -184,7 +180,6 @@
                                             </div>
                                         </c:if>
                                     </div>
-                                    
                                     <div id="players">
                                         <c:forEach items="${userList}" var="user">
                                             <div id="playerDetails">
@@ -217,16 +212,13 @@
                                     </center>
                                     <div id="board">
                                         <sevenislands:game>
-                                        PROBLEMAS=========================    
-                                        <c:forEach items="${islandList}" var="island">
+                                            <c:forEach items="${islandList}" var="island">
                                                 <sevenislands:island island="${island}" />
                                             </c:forEach>
                                             <sevenislands:deck />
-                                            PROBLEMAS=====================================
                                         </sevenislands:game>
                                     </div>
                                 </div>
-
                                 <div id="section3">
 
                                     <div id="cards">
@@ -234,11 +226,11 @@
                                             <h1 class="game_text">Mis cartas</h1>
                                         </center>
                                         <div id="myCards">
-                                            <c:forEach items="${playerCardsMap}" var="cards">
-                                                <img src="/resources/images/cards/barril.png" width="150"
+                                            <c:forEach items="${playerCardsMap}" var="card">
+                                                <img src="/resources/images/cards/${card.key.tipo}.png" width="150"
                                                 height="150"> 
                                                   
-                                                <h3 class="game_text">${cards.value}</h3> 
+                                                <h3 class="game_text">${card.value}</h3> 
                                             </c:forEach>
                                         </div>
                                     </div>
@@ -254,7 +246,7 @@
                                                     <c:forEach items="${IslasToChose}" var="isla">
                                                         <c:if test="${isla<=NumIslands}">    
                                                             <a class="btn btn-default"
-                                                            href='<spring:url value="/turn/endTurn" htmlEscape="true"/>'>Isla ${isla}
+                                                            href='<spring:url value="/turn/chooseIsland/${isla}" htmlEscape="true"/>'>Isla ${isla}
                                                             </a>
                                                         </c:if>
                                             </c:forEach>
@@ -264,6 +256,5 @@
                                         </c:if>
                                     </div>
                                 </div>
-                            </body>
-                        </sevenislands:gameContent>
-                        -->
+                                </body>
+                            </sevenislands:gameContent>

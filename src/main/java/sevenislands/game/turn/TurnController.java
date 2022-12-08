@@ -2,6 +2,7 @@ package sevenislands.game.turn;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import sevenislands.card.Card;
+import sevenislands.card.CardService;
 import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.Game;
 import sevenislands.game.GameService;
@@ -30,6 +32,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class TurnController {
@@ -42,16 +48,18 @@ public class TurnController {
     private final LobbyService lobbyService;
     private final GameService gameService;
     private final IslandService islandService;
+    private final CardService cardService;
 
     @Autowired
     public TurnController(GameService gameService, LobbyService lobbyService, RoundService roundService,
-            TurnService turnService, IslandService islandService, UserService userService) {
+            TurnService turnService, IslandService islandService, UserService userService,CardService cardService) {
         this.turnService = turnService;
         this.userService = userService;
         this.roundService = roundService;
         this.lobbyService = lobbyService;
         this.gameService = gameService;
         this.islandService = islandService;
+        this.cardService=cardService;
     }
 
     @GetMapping("/turn")
@@ -89,7 +97,7 @@ public class TurnController {
             return "redirect:/turn/endTurn";
         }
 
-        return "game/prueba";
+        return VIEWS_GAME;
     }
 
     @GetMapping("/turn/endTurn")
@@ -165,4 +173,39 @@ public class TurnController {
         }
     }
 
+
+ 
+    @GetMapping("/turn/chooseIsland/{IdIsland}")
+    public String chooseIsland(ModelMap model,@PathVariable("IdIsland") Integer id, @ModelAttribute("logedUser") User logedUser){
+        Integer NumDelDado=turnService.findTurnByNickname(logedUser.getNickname()).get(0).getDice();
+        Integer NumCartasEliminar=Math.abs(id-NumDelDado);
+        return "redirect:/turn/chooseCard?islaId="+id+"&NumCartasDelete="+NumCartasEliminar;
+    }
+
+    @RequestMapping(value ="/turn/chooseCard",method = RequestMethod.GET)
+        public String chooseCard(ModelMap model,@RequestParam Integer islaId,@RequestParam Integer NumCartasDelete, @ModelAttribute("logedUser") User logedUser){
+        Card cardAnadida=cardService.findCardById(islaId);
+
+        Map<Card, Integer> playerCardsMap = turnService.findPlayerCardsLastTurn(logedUser.getNickname());
+        if(NumCartasDelete.equals(0)){ 
+            turnService.AnadirCarta(islaId,logedUser.getNickname());
+            return "redirect:/turn/endTurn";
+        }else{
+            model.put("cardAnadida", cardAnadida);
+            model.put("IslaId", islaId);
+            model.put("cardsToEliminate", NumCartasDelete);
+            model.put("card", playerCardsMap);
+            return "/game/chooseCard";
+        }
+        
+    
+    }
+        
+        @RequestMapping(value="/delete/chooseCard/{idCard}",method = RequestMethod.GET)
+        public String deleteMyCard(@PathVariable("idCard") Integer id,@RequestParam Integer islaId,@RequestParam Integer NumCartasDelete,@ModelAttribute("logedUser") User logedUser){
+            turnService.DeleteCard(id, logedUser.getNickname());           
+            NumCartasDelete--;         
+            return "redirect:/turn/chooseCard?islaId="+islaId+"&NumCartasDelete="+NumCartasDelete;
+        }
+    
 }

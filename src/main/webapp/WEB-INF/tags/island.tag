@@ -6,4 +6,4 @@ treasure${island.num}.onload=function() {
     var yPosition = positions[${island.num - 1}][1];
     ctx.drawImage(treasure${island.num}, xPosition, yPosition, canvas.width*0.2, canvas.height*0.28);
 }
-treasure${island.num}.src="resources/images/cards/${island.card.name}.png";
+treasure${island.num}.src="resources/images/cards/${island.card.tipo}.png";

@@ -27,6 +27,10 @@ public class CardService {
     }
 
     @Transactional
+        public Card findCardById(Integer id) {
+         return cardRepository.findById(id).get();
+    }
+    @Transactional
     public void initGameCards(Game game) {
         for (Tipo c : Tipo.values()) {
             Card card = new Card();

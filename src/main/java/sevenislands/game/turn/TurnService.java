@@ -63,6 +63,9 @@ public class TurnService {
         return turnRepository.findById(id);
     }
 
+   
+
+
     @Transactional(readOnly = true)
     public List<Turn> findByRoundId(Integer id) throws DataAccessException {
         return turnRepository.findByRoundId(id);
@@ -133,15 +136,12 @@ public class TurnService {
     @Transactional
     public void dealtreasures(User logedUser, Optional<Game> game, List<User> userList, List<Round> roundList) {
         Round round = new Round();
-        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx3");
         cardService.initGameCards(game.get());
         List<Card> treasureList = new ArrayList<>();
         round.setGame(game.get());
-        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx4");
         treasureList.add(cardService.findCardByTreasureName(Tipo.Doblon));
         treasureList.add(cardService.findCardByTreasureName(Tipo.Doblon));
         treasureList.add(cardService.findCardByTreasureName(Tipo.Doblon));
-        System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx5");
         roundService.save(round);
         for (Integer i = 0; i < userList.size(); i++) {
             User user = userList.get((userList.indexOf(logedUser) + i) % userList.size());
@@ -228,4 +228,48 @@ public class TurnService {
         .sorted(Map.Entry.comparingByValue())
         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
     }
+    @Transactional
+    public List<Card> findPlayerCardsPenultimateTurn(String nickname) {
+        Turn lastPlayerTurn = turnRepository.findTurnByNickname(nickname).get(1);
+        return lastPlayerTurn.getCards();
+    }
+
+    @Transactional
+    public void AnadirCarta(Integer id,String nickname){
+        Turn lastPlayerTurn = turnRepository.findTurnByNickname(nickname).get(0);
+        List<Card> cartasLastTurn=lastPlayerTurn.getCards();
+        Island island=islandService.findIslandById(id);
+        Card card=cardService.findCardById(island.getCard().getId());
+        cartasLastTurn.add(card);
+        lastPlayerTurn.setCards(cartasLastTurn);
+        turnRepository.save(lastPlayerTurn);
+    }
+
+    @Transactional
+    public void DeleteCard(Integer id,String nickname){
+        
+        Turn lastPlayerTurn = turnRepository.findTurnByNickname(nickname).get(0);
+       
+        List<Card> cartasLastTurn=lastPlayerTurn.getCards();
+        
+        Card carta=cardService.findCardById(id);
+        
+
+        for(Card c:cartasLastTurn){
+            
+
+            if(c.getTipo().equals(carta.getTipo())){
+                
+                cartasLastTurn.remove(c);
+                break;
+            }
+            
+        }
+    
+        lastPlayerTurn.setCards(cartasLastTurn);
+        turnRepository.save(lastPlayerTurn);
+        
+    }
+
+    
 }

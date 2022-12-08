@@ -24,10 +24,18 @@ public class IslandService {
     public List<Island> findAllIslands() throws DataAccessException {
         return StreamSupport.stream(islandRepository.findAll().spliterator(), false).collect(Collectors.toList());
     }
+    @Transactional
+    public Island findByCardId(Integer cardId){
+        return islandRepository.findByCardId(cardId);
+    }
 
     @Transactional(readOnly = true)
     public Integer getIslandNumberById(Integer id) throws DataAccessException {
         return islandRepository.getIslandNumberById(id);
+    }
+    @Transactional(readOnly = true)
+    public Island findIslandById(Integer id) throws DataAccessException {
+        return islandRepository.findById(id).get();
     }
 
     @Transactional
