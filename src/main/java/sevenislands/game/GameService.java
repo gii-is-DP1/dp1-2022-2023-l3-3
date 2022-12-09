@@ -1,6 +1,7 @@
 package sevenislands.game;
 
 import java.sql.Date;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,8 @@ import sevenislands.user.User;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+
 
 @Service
 public class GameService {
@@ -61,4 +64,9 @@ public class GameService {
         Optional<Game> game = gameRepository.findGameByNickname(logedUser.getNickname());
         return game.isPresent() && roundService.checkRoundByGameId(game.get().getId());
      }
+
+    @Transactional
+    public List<Game> findGameActive(Boolean active) {
+        return gameRepository.findGamesActive(active);
+    }
 }

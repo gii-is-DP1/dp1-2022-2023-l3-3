@@ -1,5 +1,6 @@
 package sevenislands.game;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.Query;
@@ -20,4 +21,7 @@ public interface GameRepository extends CrudRepository<Game, Integer> {
     //SELECT G.ID  FROM GAME G JOIN LOBBY L ON  G.LOBBY_ID = L.ID INNER JOIN USER U WHERE U.NICKNAME='player1'
     @Query("SELECT g FROM Game g INNER JOIN g.lobby l INNER JOIN l.users u WHERE u.nickname=?1 AND g.active=true")
     public Optional<Game> findGameByNickname(String nickname);
+
+    @Query("SELECT g FROM Game g WHERE g.active=?1")
+    public List<Game> findGamesActive(Boolean active);
 }
