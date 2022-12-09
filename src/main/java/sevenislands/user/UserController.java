@@ -206,7 +206,7 @@ public class UserController {
 
 	/**
 	 * Ruta que gestiona la edición de los datos del usuario.
-	 * <p> Realiza todas las comprobaciones y se asegura de que la edición del usuario se haga de forma corecta.
+	 * <p> Realiza todas las comprobaciones y se asegura de que la edición del usuario se haga de forma correcta.
 	 * @param model
 	 * @param id
 	 * @param user
