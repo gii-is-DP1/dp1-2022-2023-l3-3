@@ -174,7 +174,7 @@ public class TurnController {
         }
     }
 
-
+ 
  
     @GetMapping("/turn/chooseIsland/{IdIsland}")
     public String chooseIsland(ModelMap model,@PathVariable("IdIsland") Integer id, @ModelAttribute("logedUser") User logedUser){
