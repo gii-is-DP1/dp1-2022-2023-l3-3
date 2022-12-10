@@ -1,5 +1,7 @@
 package sevenislands.game;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -10,8 +12,10 @@ import sevenislands.user.User;
 import sevenislands.user.UserService;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+
 
 @Controller
 public class GameController {
@@ -21,6 +25,7 @@ public class GameController {
     private static final String VIEWS_HOME =  "redirect:/home"; // vista para home
     private static final String VIEWS_TURN =  "redirect:/turn"; // vista para turn
     private static final String VIEWS_LOBBY =  "redirect:/lobby"; // vista para lobby
+    private static final String VIEWS_FINISHED_GAMES = "list/listGames"; //vista de partidas finalizadas
 
     private final GameService gameService;
     private final LobbyService lobbyService;
@@ -55,5 +60,19 @@ public class GameController {
     @GetMapping("/endGame")
     public String endGame(@ModelAttribute("logedUser") User logedUser){
         return"game/endGame";
+    }
+
+    @GetMapping("/game/finished")
+    public String listFinishedGames(ModelMap model) {
+        List<Game> games = this.gameService.findGameActive(false);
+        model.put("games", games);
+        return VIEWS_FINISHED_GAMES;
+    }
+
+    @GetMapping("/game/InProgress")
+    public String listGames(ModelMap model) {
+        List<Game> games = this.gameService.findGameActive(true);
+        model.put("games", games);
+        return VIEWS_FINISHED_GAMES;
     }
 }

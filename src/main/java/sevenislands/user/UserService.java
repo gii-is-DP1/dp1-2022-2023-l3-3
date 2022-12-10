@@ -23,7 +23,6 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.fasterxml.jackson.databind.node.BooleanNode;
 
 import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.lobby.Lobby;
