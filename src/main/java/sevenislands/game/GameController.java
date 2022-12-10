@@ -51,4 +51,9 @@ public class GameController {
         return VIEWS_HOME;
        }
     }
+
+    @GetMapping("/endGame")
+    public String endGame(@ModelAttribute("logedUser") User logedUser){
+        return"game/endGame";
+    }
 }

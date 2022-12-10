@@ -176,14 +176,35 @@ public class TurnService {
 
     @Transactional
     public void refreshDesk(Integer idIsla,User logedUser, Optional<Game> game){
-        int random = (int)(Math.random()*5+0);
-        Card newCard=cardService.findCardById(random);
+        int random = (int)(Math.random()*10+1);
         List<Island> islandList = islandService.findIslandsByGameId(game.get().getId());
+        Card newCard=cardService.findCardById(random);
+        if(newCard.getMultiplicity().equals(0)){
+            newCard=cardService.findCardOrderByMultiplicity().get(0);
+            Island isla=islandList.get(idIsla-1);
+            isla.setCard(newCard);
+            newCard.setMultiplicity(newCard.getMultiplicity()-1);
+            cardService.save(newCard);
+            islandService.save(isla);
+        }else if(cardService.findCardOrderByMultiplicity().get(0).getMultiplicity().equals(0)){
+            Island island=islandList.get(idIsla-1);
+            island.setCard(null);
+            islandService.save(island);
+        }
+        else{
+        
         Island isla=islandList.get(idIsla-1);
+        
         isla.setCard(newCard);
+       
         newCard.setMultiplicity(newCard.getMultiplicity()-1);
+        
         cardService.save(newCard);
+        
         islandService.save(isla);
+        }
+        
+        
         
         
       
@@ -283,6 +304,26 @@ public class TurnService {
         turnRepository.save(lastPlayerTurn);
         
     }
+
+
+@Transactional
+public boolean endGame(Game game,List<Island> islandList){
+    boolean res=true;
+    for(Card i: cardService.findAllCardsByGameId(game.getId())){
+        if(!(i.getMultiplicity().equals(0))){
+            res=false;
+        }
+    }
+/* 
+    for(Island island:islandList){
+        if(!(island.getCard().equals(null))){
+            res=false;
+        }
+    }*/
+
+    return res;
+}
+
 
     
 }

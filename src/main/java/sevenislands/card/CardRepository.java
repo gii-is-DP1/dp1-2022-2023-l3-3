@@ -20,4 +20,7 @@ public interface CardRepository extends CrudRepository<Card, Integer> {
  
     @Query("Select card FROM Card card WHERE card.Tipo=?1")
     public Card findCardByTreasureName(Tipo tipo);
+
+    @Query("SELECT card FROM Card card ORDER BY card.multiplicity DESC")
+    public List<Card> findCardOrderByMultiplicity();
 }

@@ -72,12 +72,13 @@ public class TurnController {
         response.addHeader("Refresh", "1");
 
         Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
+        List<Island> islandList = islandService.findIslandsByGameId(game.get().getId());
+        if(turnService.endGame(game.get(),islandList)) return "game/endgame";
         List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
                 .collect(Collectors.toList());
         Round round = roundList.get(roundList.size() - 1);
         List<Turn> turnList = turnService.findByRoundId(round.getId());
         Turn lastTurn = turnList.get(turnList.size() - 1);
-        List<Island> islandList = islandService.findIslandsByGameId(game.get().getId());
         Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
         List<User> userList = lobby.getUsers();
         Map<Card, Integer> playerCardsMap = turnService.findPlayerCardsLastTurn(logedUser.getNickname());
@@ -189,7 +190,9 @@ public class TurnController {
         Map<Card, Integer> playerCardsMap = turnService.findPlayerCardsLastTurn(logedUser.getNickname());
         if(NumCartasDelete.equals(0)){ 
             turnService.AnadirCarta(islaId,logedUser.getNickname());
+            System.out.println("========================1");
             turnService.refreshDesk(islaId, logedUser, game);
+            System.out.println("========================2");
             return "redirect:/turn/endTurn";
         }else{
             model.put("cardAnadida", cardAnadida);

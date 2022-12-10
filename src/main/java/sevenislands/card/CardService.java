@@ -60,5 +60,10 @@ public class CardService {
     public Card findCardByTreasureName(Tipo tipo){
         return cardRepository.findCardByTreasureName(tipo);
     }
+
+    @Transactional
+    public List<Card> findCardOrderByMultiplicity(){
+        return cardRepository.findCardOrderByMultiplicity();
+    }
 }
 

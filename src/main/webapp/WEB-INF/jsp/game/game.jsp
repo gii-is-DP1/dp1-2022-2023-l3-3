@@ -213,7 +213,9 @@
                                     <div id="board">
                                         <sevenislands:game>
                                             <c:forEach items="${islandList}" var="island">
+                                                <c:if test="${island.card!=null}">
                                                 <sevenislands:island island="${island}" />
+                                                </c:if>
                                             </c:forEach>
                                             <sevenislands:deck />
                                         </sevenislands:game>
@@ -227,7 +229,7 @@
                                         </center>
                                         <div id="myCards">
                                             <c:forEach items="${playerCardsMap}" var="card">
-                                                <img src="/resources/images/cards/${card.key.tipo}.png" width="150"
+                                            <img src="/resources/images/cards/${card.key.tipo}.png" width="150"
                                                 height="150"> 
                                                   
                                                 <h3 class="game_text">${card.value}</h3> 
