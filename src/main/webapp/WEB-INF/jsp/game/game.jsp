@@ -213,7 +213,7 @@
                                     <div id="board">
                                         <sevenislands:game>
                                             <c:forEach items="${islandList}" var="island">
-                                                <c:if test="${island.card!=null}">
+                                                <c:if test="${island.num!=0}">
                                                 <sevenislands:island island="${island}" />
                                                 </c:if>
                                             </c:forEach>

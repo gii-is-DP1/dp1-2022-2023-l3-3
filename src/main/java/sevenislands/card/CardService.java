@@ -20,6 +20,10 @@ public class CardService {
     public CardService(CardRepository cardRepository) {
         this.cardRepository = cardRepository;
     }
+    @Transactional
+    public void delete(Card card){
+        cardRepository.delete(card);
+    }
 
     @Transactional
     public void save(Card card) {

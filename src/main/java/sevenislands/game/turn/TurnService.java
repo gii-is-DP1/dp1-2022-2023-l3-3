@@ -78,7 +78,7 @@ public class TurnService {
         if(turn.getDice()!=null){
             for(int i=1; i<=(turn.getDice()+numCardMazo);i++){
                 Integer cambioIsla=turn.getDice()-i;
-                if(i<=islandList.size() && numCardMazo>=cambioIsla){
+                if(i<=islandList.size() && numCardMazo>=cambioIsla &&islandList.get(i-1).getNum()!=0){
                     islas.add(islandList.get(i-1));
                 }
                 
@@ -181,7 +181,7 @@ public class TurnService {
         int random = (int)(Math.random()*10+1);
         List<Island> islandList = islandService.findIslandsByGameId(game.get().getId());
         Card newCard=cardService.findCardById(random);
-        if(newCard.getMultiplicity().equals(0)){
+        if(newCard.getMultiplicity().equals(0) && cardService.findCardOrderByMultiplicity().get(0).getMultiplicity()>=1){
             newCard=cardService.findCardOrderByMultiplicity().get(0);
             Island isla=islandList.get(idIsla-1);
             isla.setCard(newCard);
@@ -190,7 +190,7 @@ public class TurnService {
             islandService.save(isla);
         }else if(cardService.findCardOrderByMultiplicity().get(0).getMultiplicity().equals(0)){
             Island island=islandList.get(idIsla-1);
-            island.setCard(null);
+            island.setNum(0);
             islandService.save(island);
         }
         else{
@@ -316,12 +316,12 @@ public boolean endGame(Game game,List<Island> islandList){
             res=false;
         }
     }
-/* 
+
     for(Island island:islandList){
-        if(!(island.getCard().equals(null))){
+        if(!(island.getNum().equals(0))){
             res=false;
         }
-    }*/
+    }
 
     return res;
 }
