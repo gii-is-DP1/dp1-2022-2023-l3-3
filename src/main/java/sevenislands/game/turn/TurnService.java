@@ -71,15 +71,17 @@ public class TurnService {
         return turnRepository.findByRoundId(id);
     }
     @Transactional
-    public List<Integer> IslandToChoose(Turn turn,String nickName){
-        List<Integer> islas=new ArrayList<>();
+    public List<Island> IslandToChoose(Turn turn,String nickName, List<Island> islandList){
+        List<Island> islas=new ArrayList<>();
         Map<Card, Integer> playerCardsMap=findPlayerCardsLastTurn(nickName);
-        if(turn.getDice()==null){
-            islas.add(0);
-            
-        }else{
-            for(int i=1; i<=(turn.getDice()+playerCardsMap.values().stream().mapToInt(x->x).sum());i++){
-                islas.add(i);
+        Integer numCardMazo=playerCardsMap.values().stream().mapToInt(x->x).sum();
+        if(turn.getDice()!=null){
+            for(int i=1; i<=(turn.getDice()+numCardMazo);i++){
+                Integer cambioIsla=turn.getDice()-i;
+                if(i<=islandList.size() && numCardMazo>=cambioIsla){
+                    islas.add(islandList.get(i-1));
+                }
+                
         }
     }
         return islas;

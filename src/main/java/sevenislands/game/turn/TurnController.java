@@ -82,7 +82,7 @@ public class TurnController {
         Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
         List<User> userList = lobby.getUsers();
         Map<Card, Integer> playerCardsMap = turnService.findPlayerCardsLastTurn(logedUser.getNickname());
-        List<Integer> islasToChose=turnService.IslandToChoose(lastTurn,logedUser.getNickname());
+        List<Island> islasToChose=turnService.IslandToChoose(lastTurn,logedUser.getNickname(),islandList);
         model.put("player", logedUser);
         model.put("player_turn", lastTurn.getUser());
         model.put("dice", lastTurn.getDice());
