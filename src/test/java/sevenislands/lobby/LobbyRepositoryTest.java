@@ -10,17 +10,37 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+import sevenislands.user.User;
+import sevenislands.user.UserRepository;
 
 @DataJpaTest
 public class LobbyRepositoryTest {
     
     @Autowired
     LobbyRepository lobbyRepository;
+
+    @Autowired
+    UserRepository userRepository;
+
+
+    @BeforeEach
+    public void config(){
+        Lobby lobby = new Lobby();
+        List<User> users = userRepository.findAll().stream().filter(u -> u.getUserType().equals("player")).limit(3).collect(Collectors.toList());
+        lobby.setUsers(users);
+        lobby.setCode(lobby.generatorCode());
+        lobby.setActive(true);
+        lobbyRepository.save(lobby);
+        
+    }
 
     @Test
     public void TestDataAllFindAllSuccess(){
@@ -71,8 +91,8 @@ public class LobbyRepositoryTest {
 
     @Test
     public void TestFindAllActiveLobby(){
-        Collection<Lobby> lobby=lobbyRepository.findAllActiveLobby();
-        assertTrue(!lobby.isEmpty());
+        List<Lobby> lobby=lobbyRepository.findAllActiveLobby();
+        assertFalse(lobby.isEmpty());
     }
 
     @Test
