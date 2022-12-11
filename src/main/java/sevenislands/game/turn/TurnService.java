@@ -215,12 +215,12 @@ public class TurnService {
     @Transactional
     public void checkUserGame(User logedUser) throws NotExistLobbyException {
         try {
-            if (gameService.findGameByNickname(logedUser.getNickname()).isPresent()) {
+            if (gameService.findGameByNickname(logedUser.getNickname(), true).isPresent()) {
 
                 // TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que
                 // existe
                 Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
-                Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
+                Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname(), true);
                 List<User> userList = lobby.getPlayerInternal();
                 List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
                         .collect(Collectors.toList());
