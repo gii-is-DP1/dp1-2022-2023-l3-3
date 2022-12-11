@@ -43,4 +43,12 @@ public class Game extends BaseEntity {
 	@OneToOne
 	@NotNull
 	private Lobby lobby;
+
+
+
+	@Override
+	public String toString() {
+		return "Game [creationDate=" + creationDate + ", active=" + active + ", endingDate=" + endingDate + ", lobby="
+				+ lobby + "]";
+	}
 }

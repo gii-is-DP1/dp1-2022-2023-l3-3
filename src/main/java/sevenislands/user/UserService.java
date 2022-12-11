@@ -59,6 +59,7 @@ public class UserService {
         userCreate.setBirthDate(new Date(System.currentTimeMillis()));
         userCreate.setAvatar("resource/images/avatars/playerAvatar.png");
         userCreate.setUserType("player");
+		userCreate.setCreationDate(new Date(System.currentTimeMillis()));
 
         return userCreate;
     }

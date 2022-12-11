@@ -4,28 +4,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
 
-import org.junit.jupiter.api.BeforeEach;
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import sevenislands.card.Card;
 import sevenislands.card.CardRepository;
-import sevenislands.enums.Tipo;
-import sevenislands.game.Game;
 import sevenislands.game.GameRepository;
-import sevenislands.game.island.Island;
 import sevenislands.game.island.IslandRepository;
 import sevenislands.game.round.Round;
 import sevenislands.game.round.RoundRepository;
-import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyRepository;
-import sevenislands.user.User;
 import sevenislands.user.UserRepository;
 
 @DataJpaTest

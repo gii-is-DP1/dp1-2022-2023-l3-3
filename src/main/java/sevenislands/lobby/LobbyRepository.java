@@ -1,6 +1,5 @@
 package sevenislands.lobby;
 
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,7 +16,7 @@ public interface LobbyRepository extends CrudRepository<Lobby,Integer> {
 	public Optional<Lobby> findByCode(String code);
     
     //No se usa en ningún lado
-    @Query(value = "SELECT lobby.id FROM Lobby lobby INNER JOIN lobby.users user WHERE user.id=?1")
+    @Query(value = "SELECT lobby.id FROM Lobby lobby INNER JOIN lobby.users user WHERE user.id=?1 AND lobby.active=true")
     public Integer findLobbyIdByPlayer(Integer player_id);
 
     //No se usa en ningún lado
