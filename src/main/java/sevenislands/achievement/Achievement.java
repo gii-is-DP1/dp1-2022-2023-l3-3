@@ -10,7 +10,7 @@ import javax.persistence.Enumerated;
 
 
 import sevenislands.enums.AchievementType;
-import sevenislands.model.NamedEntity;
+import sevenislands.model.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -20,7 +20,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class Achievement extends NamedEntity {
+public class Achievement extends BaseEntity {
 
     @Column(name = "description", nullable = false)
     private String description;

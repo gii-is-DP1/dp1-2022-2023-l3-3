@@ -3,11 +3,9 @@ package sevenislands.lobby;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.StreamSupport;
@@ -51,30 +49,6 @@ public class LobbyRepositoryTest {
         assertNotNull(lobby);
     }
     
-    @Test
-    public void TestFindLobbyIdByPlayer(){
-        Integer lobby=lobbyRepository.findLobbyIdByPlayer(8);
-        assertNotNull(lobby);
-    }  
-
-    @Test
-    public void TestFindLobbyByNicknameSuccess(){
-        Optional<Integer> lobby=lobbyRepository.findLobbyByNicknamePlayer("player1");
-        assertNotNull(lobby);
-    }  
-
-    @Test
-    public void TestFindLobbyByNicknameFail(){
-        Optional<Integer> lobby=lobbyRepository.findLobbyByNicknamePlayer("player2");
-        assertNull(lobby.orElse(null));
-    }  
-
-    @Test
-    public void TestFindAllActiveLobby(){
-        Collection<Lobby> lobby=lobbyRepository.findAllActiveLobby();
-        assertTrue(!lobby.isEmpty());
-    }
-
     @Test
     public void TestGetNumOfLobby(){
         Long numOfLobby= StreamSupport.stream(lobbyRepository.findAll().spliterator(), false).count();
