@@ -246,7 +246,7 @@
                                                 <br />
                                                 <center>
                                                     <c:forEach items="${IslasToChose}" var="isla">
-                                                        <c:if test="${isla.id<=NumIslands}">    
+                                                        <c:if test="${isla.num<=NumIslands}">    
                                                             <a class="btn btn-default"
                                                             href='<spring:url value="/turn/chooseIsland/${isla.id}" htmlEscape="true"/>'>Isla ${isla.id}
                                                             </a>

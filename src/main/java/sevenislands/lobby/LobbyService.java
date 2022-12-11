@@ -36,7 +36,7 @@ public class LobbyService {
         
         for(int i = 0; i<RANDOM_STRING_LENGTH; i++) {
             Random randomGenerator = new Random();
-            char ch = CHAR_LIST.charAt(randomGenerator.nextInt(CHAR_LIST.length()-1));
+            char ch = CHAR_LIST.charAt(randomGenerator.nextInt(CHAR_LIST.length()));
             randomString.append(ch);
         }
         return randomString.toString();

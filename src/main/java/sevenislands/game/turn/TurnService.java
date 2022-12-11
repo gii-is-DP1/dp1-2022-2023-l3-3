@@ -167,7 +167,7 @@ public class TurnService {
                 }
             }
             Random randomGenerator = new Random();
-            Integer randomCardNumber = randomGenerator.nextInt(cardList.size() - 1);
+            Integer randomCardNumber = randomGenerator.nextInt(cardList.size());
             Card selectedCard = allCards.get(cardList.get(randomCardNumber));
             island.setCard(selectedCard);
             selectedCard.setMultiplicity(selectedCard.getMultiplicity() - 1);
@@ -178,40 +178,31 @@ public class TurnService {
 
     @Transactional
     public void refreshDesk(Integer idIsla,User logedUser, Optional<Game> game){
-        int random = (int)(Math.random()*10+1);
+        List<Card> allCards = cardService.findAllCardsByGameId(game.get().getId());
+        List<Integer> cardList = new ArrayList<>();
+        for (Card c : allCards) {
+            for (Integer j = 0; j < c.getMultiplicity(); j++) {
+                cardList.add(allCards.indexOf(c));
+            }
+        }
+
         List<Island> islandList = islandService.findIslandsByGameId(game.get().getId());
-        Card newCard=cardService.findCardById(random);
-        if(newCard.getMultiplicity().equals(0) && cardService.findCardOrderByMultiplicity().get(0).getMultiplicity()>=1){
-            newCard=cardService.findCardOrderByMultiplicity().get(0);
-            Island isla=islandList.get(idIsla-1);
-            isla.setCard(newCard);
-            newCard.setMultiplicity(newCard.getMultiplicity()-1);
-            cardService.save(newCard);
-            islandService.save(isla);
-        }else if(cardService.findCardOrderByMultiplicity().get(0).getMultiplicity().equals(0)){
+        if(cardList.size()!=0){
+            Random randomGenerator = new Random();
+            Integer randomCardNumber = randomGenerator.nextInt(cardList.size());
+            Card selectedCard = allCards.get(cardList.get(randomCardNumber));
+            Island island=islandList.get(idIsla-1);
+            island.setCard(selectedCard);
+            selectedCard.setMultiplicity(selectedCard.getMultiplicity() - 1);
+            cardService.save(selectedCard);
+            islandService.save(island);
+        }else {
             Island island=islandList.get(idIsla-1);
             island.setNum(0);
             islandService.save(island);
         }
-        else{
-        
-        Island isla=islandList.get(idIsla-1);
-        
-        isla.setCard(newCard);
-       
-        newCard.setMultiplicity(newCard.getMultiplicity()-1);
-        
-        cardService.save(newCard);
-        
-        islandService.save(isla);
-        }
-        
-        
-        
-        
-      
-
     }
+
     @Transactional
     public void checkUserGame(User logedUser) throws NotExistLobbyException {
         try {
@@ -285,44 +276,33 @@ public class TurnService {
     public void DeleteCard(Integer id,String nickname){
         
         Turn lastPlayerTurn = turnRepository.findTurnByNickname(nickname).get(0);
-       
         List<Card> cartasLastTurn=lastPlayerTurn.getCards();
-        
         Card carta=cardService.findCardById(id);
-        
-
         for(Card c:cartasLastTurn){
-            
-
             if(c.getTipo().equals(carta.getTipo())){
-                
                 cartasLastTurn.remove(c);
                 break;
             }
-            
         }
-    
         lastPlayerTurn.setCards(cartasLastTurn);
         turnRepository.save(lastPlayerTurn);
-        
     }
 
 
 @Transactional
-public boolean endGame(Game game,List<Island> islandList){
+public boolean endGame(Game game){
+    List<Island> islandList = islandService.findIslandsByGameId(game.getId());
     boolean res=true;
     for(Card i: cardService.findAllCardsByGameId(game.getId())){
         if(!(i.getMultiplicity().equals(0))){
             res=false;
         }
     }
-
     for(Island island:islandList){
         if(!(island.getNum().equals(0))){
             res=false;
         }
     }
-
     return res;
 }
 

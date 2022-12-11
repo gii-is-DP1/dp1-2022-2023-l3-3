@@ -72,7 +72,7 @@ public class TurnController {
 
         Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname(), true);
         List<Island> islandList = islandService.findIslandsByGameId(game.get().getId());
-        if(turnService.endGame(game.get(),islandList)) return "game/endgame";
+        if(turnService.endGame(game.get())) return "game/endgame";
         List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
                 .collect(Collectors.toList());
         Round round = roundList.get(roundList.size() - 1);
@@ -181,11 +181,11 @@ public class TurnController {
     }
 
     @RequestMapping(value ="/turn/chooseCard",method = RequestMethod.GET)
-        public String chooseCard(ModelMap model,@RequestParam Integer islaId,@RequestParam Integer NumCartasDelete, @ModelAttribute("logedUser") User logedUser){
+    public String chooseCard(ModelMap model,@RequestParam Integer islaId,@RequestParam Integer NumCartasDelete, @ModelAttribute("logedUser") User logedUser){
         Card cardAnadida=cardService.findCardById(islaId);
         Optional<Game> game=gameService.findGameByNickname(logedUser.getNickname(), true);
         Map<Card, Integer> playerCardsMap = turnService.findPlayerCardsLastTurn(logedUser.getNickname());
-        if(NumCartasDelete.equals(0)){ 
+        if(NumCartasDelete.equals(0)){
             turnService.AnadirCarta(islaId,logedUser.getNickname());
             turnService.refreshDesk(islaId, logedUser, game);
             return "redirect:/turn/endTurn";
@@ -196,15 +196,13 @@ public class TurnController {
             model.put("card", playerCardsMap);
             return "/game/chooseCard";
         }
-        
-    
     }
         
-        @RequestMapping(value="/delete/chooseCard/{idCard}",method = RequestMethod.GET)
-        public String deleteMyCard(@PathVariable("idCard") Integer id,@RequestParam Integer islaId,@RequestParam Integer NumCartasDelete,@ModelAttribute("logedUser") User logedUser){
-            turnService.DeleteCard(id, logedUser.getNickname());           
-            NumCartasDelete--;         
-            return "redirect:/turn/chooseCard?islaId="+islaId+"&NumCartasDelete="+NumCartasDelete;
-        }
+    @RequestMapping(value="/delete/chooseCard/{idCard}",method = RequestMethod.GET)
+    public String deleteMyCard(@PathVariable("idCard") Integer id,@RequestParam Integer islaId,@RequestParam Integer NumCartasDelete,@ModelAttribute("logedUser") User logedUser){
+        turnService.DeleteCard(id, logedUser.getNickname());           
+        NumCartasDelete--;         
+        return "redirect:/turn/chooseCard?islaId="+islaId+"&NumCartasDelete="+NumCartasDelete;
+    }
     
 }
