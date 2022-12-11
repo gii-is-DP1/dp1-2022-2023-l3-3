@@ -28,7 +28,10 @@
 				<a class="btn btn-default" href='<spring:url value="/home" htmlEscape="true"/>'>Volver</a>
 			</div>
 		</div>
-		<h2><br/>Partidas finalizadas</h2>
+		<c:forEach items="${games}" var="game">
+			<c:if test="${game.active == false}"><h2><br/>Partidas finalizadas</h2></c:if>
+			<c:if test="${game.active == true}"><h2><br/>Partidas en curso</h2></c:if>
+		</c:forEach>
 		<div class="container">
 			<br/>
 			<c:if test="${message != null}">
