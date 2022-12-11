@@ -39,12 +39,17 @@
 				</sec:authorize>
 			</div>
 			<div class="posicion">
+				<!--
 				<img src="/resources/images/grafics/pirataLoroAnimado.gif" width="550" height="688">
+			-->
 			</div>
 		</div>
         <div>
             <center>
+				
                 <img src="/resources/images/grafics/letras_7_islas.png" width="700" height="200">
+		
+
             </center>
         </div>
 

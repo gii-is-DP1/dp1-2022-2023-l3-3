@@ -121,28 +121,44 @@ public class TurnService {
     @Transactional
     public void assignTurn(User logedUser, Optional<Game> game, List<User> userList, List<Round> roundList) {
         Round round = new Round();
+        System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvv1");
         round.setGame(game.get());
+        System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvv2=>"+game.get().getId());
         if (roundService.findRoundsByGameId(game.get().getId()).isEmpty()) {
+            System.out.println("hhhhhhhhhhhhhhhhhhhhhh=>");
             dealtreasures(logedUser, game, userList, roundList);
+            System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvv3");
             Integer prevUser = userList.indexOf(logedUser) == 0 ? userList.size() - 1 : userList.indexOf(logedUser) - 1;
+            System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvv4");
             roundService.save(round);
+            System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvv5");
             initTurn(userList.get(prevUser), round, userList, null);
+            System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvv6");
         } else if (findByRoundId(roundList.get(roundList.size() - 1).getId()).size() >= userList.size()) {
             roundService.save(round);
+            System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvv7");
             initTurn(logedUser, round, userList, null);
+            System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvv8");
         }
     }
 
     @Transactional
     public void dealtreasures(User logedUser, Optional<Game> game, List<User> userList, List<Round> roundList) {
+        System.out.println("aaaaaaaaaaaaaaaaaaa1");
         Round round = new Round();
         cardService.initGameCards(game.get());
+        System.out.println("aaaaaaaaaaaaaaaaaaa2");
         List<Card> treasureList = new ArrayList<>();
         round.setGame(game.get());
-        treasureList.add(cardService.findCardByTreasureName(Tipo.Doblon));
-        treasureList.add(cardService.findCardByTreasureName(Tipo.Doblon));
-        treasureList.add(cardService.findCardByTreasureName(Tipo.Doblon));
+        System.out.println("aaaaaaaaaaaaaaaaaaa3=>"+round.getId());
+        treasureList.add(cardService.findCardByTreasureName(Tipo.Doblon,game.get().getId()));
+        System.out.println("aaaaaaaaaaaaaaaaaaa3g");
+        treasureList.add(cardService.findCardByTreasureName(Tipo.Doblon,game.get().getId()));
+        System.out.println("aaaaaaaaaaaaaaaaaaa3h");
+        treasureList.add(cardService.findCardByTreasureName(Tipo.Doblon,game.get().getId()));
+        System.out.println("aaaaaaaaaaaaaaaaaaa3j");
         roundService.save(round);
+        System.out.println("aaaaaaaaaaaaaaaaaaa4");
         for (Integer i = 0; i < userList.size(); i++) {
             User user = userList.get((userList.indexOf(logedUser) + i) % userList.size());
             Turn turn = new Turn();
@@ -158,8 +174,11 @@ public class TurnService {
         for (Integer i = 0; i < 6; i++) {
             Island island = new Island();
             island.setNum(i + 1);
+            System.out.println("aaaaaaaaaaaaaaaaaaa5");
             island.setGame(game.get());
+            System.out.println("aaaaaaaaaaaaaaaaaaa6");
             List<Card> allCards = cardService.findAllCardsByGameId(game.get().getId());
+            System.out.println("aaaaaaaaaaaaaaaaaaa7");
             List<Integer> cardList = new ArrayList<>();
             for (Card c : allCards) {
                 for (Integer j = 0; j < c.getMultiplicity(); j++) {

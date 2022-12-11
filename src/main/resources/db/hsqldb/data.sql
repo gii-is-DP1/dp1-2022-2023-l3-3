@@ -33,7 +33,7 @@ INSERT INTO user(nickname,password,enabled,first_name,last_name,email,creation_d
 -- INSERT INTO turn(user_id, round_id, start_time) VALUES (9,1,'2022-11-16 18:52:12');
 
 -- -- -- -- CARD --
--- insert INTO card(tipo,multiplicity,game_id) VALUES('doblon',5,1);
+-- insert INTO card(tipo,multiplicity,game_id) VALUES('Doblon',5,1);
 
 
 

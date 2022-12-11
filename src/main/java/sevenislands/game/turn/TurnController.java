@@ -156,20 +156,27 @@ public class TurnController {
         if (lobbyService.checkUserNoLobby(logedUser))
             return "redirect:/home";
         try {
+            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxx1");
             Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
+            System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxx2=>"+game.get().getId());
             if (game.isPresent()) {
+                System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxx3");
                 Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
+                System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxx4");
                 List<User> userList = lobby.getUsers();
+                System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxx5");
                 List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
                         .collect(Collectors.toList());
+                System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxx6");     
                 turnService.assignTurn(logedUser, game, userList, roundList);
+                System.out.println("xxxxxxxxxxxxxxxxxxxxxxxxxxxx7");
                 return "redirect:/turn";
             } else
             
                 return "redirect:/home";
         } catch (Exception e) {
             
-            System.out.println(e.getMessage());
+            System.out.println("=======================>"+e.getMessage());
             return "redirect:/home";
         }
     }

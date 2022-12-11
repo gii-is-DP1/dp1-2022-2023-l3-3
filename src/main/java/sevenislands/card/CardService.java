@@ -61,8 +61,8 @@ public class CardService {
     }
 
     @Transactional
-    public Card findCardByTreasureName(Tipo tipo){
-        return cardRepository.findCardByTreasureName(tipo);
+    public Card findCardByTreasureName(Tipo tipo,Integer id){
+        return cardRepository.findCardByTreasureName(tipo,id);
     }
 
     @Transactional
