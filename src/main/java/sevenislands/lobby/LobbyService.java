@@ -186,7 +186,7 @@ public class LobbyService {
         Lobby lobby = findLobbyByPlayerId(logedUser.getId());
         Boolean res;
         userNumber = lobby.getUsers().size();
-		if (userNumber != null && userNumber > minPlayers && userNumber < maxPlayers) {
+		if (userNumber != null && userNumber > minPlayers && userNumber <= maxPlayers) {
             res = false;
 		} else {res= true;}
         return res;

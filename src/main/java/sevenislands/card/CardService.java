@@ -45,7 +45,6 @@ public class CardService {
             card.setTipo(c);
             card.setGame(game);
             cardRepository.save(card);
-           
         }
     }
 

@@ -150,13 +150,9 @@ public class TurnService {
         System.out.println("aaaaaaaaaaaaaaaaaaa2");
         List<Card> treasureList = new ArrayList<>();
         round.setGame(game.get());
-        System.out.println("aaaaaaaaaaaaaaaaaaa3=>"+round.getId());
-        treasureList.add(cardService.findCardByTreasureName(Tipo.Doblon,game.get().getId()));
-        System.out.println("aaaaaaaaaaaaaaaaaaa3g");
-        treasureList.add(cardService.findCardByTreasureName(Tipo.Doblon,game.get().getId()));
-        System.out.println("aaaaaaaaaaaaaaaaaaa3h");
-        treasureList.add(cardService.findCardByTreasureName(Tipo.Doblon,game.get().getId()));
-        System.out.println("aaaaaaaaaaaaaaaaaaa3j");
+        treasureList.add(cardService.findCardByGameAndTreasure(game.get().getId(), Tipo.Doblon));
+        treasureList.add(cardService.findCardByGameAndTreasure(game.get().getId(), Tipo.Doblon));
+        treasureList.add(cardService.findCardByGameAndTreasure(game.get().getId(), Tipo.Doblon));
         roundService.save(round);
         System.out.println("aaaaaaaaaaaaaaaaaaa4");
         for (Integer i = 0; i < userList.size(); i++) {
@@ -234,12 +230,12 @@ public class TurnService {
     @Transactional
     public void checkUserGame(User logedUser) throws NotExistLobbyException {
         try {
-            if (gameService.findGameByNickname(logedUser.getNickname()).isPresent()) {
+            if (gameService.findGameByNickname(logedUser.getNickname(), true).isPresent()) {
 
                 // TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que
                 // existe
                 Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
-                Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
+                Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname(), true);
                 List<User> userList = lobby.getPlayerInternal();
                 List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
                         .collect(Collectors.toList());
@@ -328,8 +324,9 @@ public class TurnService {
 
 
 @Transactional
-public boolean endGame(Game game,List<Island> islandList){
+public boolean endGame(Game game){
     boolean res=true;
+    List<Island> islandList=islandService.findIslandsByGameId(game.getId());
     for(Card i: cardService.findAllCardsByGameId(game.getId())){
         if(!(i.getMultiplicity().equals(0))){
             res=false;
