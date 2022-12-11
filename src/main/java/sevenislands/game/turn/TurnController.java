@@ -168,8 +168,6 @@ public class TurnController {
             
                 return "redirect:/home";
         } catch (Exception e) {
-            
-            System.out.println(e.getMessage());
             return "redirect:/home";
         }
     }
@@ -190,9 +188,7 @@ public class TurnController {
         Map<Card, Integer> playerCardsMap = turnService.findPlayerCardsLastTurn(logedUser.getNickname());
         if(NumCartasDelete.equals(0)){ 
             turnService.AnadirCarta(islaId,logedUser.getNickname());
-            System.out.println("========================1");
             turnService.refreshDesk(islaId, logedUser, game);
-            System.out.println("========================2");
             return "redirect:/turn/endTurn";
         }else{
             model.put("cardAnadida", cardAnadida);
