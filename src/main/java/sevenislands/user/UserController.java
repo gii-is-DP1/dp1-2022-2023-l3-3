@@ -117,7 +117,6 @@ public class UserController {
 			if(userService.deleteUser(id, logedUser)|| logedUser.getUserType().equals("admin")) return "redirect:/controlPanel?valor="+metodosReutilizables.DeletePaginaControlPanel(id);
 			else return "redirect:/";
 		} catch (Exception e) {
-			System.out.println(e.getMessage());
 			return "redirect:/";
 		}
 		
