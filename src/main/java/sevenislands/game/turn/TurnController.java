@@ -70,7 +70,7 @@ public class TurnController {
             return "redirect:/home";
         response.addHeader("Refresh", "1");
 
-        Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
+        Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname(), true);
         List<Island> islandList = islandService.findIslandsByGameId(game.get().getId());
         if(turnService.endGame(game.get(),islandList)) return "game/endgame";
         List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
@@ -109,7 +109,7 @@ public class TurnController {
             return "redirect:/home";
 
         try {
-            Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
+            Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname(), true);
             List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
                     .collect(Collectors.toList());
             Round round = roundList.get(roundList.size() - 1);
@@ -137,7 +137,7 @@ public class TurnController {
         if (lobbyService.checkUserNoLobby(logedUser))
             return "redirect:/home";
 
-        Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
+        Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname(), true);
         List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
                 .collect(Collectors.toList());
         Round round = roundList.get(roundList.size() - 1);
@@ -155,7 +155,7 @@ public class TurnController {
         if (lobbyService.checkUserNoLobby(logedUser))
             return "redirect:/home";
         try {
-            Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
+            Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname(), true);
             if (game.isPresent()) {
                 Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
                 List<User> userList = lobby.getUsers();
@@ -183,7 +183,7 @@ public class TurnController {
     @RequestMapping(value ="/turn/chooseCard",method = RequestMethod.GET)
         public String chooseCard(ModelMap model,@RequestParam Integer islaId,@RequestParam Integer NumCartasDelete, @ModelAttribute("logedUser") User logedUser){
         Card cardAnadida=cardService.findCardById(islaId);
-        Optional<Game> game=gameService.findGameByNickname(logedUser.getNickname());
+        Optional<Game> game=gameService.findGameByNickname(logedUser.getNickname(), true);
         Map<Card, Integer> playerCardsMap = turnService.findPlayerCardsLastTurn(logedUser.getNickname());
         if(NumCartasDelete.equals(0)){ 
             turnService.AnadirCarta(islaId,logedUser.getNickname());

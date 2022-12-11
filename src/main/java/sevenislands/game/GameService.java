@@ -48,8 +48,8 @@ public class GameService {
     }
 
     @Transactional
-    public Optional<Game> findGameByNickname(String nickname) {
-        return gameRepository.findGameByNickname(nickname);
+    public Optional<Game> findGameByNickname(String nickname, Boolean active) {
+        return gameRepository.findGameByNickname(nickname, active);
     }
 
     /**
@@ -61,7 +61,7 @@ public class GameService {
      */
     @Transactional
     public Boolean checkUserGameWithRounds(User logedUser) {
-        Optional<Game> game = gameRepository.findGameByNickname(logedUser.getNickname());
+        Optional<Game> game = gameRepository.findGameByNickname(logedUser.getNickname(), true);
         return game.isPresent() && roundService.checkRoundByGameId(game.get().getId());
      }
 
