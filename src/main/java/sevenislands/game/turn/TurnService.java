@@ -121,40 +121,30 @@ public class TurnService {
     @Transactional
     public void assignTurn(User logedUser, Optional<Game> game, List<User> userList, List<Round> roundList) {
         Round round = new Round();
-        System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvv1");
         round.setGame(game.get());
-        System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvv2=>"+game.get().getId());
         if (roundService.findRoundsByGameId(game.get().getId()).isEmpty()) {
-            System.out.println("hhhhhhhhhhhhhhhhhhhhhh=>");
             dealtreasures(logedUser, game, userList, roundList);
-            System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvv3");
-            Integer prevUser = userList.indexOf(logedUser) == 0 ? userList.size() - 1 : userList.indexOf(logedUser) - 1;
-            System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvv4");
+            Integer prevUser = userList.indexOf(logedUser) == 0 ? userList.size() - 1 : userList.indexOf(logedUser) - 1; 
             roundService.save(round);
-            System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvv5");
             initTurn(userList.get(prevUser), round, userList, null);
-            System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvv6");
         } else if (findByRoundId(roundList.get(roundList.size() - 1).getId()).size() >= userList.size()) {
             roundService.save(round);
-            System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvv7");
+            
             initTurn(logedUser, round, userList, null);
-            System.out.println("vvvvvvvvvvvvvvvvvvvvvvvvv8");
+            
         }
     }
 
     @Transactional
     public void dealtreasures(User logedUser, Optional<Game> game, List<User> userList, List<Round> roundList) {
-        System.out.println("aaaaaaaaaaaaaaaaaaa1");
         Round round = new Round();
         cardService.initGameCards(game.get());
-        System.out.println("aaaaaaaaaaaaaaaaaaa2");
         List<Card> treasureList = new ArrayList<>();
         round.setGame(game.get());
         treasureList.add(cardService.findCardByGameAndTreasure(game.get().getId(), Tipo.Doblon));
         treasureList.add(cardService.findCardByGameAndTreasure(game.get().getId(), Tipo.Doblon));
         treasureList.add(cardService.findCardByGameAndTreasure(game.get().getId(), Tipo.Doblon));
         roundService.save(round);
-        System.out.println("aaaaaaaaaaaaaaaaaaa4");
         for (Integer i = 0; i < userList.size(); i++) {
             User user = userList.get((userList.indexOf(logedUser) + i) % userList.size());
             Turn turn = new Turn();
@@ -170,11 +160,8 @@ public class TurnService {
         for (Integer i = 0; i < 6; i++) {
             Island island = new Island();
             island.setNum(i + 1);
-            System.out.println("aaaaaaaaaaaaaaaaaaa5");
             island.setGame(game.get());
-            System.out.println("aaaaaaaaaaaaaaaaaaa6");
             List<Card> allCards = cardService.findAllCardsByGameId(game.get().getId());
-            System.out.println("aaaaaaaaaaaaaaaaaaa7");
             List<Integer> cardList = new ArrayList<>();
             for (Card c : allCards) {
                 for (Integer j = 0; j < c.getMultiplicity(); j++) {
@@ -182,7 +169,7 @@ public class TurnService {
                 }
             }
             Random randomGenerator = new Random();
-            Integer randomCardNumber = randomGenerator.nextInt(cardList.size() - 1);
+            Integer randomCardNumber = randomGenerator.nextInt(cardList.size());
             Card selectedCard = allCards.get(cardList.get(randomCardNumber));
             island.setCard(selectedCard);
             selectedCard.setMultiplicity(selectedCard.getMultiplicity() - 1);
@@ -193,40 +180,31 @@ public class TurnService {
 
     @Transactional
     public void refreshDesk(Integer idIsla,User logedUser, Optional<Game> game){
-        int random = (int)(Math.random()*10+1);
+        List<Card> allCards = cardService.findAllCardsByGameId(game.get().getId());
+        List<Integer> cardList = new ArrayList<>();
+        for (Card c : allCards) {
+            for (Integer j = 0; j < c.getMultiplicity(); j++) {
+                cardList.add(allCards.indexOf(c));
+            }
+        }
+
         List<Island> islandList = islandService.findIslandsByGameId(game.get().getId());
-        Card newCard=cardService.findCardById(random);
-        if(newCard.getMultiplicity().equals(0) && cardService.findCardOrderByMultiplicity().get(0).getMultiplicity()>=1){
-            newCard=cardService.findCardOrderByMultiplicity().get(0);
-            Island isla=islandList.get(idIsla-1);
-            isla.setCard(newCard);
-            newCard.setMultiplicity(newCard.getMultiplicity()-1);
-            cardService.save(newCard);
-            islandService.save(isla);
-        }else if(cardService.findCardOrderByMultiplicity().get(0).getMultiplicity().equals(0)){
+        if(cardList.size()!=0){
+            Random randomGenerator = new Random();
+            Integer randomCardNumber = randomGenerator.nextInt(cardList.size());
+            Card selectedCard = allCards.get(cardList.get(randomCardNumber));
+            Island island=islandList.get(idIsla-1);
+            island.setCard(selectedCard);
+            selectedCard.setMultiplicity(selectedCard.getMultiplicity() - 1);
+            cardService.save(selectedCard);
+            islandService.save(island);
+        }else {
             Island island=islandList.get(idIsla-1);
             island.setNum(0);
             islandService.save(island);
         }
-        else{
-        
-        Island isla=islandList.get(idIsla-1);
-        
-        isla.setCard(newCard);
-       
-        newCard.setMultiplicity(newCard.getMultiplicity()-1);
-        
-        cardService.save(newCard);
-        
-        islandService.save(isla);
-        }
-        
-        
-        
-        
-      
-
     }
+
     @Transactional
     public void checkUserGame(User logedUser) throws NotExistLobbyException {
         try {
@@ -300,26 +278,16 @@ public class TurnService {
     public void DeleteCard(Integer id,String nickname){
         
         Turn lastPlayerTurn = turnRepository.findTurnByNickname(nickname).get(0);
-       
         List<Card> cartasLastTurn=lastPlayerTurn.getCards();
-        
         Card carta=cardService.findCardById(id);
-        
-
         for(Card c:cartasLastTurn){
-            
-
             if(c.getTipo().equals(carta.getTipo())){
-                
                 cartasLastTurn.remove(c);
                 break;
             }
-            
         }
-    
         lastPlayerTurn.setCards(cartasLastTurn);
         turnRepository.save(lastPlayerTurn);
-        
     }
 
 
@@ -332,13 +300,11 @@ public boolean endGame(Game game){
             res=false;
         }
     }
-
     for(Island island:islandList){
         if(!(island.getNum().equals(0))){
             res=false;
         }
     }
-
     return res;
 }
 
