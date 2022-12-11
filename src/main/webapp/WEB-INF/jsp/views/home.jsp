@@ -75,6 +75,25 @@
 
 		<div>
             <center>
+				<sec:authorize access="hasAuthority('admin')">
+					<br/>
+					<a class="btn btn-default" href='<spring:url value="/game/finished" htmlEscape="true"/>'>Partidas finalizadas</a>
+				</sec:authorize>
+			</center>
+		</div>
+
+		<div>
+            <center>
+				<sec:authorize access="hasAuthority('admin')">
+					<br/>
+					<a class="btn btn-default" href='<spring:url value="/game/InProgress" htmlEscape="true"/>'>Partidas en curso</a>
+				</sec:authorize>
+			</center>
+		</div>
+
+
+		<div>
+            <center>
 				<br/>
 				<a class="btn btn-default" href='<spring:url value="/logout" htmlEscape="true"/>'>Cerrar Sesión</a>
 			</center>
