@@ -91,6 +91,11 @@
 					<br/>
 					<a class="btn btn-default" href='<spring:url value="/join" htmlEscape="true"/>'>Unirse a Partida</a>
 				</sec:authorize>
+
+				<sec:authorize access="hasAuthority('player')">
+					<br/>
+					<a class="btn btn-default" href='<spring:url value="/game/gamesAsPlayer" htmlEscape="true"/>'>Partidas jugadas</a>
+				</sec:authorize>
 		
 				<sec:authorize access="hasAuthority('admin')">
 					<a class="btn btn-default" href='<spring:url value="/controlPanel?valor=0" htmlEscape="true"/>'>Panel de Control</a>
