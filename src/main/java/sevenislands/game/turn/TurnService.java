@@ -267,7 +267,8 @@ public class TurnService {
     public void AnadirCarta(Integer id,String nickname){
         Turn lastPlayerTurn = turnRepository.findTurnByNickname(nickname).get(0);
         List<Card> cartasLastTurn=lastPlayerTurn.getCards();
-        Island island=islandService.findIslandById(id);
+        Optional<Game> game=gameService.findGameByNickname(nickname, true);
+        Island island=islandService.findCardOfIsland(game.get().getId(),id);
         Card card=cardService.findCardById(island.getCard().getId());
         cartasLastTurn.add(card);
         lastPlayerTurn.setCards(cartasLastTurn);
