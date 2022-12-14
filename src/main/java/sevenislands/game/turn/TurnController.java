@@ -70,15 +70,10 @@ public class TurnController {
             return "redirect:/home";
         response.addHeader("Refresh", "1");
 
-<<<<<<< HEAD
-        Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
-        List<Island> islandList = islandService.findIslandsByGameId(game.get().getId());
-        if(turnService.endGame(game.get(),islandList)) return "game/endgame";
-=======
+
         Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname(), true);
         List<Island> islandList = islandService.findIslandsByGameId(game.get().getId());
         if(turnService.endGame(game.get())) return "game/endgame";
->>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
         List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
                 .collect(Collectors.toList());
         Round round = roundList.get(roundList.size() - 1);
@@ -115,11 +110,7 @@ public class TurnController {
             return "redirect:/home";
 
         try {
-<<<<<<< HEAD
-            Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
-=======
             Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname(), true);
->>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
             List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
                     .collect(Collectors.toList());
             Round round = roundList.get(roundList.size() - 1);
@@ -147,11 +138,7 @@ public class TurnController {
         if (lobbyService.checkUserNoLobby(logedUser))
             return "redirect:/home";
 
-<<<<<<< HEAD
-        Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
-=======
         Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname(), true);
->>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
         List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
                 .collect(Collectors.toList());
         Round round = roundList.get(roundList.size() - 1);
@@ -169,11 +156,8 @@ public class TurnController {
         if (lobbyService.checkUserNoLobby(logedUser))
             return "redirect:/home";
         try {
-<<<<<<< HEAD
-            Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
-=======
+
             Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname(), true);
->>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
             if (game.isPresent()) {
                 Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
                 List<User> userList = lobby.getUsers();
@@ -199,19 +183,12 @@ public class TurnController {
     }
 
     @RequestMapping(value ="/turn/chooseCard",method = RequestMethod.GET)
-<<<<<<< HEAD
-        public String chooseCard(ModelMap model,@RequestParam Integer islaId,@RequestParam Integer NumCartasDelete, @ModelAttribute("logedUser") User logedUser){
-        Card cardAnadida=cardService.findCardById(islaId);
-        Optional<Game> game=gameService.findGameByNickname(logedUser.getNickname());
-        Map<Card, Integer> playerCardsMap = turnService.findPlayerCardsLastTurn(logedUser.getNickname());
-        if(NumCartasDelete.equals(0)){ 
-=======
+
     public String chooseCard(ModelMap model,@RequestParam Integer islaId,@RequestParam Integer NumCartasDelete, @ModelAttribute("logedUser") User logedUser){
         Optional<Game> game=gameService.findGameByNickname(logedUser.getNickname(), true);
         Card cardAnadida=islandService.findCardOfIsland(game.get().getId(),islaId).getCard();
         Map<Card, Integer> playerCardsMap = turnService.findPlayerCardsLastTurn(logedUser.getNickname());
         if(NumCartasDelete.equals(0)){
->>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
             turnService.AnadirCarta(islaId,logedUser.getNickname());
             turnService.refreshDesk(islaId, logedUser, game);
             return "redirect:/turn/endTurn";
@@ -222,18 +199,6 @@ public class TurnController {
             model.put("card", playerCardsMap);
             return "/game/chooseCard";
         }
-<<<<<<< HEAD
-        
-    
-    }
-        
-        @RequestMapping(value="/delete/chooseCard/{idCard}",method = RequestMethod.GET)
-        public String deleteMyCard(@PathVariable("idCard") Integer id,@RequestParam Integer islaId,@RequestParam Integer NumCartasDelete,@ModelAttribute("logedUser") User logedUser){
-            turnService.DeleteCard(id, logedUser.getNickname());           
-            NumCartasDelete--;         
-            return "redirect:/turn/chooseCard?islaId="+islaId+"&NumCartasDelete="+NumCartasDelete;
-        }
-=======
     }
         
     @RequestMapping(value="/delete/chooseCard/{idCard}",method = RequestMethod.GET)
@@ -242,6 +207,5 @@ public class TurnController {
         NumCartasDelete--;         
         return "redirect:/turn/chooseCard?islaId="+islaId+"&NumCartasDelete="+NumCartasDelete;
     }
->>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
     
 }

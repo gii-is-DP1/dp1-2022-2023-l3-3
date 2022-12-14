@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.validation.constraints.Size;
 
 import sevenislands.enums.AchievementType;
+import sevenislands.model.BaseEntity;
 import sevenislands.model.NamedEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,15 +20,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-<<<<<<< HEAD
-public class Achievement extends NamedEntity {
-=======
 public class Achievement extends BaseEntity {
    
     @Size(min = 3, max = 50)
 	@Column(name = "name")
 	private String name;
->>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
 
     @Column(name = "description", nullable = false)
     private String description;

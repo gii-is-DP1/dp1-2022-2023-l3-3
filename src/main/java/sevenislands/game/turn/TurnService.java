@@ -139,15 +139,10 @@ public class TurnService {
         cardService.initGameCards(game.get());
         List<Card> treasureList = new ArrayList<>();
         round.setGame(game.get());
-<<<<<<< HEAD
-        treasureList.add(cardService.findCardByTreasureName(Tipo.Doblon));
-        treasureList.add(cardService.findCardByTreasureName(Tipo.Doblon));
-        treasureList.add(cardService.findCardByTreasureName(Tipo.Doblon));
-=======
+
         treasureList.add(cardService.findCardByGameAndTreasure(game.get().getId(), Tipo.Doblon));
         treasureList.add(cardService.findCardByGameAndTreasure(game.get().getId(), Tipo.Doblon));
         treasureList.add(cardService.findCardByGameAndTreasure(game.get().getId(), Tipo.Doblon));
->>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
         roundService.save(round);
         for (Integer i = 0; i < userList.size(); i++) {
             User user = userList.get((userList.indexOf(logedUser) + i) % userList.size());
@@ -173,11 +168,8 @@ public class TurnService {
                 }
             }
             Random randomGenerator = new Random();
-<<<<<<< HEAD
-            Integer randomCardNumber = randomGenerator.nextInt(cardList.size() - 1);
-=======
+
             Integer randomCardNumber = randomGenerator.nextInt(cardList.size());
->>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
             Card selectedCard = allCards.get(cardList.get(randomCardNumber));
             island.setCard(selectedCard);
             selectedCard.setMultiplicity(selectedCard.getMultiplicity() - 1);
@@ -188,19 +180,7 @@ public class TurnService {
 
     @Transactional
     public void refreshDesk(Integer idIsla,User logedUser, Optional<Game> game){
-<<<<<<< HEAD
-        int random = (int)(Math.random()*10+1);
-        List<Island> islandList = islandService.findIslandsByGameId(game.get().getId());
-        Card newCard=cardService.findCardById(random);
-        if(newCard.getMultiplicity().equals(0) && cardService.findCardOrderByMultiplicity().get(0).getMultiplicity()>=1){
-            newCard=cardService.findCardOrderByMultiplicity().get(0);
-            Island isla=islandList.get(idIsla-1);
-            isla.setCard(newCard);
-            newCard.setMultiplicity(newCard.getMultiplicity()-1);
-            cardService.save(newCard);
-            islandService.save(isla);
-        }else if(cardService.findCardOrderByMultiplicity().get(0).getMultiplicity().equals(0)){
-=======
+
         List<Card> allCards = cardService.findAllCardsByGameId(game.get().getId());
         List<Integer> cardList = new ArrayList<>();
         for (Card c : allCards) {
@@ -220,52 +200,22 @@ public class TurnService {
             cardService.save(selectedCard);
             islandService.save(island);
         }else {
->>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
             Island island=islandList.get(idIsla-1);
             island.setNum(0);
             islandService.save(island);
         }
-<<<<<<< HEAD
-        else{
-        
-        Island isla=islandList.get(idIsla-1);
-        
-        isla.setCard(newCard);
-       
-        newCard.setMultiplicity(newCard.getMultiplicity()-1);
-        
-        cardService.save(newCard);
-        
-        islandService.save(isla);
-        }
-        
-        
-        
-        
-      
 
-    }
-    @Transactional
-    public void checkUserGame(User logedUser) throws NotExistLobbyException {
-        try {
-            if (gameService.findGameByNickname(logedUser.getNickname()).isPresent()) {
-=======
     }
 
     @Transactional
     public void checkUserGame(User logedUser) throws NotExistLobbyException {
         try {
             if (gameService.findGameByNickname(logedUser.getNickname(), true).isPresent()) {
->>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
 
                 // TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que
                 // existe
                 Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
-<<<<<<< HEAD
-                Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
-=======
                 Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname(), true);
->>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
                 List<User> userList = lobby.getPlayerInternal();
                 List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
                         .collect(Collectors.toList());
@@ -319,12 +269,9 @@ public class TurnService {
     public void AnadirCarta(Integer id,String nickname){
         Turn lastPlayerTurn = turnRepository.findTurnByNickname(nickname).get(0);
         List<Card> cartasLastTurn=lastPlayerTurn.getCards();
-<<<<<<< HEAD
-        Island island=islandService.findIslandById(id);
-=======
+
         Optional<Game> game=gameService.findGameByNickname(nickname, true);
         Island island=islandService.findCardOfIsland(game.get().getId(),id);
->>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
         Card card=cardService.findCardById(island.getCard().getId());
         cartasLastTurn.add(card);
         lastPlayerTurn.setCards(cartasLastTurn);
@@ -335,28 +282,6 @@ public class TurnService {
     public void DeleteCard(Integer id,String nickname){
         
         Turn lastPlayerTurn = turnRepository.findTurnByNickname(nickname).get(0);
-<<<<<<< HEAD
-       
-        List<Card> cartasLastTurn=lastPlayerTurn.getCards();
-        
-        Card carta=cardService.findCardById(id);
-        
-
-        for(Card c:cartasLastTurn){
-            
-
-            if(c.getTipo().equals(carta.getTipo())){
-                
-                cartasLastTurn.remove(c);
-                break;
-            }
-            
-        }
-    
-        lastPlayerTurn.setCards(cartasLastTurn);
-        turnRepository.save(lastPlayerTurn);
-        
-=======
         List<Card> cartasLastTurn=lastPlayerTurn.getCards();
         Card carta=cardService.findCardById(id);
         for(Card c:cartasLastTurn){
@@ -367,36 +292,25 @@ public class TurnService {
         }
         lastPlayerTurn.setCards(cartasLastTurn);
         turnRepository.save(lastPlayerTurn);
->>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
     }
 
 
 @Transactional
-<<<<<<< HEAD
-public boolean endGame(Game game,List<Island> islandList){
-=======
+
 public boolean endGame(Game game){
     List<Island> islandList = islandService.findIslandsByGameId(game.getId());
->>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
     boolean res=true;
     for(Card i: cardService.findAllCardsByGameId(game.getId())){
         if(!(i.getMultiplicity().equals(0))){
             res=false;
         }
     }
-<<<<<<< HEAD
 
-=======
->>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
     for(Island island:islandList){
         if(!(island.getNum().equals(0))){
             res=false;
         }
     }
-<<<<<<< HEAD
-
-=======
->>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
     return res;
 }
 

@@ -47,10 +47,6 @@ public class LobbyService {
         lobbyRepository.save(lobby);
 	}
 
-<<<<<<< HEAD
-    //No se usa en ningún lado
-=======
->>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
     @Transactional
     public List<Lobby> findAll() {
         return lobbyRepository.findAll();
@@ -76,14 +72,6 @@ public class LobbyService {
         }
     }
 
-<<<<<<< HEAD
-    //No se usa en ningún lado
-    @Transactional
-	public Boolean checkUserLobbyByNickname(String name) {
-	    return lobbyRepository.findLobbyByNicknamePlayer(name)!=null;
-	}
-=======
->>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
 
     public Lobby createLobbyEntity(User user) {
 		Lobby lobby = new Lobby();

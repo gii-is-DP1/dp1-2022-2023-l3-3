@@ -20,27 +20,27 @@ ________________________________________________________________________________
 _______________________________________________________________________________________________________________________________________________
 
 
-[2m2022-12-13 06:27:45.377[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36msevenislands.SevenislandsApplication    [0;39m [2m:[0;39m Starting SevenislandsApplication on macbook-pro-de-sergio-2.home with PID 95799 (/Users/sergiosantiago/developments/US/DP1/dp1-2022-2023-l3-3/target/classes started by sergiosantiago in /Users/sergiosantiago/developments/US/DP1/dp1-2022-2023-l3-3)
-[2m2022-12-13 06:27:45.379[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36msevenislands.SevenislandsApplication    [0;39m [2m:[0;39m No active profile set, falling back to default profiles: default
-[2m2022-12-13 06:27:45.409[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.b.devtools.restart.ChangeableUrls   [0;39m [2m:[0;39m The Class-Path manifest attribute in /Users/sergiosantiago/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jaxb-runtime-2.3.2.jar referenced one or more files that do not exist: file:/Users/sergiosantiago/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.xml.bind-api-2.3.2.jar,file:/Users/sergiosantiago/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/txw2-2.3.2.jar,file:/Users/sergiosantiago/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/istack-commons-runtime-3.0.8.jar,file:/Users/sergiosantiago/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/stax-ex-1.8.1.jar,file:/Users/sergiosantiago/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/FastInfoset-1.2.16.jar,file:/Users/sergiosantiago/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.activation-api-1.2.1.jar
-[2m2022-12-13 06:27:45.410[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36m.e.DevToolsPropertyDefaultsPostProcessor[0;39m [2m:[0;39m Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-[2m2022-12-13 06:27:45.411[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36m.e.DevToolsPropertyDefaultsPostProcessor[0;39m [2m:[0;39m For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-[2m2022-12-13 06:27:45.800[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-[2m2022-12-13 06:27:45.844[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Finished Spring Data repository scanning in 39ms. Found 8 JPA repository interfaces.
-[2m2022-12-13 06:27:46.040[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mtrationDelegate$BeanPostProcessorChecker[0;39m [2m:[0;39m Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-[2m2022-12-13 06:27:46.234[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.b.w.embedded.tomcat.TomcatWebServer [0;39m [2m:[0;39m Tomcat initialized with port(s): 8080 (http)
-[2m2022-12-13 06:27:46.241[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.apache.catalina.core.StandardService  [0;39m [2m:[0;39m Starting service [Tomcat]
-[2m2022-12-13 06:27:46.241[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36morg.apache.catalina.core.StandardEngine [0;39m [2m:[0;39m Starting Servlet engine: [Apache Tomcat/9.0.30]
-[2m2022-12-13 06:27:46.387[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36morg.apache.jasper.servlet.TldScanner    [0;39m [2m:[0;39m At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
-[2m2022-12-13 06:27:46.392[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.a.c.c.C.[Tomcat].[localhost].[/]      [0;39m [2m:[0;39m Initializing Spring embedded WebApplicationContext
-[2m2022-12-13 06:27:46.393[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.web.context.ContextLoader           [0;39m [2m:[0;39m Root WebApplicationContext: initialization completed in 982 ms
-[2m2022-12-13 06:27:46.414[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-1 - Starting...
-[2m2022-12-13 06:27:46.514[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-1 - Start completed.
-[2m2022-12-13 06:27:46.518[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.b.a.h2.H2ConsoleAutoConfiguration   [0;39m [2m:[0;39m H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
-[2m2022-12-13 06:27:46.590[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.hibernate.jpa.internal.util.LogHelper [0;39m [2m:[0;39m HHH000204: Processing PersistenceUnitInfo [name: default]
-[2m2022-12-13 06:27:46.630[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36morg.hibernate.Version                   [0;39m [2m:[0;39m HHH000412: Hibernate Core {5.4.10.Final}
-[2m2022-12-13 06:27:46.714[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.hibernate.annotations.common.Version  [0;39m [2m:[0;39m HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
-[2m2022-12-13 06:27:46.770[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36morg.hibernate.dialect.Dialect           [0;39m [2m:[0;39m HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+[2m2022-12-15 00:32:14.946[0;39m [32m INFO[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36msevenislands.SevenislandsApplication    [0;39m [2m:[0;39m Starting SevenislandsApplication on macbook-pro-de-sergio-2.home with PID 50255 (/Users/sergiosantiago/developments/US/DP1/dp1-2022-2023-l3-3/target/classes started by sergiosantiago in /Users/sergiosantiago/developments/US/DP1/dp1-2022-2023-l3-3)
+[2m2022-12-15 00:32:14.948[0;39m [32m INFO[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36msevenislands.SevenislandsApplication    [0;39m [2m:[0;39m No active profile set, falling back to default profiles: default
+[2m2022-12-15 00:32:14.970[0;39m [32m INFO[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.b.devtools.restart.ChangeableUrls   [0;39m [2m:[0;39m The Class-Path manifest attribute in /Users/sergiosantiago/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jaxb-runtime-2.3.2.jar referenced one or more files that do not exist: file:/Users/sergiosantiago/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.xml.bind-api-2.3.2.jar,file:/Users/sergiosantiago/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/txw2-2.3.2.jar,file:/Users/sergiosantiago/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/istack-commons-runtime-3.0.8.jar,file:/Users/sergiosantiago/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/stax-ex-1.8.1.jar,file:/Users/sergiosantiago/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/FastInfoset-1.2.16.jar,file:/Users/sergiosantiago/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.activation-api-1.2.1.jar
+[2m2022-12-15 00:32:14.970[0;39m [32m INFO[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36m.e.DevToolsPropertyDefaultsPostProcessor[0;39m [2m:[0;39m Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+[2m2022-12-15 00:32:14.970[0;39m [32m INFO[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36m.e.DevToolsPropertyDefaultsPostProcessor[0;39m [2m:[0;39m For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+[2m2022-12-15 00:32:15.329[0;39m [32m INFO[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2m2022-12-15 00:32:15.370[0;39m [32m INFO[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Finished Spring Data repository scanning in 37ms. Found 8 JPA repository interfaces.
+[2m2022-12-15 00:32:15.566[0;39m [32m INFO[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mtrationDelegate$BeanPostProcessorChecker[0;39m [2m:[0;39m Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[2m2022-12-15 00:32:15.729[0;39m [32m INFO[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.b.w.embedded.tomcat.TomcatWebServer [0;39m [2m:[0;39m Tomcat initialized with port(s): 8080 (http)
+[2m2022-12-15 00:32:15.735[0;39m [32m INFO[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.apache.catalina.core.StandardService  [0;39m [2m:[0;39m Starting service [Tomcat]
+[2m2022-12-15 00:32:15.736[0;39m [32m INFO[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36morg.apache.catalina.core.StandardEngine [0;39m [2m:[0;39m Starting Servlet engine: [Apache Tomcat/9.0.30]
+[2m2022-12-15 00:32:15.886[0;39m [32m INFO[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36morg.apache.jasper.servlet.TldScanner    [0;39m [2m:[0;39m At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+[2m2022-12-15 00:32:15.891[0;39m [32m INFO[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.a.c.c.C.[Tomcat].[localhost].[/]      [0;39m [2m:[0;39m Initializing Spring embedded WebApplicationContext
+[2m2022-12-15 00:32:15.891[0;39m [32m INFO[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.web.context.ContextLoader           [0;39m [2m:[0;39m Root WebApplicationContext: initialization completed in 921 ms
+[2m2022-12-15 00:32:15.914[0;39m [32m INFO[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-1 - Starting...
+[2m2022-12-15 00:32:16.004[0;39m [32m INFO[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-1 - Start completed.
+[2m2022-12-15 00:32:16.009[0;39m [32m INFO[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.b.a.h2.H2ConsoleAutoConfiguration   [0;39m [2m:[0;39m H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+[2m2022-12-15 00:32:16.076[0;39m [32m INFO[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.hibernate.jpa.internal.util.LogHelper [0;39m [2m:[0;39m HHH000204: Processing PersistenceUnitInfo [name: default]
+[2m2022-12-15 00:32:16.113[0;39m [32m INFO[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36morg.hibernate.Version                   [0;39m [2m:[0;39m HHH000412: Hibernate Core {5.4.10.Final}
+[2m2022-12-15 00:32:16.174[0;39m [32m INFO[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.hibernate.annotations.common.Version  [0;39m [2m:[0;39m HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+[2m2022-12-15 00:32:16.232[0;39m [32m INFO[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36morg.hibernate.dialect.Dialect           [0;39m [2m:[0;39m HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
 Hibernate: 
     
     drop table achievement if exists
@@ -78,10 +78,10 @@ Hibernate:
     
     create table achievement (
        id integer generated by default as identity,
-        name varchar(255),
         achievement_type varchar(255) not null,
         badge_image varchar(255) not null,
         description varchar(255) not null,
+        name varchar(255),
         threshold integer not null,
         primary key (id)
     )
@@ -262,390 +262,88 @@ Hibernate:
        add constraint FK2gp4wt3thphhd9yucjl9p6jui 
        foreign key (user_id) 
        references user
-[2m2022-12-13 06:27:47.190[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.h.e.t.j.p.i.JtaPlatformInitiator      [0;39m [2m:[0;39m HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-[2m2022-12-13 06:27:47.194[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mj.LocalContainerEntityManagerFactoryBean[0;39m [2m:[0;39m Initialized JPA EntityManagerFactory for persistence unit 'default'
-[2m2022-12-13 06:27:47.216[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.b.d.a.OptionalLiveReloadServer      [0;39m [2m:[0;39m LiveReload server is running on port 35729
-[2m2022-12-13 06:27:47.464[0;39m [33m WARN[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mJpaBaseConfiguration$JpaWebConfiguration[0;39m [2m:[0;39m spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-[2m2022-12-13 06:27:47.636[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.s.web.DefaultSecurityFilterChain    [0;39m [2m:[0;39m Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7a4359b8, org.springframework.security.web.context.SecurityContextPersistenceFilter@22ef28ad, org.springframework.security.web.header.HeaderWriterFilter@1de0f7e0, org.springframework.security.web.csrf.CsrfFilter@1ae0df04, org.springframework.security.web.authentication.logout.LogoutFilter@2b0eb0bd, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@4c3dc147, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@56563555, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@6a78974e, org.springframework.security.web.session.ConcurrentSessionFilter@31f55c20, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1957b9a6, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4bb47965, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5517b75d, org.springframework.security.web.session.SessionManagementFilter@39347167, org.springframework.security.web.access.ExceptionTranslationFilter@3cfa3f7c, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@7c35ad63]
-[2m2022-12-13 06:27:47.695[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.s.concurrent.ThreadPoolTaskExecutor [0;39m [2m:[0;39m Initializing ExecutorService 'applicationTaskExecutor'
-[2m2022-12-13 06:27:48.192[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.b.w.embedded.tomcat.TomcatWebServer [0;39m [2m:[0;39m Tomcat started on port(s): 8080 (http) with context path ''
-[2m2022-12-13 06:27:48.194[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36msevenislands.SevenislandsApplication    [0;39m [2m:[0;39m Started SevenislandsApplication in 3.117 seconds (JVM running for 3.541)
-[2m2022-12-13 06:32:40.044[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[nio-8080-exec-1][0;39m [36mo.a.c.c.C.[Tomcat].[localhost].[/]      [0;39m [2m:[0;39m Initializing Spring DispatcherServlet 'dispatcherServlet'
-[2m2022-12-13 06:32:40.045[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[nio-8080-exec-1][0;39m [36mo.s.web.servlet.DispatcherServlet       [0;39m [2m:[0;39m Initializing Servlet 'dispatcherServlet'
-[2m2022-12-13 06:32:40.052[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[nio-8080-exec-1][0;39m [36mo.s.web.servlet.DispatcherServlet       [0;39m [2m:[0;39m Completed initialization in 7 ms
-Hibernate: 
-    select
-        user0_.id as id1_9_,
-        user0_.avatar as avatar2_9_,
-        user0_.birth_date as birth_da3_9_,
-        user0_.creation_date as creation4_9_,
-        user0_.email as email5_9_,
-        user0_.enabled as enabled6_9_,
-        user0_.first_name as first_na7_9_,
-        user0_.last_name as last_nam8_9_,
-        user0_.nickname as nickname9_9_,
-        user0_.password as passwor10_9_,
-        user0_.type as type11_9_ 
-    from
-        user user0_ 
-    where
-        user0_.nickname=?
-Hibernate: 
-    select
-        game0_.id as id1_2_,
-        game0_.active as active2_2_,
-        game0_.creation_date as creation3_2_,
-        game0_.ending_date as ending_d4_2_,
-        game0_.lobby_id as lobby_id5_2_ 
-    from
-        game game0_ 
-    inner join
-        lobby lobby1_ 
-            on game0_.lobby_id=lobby1_.id 
-    inner join
-        lobby_users users2_ 
-            on lobby1_.id=users2_.lobby_id 
-    inner join
-        user user3_ 
-            on users2_.users_id=user3_.id 
-    where
-        user3_.nickname=? 
-        and game0_.active=1
-Hibernate: 
-    select
-        lobby0_.id as id1_4_,
-        lobby0_.active as active2_4_,
-        lobby0_.code as code3_4_ 
-    from
-        lobby lobby0_ 
-    inner join
-        lobby_users users1_ 
-            on lobby0_.id=users1_.lobby_id 
-    inner join
-        user user2_ 
-            on users1_.users_id=user2_.id 
-    where
-        user2_.id=?
-Hibernate: 
-    select
-        lobby0_.id as id1_4_,
-        lobby0_.active as active2_4_,
-        lobby0_.code as code3_4_ 
-    from
-        lobby lobby0_ 
-    inner join
-        lobby_users users1_ 
-            on lobby0_.id=users1_.lobby_id 
-    inner join
-        user user2_ 
-            on users1_.users_id=user2_.id 
-    where
-        user2_.id=?
-Hibernate: 
-    select
-        users0_.lobby_id as lobby_id1_5_0_,
-        users0_.users_id as users_id2_5_0_,
-        user1_.id as id1_9_1_,
-        user1_.avatar as avatar2_9_1_,
-        user1_.birth_date as birth_da3_9_1_,
-        user1_.creation_date as creation4_9_1_,
-        user1_.email as email5_9_1_,
-        user1_.enabled as enabled6_9_1_,
-        user1_.first_name as first_na7_9_1_,
-        user1_.last_name as last_nam8_9_1_,
-        user1_.nickname as nickname9_9_1_,
-        user1_.password as passwor10_9_1_,
-        user1_.type as type11_9_1_ 
-    from
-        lobby_users users0_ 
-    inner join
-        user user1_ 
-            on users0_.users_id=user1_.id 
-    where
-        users0_.lobby_id=?
-Hibernate: 
-    delete 
-    from
-        lobby_users 
-    where
-        lobby_id=?
-Hibernate: 
-    select
-        user0_.id as id1_9_,
-        user0_.avatar as avatar2_9_,
-        user0_.birth_date as birth_da3_9_,
-        user0_.creation_date as creation4_9_,
-        user0_.email as email5_9_,
-        user0_.enabled as enabled6_9_,
-        user0_.first_name as first_na7_9_,
-        user0_.last_name as last_nam8_9_,
-        user0_.nickname as nickname9_9_,
-        user0_.password as passwor10_9_,
-        user0_.type as type11_9_ 
-    from
-        user user0_ 
-    where
-        user0_.nickname=?
-Hibernate: 
-    select
-        game0_.id as id1_2_,
-        game0_.active as active2_2_,
-        game0_.creation_date as creation3_2_,
-        game0_.ending_date as ending_d4_2_,
-        game0_.lobby_id as lobby_id5_2_ 
-    from
-        game game0_ 
-    inner join
-        lobby lobby1_ 
-            on game0_.lobby_id=lobby1_.id 
-    inner join
-        lobby_users users2_ 
-            on lobby1_.id=users2_.lobby_id 
-    inner join
-        user user3_ 
-            on users2_.users_id=user3_.id 
-    where
-        user3_.nickname=? 
-        and game0_.active=1
-Hibernate: 
-    select
-        lobby0_.id as id1_4_,
-        lobby0_.active as active2_4_,
-        lobby0_.code as code3_4_ 
-    from
-        lobby lobby0_ 
-    inner join
-        lobby_users users1_ 
-            on lobby0_.id=users1_.lobby_id 
-    inner join
-        user user2_ 
-            on users1_.users_id=user2_.id 
-    where
-        user2_.id=?
-Hibernate: 
-    select
-        user0_.id as id1_9_,
-        user0_.avatar as avatar2_9_,
-        user0_.birth_date as birth_da3_9_,
-        user0_.creation_date as creation4_9_,
-        user0_.email as email5_9_,
-        user0_.enabled as enabled6_9_,
-        user0_.first_name as first_na7_9_,
-        user0_.last_name as last_nam8_9_,
-        user0_.nickname as nickname9_9_,
-        user0_.password as passwor10_9_,
-        user0_.type as type11_9_ 
-    from
-        user user0_ 
-    where
-        user0_.nickname=?
-Hibernate: 
-    select
-        user0_.id as id1_9_,
-        user0_.avatar as avatar2_9_,
-        user0_.birth_date as birth_da3_9_,
-        user0_.creation_date as creation4_9_,
-        user0_.email as email5_9_,
-        user0_.enabled as enabled6_9_,
-        user0_.first_name as first_na7_9_,
-        user0_.last_name as last_nam8_9_,
-        user0_.nickname as nickname9_9_,
-        user0_.password as passwor10_9_,
-        user0_.type as type11_9_ 
-    from
-        user user0_
-Hibernate: 
-    select
-        user0_.id as id1_9_,
-        user0_.avatar as avatar2_9_,
-        user0_.birth_date as birth_da3_9_,
-        user0_.creation_date as creation4_9_,
-        user0_.email as email5_9_,
-        user0_.enabled as enabled6_9_,
-        user0_.first_name as first_na7_9_,
-        user0_.last_name as last_nam8_9_,
-        user0_.nickname as nickname9_9_,
-        user0_.password as passwor10_9_,
-        user0_.type as type11_9_ 
-    from
-        user user0_
-Hibernate: 
-    select
-        user0_.id as id1_9_,
-        user0_.avatar as avatar2_9_,
-        user0_.birth_date as birth_da3_9_,
-        user0_.creation_date as creation4_9_,
-        user0_.email as email5_9_,
-        user0_.enabled as enabled6_9_,
-        user0_.first_name as first_na7_9_,
-        user0_.last_name as last_nam8_9_,
-        user0_.nickname as nickname9_9_,
-        user0_.password as passwor10_9_,
-        user0_.type as type11_9_ 
-    from
-        user user0_ 
-    where
-        user0_.nickname=?
-Hibernate: 
-    select
-        user0_.id as id1_9_,
-        user0_.avatar as avatar2_9_,
-        user0_.birth_date as birth_da3_9_,
-        user0_.creation_date as creation4_9_,
-        user0_.email as email5_9_,
-        user0_.enabled as enabled6_9_,
-        user0_.first_name as first_na7_9_,
-        user0_.last_name as last_nam8_9_,
-        user0_.nickname as nickname9_9_,
-        user0_.password as passwor10_9_,
-        user0_.type as type11_9_ 
-    from
-        user user0_
-Hibernate: 
-    select
-        user0_.id as id1_9_,
-        user0_.avatar as avatar2_9_,
-        user0_.birth_date as birth_da3_9_,
-        user0_.creation_date as creation4_9_,
-        user0_.email as email5_9_,
-        user0_.enabled as enabled6_9_,
-        user0_.first_name as first_na7_9_,
-        user0_.last_name as last_nam8_9_,
-        user0_.nickname as nickname9_9_,
-        user0_.password as passwor10_9_,
-        user0_.type as type11_9_ 
-    from
-        user user0_
-Hibernate: 
-    select
-        user0_.id as id1_9_,
-        user0_.avatar as avatar2_9_,
-        user0_.birth_date as birth_da3_9_,
-        user0_.creation_date as creation4_9_,
-        user0_.email as email5_9_,
-        user0_.enabled as enabled6_9_,
-        user0_.first_name as first_na7_9_,
-        user0_.last_name as last_nam8_9_,
-        user0_.nickname as nickname9_9_,
-        user0_.password as passwor10_9_,
-        user0_.type as type11_9_ 
-    from
-        user user0_ 
-    where
-        user0_.nickname=?
-Hibernate: 
-    select
-        user0_.id as id1_9_,
-        user0_.avatar as avatar2_9_,
-        user0_.birth_date as birth_da3_9_,
-        user0_.creation_date as creation4_9_,
-        user0_.email as email5_9_,
-        user0_.enabled as enabled6_9_,
-        user0_.first_name as first_na7_9_,
-        user0_.last_name as last_nam8_9_,
-        user0_.nickname as nickname9_9_,
-        user0_.password as passwor10_9_,
-        user0_.type as type11_9_ 
-    from
-        user user0_
-Hibernate: 
-    select
-        user0_.id as id1_9_,
-        user0_.avatar as avatar2_9_,
-        user0_.birth_date as birth_da3_9_,
-        user0_.creation_date as creation4_9_,
-        user0_.email as email5_9_,
-        user0_.enabled as enabled6_9_,
-        user0_.first_name as first_na7_9_,
-        user0_.last_name as last_nam8_9_,
-        user0_.nickname as nickname9_9_,
-        user0_.password as passwor10_9_,
-        user0_.type as type11_9_ 
-    from
-        user user0_
-Hibernate: 
-    select
-        user0_.id as id1_9_,
-        user0_.avatar as avatar2_9_,
-        user0_.birth_date as birth_da3_9_,
-        user0_.creation_date as creation4_9_,
-        user0_.email as email5_9_,
-        user0_.enabled as enabled6_9_,
-        user0_.first_name as first_na7_9_,
-        user0_.last_name as last_nam8_9_,
-        user0_.nickname as nickname9_9_,
-        user0_.password as passwor10_9_,
-        user0_.type as type11_9_ 
-    from
-        user user0_ 
-    where
-        user0_.nickname=?
-Hibernate: 
-    select
-        user0_.id as id1_9_0_,
-        user0_.avatar as avatar2_9_0_,
-        user0_.birth_date as birth_da3_9_0_,
-        user0_.creation_date as creation4_9_0_,
-        user0_.email as email5_9_0_,
-        user0_.enabled as enabled6_9_0_,
-        user0_.first_name as first_na7_9_0_,
-        user0_.last_name as last_nam8_9_0_,
-        user0_.nickname as nickname9_9_0_,
-        user0_.password as passwor10_9_0_,
-        user0_.type as type11_9_0_ 
-    from
-        user user0_ 
-    where
-        user0_.id=?
-Hibernate: 
-    select
-        distinct user0_.type as col_0_0_ 
-    from
-        user user0_
-Hibernate: 
-    select
-        user0_.id as id1_9_,
-        user0_.avatar as avatar2_9_,
-        user0_.birth_date as birth_da3_9_,
-        user0_.creation_date as creation4_9_,
-        user0_.email as email5_9_,
-        user0_.enabled as enabled6_9_,
-        user0_.first_name as first_na7_9_,
-        user0_.last_name as last_nam8_9_,
-        user0_.nickname as nickname9_9_,
-        user0_.password as passwor10_9_,
-        user0_.type as type11_9_ 
-    from
-        user user0_ 
-    where
-        user0_.nickname=?
-Hibernate: 
-    select
-        user0_.id as id1_9_,
-        user0_.avatar as avatar2_9_,
-        user0_.birth_date as birth_da3_9_,
-        user0_.creation_date as creation4_9_,
-        user0_.email as email5_9_,
-        user0_.enabled as enabled6_9_,
-        user0_.first_name as first_na7_9_,
-        user0_.last_name as last_nam8_9_,
-        user0_.nickname as nickname9_9_,
-        user0_.password as passwor10_9_,
-        user0_.type as type11_9_ 
-    from
-        user user0_
-Hibernate: 
-    select
-        user0_.id as id1_9_,
-        user0_.avatar as avatar2_9_,
-        user0_.birth_date as birth_da3_9_,
-        user0_.creation_date as creation4_9_,
-        user0_.email as email5_9_,
-        user0_.enabled as enabled6_9_,
-        user0_.first_name as first_na7_9_,
-        user0_.last_name as last_nam8_9_,
-        user0_.nickname as nickname9_9_,
-        user0_.password as passwor10_9_,
-        user0_.type as type11_9_ 
-    from
-        user user0_
+[2m2022-12-15 00:32:16.638[0;39m [32m INFO[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.h.e.t.j.p.i.JtaPlatformInitiator      [0;39m [2m:[0;39m HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[2m2022-12-15 00:32:16.641[0;39m [32m INFO[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mj.LocalContainerEntityManagerFactoryBean[0;39m [2m:[0;39m Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2m2022-12-15 00:32:16.664[0;39m [32m INFO[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.b.d.a.OptionalLiveReloadServer      [0;39m [2m:[0;39m LiveReload server is running on port 35729
+[2m2022-12-15 00:32:16.687[0;39m [33m WARN[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mConfigServletWebServerApplicationContext[0;39m [2m:[0;39m Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Initialization of bean failed; nested exception is org.springframework.jdbc.datasource.init.ScriptStatementFailedException: Failed to execute SQL script statement #16 of URL [file:/Users/sergiosantiago/developments/US/DP1/dp1-2022-2023-l3-3/target/classes/db/hsqldb/data.sql]: <<<<<<< HEAD INSERT INTO lobby_users(lobby_id,users_id) VALUES (2,8); nested exception is org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "[*]<<<<<<< HEAD INSERT INTO LOBBY_USERS(LOBBY_ID,USERS_ID) VALUES (2,8)"
+Syntax error in SQL statement "[*]<<<<<<< HEAD INSERT INTO LOBBY_USERS(LOBBY_ID,USERS_ID) VALUES (2,8)"; SQL statement:
+<<<<<<< HEAD INSERT INTO lobby_users(lobby_id,users_id) VALUES (2,8) [42000-200]
+[2m2022-12-15 00:32:16.896[0;39m [33m WARN[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.b.f.support.DisposableBeanAdapter   [0;39m [2m:[0;39m Invocation of destroy method failed on bean with name 'inMemoryDatabaseShutdownExecutor': org.h2.jdbc.JdbcSQLNonTransientConnectionException: La base de datos ya esta cerrada (para des-habilitar el cerrado automatico durante el shutdown de la VM, agregue ";DB_CLOSE_ON_EXIT=FALSE" a la URL de conexión)
+Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-200]
+[2m2022-12-15 00:32:16.896[0;39m [32m INFO[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-1 - Shutdown initiated...
+[2m2022-12-15 00:32:16.899[0;39m [32m INFO[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-1 - Shutdown completed.
+[2m2022-12-15 00:32:16.900[0;39m [32m INFO[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.apache.catalina.core.StandardService  [0;39m [2m:[0;39m Stopping service [Tomcat]
+[2m2022-12-15 00:32:16.908[0;39m [32m INFO[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mConditionEvaluationReportLoggingListener[0;39m [2m:[0;39m 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+[2m2022-12-15 00:32:16.911[0;39m [31mERROR[0;39m [35m50255[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.boot.SpringApplication              [0;39m [2m:[0;39m Application run failed
+
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'entityManagerFactory' defined in class path resource [org/springframework/boot/autoconfigure/orm/jpa/HibernateJpaConfiguration.class]: Initialization of bean failed; nested exception is org.springframework.jdbc.datasource.init.ScriptStatementFailedException: Failed to execute SQL script statement #16 of URL [file:/Users/sergiosantiago/developments/US/DP1/dp1-2022-2023-l3-3/target/classes/db/hsqldb/data.sql]: <<<<<<< HEAD INSERT INTO lobby_users(lobby_id,users_id) VALUES (2,8); nested exception is org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "[*]<<<<<<< HEAD INSERT INTO LOBBY_USERS(LOBBY_ID,USERS_ID) VALUES (2,8)"
+Syntax error in SQL statement "[*]<<<<<<< HEAD INSERT INTO LOBBY_USERS(LOBBY_ID,USERS_ID) VALUES (2,8)"; SQL statement:
+<<<<<<< HEAD INSERT INTO lobby_users(lobby_id,users_id) VALUES (2,8) [42000-200]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:603) ~[spring-beans-5.2.3.RELEASE.jar:5.2.3.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517) ~[spring-beans-5.2.3.RELEASE.jar:5.2.3.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323) ~[spring-beans-5.2.3.RELEASE.jar:5.2.3.RELEASE]
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:222) ~[spring-beans-5.2.3.RELEASE.jar:5.2.3.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321) ~[spring-beans-5.2.3.RELEASE.jar:5.2.3.RELEASE]
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202) ~[spring-beans-5.2.3.RELEASE.jar:5.2.3.RELEASE]
+	at org.springframework.context.support.AbstractApplicationContext.getBean(AbstractApplicationContext.java:1108) ~[spring-context-5.2.3.RELEASE.jar:5.2.3.RELEASE]
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:868) ~[spring-context-5.2.3.RELEASE.jar:5.2.3.RELEASE]
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:550) ~[spring-context-5.2.3.RELEASE.jar:5.2.3.RELEASE]
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:141) ~[spring-boot-2.2.4.RELEASE.jar:2.2.4.RELEASE]
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:747) ~[spring-boot-2.2.4.RELEASE.jar:2.2.4.RELEASE]
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397) ~[spring-boot-2.2.4.RELEASE.jar:2.2.4.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315) ~[spring-boot-2.2.4.RELEASE.jar:2.2.4.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226) ~[spring-boot-2.2.4.RELEASE.jar:2.2.4.RELEASE]
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1215) ~[spring-boot-2.2.4.RELEASE.jar:2.2.4.RELEASE]
+	at sevenislands.SevenislandsApplication.main(SevenislandsApplication.java:16) ~[classes/:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method) ~[na:na]
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:62) ~[na:na]
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43) ~[na:na]
+	at java.base/java.lang.reflect.Method.invoke(Method.java:566) ~[na:na]
+	at org.springframework.boot.devtools.restart.RestartLauncher.run(RestartLauncher.java:49) ~[spring-boot-devtools-2.2.4.RELEASE.jar:2.2.4.RELEASE]
+Caused by: org.springframework.jdbc.datasource.init.ScriptStatementFailedException: Failed to execute SQL script statement #16 of URL [file:/Users/sergiosantiago/developments/US/DP1/dp1-2022-2023-l3-3/target/classes/db/hsqldb/data.sql]: <<<<<<< HEAD INSERT INTO lobby_users(lobby_id,users_id) VALUES (2,8); nested exception is org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "[*]<<<<<<< HEAD INSERT INTO LOBBY_USERS(LOBBY_ID,USERS_ID) VALUES (2,8)"
+Syntax error in SQL statement "[*]<<<<<<< HEAD INSERT INTO LOBBY_USERS(LOBBY_ID,USERS_ID) VALUES (2,8)"; SQL statement:
+<<<<<<< HEAD INSERT INTO lobby_users(lobby_id,users_id) VALUES (2,8) [42000-200]
+	at org.springframework.jdbc.datasource.init.ScriptUtils.executeSqlScript(ScriptUtils.java:626) ~[spring-jdbc-5.2.3.RELEASE.jar:5.2.3.RELEASE]
+	at org.springframework.jdbc.datasource.init.ResourceDatabasePopulator.populate(ResourceDatabasePopulator.java:254) ~[spring-jdbc-5.2.3.RELEASE.jar:5.2.3.RELEASE]
+	at org.springframework.jdbc.datasource.init.DatabasePopulatorUtils.execute(DatabasePopulatorUtils.java:49) ~[spring-jdbc-5.2.3.RELEASE.jar:5.2.3.RELEASE]
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceInitializer.runScripts(DataSourceInitializer.java:202) ~[spring-boot-autoconfigure-2.2.4.RELEASE.jar:2.2.4.RELEASE]
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceInitializer.initSchema(DataSourceInitializer.java:119) ~[spring-boot-autoconfigure-2.2.4.RELEASE.jar:2.2.4.RELEASE]
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceInitializerInvoker.onApplicationEvent(DataSourceInitializerInvoker.java:91) ~[spring-boot-autoconfigure-2.2.4.RELEASE.jar:2.2.4.RELEASE]
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceInitializerInvoker.onApplicationEvent(DataSourceInitializerInvoker.java:38) ~[spring-boot-autoconfigure-2.2.4.RELEASE.jar:2.2.4.RELEASE]
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.doInvokeListener(SimpleApplicationEventMulticaster.java:172) ~[spring-context-5.2.3.RELEASE.jar:5.2.3.RELEASE]
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.invokeListener(SimpleApplicationEventMulticaster.java:165) ~[spring-context-5.2.3.RELEASE.jar:5.2.3.RELEASE]
+	at org.springframework.context.event.SimpleApplicationEventMulticaster.multicastEvent(SimpleApplicationEventMulticaster.java:139) ~[spring-context-5.2.3.RELEASE.jar:5.2.3.RELEASE]
+	at org.springframework.context.support.AbstractApplicationContext.publishEvent(AbstractApplicationContext.java:403) ~[spring-context-5.2.3.RELEASE.jar:5.2.3.RELEASE]
+	at org.springframework.context.support.AbstractApplicationContext.publishEvent(AbstractApplicationContext.java:360) ~[spring-context-5.2.3.RELEASE.jar:5.2.3.RELEASE]
+	at org.springframework.boot.autoconfigure.orm.jpa.DataSourceInitializedPublisher.publishEventIfRequired(DataSourceInitializedPublisher.java:99) ~[spring-boot-autoconfigure-2.2.4.RELEASE.jar:2.2.4.RELEASE]
+	at org.springframework.boot.autoconfigure.orm.jpa.DataSourceInitializedPublisher.postProcessAfterInitialization(DataSourceInitializedPublisher.java:90) ~[spring-boot-autoconfigure-2.2.4.RELEASE.jar:2.2.4.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.applyBeanPostProcessorsAfterInitialization(AbstractAutowireCapableBeanFactory.java:431) ~[spring-beans-5.2.3.RELEASE.jar:5.2.3.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.initializeBean(AbstractAutowireCapableBeanFactory.java:1800) ~[spring-beans-5.2.3.RELEASE.jar:5.2.3.RELEASE]
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:595) ~[spring-beans-5.2.3.RELEASE.jar:5.2.3.RELEASE]
+	... 20 common frames omitted
+Caused by: org.h2.jdbc.JdbcSQLSyntaxErrorException: Error de Sintaxis en sentencia SQL "[*]<<<<<<< HEAD INSERT INTO LOBBY_USERS(LOBBY_ID,USERS_ID) VALUES (2,8)"
+Syntax error in SQL statement "[*]<<<<<<< HEAD INSERT INTO LOBBY_USERS(LOBBY_ID,USERS_ID) VALUES (2,8)"; SQL statement:
+<<<<<<< HEAD INSERT INTO lobby_users(lobby_id,users_id) VALUES (2,8) [42000-200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:453) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.message.DbException.getJdbcSQLException(DbException.java:429) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.message.DbException.get(DbException.java:205) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.message.DbException.get(DbException.java:181) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.message.DbException.getSyntaxError(DbException.java:229) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.command.Parser.getSyntaxError(Parser.java:1051) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.command.Parser.getSpecialType2(Parser.java:5663) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.command.Parser.read(Parser.java:5125) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.command.Parser.parse(Parser.java:842) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.command.Parser.parse(Parser.java:819) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.command.Parser.prepareCommand(Parser.java:738) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.engine.Session.prepareLocal(Session.java:657) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.engine.Session.prepareCommand(Session.java:595) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.jdbc.JdbcConnection.prepareCommand(JdbcConnection.java:1235) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.jdbc.JdbcStatement.executeInternal(JdbcStatement.java:212) ~[h2-1.4.200.jar:1.4.200]
+	at org.h2.jdbc.JdbcStatement.execute(JdbcStatement.java:201) ~[h2-1.4.200.jar:1.4.200]
+	at com.zaxxer.hikari.pool.ProxyStatement.execute(ProxyStatement.java:95) ~[HikariCP-3.4.2.jar:na]
+	at com.zaxxer.hikari.pool.HikariProxyStatement.execute(HikariProxyStatement.java) ~[HikariCP-3.4.2.jar:na]
+	at org.springframework.jdbc.datasource.init.ScriptUtils.executeSqlScript(ScriptUtils.java:605) ~[spring-jdbc-5.2.3.RELEASE.jar:5.2.3.RELEASE]
+	... 36 common frames omitted
+

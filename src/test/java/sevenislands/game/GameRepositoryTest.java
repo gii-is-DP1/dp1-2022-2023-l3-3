@@ -65,11 +65,9 @@ public class GameRepositoryTest {
 
     @Test
     public void TestFindLobbyByNicknameSuccess(){
-<<<<<<< HEAD
-        Optional<Game> game = gameRepository.findGameByNickname(users.get(0).getNickname());
-=======
+
         Optional<Game> game = gameRepository.findGameByNickname(users.get(0).getNickname(),true);
->>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
+
         assertNotNull(game);
     }  
 

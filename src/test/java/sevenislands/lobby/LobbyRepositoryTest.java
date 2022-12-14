@@ -79,34 +79,11 @@ public class LobbyRepositoryTest {
         assertNotNull(lobby);
     }
     
-<<<<<<< HEAD
-    @Test
-    public void TestFindLobbyIdByPlayer(){
-        Integer lobby=lobbyRepository.findLobbyIdByPlayer(users.get(0).getId());
-        assertNotNull(lobby);
-    }  
-=======
->>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
 
-    @Test
-    public void TestFindLobbyByNicknameSuccess(){
-        Optional<Integer> lobby=lobbyRepository.findLobbyByNicknamePlayer(users.get(0).getNickname());
-        assertNotNull(lobby);
-    }  
-
-    @Test
-    public void TestFindLobbyByNicknameFail(){
-        Optional<Integer> lobby=lobbyRepository.findLobbyByNicknamePlayer(users.get(0).getNickname()+users.get(1).getNickname());
-        assertNull(lobby.orElse(null));
-    }  
 
     @Test
     public void TestFindAllActiveLobby(){
-<<<<<<< HEAD
-        List<Lobby> lobby=lobbyRepository.findAllActiveLobby();
-=======
         List<Lobby> lobby=lobbyRepository.findLobbyActive(true,lobbyTest.getUsers().get(0).getId());
->>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
         assertFalse(lobby.isEmpty());
     }
 

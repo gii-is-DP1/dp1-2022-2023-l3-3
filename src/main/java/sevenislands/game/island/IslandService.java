@@ -29,14 +29,11 @@ public class IslandService {
     @Transactional
     public Island findByCardId(Integer cardId){
         return islandRepository.findByCardId(cardId);
-<<<<<<< HEAD
-=======
     }
 
     @Transactional
     public Island findCardOfIsland(Integer gameId, Integer numIsland){
         return islandRepository.findCardOfIsland(gameId, numIsland);
->>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
     }
 
     @Transactional(readOnly = true)
