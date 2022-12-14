@@ -56,6 +56,7 @@ public class UserService {
         userCreate.setEnabled(true);
         userCreate.setFirstName("Prueba");
         userCreate.setLastName("Probando");
+		userCreate.setCreationDate(new Date(System.currentTimeMillis()));
         userCreate.setBirthDate(new Date(System.currentTimeMillis()));
         userCreate.setAvatar("resource/images/avatars/playerAvatar.png");
         userCreate.setUserType("player");

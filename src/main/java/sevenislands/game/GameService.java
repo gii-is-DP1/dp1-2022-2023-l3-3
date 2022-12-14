@@ -30,16 +30,18 @@ public class GameService {
 
     @Transactional
     public Integer gameCount() {
-        return gameRepository.getNumOfGames();
+        return (int) gameRepository.count();
     }
 
     @Transactional 
-    public void initGame(Lobby lobby){
+    public Game initGame(Lobby lobby){
         Game game = new Game();
         game.setCreationDate(new Date(System.currentTimeMillis()));
         game.setLobby(lobby);
         game.setActive(true);
         gameRepository.save(game);
+        
+        return game;
     }
     
     @Transactional
