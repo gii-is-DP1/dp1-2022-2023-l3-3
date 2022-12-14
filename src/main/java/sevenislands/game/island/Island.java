@@ -1,7 +1,5 @@
 package sevenislands.game.island;
 
-
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,9 +8,9 @@ import javax.persistence.ManyToOne;
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 
+import sevenislands.card.Card;
 import sevenislands.game.Game;
 import sevenislands.model.BaseEntity;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -30,4 +28,7 @@ public class Island extends BaseEntity {
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Game game;
+
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Card card;
 }

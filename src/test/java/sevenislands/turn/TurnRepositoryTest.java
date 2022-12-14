@@ -24,4 +24,11 @@ public class TurnRepositoryTest {
         assertNotNull(turnos);
         assertNotNull(turnRepository.findById(98765));
     }
+
+    @Test
+    public void TestFindTurnByNickname(){
+        List<Turn> turns = turnRepository.findTurnByNickname("player2");
+        assertNotNull(turns);
+    }  
+
 }

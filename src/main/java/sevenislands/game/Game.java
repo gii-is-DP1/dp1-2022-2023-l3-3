@@ -12,6 +12,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
 import org.springframework.format.annotation.DateTimeFormat;
+
 import sevenislands.lobby.Lobby;
 import sevenislands.model.BaseEntity;
 
@@ -29,14 +30,17 @@ public class Game extends BaseEntity {
 	@Column(name = "creation_date", nullable = false)
 	private Date creationDate;
 
+	@Column(name = "active", unique = false, nullable = false)
+	private boolean active;
+
 	@Past
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	private Date endingDate;
 
+	
+
 	@OneToOne
 	@NotNull
 	private Lobby lobby;
-
-
 }

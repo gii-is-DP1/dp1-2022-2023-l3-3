@@ -1,5 +1,5 @@
 package sevenislands.enums;
 
 public enum Tipo {
-    Tesoro, Moneda
+    Collar,Doblon,Espada,Diamante,Rubi,Corona,Caliz,MapaTesoro,Revolver,BarrilRon  
 }

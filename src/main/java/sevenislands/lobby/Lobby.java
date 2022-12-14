@@ -1,7 +1,10 @@
 package sevenislands.lobby;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Random;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -36,4 +39,27 @@ public class Lobby extends BaseEntity {
   public void addPlayer(User user) {
     getPlayerInternal().add(user);
   }
+
+   /**
+     * Crea un código aleatorio para la lobby.
+     * @return String
+     */
+    public String generatorCode() {
+      Integer minAscii = 48;
+      Integer maxAscii = 122;
+      Integer RANDOM_STRING_LENGTH = 8;
+      StringBuffer randomString = new StringBuffer();
+      
+      for(int i = 0; i<RANDOM_STRING_LENGTH; i++) {
+          Random randomGenerator = new Random();
+          Integer ascii = randomGenerator.nextInt(maxAscii-minAscii)+minAscii;
+          char ch = Character.toString(ascii == 96 ? ascii+1 : ascii).charAt(0); //Por comodidad para el usuario, eliminamos un acento grave
+          randomString.append(ch);
+      }
+      SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
+      randomString.append(formatter.format(new Date(System.currentTimeMillis())));
+      return randomString.toString();
+  }
+
+ 
 }

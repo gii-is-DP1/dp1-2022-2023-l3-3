@@ -1,26 +1,37 @@
 package sevenislands.game;
 
-import java.security.Principal;
-import java.sql.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
-import sevenislands.tools.checkers;
 import sevenislands.user.User;
 import sevenislands.user.UserService;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+
 
 @Controller
 public class GameController {
 
     private static final String VIEWS_GAME_ASIGN_TURN = "game/asignTurn"; // vista para decidir turnos
+    private static final String VIEW_WELCOME = "redirect:/"; // vista para welcome
+    private static final String VIEWS_HOME =  "redirect:/home"; // vista para home
+    private static final String VIEWS_TURN =  "redirect:/turn"; // vista para turn
+    private static final String VIEWS_LOBBY =  "redirect:/lobby"; // vista para lobby
+    private static final String VIEWS_FINISHED_GAMES = "list/finishedGames"; //vista de partidas finalizadas
+    private static final String VIEWS_INPROGRESS_GAMES = "list/inProgressGames"; //vista de partidas en curso
+    private static final String VIEWS_GAMES_AS_PLAYER = "list/gameAsPlayer"; //vista de partidas jugadas
+
+
+    
 
     private final GameService gameService;
     private final LobbyService lobbyService;
@@ -34,22 +45,47 @@ public class GameController {
     }
 
     @GetMapping("/game")
-    public String createGame(HttpServletRequest request, Principal principal, HttpServletResponse response) throws ServletException {
-        if(checkers.checkUserNoExists(request)) return "redirect:/";
-        if(checkers.checkUserNoLobby(request)) return "redirect:/home";
-        if(checkers.checkUserNoGame(request)) return "redirect:/turn";
+    public String createGame(HttpServletRequest request, @ModelAttribute("logedUser") User logedUser, HttpServletResponse response) throws Exception {
+        if(userService.checkUserNoExists(request)) return VIEW_WELCOME;
+        if(lobbyService.checkUserNoLobby(logedUser)) return VIEWS_HOME;
+        if(lobbyService.checkLobbyNoAllPlayers(logedUser)) return VIEWS_LOBBY;
+        if(gameService.checkUserGameWithRounds(logedUser)) return VIEWS_TURN;
         response.addHeader("Refresh", "5");
-
-        User user = userService.findUser(principal.getName());
-        Lobby lobby = lobbyService.findLobbyByPlayer(user.getId()).get();
-        if(!gameService.findGamebByLobbyId(lobby.getId()).isPresent()) {
-            Game game = new Game();
-            game.setCreationDate(new Date(System.currentTimeMillis()));
-            game.setLobby(lobby);
-            gameService.save(game);
-            lobby.setActive(false);
-            lobbyService.update(lobby);
+       try {
+        Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
+        if(gameService.findGameByNickname(logedUser.getNickname(), true).isEmpty()) {
+            gameService.initGame(lobby);
+            lobbyService.disableLobby(lobby);
         }
         return VIEWS_GAME_ASIGN_TURN;
+       } catch (Exception e) {
+        return VIEWS_HOME;
+       }
+    }
+
+    @GetMapping("/endGame")
+    public String endGame(@ModelAttribute("logedUser") User logedUser){
+        return"game/endGame";
+    }
+
+    @GetMapping("/game/finished")
+    public String listFinishedGames(ModelMap model) {
+        List<Game> games = this.gameService.findGameActive(false);
+        model.put("games", games);
+        return VIEWS_FINISHED_GAMES;
+    }
+
+    @GetMapping("/game/InProgress")
+    public String listGames(ModelMap model) {
+        List<Game> games = this.gameService.findGameActive(true);
+        model.put("games", games);
+        return VIEWS_INPROGRESS_GAMES;
+    }
+
+    @GetMapping("/game/gamesAsPlayer")
+    public String listGamesAsPlayer(ModelMap model, @ModelAttribute("logedUser") User logedUser) {
+        List<Game> games = gameService.findGameByNickname("player4", false).stream().collect(Collectors.toList());
+        model.put("games", games);
+        return VIEWS_GAMES_AS_PLAYER;
     }
 }

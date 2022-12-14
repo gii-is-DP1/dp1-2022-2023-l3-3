@@ -38,7 +38,7 @@
   }
 </style>
 
-<sevenislands:layout2 pageName="settings">
+<sevenislands:layout3 pageName="settings">
   <jsp:attribute name="customScript">
     <script>
       $(function () {
@@ -78,4 +78,4 @@
       </c:forEach>
     </div>
   </jsp:body>
-</sevenislands:layout2>
+</sevenislands:layout3>

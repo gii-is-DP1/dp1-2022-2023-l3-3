@@ -26,7 +26,7 @@
 }
 </style>
 
-<sevenislands:layout2 pageName="join">
+<sevenislands:layout3 pageName="join">
     <a class="btn btn-default" href='<spring:url value="/home" htmlEscape="true"/>'>Volver</a>
     <h2><br/>Unirse a una Partida</h2>
     <form:form modelAttribute="code" class="form-horizontal" id="validate-code">
@@ -46,4 +46,4 @@
         </c:forEach>
       </div>
     </body>
-</sevenislands:layout2>
+</sevenislands:layout3>
