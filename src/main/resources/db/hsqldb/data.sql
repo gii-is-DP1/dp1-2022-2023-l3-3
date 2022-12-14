@@ -20,34 +20,34 @@ INSERT INTO lobby(code,active) VALUES('a10f8Lio','FALSE');
 -- LOBBY PLAYERS -- 
 INSERT INTO lobby_users(lobby_id,users_id) VALUES (1,7);
 INSERT INTO lobby_users(lobby_id,users_id) VALUES (1,9);
-INSERT INTO lobby_users(lobby_id,users_id) VALUES (2,8);
+INSERT INTO lobby_users(lobby_id,users_id) VALUES (2,10);
 
 -- GAME -- 
 INSERT INTO game(id, creation_date, ending_date, active, lobby_id) VALUES (1, '2022-11-14', '2022-11-24', 'TRUE' ,1);
 INSERT INTO game(id, creation_date, ending_date, active, lobby_id) VALUES (2, '2022-11-09', '2022-11-09', 'FALSE', 2);
 
--- -- ROUNDS --
--- INSERT INTO round(game_id) VALUES (1);
+-- ROUNDS --
+INSERT INTO round(game_id) VALUES (1);
 
--- -- TURNS -- 
--- INSERT INTO turn(user_id, round_id, start_time) VALUES (8,1, '2022-11-16 02:52:12');
--- INSERT INTO turn(user_id, round_id, start_time) VALUES (9,1,'2022-11-16 18:52:12');
+-- TURNS -- 
+INSERT INTO turn(user_id, round_id, start_time) VALUES (8,1, '2022-11-16 02:52:12');
+INSERT INTO turn(user_id, round_id, start_time) VALUES (9,1,'2022-11-16 18:52:12');
 
--- -- -- -- CARD --
--- insert INTO card(tipo,multiplicity,game_id) VALUES('Doblon',5,1);
+-- CARD --
+INSERT INTO card(tipo,multiplicity,game_id) VALUES('Doblon',5,1);
 
--- -- ISLA --
--- INSERT INTO island(island_number, game_id, card_id) VALUES (1,1,1);
--- -- INSERT INTO island(island_number, game_id, card_id) VALUES (2,1,2);
--- -- INSERT INTO island(island_number, game_id, card_id) VALUES (3,1,3);
--- -- INSERT INTO island(island_number, game_id, card_id) VALUES (4,1,4);
--- -- INSERT INTO island(island_number, game_id, card_id) VALUES (5,1,5);
--- -- INSERT INTO island(island_number, game_id, card_id) VALUES (6,1,6);
+-- ISLA --
+INSERT INTO island(island_number, game_id, card_id) VALUES (1,1,1);
+-- INSERT INTO island(island_number, game_id, card_id) VALUES (2,1,2);
+-- INSERT INTO island(island_number, game_id, card_id) VALUES (3,1,3);
+-- INSERT INTO island(island_number, game_id, card_id) VALUES (4,1,4);
+-- INSERT INTO island(island_number, game_id, card_id) VALUES (5,1,5);
+-- INSERT INTO island(island_number, game_id, card_id) VALUES (6,1,6);
 
--- -- TURNO_CARTA --
--- INSERT INTO turn_cards(turn_id,cards_id) VALUES (1, 1);
--- INSERT INTO turn_cards(turn_id,cards_id) VALUES (1, 1);
--- INSERT INTO turn_cards(turn_id,cards_id) VALUES (1, 1);
+-- TURNO_CARTA --
+INSERT INTO turn_cards(turn_id,cards_id) VALUES (1, 1);
+INSERT INTO turn_cards(turn_id,cards_id) VALUES (1, 1);
+INSERT INTO turn_cards(turn_id,cards_id) VALUES (1, 1);
 
 -- Logros --
 INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Inicio', 'Juega <LIMITE> partida', 'StreakGames', 1, '/resources/images/grafics/logroJugarPartidas.png');
