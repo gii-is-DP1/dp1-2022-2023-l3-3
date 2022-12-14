@@ -84,7 +84,7 @@ public class GameController {
 
     @GetMapping("/game/gamesAsPlayer")
     public String listGamesAsPlayer(ModelMap model, @ModelAttribute("logedUser") User logedUser) {
-        List<Game> games = gameService.findGameByNickname("player4", false).stream().collect(Collectors.toList());
+        List<Game> games = gameService.findGameByNickname(logedUser.getNickname(), false).stream().collect(Collectors.toList());
         model.put("games", games);
         return VIEWS_GAMES_AS_PLAYER;
     }
