@@ -7,6 +7,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import sevenislands.card.Card;
+
 @Repository
 public interface IslandRepository extends CrudRepository<Island, Integer> {
 
@@ -19,4 +21,7 @@ public interface IslandRepository extends CrudRepository<Island, Integer> {
 
     @Query("SELECT island FROM Island island WHERE island.card.id=?1")
     public Island findByCardId(Integer cardId);
+
+    @Query("SELECT island FROM Island island WHERE island.game.id=?1 AND island.num=?2")
+    public Island findCardOfIsland(Integer gameId, Integer numIsland);
 }
