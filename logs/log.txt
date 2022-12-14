@@ -20,27 +20,27 @@ ________________________________________________________________________________
 _______________________________________________________________________________________________________________________________________________
 
 
-[2m2022-12-11 13:03:48.065[0;39m [32m INFO[0;39m [35m61123[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36msevenislands.SevenislandsApplication    [0;39m [2m:[0;39m Starting SevenislandsApplication on macbook-pro-de-sergio-2.home with PID 61123 (/Users/sergiosantiago/developments/US/DP1/dp1-2022-2023-l3-3/target/classes started by sergiosantiago in /Users/sergiosantiago/developments/US/DP1/dp1-2022-2023-l3-3)
-[2m2022-12-11 13:03:48.070[0;39m [32m INFO[0;39m [35m61123[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36msevenislands.SevenislandsApplication    [0;39m [2m:[0;39m No active profile set, falling back to default profiles: default
-[2m2022-12-11 13:03:48.093[0;39m [32m INFO[0;39m [35m61123[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.b.devtools.restart.ChangeableUrls   [0;39m [2m:[0;39m The Class-Path manifest attribute in /Users/sergiosantiago/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jaxb-runtime-2.3.2.jar referenced one or more files that do not exist: file:/Users/sergiosantiago/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.xml.bind-api-2.3.2.jar,file:/Users/sergiosantiago/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/txw2-2.3.2.jar,file:/Users/sergiosantiago/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/istack-commons-runtime-3.0.8.jar,file:/Users/sergiosantiago/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/stax-ex-1.8.1.jar,file:/Users/sergiosantiago/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/FastInfoset-1.2.16.jar,file:/Users/sergiosantiago/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.activation-api-1.2.1.jar
-[2m2022-12-11 13:03:48.093[0;39m [32m INFO[0;39m [35m61123[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36m.e.DevToolsPropertyDefaultsPostProcessor[0;39m [2m:[0;39m Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
-[2m2022-12-11 13:03:48.093[0;39m [32m INFO[0;39m [35m61123[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36m.e.DevToolsPropertyDefaultsPostProcessor[0;39m [2m:[0;39m For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
-[2m2022-12-11 13:03:48.441[0;39m [32m INFO[0;39m [35m61123[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Bootstrapping Spring Data JPA repositories in DEFAULT mode.
-[2m2022-12-11 13:03:48.484[0;39m [32m INFO[0;39m [35m61123[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Finished Spring Data repository scanning in 38ms. Found 8 JPA repository interfaces.
-[2m2022-12-11 13:03:48.669[0;39m [32m INFO[0;39m [35m61123[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mtrationDelegate$BeanPostProcessorChecker[0;39m [2m:[0;39m Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
-[2m2022-12-11 13:03:48.831[0;39m [32m INFO[0;39m [35m61123[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.b.w.embedded.tomcat.TomcatWebServer [0;39m [2m:[0;39m Tomcat initialized with port(s): 8080 (http)
-[2m2022-12-11 13:03:48.838[0;39m [32m INFO[0;39m [35m61123[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.apache.catalina.core.StandardService  [0;39m [2m:[0;39m Starting service [Tomcat]
-[2m2022-12-11 13:03:48.838[0;39m [32m INFO[0;39m [35m61123[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36morg.apache.catalina.core.StandardEngine [0;39m [2m:[0;39m Starting Servlet engine: [Apache Tomcat/9.0.30]
-[2m2022-12-11 13:03:48.986[0;39m [32m INFO[0;39m [35m61123[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36morg.apache.jasper.servlet.TldScanner    [0;39m [2m:[0;39m At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
-[2m2022-12-11 13:03:48.992[0;39m [32m INFO[0;39m [35m61123[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.a.c.c.C.[Tomcat].[localhost].[/]      [0;39m [2m:[0;39m Initializing Spring embedded WebApplicationContext
-[2m2022-12-11 13:03:48.992[0;39m [32m INFO[0;39m [35m61123[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.web.context.ContextLoader           [0;39m [2m:[0;39m Root WebApplicationContext: initialization completed in 899 ms
-[2m2022-12-11 13:03:49.012[0;39m [32m INFO[0;39m [35m61123[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-1 - Starting...
-[2m2022-12-11 13:03:49.103[0;39m [32m INFO[0;39m [35m61123[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-1 - Start completed.
-[2m2022-12-11 13:03:49.107[0;39m [32m INFO[0;39m [35m61123[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.b.a.h2.H2ConsoleAutoConfiguration   [0;39m [2m:[0;39m H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
-[2m2022-12-11 13:03:49.187[0;39m [32m INFO[0;39m [35m61123[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.hibernate.jpa.internal.util.LogHelper [0;39m [2m:[0;39m HHH000204: Processing PersistenceUnitInfo [name: default]
-[2m2022-12-11 13:03:49.225[0;39m [32m INFO[0;39m [35m61123[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36morg.hibernate.Version                   [0;39m [2m:[0;39m HHH000412: Hibernate Core {5.4.10.Final}
-[2m2022-12-11 13:03:49.289[0;39m [32m INFO[0;39m [35m61123[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.hibernate.annotations.common.Version  [0;39m [2m:[0;39m HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
-[2m2022-12-11 13:03:49.347[0;39m [32m INFO[0;39m [35m61123[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36morg.hibernate.dialect.Dialect           [0;39m [2m:[0;39m HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+[2m2022-12-13 06:27:45.377[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36msevenislands.SevenislandsApplication    [0;39m [2m:[0;39m Starting SevenislandsApplication on macbook-pro-de-sergio-2.home with PID 95799 (/Users/sergiosantiago/developments/US/DP1/dp1-2022-2023-l3-3/target/classes started by sergiosantiago in /Users/sergiosantiago/developments/US/DP1/dp1-2022-2023-l3-3)
+[2m2022-12-13 06:27:45.379[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36msevenislands.SevenislandsApplication    [0;39m [2m:[0;39m No active profile set, falling back to default profiles: default
+[2m2022-12-13 06:27:45.409[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.b.devtools.restart.ChangeableUrls   [0;39m [2m:[0;39m The Class-Path manifest attribute in /Users/sergiosantiago/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jaxb-runtime-2.3.2.jar referenced one or more files that do not exist: file:/Users/sergiosantiago/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.xml.bind-api-2.3.2.jar,file:/Users/sergiosantiago/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/txw2-2.3.2.jar,file:/Users/sergiosantiago/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/istack-commons-runtime-3.0.8.jar,file:/Users/sergiosantiago/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/stax-ex-1.8.1.jar,file:/Users/sergiosantiago/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/FastInfoset-1.2.16.jar,file:/Users/sergiosantiago/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.activation-api-1.2.1.jar
+[2m2022-12-13 06:27:45.410[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36m.e.DevToolsPropertyDefaultsPostProcessor[0;39m [2m:[0;39m Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+[2m2022-12-13 06:27:45.411[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36m.e.DevToolsPropertyDefaultsPostProcessor[0;39m [2m:[0;39m For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+[2m2022-12-13 06:27:45.800[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+[2m2022-12-13 06:27:45.844[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36m.s.d.r.c.RepositoryConfigurationDelegate[0;39m [2m:[0;39m Finished Spring Data repository scanning in 39ms. Found 8 JPA repository interfaces.
+[2m2022-12-13 06:27:46.040[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mtrationDelegate$BeanPostProcessorChecker[0;39m [2m:[0;39m Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+[2m2022-12-13 06:27:46.234[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.b.w.embedded.tomcat.TomcatWebServer [0;39m [2m:[0;39m Tomcat initialized with port(s): 8080 (http)
+[2m2022-12-13 06:27:46.241[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.apache.catalina.core.StandardService  [0;39m [2m:[0;39m Starting service [Tomcat]
+[2m2022-12-13 06:27:46.241[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36morg.apache.catalina.core.StandardEngine [0;39m [2m:[0;39m Starting Servlet engine: [Apache Tomcat/9.0.30]
+[2m2022-12-13 06:27:46.387[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36morg.apache.jasper.servlet.TldScanner    [0;39m [2m:[0;39m At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+[2m2022-12-13 06:27:46.392[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.a.c.c.C.[Tomcat].[localhost].[/]      [0;39m [2m:[0;39m Initializing Spring embedded WebApplicationContext
+[2m2022-12-13 06:27:46.393[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.web.context.ContextLoader           [0;39m [2m:[0;39m Root WebApplicationContext: initialization completed in 982 ms
+[2m2022-12-13 06:27:46.414[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-1 - Starting...
+[2m2022-12-13 06:27:46.514[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mcom.zaxxer.hikari.HikariDataSource      [0;39m [2m:[0;39m HikariPool-1 - Start completed.
+[2m2022-12-13 06:27:46.518[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.b.a.h2.H2ConsoleAutoConfiguration   [0;39m [2m:[0;39m H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+[2m2022-12-13 06:27:46.590[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.hibernate.jpa.internal.util.LogHelper [0;39m [2m:[0;39m HHH000204: Processing PersistenceUnitInfo [name: default]
+[2m2022-12-13 06:27:46.630[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36morg.hibernate.Version                   [0;39m [2m:[0;39m HHH000412: Hibernate Core {5.4.10.Final}
+[2m2022-12-13 06:27:46.714[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.hibernate.annotations.common.Version  [0;39m [2m:[0;39m HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+[2m2022-12-13 06:27:46.770[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36morg.hibernate.dialect.Dialect           [0;39m [2m:[0;39m HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
 Hibernate: 
     
     drop table achievement if exists
@@ -262,11 +262,390 @@ Hibernate:
        add constraint FK2gp4wt3thphhd9yucjl9p6jui 
        foreign key (user_id) 
        references user
-[2m2022-12-11 13:03:49.729[0;39m [32m INFO[0;39m [35m61123[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.h.e.t.j.p.i.JtaPlatformInitiator      [0;39m [2m:[0;39m HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
-[2m2022-12-11 13:03:49.732[0;39m [32m INFO[0;39m [35m61123[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mj.LocalContainerEntityManagerFactoryBean[0;39m [2m:[0;39m Initialized JPA EntityManagerFactory for persistence unit 'default'
-[2m2022-12-11 13:03:49.743[0;39m [32m INFO[0;39m [35m61123[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.b.d.a.OptionalLiveReloadServer      [0;39m [2m:[0;39m LiveReload server is running on port 35729
-[2m2022-12-11 13:03:49.990[0;39m [33m WARN[0;39m [35m61123[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mJpaBaseConfiguration$JpaWebConfiguration[0;39m [2m:[0;39m spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
-[2m2022-12-11 13:03:50.171[0;39m [32m INFO[0;39m [35m61123[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.s.web.DefaultSecurityFilterChain    [0;39m [2m:[0;39m Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@5c9ff56f, org.springframework.security.web.context.SecurityContextPersistenceFilter@7950c5fd, org.springframework.security.web.header.HeaderWriterFilter@5c9fb175, org.springframework.security.web.csrf.CsrfFilter@1342634a, org.springframework.security.web.authentication.logout.LogoutFilter@346ea1ea, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@5994653d, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@5ea8408d, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@6726ab4, org.springframework.security.web.session.ConcurrentSessionFilter@6b08aab1, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@47bea1df, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@50e23af3, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@61a9a9ae, org.springframework.security.web.session.SessionManagementFilter@71295510, org.springframework.security.web.access.ExceptionTranslationFilter@4f105b1b, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@57067d40]
-[2m2022-12-11 13:03:50.234[0;39m [32m INFO[0;39m [35m61123[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.s.concurrent.ThreadPoolTaskExecutor [0;39m [2m:[0;39m Initializing ExecutorService 'applicationTaskExecutor'
-[2m2022-12-11 13:03:50.730[0;39m [32m INFO[0;39m [35m61123[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.b.w.embedded.tomcat.TomcatWebServer [0;39m [2m:[0;39m Tomcat started on port(s): 8080 (http) with context path ''
-[2m2022-12-11 13:03:50.732[0;39m [32m INFO[0;39m [35m61123[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36msevenislands.SevenislandsApplication    [0;39m [2m:[0;39m Started SevenislandsApplication in 2.877 seconds (JVM running for 3.303)
+[2m2022-12-13 06:27:47.190[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.h.e.t.j.p.i.JtaPlatformInitiator      [0;39m [2m:[0;39m HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+[2m2022-12-13 06:27:47.194[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mj.LocalContainerEntityManagerFactoryBean[0;39m [2m:[0;39m Initialized JPA EntityManagerFactory for persistence unit 'default'
+[2m2022-12-13 06:27:47.216[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.b.d.a.OptionalLiveReloadServer      [0;39m [2m:[0;39m LiveReload server is running on port 35729
+[2m2022-12-13 06:27:47.464[0;39m [33m WARN[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mJpaBaseConfiguration$JpaWebConfiguration[0;39m [2m:[0;39m spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+[2m2022-12-13 06:27:47.636[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.s.web.DefaultSecurityFilterChain    [0;39m [2m:[0;39m Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@7a4359b8, org.springframework.security.web.context.SecurityContextPersistenceFilter@22ef28ad, org.springframework.security.web.header.HeaderWriterFilter@1de0f7e0, org.springframework.security.web.csrf.CsrfFilter@1ae0df04, org.springframework.security.web.authentication.logout.LogoutFilter@2b0eb0bd, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@4c3dc147, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@56563555, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@6a78974e, org.springframework.security.web.session.ConcurrentSessionFilter@31f55c20, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@1957b9a6, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@4bb47965, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@5517b75d, org.springframework.security.web.session.SessionManagementFilter@39347167, org.springframework.security.web.access.ExceptionTranslationFilter@3cfa3f7c, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@7c35ad63]
+[2m2022-12-13 06:27:47.695[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.s.concurrent.ThreadPoolTaskExecutor [0;39m [2m:[0;39m Initializing ExecutorService 'applicationTaskExecutor'
+[2m2022-12-13 06:27:48.192[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36mo.s.b.w.embedded.tomcat.TomcatWebServer [0;39m [2m:[0;39m Tomcat started on port(s): 8080 (http) with context path ''
+[2m2022-12-13 06:27:48.194[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[  restartedMain][0;39m [36msevenislands.SevenislandsApplication    [0;39m [2m:[0;39m Started SevenislandsApplication in 3.117 seconds (JVM running for 3.541)
+[2m2022-12-13 06:32:40.044[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[nio-8080-exec-1][0;39m [36mo.a.c.c.C.[Tomcat].[localhost].[/]      [0;39m [2m:[0;39m Initializing Spring DispatcherServlet 'dispatcherServlet'
+[2m2022-12-13 06:32:40.045[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[nio-8080-exec-1][0;39m [36mo.s.web.servlet.DispatcherServlet       [0;39m [2m:[0;39m Initializing Servlet 'dispatcherServlet'
+[2m2022-12-13 06:32:40.052[0;39m [32m INFO[0;39m [35m95799[0;39m [2m---[0;39m [2m[nio-8080-exec-1][0;39m [36mo.s.web.servlet.DispatcherServlet       [0;39m [2m:[0;39m Completed initialization in 7 ms
+Hibernate: 
+    select
+        user0_.id as id1_9_,
+        user0_.avatar as avatar2_9_,
+        user0_.birth_date as birth_da3_9_,
+        user0_.creation_date as creation4_9_,
+        user0_.email as email5_9_,
+        user0_.enabled as enabled6_9_,
+        user0_.first_name as first_na7_9_,
+        user0_.last_name as last_nam8_9_,
+        user0_.nickname as nickname9_9_,
+        user0_.password as passwor10_9_,
+        user0_.type as type11_9_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        game0_.id as id1_2_,
+        game0_.active as active2_2_,
+        game0_.creation_date as creation3_2_,
+        game0_.ending_date as ending_d4_2_,
+        game0_.lobby_id as lobby_id5_2_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=? 
+        and game0_.active=1
+Hibernate: 
+    select
+        lobby0_.id as id1_4_,
+        lobby0_.active as active2_4_,
+        lobby0_.code as code3_4_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        lobby0_.id as id1_4_,
+        lobby0_.active as active2_4_,
+        lobby0_.code as code3_4_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        users0_.lobby_id as lobby_id1_5_0_,
+        users0_.users_id as users_id2_5_0_,
+        user1_.id as id1_9_1_,
+        user1_.avatar as avatar2_9_1_,
+        user1_.birth_date as birth_da3_9_1_,
+        user1_.creation_date as creation4_9_1_,
+        user1_.email as email5_9_1_,
+        user1_.enabled as enabled6_9_1_,
+        user1_.first_name as first_na7_9_1_,
+        user1_.last_name as last_nam8_9_1_,
+        user1_.nickname as nickname9_9_1_,
+        user1_.password as passwor10_9_1_,
+        user1_.type as type11_9_1_ 
+    from
+        lobby_users users0_ 
+    inner join
+        user user1_ 
+            on users0_.users_id=user1_.id 
+    where
+        users0_.lobby_id=?
+Hibernate: 
+    delete 
+    from
+        lobby_users 
+    where
+        lobby_id=?
+Hibernate: 
+    select
+        user0_.id as id1_9_,
+        user0_.avatar as avatar2_9_,
+        user0_.birth_date as birth_da3_9_,
+        user0_.creation_date as creation4_9_,
+        user0_.email as email5_9_,
+        user0_.enabled as enabled6_9_,
+        user0_.first_name as first_na7_9_,
+        user0_.last_name as last_nam8_9_,
+        user0_.nickname as nickname9_9_,
+        user0_.password as passwor10_9_,
+        user0_.type as type11_9_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        game0_.id as id1_2_,
+        game0_.active as active2_2_,
+        game0_.creation_date as creation3_2_,
+        game0_.ending_date as ending_d4_2_,
+        game0_.lobby_id as lobby_id5_2_ 
+    from
+        game game0_ 
+    inner join
+        lobby lobby1_ 
+            on game0_.lobby_id=lobby1_.id 
+    inner join
+        lobby_users users2_ 
+            on lobby1_.id=users2_.lobby_id 
+    inner join
+        user user3_ 
+            on users2_.users_id=user3_.id 
+    where
+        user3_.nickname=? 
+        and game0_.active=1
+Hibernate: 
+    select
+        lobby0_.id as id1_4_,
+        lobby0_.active as active2_4_,
+        lobby0_.code as code3_4_ 
+    from
+        lobby lobby0_ 
+    inner join
+        lobby_users users1_ 
+            on lobby0_.id=users1_.lobby_id 
+    inner join
+        user user2_ 
+            on users1_.users_id=user2_.id 
+    where
+        user2_.id=?
+Hibernate: 
+    select
+        user0_.id as id1_9_,
+        user0_.avatar as avatar2_9_,
+        user0_.birth_date as birth_da3_9_,
+        user0_.creation_date as creation4_9_,
+        user0_.email as email5_9_,
+        user0_.enabled as enabled6_9_,
+        user0_.first_name as first_na7_9_,
+        user0_.last_name as last_nam8_9_,
+        user0_.nickname as nickname9_9_,
+        user0_.password as passwor10_9_,
+        user0_.type as type11_9_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_9_,
+        user0_.avatar as avatar2_9_,
+        user0_.birth_date as birth_da3_9_,
+        user0_.creation_date as creation4_9_,
+        user0_.email as email5_9_,
+        user0_.enabled as enabled6_9_,
+        user0_.first_name as first_na7_9_,
+        user0_.last_name as last_nam8_9_,
+        user0_.nickname as nickname9_9_,
+        user0_.password as passwor10_9_,
+        user0_.type as type11_9_ 
+    from
+        user user0_
+Hibernate: 
+    select
+        user0_.id as id1_9_,
+        user0_.avatar as avatar2_9_,
+        user0_.birth_date as birth_da3_9_,
+        user0_.creation_date as creation4_9_,
+        user0_.email as email5_9_,
+        user0_.enabled as enabled6_9_,
+        user0_.first_name as first_na7_9_,
+        user0_.last_name as last_nam8_9_,
+        user0_.nickname as nickname9_9_,
+        user0_.password as passwor10_9_,
+        user0_.type as type11_9_ 
+    from
+        user user0_
+Hibernate: 
+    select
+        user0_.id as id1_9_,
+        user0_.avatar as avatar2_9_,
+        user0_.birth_date as birth_da3_9_,
+        user0_.creation_date as creation4_9_,
+        user0_.email as email5_9_,
+        user0_.enabled as enabled6_9_,
+        user0_.first_name as first_na7_9_,
+        user0_.last_name as last_nam8_9_,
+        user0_.nickname as nickname9_9_,
+        user0_.password as passwor10_9_,
+        user0_.type as type11_9_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_9_,
+        user0_.avatar as avatar2_9_,
+        user0_.birth_date as birth_da3_9_,
+        user0_.creation_date as creation4_9_,
+        user0_.email as email5_9_,
+        user0_.enabled as enabled6_9_,
+        user0_.first_name as first_na7_9_,
+        user0_.last_name as last_nam8_9_,
+        user0_.nickname as nickname9_9_,
+        user0_.password as passwor10_9_,
+        user0_.type as type11_9_ 
+    from
+        user user0_
+Hibernate: 
+    select
+        user0_.id as id1_9_,
+        user0_.avatar as avatar2_9_,
+        user0_.birth_date as birth_da3_9_,
+        user0_.creation_date as creation4_9_,
+        user0_.email as email5_9_,
+        user0_.enabled as enabled6_9_,
+        user0_.first_name as first_na7_9_,
+        user0_.last_name as last_nam8_9_,
+        user0_.nickname as nickname9_9_,
+        user0_.password as passwor10_9_,
+        user0_.type as type11_9_ 
+    from
+        user user0_
+Hibernate: 
+    select
+        user0_.id as id1_9_,
+        user0_.avatar as avatar2_9_,
+        user0_.birth_date as birth_da3_9_,
+        user0_.creation_date as creation4_9_,
+        user0_.email as email5_9_,
+        user0_.enabled as enabled6_9_,
+        user0_.first_name as first_na7_9_,
+        user0_.last_name as last_nam8_9_,
+        user0_.nickname as nickname9_9_,
+        user0_.password as passwor10_9_,
+        user0_.type as type11_9_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_9_,
+        user0_.avatar as avatar2_9_,
+        user0_.birth_date as birth_da3_9_,
+        user0_.creation_date as creation4_9_,
+        user0_.email as email5_9_,
+        user0_.enabled as enabled6_9_,
+        user0_.first_name as first_na7_9_,
+        user0_.last_name as last_nam8_9_,
+        user0_.nickname as nickname9_9_,
+        user0_.password as passwor10_9_,
+        user0_.type as type11_9_ 
+    from
+        user user0_
+Hibernate: 
+    select
+        user0_.id as id1_9_,
+        user0_.avatar as avatar2_9_,
+        user0_.birth_date as birth_da3_9_,
+        user0_.creation_date as creation4_9_,
+        user0_.email as email5_9_,
+        user0_.enabled as enabled6_9_,
+        user0_.first_name as first_na7_9_,
+        user0_.last_name as last_nam8_9_,
+        user0_.nickname as nickname9_9_,
+        user0_.password as passwor10_9_,
+        user0_.type as type11_9_ 
+    from
+        user user0_
+Hibernate: 
+    select
+        user0_.id as id1_9_,
+        user0_.avatar as avatar2_9_,
+        user0_.birth_date as birth_da3_9_,
+        user0_.creation_date as creation4_9_,
+        user0_.email as email5_9_,
+        user0_.enabled as enabled6_9_,
+        user0_.first_name as first_na7_9_,
+        user0_.last_name as last_nam8_9_,
+        user0_.nickname as nickname9_9_,
+        user0_.password as passwor10_9_,
+        user0_.type as type11_9_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_9_0_,
+        user0_.avatar as avatar2_9_0_,
+        user0_.birth_date as birth_da3_9_0_,
+        user0_.creation_date as creation4_9_0_,
+        user0_.email as email5_9_0_,
+        user0_.enabled as enabled6_9_0_,
+        user0_.first_name as first_na7_9_0_,
+        user0_.last_name as last_nam8_9_0_,
+        user0_.nickname as nickname9_9_0_,
+        user0_.password as passwor10_9_0_,
+        user0_.type as type11_9_0_ 
+    from
+        user user0_ 
+    where
+        user0_.id=?
+Hibernate: 
+    select
+        distinct user0_.type as col_0_0_ 
+    from
+        user user0_
+Hibernate: 
+    select
+        user0_.id as id1_9_,
+        user0_.avatar as avatar2_9_,
+        user0_.birth_date as birth_da3_9_,
+        user0_.creation_date as creation4_9_,
+        user0_.email as email5_9_,
+        user0_.enabled as enabled6_9_,
+        user0_.first_name as first_na7_9_,
+        user0_.last_name as last_nam8_9_,
+        user0_.nickname as nickname9_9_,
+        user0_.password as passwor10_9_,
+        user0_.type as type11_9_ 
+    from
+        user user0_ 
+    where
+        user0_.nickname=?
+Hibernate: 
+    select
+        user0_.id as id1_9_,
+        user0_.avatar as avatar2_9_,
+        user0_.birth_date as birth_da3_9_,
+        user0_.creation_date as creation4_9_,
+        user0_.email as email5_9_,
+        user0_.enabled as enabled6_9_,
+        user0_.first_name as first_na7_9_,
+        user0_.last_name as last_nam8_9_,
+        user0_.nickname as nickname9_9_,
+        user0_.password as passwor10_9_,
+        user0_.type as type11_9_ 
+    from
+        user user0_
+Hibernate: 
+    select
+        user0_.id as id1_9_,
+        user0_.avatar as avatar2_9_,
+        user0_.birth_date as birth_da3_9_,
+        user0_.creation_date as creation4_9_,
+        user0_.email as email5_9_,
+        user0_.enabled as enabled6_9_,
+        user0_.first_name as first_na7_9_,
+        user0_.last_name as last_nam8_9_,
+        user0_.nickname as nickname9_9_,
+        user0_.password as passwor10_9_,
+        user0_.type as type11_9_ 
+    from
+        user user0_
