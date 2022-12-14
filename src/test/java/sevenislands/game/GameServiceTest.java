@@ -81,20 +81,35 @@ public class GameServiceTest {
 
     @Test
     public void GameCountTest(){
+<<<<<<< HEAD
         when(gameRepository.count()).thenReturn( Long.valueOf(gameList.size())); 
         assertEquals(2, gameService.gameCount());
+=======
+        gameService = new GameService(roundService, gameRepository);
+        when(gameRepository.count()).thenReturn(Long.valueOf(gameList.size())); 
+        assertEquals(gameList.size(), gameService.gameCount());
+>>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
     }
 
     @Test
     public void findGameByNickNameTest(){
+<<<<<<< HEAD
         when(gameRepository.findGameByNickname("user1Test")).thenReturn(Optional.of(gameList.get(0)));
         assertNotNull(gameService.findGameByNickname("user1Test"));
+=======
+        when(gameRepository.findGameByNickname("user1Test",true)).thenReturn(Optional.of(gameList.get(0)));
+        assertNotNull(gameService.findGameByNickname("user1Test",true));
+>>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
     }
 
     @Test
     public void checkNickNameANDGameIdTest(){
         Integer id = gameList.get(0).getId();
+<<<<<<< HEAD
         when(gameRepository.findGameByNickname(userList.get(0).getNickname())).thenReturn(Optional.of(gameList.get(0)));
+=======
+        when(gameRepository.findGameByNickname(userList.get(0).getNickname(),true)).thenReturn(Optional.of(gameList.get(0)));
+>>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
         when(roundRepository.findRoundByGameId(id)).thenReturn(roundList.stream().filter(r -> r.getGame().getId().equals(id)).collect(Collectors.toList()));
         assertNotNull(gameService.checkUserGameWithRounds(userList.get(0)));
     }

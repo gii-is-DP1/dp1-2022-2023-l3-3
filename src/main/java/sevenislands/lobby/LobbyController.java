@@ -46,7 +46,11 @@ public class LobbyController {
 		try {
 			Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
 		
+<<<<<<< HEAD
 			if (gameService.findGameByNickname(logedUser.getNickname()).isPresent()) return "redirect:/game";
+=======
+			if (gameService.findGameByNickname(logedUser.getNickname(), true).isPresent()) return "redirect:/game";
+>>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
 			User host = lobby.getUsers().get(0);
 			model.put("num_players", lobby.getUsers().size());
 			model.put("lobby", lobby);

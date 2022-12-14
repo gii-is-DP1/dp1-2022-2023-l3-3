@@ -20,7 +20,11 @@ INSERT INTO lobby(code,active) VALUES('a10f8Lio','FALSE');
 -- LOBBY PLAYERS -- 
 INSERT INTO lobby_users(lobby_id,users_id) VALUES (1,7);
 INSERT INTO lobby_users(lobby_id,users_id) VALUES (1,9);
+<<<<<<< HEAD
 INSERT INTO lobby_users(lobby_id,users_id) VALUES (2,8);
+=======
+INSERT INTO lobby_users(lobby_id,users_id) VALUES (2,10);
+>>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
 
 -- GAME -- 
 INSERT INTO game(id, creation_date, ending_date, active, lobby_id) VALUES (1, '2022-11-14', '2022-11-24', 'TRUE' ,1);
@@ -34,7 +38,11 @@ INSERT INTO turn(user_id, round_id, start_time) VALUES (8,1, '2022-11-16 02:52:1
 INSERT INTO turn(user_id, round_id, start_time) VALUES (9,1,'2022-11-16 18:52:12');
 
 -- CARD --
+<<<<<<< HEAD
 INSERT INTO card(tipo,multiplicity,game_id) VALUES('doblon',5,1);
+=======
+INSERT INTO card(tipo,multiplicity,game_id) VALUES('Doblon',5,1);
+>>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
 
 -- ISLA --
 INSERT INTO island(island_number, game_id, card_id) VALUES (1,1,1);

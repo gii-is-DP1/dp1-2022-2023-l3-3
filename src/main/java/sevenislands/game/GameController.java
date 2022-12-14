@@ -1,6 +1,10 @@
 package sevenislands.game;
 
 import java.util.List;
+<<<<<<< HEAD
+=======
+import java.util.stream.Collectors;
+>>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,7 +29,16 @@ public class GameController {
     private static final String VIEWS_HOME =  "redirect:/home"; // vista para home
     private static final String VIEWS_TURN =  "redirect:/turn"; // vista para turn
     private static final String VIEWS_LOBBY =  "redirect:/lobby"; // vista para lobby
+<<<<<<< HEAD
     private static final String VIEWS_FINISHED_GAMES = "list/listGames"; //vista de partidas finalizadas
+=======
+    private static final String VIEWS_FINISHED_GAMES = "list/finishedGames"; //vista de partidas finalizadas
+    private static final String VIEWS_INPROGRESS_GAMES = "list/inProgressGames"; //vista de partidas en curso
+    private static final String VIEWS_GAMES_AS_PLAYER = "list/gameAsPlayer"; //vista de partidas jugadas
+
+
+    
+>>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
 
     private final GameService gameService;
     private final LobbyService lobbyService;
@@ -47,7 +60,11 @@ public class GameController {
         response.addHeader("Refresh", "5");
        try {
         Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
+<<<<<<< HEAD
         if(gameService.findGameByNickname(logedUser.getNickname()).isEmpty()) {
+=======
+        if(gameService.findGameByNickname(logedUser.getNickname(), true).isEmpty()) {
+>>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
             gameService.initGame(lobby);
             lobbyService.disableLobby(lobby);
         }
@@ -73,6 +90,17 @@ public class GameController {
     public String listGames(ModelMap model) {
         List<Game> games = this.gameService.findGameActive(true);
         model.put("games", games);
+<<<<<<< HEAD
         return VIEWS_FINISHED_GAMES;
+=======
+        return VIEWS_INPROGRESS_GAMES;
+    }
+
+    @GetMapping("/game/gamesAsPlayer")
+    public String listGamesAsPlayer(ModelMap model, @ModelAttribute("logedUser") User logedUser) {
+        List<Game> games = gameService.findGameByNickname("player4", false).stream().collect(Collectors.toList());
+        model.put("games", games);
+        return VIEWS_GAMES_AS_PLAYER;
+>>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
     }
 }

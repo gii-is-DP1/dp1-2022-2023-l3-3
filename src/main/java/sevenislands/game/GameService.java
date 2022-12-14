@@ -29,8 +29,13 @@ public class GameService {
     }
 
     @Transactional
+<<<<<<< HEAD
     public Long gameCount() {
         return gameRepository.count();
+=======
+    public Integer gameCount() {
+        return (int) gameRepository.count();
+>>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
     }
 
     @Transactional 
@@ -40,6 +45,10 @@ public class GameService {
         game.setLobby(lobby);
         game.setActive(true);
         gameRepository.save(game);
+<<<<<<< HEAD
+=======
+        
+>>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
         return game;
     }
     
@@ -49,8 +58,13 @@ public class GameService {
     }
 
     @Transactional
+<<<<<<< HEAD
     public Optional<Game> findGameByNickname(String nickname) {
         return gameRepository.findGameByNickname(nickname);
+=======
+    public Optional<Game> findGameByNickname(String nickname, Boolean active) {
+        return gameRepository.findGameByNickname(nickname, active);
+>>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
     }
 
     /**
@@ -62,7 +76,11 @@ public class GameService {
      */
     @Transactional
     public Boolean checkUserGameWithRounds(User logedUser) {
+<<<<<<< HEAD
         Optional<Game> game = gameRepository.findGameByNickname(logedUser.getNickname());
+=======
+        Optional<Game> game = gameRepository.findGameByNickname(logedUser.getNickname(), true);
+>>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
         return game.isPresent() && roundService.checkRoundByGameId(game.get().getId());
      }
 

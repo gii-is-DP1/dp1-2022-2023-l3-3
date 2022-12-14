@@ -56,10 +56,17 @@ public class UserService {
         userCreate.setEnabled(true);
         userCreate.setFirstName("Prueba");
         userCreate.setLastName("Probando");
+<<<<<<< HEAD
         userCreate.setBirthDate(new Date(System.currentTimeMillis()));
         userCreate.setAvatar("resource/images/avatars/playerAvatar.png");
         userCreate.setUserType("player");
 		userCreate.setCreationDate(new Date(System.currentTimeMillis()));
+=======
+		userCreate.setCreationDate(new Date(System.currentTimeMillis()));
+        userCreate.setBirthDate(new Date(System.currentTimeMillis()));
+        userCreate.setAvatar("resource/images/avatars/playerAvatar.png");
+        userCreate.setUserType("player");
+>>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
 
         return userCreate;
     }
@@ -243,6 +250,26 @@ public class UserService {
     }
 
 	@Transactional
+<<<<<<< HEAD
+=======
+    public Boolean checkUser2(HttpServletRequest request, User logedUser) throws NotExistLobbyException, ServletException {
+		Boolean res = false;
+		try {
+		if(logedUser!=null && !logedUser.isEnabled()) {
+            request.getSession().invalidate();
+            request.logout();
+            res = true;
+        }
+		return res;
+	   } catch (Exception e) {
+		res = false;
+		return res;
+	   }
+    }
+
+
+	@Transactional
+>>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
 	public void addUser(User user, Boolean isAdmin, AuthenticationManager authenticationManager, HttpServletRequest request){
 		try {
 			String password = user.getPassword();
@@ -318,4 +345,8 @@ public class UserService {
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		authToken.setDetails(new WebAuthenticationDetails(request));
     }
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722

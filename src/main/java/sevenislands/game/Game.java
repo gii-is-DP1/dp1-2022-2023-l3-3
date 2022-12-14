@@ -43,6 +43,7 @@ public class Game extends BaseEntity {
 	@OneToOne
 	@NotNull
 	private Lobby lobby;
+<<<<<<< HEAD
 
 
 
@@ -51,4 +52,6 @@ public class Game extends BaseEntity {
 		return "Game [creationDate=" + creationDate + ", active=" + active + ", endingDate=" + endingDate + ", lobby="
 				+ lobby + "]";
 	}
+=======
+>>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
 }
