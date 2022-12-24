@@ -102,10 +102,10 @@ body {
     padding: 10px;
     width: 100%;
     height: 30%;
-    border-bottom: 5px solid black;
 }
 
 #players {
+    border-top: 5px solid black;
     padding: 10px;
     height: 70%;
     width: 100%;
@@ -117,15 +117,28 @@ body {
     color: white;
 }
 
-#playerDetails {
+.player_text {
+    color: white;
+    margin-left: 10px;
+}
+
+#player_with_turn {
+    color: #ff9a56;
+}
+
+#your_turn {
+    color: #85ff54;
+}
+
+#player_details {
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     margin-bottom: 20px;
 }
 
 #playerImg {
-    width: 20%;
+    width: 35px;
 }
 
 #leaveGame {
@@ -183,26 +196,19 @@ body {
             </div>
             <div id="players">
                 <c:forEach items="${userList}" var="user">
-                    <div id="playerDetails">
-                        <h1 class="game_text">${user.nickname}</h1>
+                    <div id="player_details">
                         <img id="playerImg" src="/resources/images/avatars/${user.avatar}">
-                        <c:if test="${player_turn==user && player_turn==player}">
-                            <br />
-                            <div>
-                                <center>
-                                    <h2 id="turn">Tu turno</h2>
-                                </center>
-                            </div>
-                            
-                        </c:if>
-                        <c:if test="${player_turn==user && player_turn!=player}">
-                            <br />
-                            <div>
-                                <center>
-                                    <h2 id="turn">Turno de ${player_turn.nickname}</h2>
-                                </center>
-                            </div>
-                        </c:if>
+                        <c:choose>
+                            <c:when test="${player_turn==user && player_turn==player}">
+                                <h1 class="player_text" id="your_turn">${user.nickname}</h1>
+                            </c:when>
+                            <c:when test="${player_turn==user && player_turn!=player}">
+                                <h1 class="player_text" id="player_with_turn">${user.nickname}</h1>
+                            </c:when> 
+                            <c:otherwise>
+                                <h1 class="player_text">${user.nickname}</h1>
+                            </c:otherwise>
+                        </c:choose>
                     </div>
                 </c:forEach>
             </div>
