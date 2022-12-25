@@ -56,6 +56,7 @@ public class UserService {
         userCreate.setEnabled(true);
         userCreate.setFirstName("Prueba");
         userCreate.setLastName("Probando");
+		userCreate.setCreationDate(new Date(System.currentTimeMillis()));
         userCreate.setBirthDate(new Date(System.currentTimeMillis()));
         userCreate.setAvatar("resource/images/avatars/playerAvatar.png");
         userCreate.setUserType("player");
@@ -240,6 +241,23 @@ public class UserService {
 		return res;
 	   }
     }
+
+	@Transactional
+    public Boolean checkUser2(HttpServletRequest request, User logedUser) throws NotExistLobbyException, ServletException {
+		Boolean res = false;
+		try {
+		if(logedUser!=null && !logedUser.isEnabled()) {
+            request.getSession().invalidate();
+            request.logout();
+            res = true;
+        }
+		return res;
+	   } catch (Exception e) {
+		res = false;
+		return res;
+	   }
+    }
+
 
 	@Transactional
 	public void addUser(User user, Boolean isAdmin, AuthenticationManager authenticationManager, HttpServletRequest request){

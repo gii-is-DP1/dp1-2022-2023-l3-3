@@ -50,9 +50,11 @@
 	justify-content: space-between;
 	padding: 10px;
 }
+
 .btn {
 	margin: 10px;
 }
+
 .img_home {
 	height: 25px;
 	width: 25px;
@@ -86,7 +88,7 @@
 
 				<sec:authorize access="hasAuthority('player')">
 					<br/>
-					<a class="btn btn-default" href='<spring:url value="/game/gamesAsPlayer" htmlEscape="true"/>'>Partidas Jugadas</a>
+					<a class="btn btn-default" href='<spring:url value="/game/gamesAsPlayer" htmlEscape="true"/>'>Partidas jugadas</a>
 				</sec:authorize>
 		
 				<sec:authorize access="hasAuthority('admin')">

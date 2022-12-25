@@ -28,7 +28,9 @@ public class GameController {
     private static final String VIEWS_LOBBY =  "redirect:/lobby"; // vista para lobby
     private static final String VIEWS_FINISHED_GAMES = "list/finishedGames"; //vista de partidas finalizadas
     private static final String VIEWS_INPROGRESS_GAMES = "list/inProgressGames"; //vista de partidas en curso
-    private static final String VIEWS_GAMES_AS_PLAYER = "list/gamesAsPlayer"; //vista de partidas como jugador
+    private static final String VIEWS_GAMES_AS_PLAYER = "list/gameAsPlayer"; //vista de partidas jugadas
+
+
     
 
     private final GameService gameService;
@@ -82,7 +84,7 @@ public class GameController {
 
     @GetMapping("/game/gamesAsPlayer")
     public String listGamesAsPlayer(ModelMap model, @ModelAttribute("logedUser") User logedUser) {
-        List<Game> games = gameService.findGameByNickname(logedUser.getNickname(), false).stream().collect(Collectors.toList());
+        List<Game> games = gameService.findGameByNickname("player4", false).stream().collect(Collectors.toList());
         model.put("games", games);
         return VIEWS_GAMES_AS_PLAYER;
     }

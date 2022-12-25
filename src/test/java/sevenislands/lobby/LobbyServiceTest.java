@@ -1,10 +1,13 @@
 package sevenislands.lobby;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +19,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.user.User;
 import sevenislands.user.UserService;
+import sevenislands.user.UserServiceTest;
 
 
 @DataJpaTest
@@ -32,10 +36,10 @@ public class LobbyServiceTest {
     public void config(){
         LobbyService lobbyService = new LobbyService(lobbyRepository);
         userService = new UserService(null, lobbyService, null, null, null);
-        User user1 = userService.createUser(1, "user1", "user1@gmail.com");
-        User user2 = userService.createUser(2, "user2", "user2@gmail.com");
-        User user3 = userService.createUser(3, "user3", "user3@gmail.com");
-        User user4 = userService.createUser(4, "user4", "user4@gmail.com");
+        User user1 = userService.createUser(1, "user1Test", "user1Test@gmail.com");
+        User user2 = userService.createUser(2, "user2Test", "user2Test@gmail.com");
+        User user3 = userService.createUser(3, "user3Test", "user3Test@gmail.com");
+        User user4 = userService.createUser(4, "user4Test", "user4Test@gmail.com");
         Lobby lobby = new Lobby();
         Lobby lobby2 = new Lobby();
         lobby.addPlayer(user1);
