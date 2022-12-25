@@ -1,5 +1,7 @@
 # 7 ISLAS
 ![favicon_7_islas](https://user-images.githubusercontent.com/72655010/195433281-1251e0e2-c127-42da-a95c-b63eeb893b03.png)
+### Nota:
+Todas las imágenes gif del proyecto han sido animadas desde cero
 ## Enlaces de interés
 Materiales: https://drive.google.com/drive/folders/106c4RUohFzOs5L_mMOy606Lhm1gb0b-v
 
