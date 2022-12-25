@@ -46,7 +46,7 @@
                     <td>                    
                         <c:if test="${achievement.badgeImage == ''}">none</c:if>
                         <c:if test="${achievement.badgeImage != ''}">
-                            <img src="${achievement.badgeImage}" width="65px"/> 
+                            <img src="${achievement.badgeImage}" width="70px"/> 
                         </c:if>
                     </td>
                     <td> 

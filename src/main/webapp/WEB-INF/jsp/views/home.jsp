@@ -8,7 +8,6 @@
 .content {
 	background: url(resources/images/grafics/fondo1920x1080.jpg);
 }
-
 #name {
 	width: 700;
 	height: 200;
@@ -18,7 +17,6 @@
 	margin-right: 0;
 	align-self: flex-end;
 }
-
 #pirata {
 	position: absolute;
 	right: 0;
@@ -27,7 +25,6 @@
 	width: 40%;
 	z-index: -1;
 }
-
 .header {
 	padding-right: 10px;
 	width: 100%;
@@ -37,7 +34,6 @@
 	justify-content: end;
 	align-items: center;
 }
-
 .body {
 	width: 100%;
 	height: 95%;
@@ -47,7 +43,6 @@
 	align-items: center;
 	justify-content: space-between;
 }
-
 .menu {
 	display: flex;
 	flex-direction: column;
@@ -65,7 +60,6 @@
 	width: 25px;
 	margin-left: 10px;
 }
-
 </style>
 
 <sevenislands:home pageName="home">
