@@ -21,9 +21,10 @@ import org.springframework.format.annotation.DateTimeFormat;
 import sevenislands.achievement.Achievement;
 import sevenislands.game.turn.Turn;
 import sevenislands.model.BaseEntity;
-
+import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.With;
 
 @Getter
 @Setter
@@ -102,6 +103,24 @@ public class User extends BaseEntity {
         } else if (!turns.equals(other.turns))
             return false;
         return true;
+    }
+
+    public User copy(){
+        User cloneUser = new User();
+        cloneUser.setId(this.getId());
+        cloneUser.setAvatar(this.getAvatar());
+        cloneUser.setAchievements(this.getAchievements());
+        cloneUser.setBirthDate(this.getBirthDate());
+        cloneUser.setCreationDate(this.getCreationDate());
+        cloneUser.setEmail(this.getEmail());
+        cloneUser.setEnabled(this.isEnabled());
+        cloneUser.setFirstName(this.getFirstName());
+        cloneUser.setLastName(this.getLastName());
+        cloneUser.setNickname(this.getNickname());
+        cloneUser.setPassword(this.getPassword());
+        cloneUser.setTurns(this.getTurns());
+        cloneUser.setUserType(this.getUserType());
+        return cloneUser;
     }
 
     

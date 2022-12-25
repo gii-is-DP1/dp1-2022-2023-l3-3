@@ -65,8 +65,8 @@ public class UserService {
     }
 
 	@Transactional
-	public void save(User user) throws IllegalArgumentException {
-		userRepository.save(user);		
+	public User save(User user) throws IllegalArgumentException {
+		return userRepository.save(user);		
 	}
 
 	@Transactional(readOnly = true)
@@ -288,7 +288,7 @@ public class UserService {
 	}
 
 	@Transactional
-	public void updateUser(User newUserData, String param, Integer op){
+	public User updateUser(User newUserData, String param, Integer op){
 		User oldUser;
 		if(newUserData.getPassword().length() < 8){
 			throw new IllegalArgumentException("Contraseña no válida, longitud mínima de contraseña = 8");
@@ -317,7 +317,7 @@ public class UserService {
 			oldUser.setLastName(newUserData.getLastName());
 			oldUser.setPassword(passwordEncoder.encode(newUserData.getPassword()));
 			if(op.equals(3)) {oldUser.setEnabled(newUserData.isEnabled());}
-			save(oldUser);
+			return save(oldUser);
 		} catch (Exception e) {
 			throw e;
 		}
