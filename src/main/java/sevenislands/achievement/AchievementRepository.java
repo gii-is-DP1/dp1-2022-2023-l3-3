@@ -1,18 +1,20 @@
 package sevenislands.achievement;
 
-import java.util.Collection;
+import java.util.List;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
-
+import org.springframework.stereotype.Repository;
 import sevenislands.enums.AchievementType;
 
-
+@Repository
 public interface AchievementRepository extends CrudRepository<Achievement, Integer>{
 
-    @Query("Select achievement from Achievement achievement where achievement.achievementType = :achievementType")
-    Collection<Achievement> findByType(@Param("achievementType") AchievementType achievementType);
-
-    
+    /**
+     * Encuentra todos los logros de un tipo dado.
+     * @param achievementType
+     */
+    @Query("SELECT achievement FROM Achievement achievement WHERE achievement.achievementType=:achievementType")
+    List<Achievement> findByType(@Param("achievementType") AchievementType achievementType);
 }

@@ -36,7 +36,7 @@
     </script>
   </jsp:attribute>
   <jsp:body>
-    <a class="btn btn-default" href='<spring:url value="/controlPanel" htmlEscape="true"/>'>Volver</a>
+    <a class="btn btn-default" href='<spring:url value="/controlPanel?valor=0" htmlEscape="true"/>'>Volver</a>
     <h2><br/>Añadir Usuario</h2>
     <form:form
       modelAttribute="user"

@@ -16,7 +16,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
@@ -33,8 +32,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers(HttpMethod.GET, "/oups").hasAnyAuthority("player", "admin") // .permitAll()
 				.antMatchers("/error").hasAnyAuthority("player", "admin")
 				.antMatchers(HttpMethod.GET, "/").permitAll()
-				.antMatchers("/users/new").permitAll()
+				.antMatchers("/user/new").permitAll()
 				.antMatchers("/welcome").permitAll()
+				//.antMatchers("/login").permitAll()
+				//.antMatchers("/logout").hasAnyAuthority("player", "admin")
+				.antMatchers("/achievements").hasAnyAuthority("player")
 				.antMatchers("/signup/**").permitAll()
 				.antMatchers("/session/**").permitAll()
 				.antMatchers("/admin/**").hasAnyAuthority("admin")
@@ -43,9 +45,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/home/**").hasAnyAuthority("player", "admin")
 				.antMatchers("/lobby/**").hasAnyAuthority("player")
 				.antMatchers("/join/**").hasAnyAuthority("player")
+				.antMatchers("/game/finished").hasAnyAuthority("admin")
+				.antMatchers("/game/InProgress").hasAnyAuthority("admin")
 				.antMatchers("/game/**").hasAnyAuthority("player")
 				.antMatchers("/turn/**").hasAnyAuthority("player")
 				.antMatchers("/controlPanel/**").hasAnyAuthority("admin")
+				.antMatchers("/delete/**").hasAnyAuthority("player")
 				.antMatchers("/h2-console/**").hasAnyAuthority("admin")
 				.anyRequest().denyAll()
 				.and()
@@ -71,11 +76,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.dataSource(dataSource)
 				.usersByUsernameQuery(
 						"select nickname, password, enabled "
-								+ "from users "
+								+ "from user "
 								+ "where nickname = ?")
 				.authoritiesByUsernameQuery(
 						"select nickname, type "
-								+ "from users "
+								+ "from user "
 								+ "where nickname = ?")
 				.passwordEncoder(passwordEncoder());
 	}

@@ -1,156 +1,91 @@
 package sevenislands.game;
 
-import java.security.Principal;
-import java.sql.Date;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
-
-import sevenislands.card.Card;
-import sevenislands.card.CardService;
-import sevenislands.game.island.Island;
-import sevenislands.game.island.IslandService;
-import sevenislands.game.round.Round;
-import sevenislands.game.round.RoundService;
-import sevenislands.game.turn.Turn;
-import sevenislands.game.turn.TurnService;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
-import sevenislands.player.Player;
-import sevenislands.player.PlayerService;
-import sevenislands.tools.checkers;
+import sevenislands.user.User;
+import sevenislands.user.UserService;
+
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+
 
 @Controller
 public class GameController {
 
     private static final String VIEWS_GAME_ASIGN_TURN = "game/asignTurn"; // vista para decidir turnos
+    private static final String VIEW_WELCOME = "redirect:/"; // vista para welcome
+    private static final String VIEWS_HOME =  "redirect:/home"; // vista para home
+    private static final String VIEWS_TURN =  "redirect:/turn"; // vista para turn
+    private static final String VIEWS_LOBBY =  "redirect:/lobby"; // vista para lobby
+    private static final String VIEWS_FINISHED_GAMES = "list/finishedGames"; //vista de partidas finalizadas
+    private static final String VIEWS_INPROGRESS_GAMES = "list/inProgressGames"; //vista de partidas en curso
+    private static final String VIEWS_GAMES_AS_PLAYER = "list/gameAsPlayer"; //vista de partidas jugadas
+
+
+    
 
     private final GameService gameService;
-    private final PlayerService playerService;
     private final LobbyService lobbyService;
-    private final CardService cardService;
-    private final RoundService roundService;
-    private final TurnService turnService;
-    private final IslandService islandService;
+    private final UserService userService;
 
     @Autowired
-    public GameController(GameService gameService, PlayerService playerService, LobbyService lobbyService,
-            CardService cardService, RoundService roundService, TurnService turnService, IslandService islandService) {
+    public GameController(UserService userService, GameService gameService, LobbyService lobbyService) {
         this.gameService = gameService;
-        this.playerService = playerService;
         this.lobbyService = lobbyService;
-        this.cardService = cardService;
-        this.roundService = roundService;
-        this.turnService = turnService;
-        this.islandService = islandService;
+        this.userService = userService;
     }
 
     @GetMapping("/game")
-    public String createGame(HttpServletRequest request, Principal principal, HttpServletResponse response)
-            throws ServletException {
-        if (checkers.checkUserNoExists(request))
-            return "redirect:/";
-        if (checkers.checkUserNoLobby(request))
-            return "redirect:/home";
-        if (checkers.checkUserNoGame(request))
-            return "redirect:/turn";
-        response.addHeader("Refresh", "1");
-
-        Player player = playerService.findPlayer(principal.getName());
-        Lobby lobby = lobbyService.findLobbyByPlayer(player.getId());
-        Game game = gameService.findGamebByLobbyId(lobby.getId());
-        if (game == null) {
-            game = new Game();
-            game.setCreationDate(new Date(System.currentTimeMillis()));
-            game.setLobby(lobby);
-            gameService.save(game);
-            lobby.setActive(false);
-            lobbyService.update(lobby);
+    public String createGame(HttpServletRequest request, @ModelAttribute("logedUser") User logedUser, HttpServletResponse response) throws Exception {
+        if(userService.checkUserNoExists(request)) return VIEW_WELCOME;
+        if(lobbyService.checkUserNoLobby(logedUser)) return VIEWS_HOME;
+        if(lobbyService.checkLobbyNoAllPlayers(logedUser)) return VIEWS_LOBBY;
+        if(gameService.checkUserGameWithRounds(logedUser)) return VIEWS_TURN;
+        response.addHeader("Refresh", "5");
+       try {
+        Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
+        if(gameService.findGameByNickname(logedUser.getNickname(), true).isEmpty()) {
+            gameService.initGame(lobby);
+            lobbyService.disableLobby(lobby);
         }
-
-        // Carga inicial de datos
-        Round round = new Round();
-        round.setGame(game);
-        roundService.save(round);
-        List<Player> players = lobby.getPlayers();
-        List<Card> allCards = cardService.findAllCards();
-        List<Turn> turns = new ArrayList<>();
-        Map<Card, Integer> numCardAsigned = new HashMap<>();
-
-        // Preparamos doblones y se los damos a los jugadores
-        List<Card> doblones = new ArrayList<>();
-        Card doblon = allCards.stream()
-                .filter(x -> x.getName().equals("doblon"))
-                .findFirst().get();
-        doblones.add(doblon);
-        doblones.add(doblon);
-        doblones.add(doblon);
-        for (Player p : players) {
-            Turn turn = new Turn();
-            turn.setRound(round);
-            turn.setPlayer(p);
-            turn.setDice(null);
-            turn.setCards(doblones);
-            turnService.save(turn);
-            turns.add(turn);
-
-            // Anotamos cartas asignadas
-            Integer newValue = 3;
-            if (numCardAsigned.containsKey(doblon)) {
-                Integer value = numCardAsigned.get(doblon);
-                newValue += value;
-            }
-            numCardAsigned.put(doblon, newValue);
-        }
-        round.setTurns(turns);
-        roundService.update(round);
-
-        // Creamos las 7 islas de la nueva partida
-        List<Island> islands = new ArrayList<>();
-        for (int i = 1; i <= 7; i++) {
-            Island island = new Island();
-            island.setGame(game);
-            island.setNum(i);
-
-            if (i < 7) { // Si no es la 7ª isla -> asignamos carta
-                Integer cartaAleatoria = (int) Math.floor(Math.random() * 10);
-                List<Card> cards = new ArrayList<>();
-                Card card = allCards.get(cartaAleatoria);
-                cards.add(card);
-                island.setCards(cards);
-
-                // Anotamos cartas asignadas
-                Integer newValue = 3;
-                if (numCardAsigned.containsKey(card)) {
-                    Integer value = numCardAsigned.get(card);
-                    newValue += value;
-                }
-                numCardAsigned.put(card, newValue);
-            } else { // Si es la 7ª -> asignamos cartas restantes
-                List<Card> restantes = allCards.stream()
-                        .filter(x -> x.getMultiplicity() > (numCardAsigned.get(x) == null ? 0
-                                : numCardAsigned.get(x)))
-                        .collect(Collectors.toList());
-                island.setCards(restantes);
-            }
-            islandService.save(island);
-            islands.add(island);
-        }
-
-        // Actualizamos y guardamos información
-        game.setIslands(islands);
-        gameService.update(game);
-
         return VIEWS_GAME_ASIGN_TURN;
+       } catch (Exception e) {
+        return VIEWS_HOME;
+       }
+    }
+
+    @GetMapping("/endGame")
+    public String endGame(@ModelAttribute("logedUser") User logedUser){
+        return"game/endGame";
+    }
+
+    @GetMapping("/game/finished")
+    public String listFinishedGames(ModelMap model) {
+        List<Game> games = this.gameService.findGameActive(false);
+        model.put("games", games);
+        return VIEWS_FINISHED_GAMES;
+    }
+
+    @GetMapping("/game/InProgress")
+    public String listGames(ModelMap model) {
+        List<Game> games = this.gameService.findGameActive(true);
+        model.put("games", games);
+        return VIEWS_INPROGRESS_GAMES;
+    }
+
+    @GetMapping("/game/gamesAsPlayer")
+    public String listGamesAsPlayer(ModelMap model, @ModelAttribute("logedUser") User logedUser) {
+        List<Game> games = gameService.findGameByNickname("player4", false).stream().collect(Collectors.toList());
+        model.put("games", games);
+        return VIEWS_GAMES_AS_PLAYER;
     }
 }

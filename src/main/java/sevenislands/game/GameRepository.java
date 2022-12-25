@@ -1,14 +1,25 @@
 package sevenislands.game;
 
-import org.springframework.data.jpa.repository.Modifying;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
 
+
+@Repository
 public interface GameRepository extends CrudRepository<Game, Integer> {
-    @Query("SELECT game FROM Game game WHERE game.lobby.id=?1")
-    public Game findGamebByLobbyId(Integer id);
 
-    @Modifying
-    @Query("UPDATE Game game SET game=?1 WHERE game.id=?2")
-    public void updateGame(Game game, Integer game_id);
+    public List<Game> findAll();
+    
+    @Query("SELECT game FROM Game game WHERE game.lobby.id=?1")
+    public Optional<Game> findGamebByLobbyId(Integer code);
+
+
+    @Query("SELECT g FROM Game g INNER JOIN g.lobby l INNER JOIN l.users u WHERE u.nickname=?1 AND g.active=?2")
+    public Optional<Game> findGameByNickname(String nickname, Boolean active);
+
+    @Query("SELECT g FROM Game g WHERE g.active=?1")
+    public List<Game> findGamesActive(Boolean active);
 }

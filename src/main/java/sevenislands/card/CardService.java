@@ -3,32 +3,70 @@ package sevenislands.card;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import sevenislands.enums.Tipo;
+import sevenislands.game.Game;
+
+
 @Service
 public class CardService {
-
-    private CardRepository cardRepository;
+    
+    private final CardRepository cardRepository;
+   
 
     @Autowired
     public CardService(CardRepository cardRepository) {
         this.cardRepository = cardRepository;
     }
-
-    @Transactional(readOnly = true)
-    public List<Card> findAllCards() throws DataAccessException {
-        return cardRepository.findAll();
+    @Transactional
+    public void delete(Card card){
+        cardRepository.delete(card);
     }
 
-    @Transactional(readOnly = true)
-    public Card findCardById(int id) throws DataAccessException {
-        return cardRepository.findById(id);
+    @Transactional
+    public void save(Card card) {
+        cardRepository.save(card);
     }
 
-    @Transactional(readOnly = true)
-    public List<Card> findCardByType(String type) throws DataAccessException {
-        return cardRepository.findCardsByType(type);
+    @Transactional
+        public Card findCardById(Integer id) {
+         return cardRepository.findById(id).get();
+    }
+    @Transactional
+    public void initGameCards(Game game) {
+        for (Tipo c : Tipo.values()) {
+            Card card = new Card();
+            if(c==c.Doblon) card.setMultiplicity(27);
+            if(c==c.Caliz || c==c.Rubi || c==c.Diamante) card.setMultiplicity(3);
+            if(c==c.Collar || c==c.MapaTesoro || c==c.Corona) card.setMultiplicity(4);
+            if(c==c.Revolver || c==c.Espada || c==c.BarrilRon) card.setMultiplicity(6);
+            card.setTipo(c);
+            card.setGame(game);
+            cardRepository.save(card);
+        }
+    }
+
+    @Transactional
+    public List<Card> findAllCardsByGameId(Integer gameId) {
+        return cardRepository.findAllByGameId(gameId);
+    }
+
+    @Transactional
+    public Card findCardByGameAndTreasure(Integer gameId, Tipo tipo) {
+        return cardRepository.findByGameAndTreasure(gameId, tipo);
+
+    }
+
+    @Transactional
+    public Card findCardByTreasureName(Tipo tipo){
+        return cardRepository.findCardByTreasureName(tipo);
+    }
+
+    @Transactional
+    public List<Card> findCardOrderByMultiplicity(){
+        return cardRepository.findCardOrderByMultiplicity();
     }
 }
+

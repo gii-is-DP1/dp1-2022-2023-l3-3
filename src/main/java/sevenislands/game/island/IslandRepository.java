@@ -3,20 +3,26 @@ package sevenislands.game.island;
 import java.util.List;
 
 import org.springframework.dao.DataAccessException;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
+import org.springframework.stereotype.Repository;
+
 import sevenislands.card.Card;
 
+@Repository
 public interface IslandRepository extends CrudRepository<Island, Integer> {
+
+     public List<Island> findAll();
 
     @Query("SELECT island.num FROM Island island WHERE island.id=?1")
     public Integer getIslandNumberById(int id) throws DataAccessException;
 
-    @Query("SELECT island.cards FROM Island island WHERE island.id=?1")
-    public List<Card> getIslandCardsById(int id) throws DataAccessException;
+    @Query("SELECT island FROM Island island WHERE island.game.id=?1")
+    public List<Island> findByGameId(Integer gameId);
 
-    @Modifying
-    @Query("UPDATE Island island SET island=?1 WHERE island.id=?2")
-    public void updateIsland(Island island, int island_id);
+    @Query("SELECT island FROM Island island WHERE island.card.id=?1")
+    public Island findByCardId(Integer cardId);
+
+    @Query("SELECT island FROM Island island WHERE island.game.id=?1 AND island.num=?2")
+    public Island findCardOfIsland(Integer gameId, Integer numIsland);
 }

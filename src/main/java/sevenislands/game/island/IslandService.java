@@ -1,12 +1,16 @@
 package sevenislands.game.island;
 
-import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import sevenislands.card.Card;
+
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import sevenislands.card.Card;
 
 @Service
 public class IslandService {
@@ -19,18 +23,26 @@ public class IslandService {
     }
 
     @Transactional(readOnly = true)
-    public Iterable<Island> findAllIslands() throws DataAccessException {
-        return islandRepository.findAll();
+    public List<Island> findAllIslands() throws DataAccessException {
+        return StreamSupport.stream(islandRepository.findAll().spliterator(), false).collect(Collectors.toList());
+    }
+    @Transactional
+    public Island findByCardId(Integer cardId){
+        return islandRepository.findByCardId(cardId);
+    }
+
+    @Transactional
+    public Island findCardOfIsland(Integer gameId, Integer numIsland){
+        return islandRepository.findCardOfIsland(gameId, numIsland);
     }
 
     @Transactional(readOnly = true)
-    public Integer getIslandNumberById(int id) throws DataAccessException {
+    public Integer getIslandNumberById(Integer id) throws DataAccessException {
         return islandRepository.getIslandNumberById(id);
     }
-
     @Transactional(readOnly = true)
-    public Collection<Card> getIslandCardsById(int id) throws DataAccessException {
-        return islandRepository.getIslandCardsById(id);
+    public Island findIslandById(Integer id) throws DataAccessException {
+        return islandRepository.findById(id).get();
     }
 
     @Transactional
@@ -39,7 +51,7 @@ public class IslandService {
     }
 
     @Transactional
-    public void update(Island island, int island_id) {
-        islandRepository.updateIsland(island, island_id);
+    public List<Island> findIslandsByGameId(Integer gameId) {
+        return islandRepository.findByGameId(gameId);
     }
 }

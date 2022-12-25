@@ -1,0 +1,326 @@
+
+
+_______________________________________________________________________________________________________________________________________________
+                                                                     .:.                                                
+       :::            ..:=**=                                       :+%=:                                               
+      :=%#*+++====++***#%%%*-:              .:-.                    :*%+.                                               
+       :===+**#******+=-*%=.               -=%%=.           .       :+%=.         :.:==-:.:  .            .             
+                      -#%-.                =*%%=      .:-+**#*+:    :+%=.        .=*%%##%%***=:     .:-+**#*+:          
+             :::.....-*%=-...:..           -+%#-    .=*%%**++**-    :*%=         -%%=:...-+%%=:    =*%%**=+**-          
+            -+%%%#%%#%%%####****=          -+%=:    =%#=..   ..     -%%-        :=%==    :+%#=    =%#=..   ..           
+             ..:.:-=%*-.:......            -+%=-   .=%=.            -@*-       .-%#-    :=%%+-    +%=.                  
+                 :+%+:                     -#%=-    :+%*+-:.       :=%*-       -+%=.  .-*%*%+-    :+%*+-:.              
+               .=##=.                      -#%=      .-=*#%#*+-:.   =%+-    .. -#%-  :=%#-*%=.     .:=*#%#*+=:.         
+              :+%+:                        -#%=    .:    .:-=+*%*-  =%+- .:+*=-=%+=:=#%+:-+%=    .:    .:-=+*%*-        
+            :=##=.                         -+%=.  =**=:....:-=*%#-  -%#=*#%*=:.=%++*%*-. :+%+:  =**=:.....-+*%#=        
+          .=*#+:                            =*#-  -*####%%%%##*+-   .+##*+-.   :*#%*-.   .=%%=--=*####%%%%%##+=         
+      .:-+**=:                               .:    .:...:....:        ..         .:.       :..    :...:....:            
+   -:=*#**:.                                                                                                            
+     .:..                                                                                                               
+_______________________________________________________________________________________________________________________________________________
+
+
+2022-12-15 02:26:02.461  INFO 4244 --- [  restartedMain] sevenislands.SevenislandsApplication     : Starting SevenislandsApplication on DESKTOP-O9O6Q3R with PID 4244 (C:\Users\aleja\OneDrive\Escritorio\DP1\proyecto\dp1-2022-2023-l3-3\target\classes started by aleja in C:\Users\aleja\OneDrive\Escritorio\DP1\proyecto\dp1-2022-2023-l3-3)
+2022-12-15 02:26:02.545  INFO 4244 --- [  restartedMain] sevenislands.SevenislandsApplication     : No active profile set, falling back to default profiles: default
+2022-12-15 02:26:02.627  INFO 4244 --- [  restartedMain] o.s.b.devtools.restart.ChangeableUrls    : The Class-Path manifest attribute in C:\Users\aleja\.m2\repository\org\glassfish\jaxb\jaxb-runtime\2.3.2\jaxb-runtime-2.3.2.jar referenced one or more files that do not exist: file:/C:/Users/aleja/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.xml.bind-api-2.3.2.jar,file:/C:/Users/aleja/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/txw2-2.3.2.jar,file:/C:/Users/aleja/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/istack-commons-runtime-3.0.8.jar,file:/C:/Users/aleja/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/stax-ex-1.8.1.jar,file:/C:/Users/aleja/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/FastInfoset-1.2.16.jar,file:/C:/Users/aleja/.m2/repository/org/glassfish/jaxb/jaxb-runtime/2.3.2/jakarta.activation-api-1.2.1.jar
+2022-12-15 02:26:02.628  INFO 4244 --- [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : Devtools property defaults active! Set 'spring.devtools.add-properties' to 'false' to disable
+2022-12-15 02:26:02.628  INFO 4244 --- [  restartedMain] .e.DevToolsPropertyDefaultsPostProcessor : For additional web related logging consider setting the 'logging.level.web' property to 'DEBUG'
+2022-12-15 02:26:04.729  INFO 4244 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Bootstrapping Spring Data JPA repositories in DEFAULT mode.
+2022-12-15 02:26:04.874  INFO 4244 --- [  restartedMain] .s.d.r.c.RepositoryConfigurationDelegate : Finished Spring Data repository scanning in 133ms. Found 8 JPA repository interfaces.
+2022-12-15 02:26:05.219  INFO 4244 --- [  restartedMain] trationDelegate$BeanPostProcessorChecker : Bean 'org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration' of type [org.springframework.transaction.annotation.ProxyTransactionManagementConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2022-12-15 02:26:05.767  INFO 4244 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat initialized with port(s): 8080 (http)
+2022-12-15 02:26:05.786  INFO 4244 --- [  restartedMain] o.apache.catalina.core.StandardService   : Starting service [Tomcat]
+2022-12-15 02:26:05.786  INFO 4244 --- [  restartedMain] org.apache.catalina.core.StandardEngine  : Starting Servlet engine: [Apache Tomcat/9.0.30]
+2022-12-15 02:26:06.086  INFO 4244 --- [  restartedMain] org.apache.jasper.servlet.TldScanner     : At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+2022-12-15 02:26:06.109  INFO 4244 --- [  restartedMain] o.a.c.c.C.[Tomcat].[localhost].[/]       : Initializing Spring embedded WebApplicationContext
+2022-12-15 02:26:06.109  INFO 4244 --- [  restartedMain] o.s.web.context.ContextLoader            : Root WebApplicationContext: initialization completed in 3481 ms
+2022-12-15 02:26:06.153  INFO 4244 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Starting...
+2022-12-15 02:26:06.311  INFO 4244 --- [  restartedMain] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Start completed.
+2022-12-15 02:26:06.316  INFO 4244 --- [  restartedMain] o.s.b.a.h2.H2ConsoleAutoConfiguration    : H2 console available at '/h2-console'. Database available at 'jdbc:h2:mem:testdb'
+2022-12-15 02:26:06.491  INFO 4244 --- [  restartedMain] o.hibernate.jpa.internal.util.LogHelper  : HHH000204: Processing PersistenceUnitInfo [name: default]
+2022-12-15 02:26:06.611  INFO 4244 --- [  restartedMain] org.hibernate.Version                    : HHH000412: Hibernate Core {5.4.10.Final}
+2022-12-15 02:26:06.837  INFO 4244 --- [  restartedMain] o.hibernate.annotations.common.Version   : HCANN000001: Hibernate Commons Annotations {5.1.0.Final}
+2022-12-15 02:26:07.021  INFO 4244 --- [  restartedMain] org.hibernate.dialect.Dialect            : HHH000400: Using dialect: org.hibernate.dialect.H2Dialect
+Hibernate: 
+    
+    drop table achievement if exists
+Hibernate: 
+    
+    drop table card if exists
+Hibernate: 
+    
+    drop table game if exists
+Hibernate: 
+    
+    drop table island if exists
+Hibernate: 
+    
+    drop table lobby if exists
+Hibernate: 
+    
+    drop table lobby_users if exists
+Hibernate: 
+    
+    drop table round if exists
+Hibernate: 
+    
+    drop table turn if exists
+Hibernate: 
+    
+    drop table turn_cards if exists
+Hibernate: 
+    
+    drop table user if exists
+Hibernate: 
+    
+    drop table user_achievements if exists
+Hibernate: 
+    
+    create table achievement (
+       id integer generated by default as identity,
+        achievement_type varchar(255) not null,
+        badge_image varchar(255) not null,
+        description varchar(255) not null,
+        name varchar(255),
+        threshold integer not null,
+        primary key (id)
+    )
+Hibernate: 
+    
+    create table card (
+       id integer generated by default as identity,
+        tipo varchar(255),
+        multiplicity integer,
+        game_id integer,
+        primary key (id)
+    )
+Hibernate: 
+    
+    create table game (
+       id integer generated by default as identity,
+        active boolean not null,
+        creation_date date not null,
+        ending_date date,
+        lobby_id integer,
+        primary key (id)
+    )
+Hibernate: 
+    
+    create table island (
+       id integer generated by default as identity,
+        island_number integer not null,
+        card_id integer,
+        game_id integer,
+        primary key (id)
+    )
+Hibernate: 
+    
+    create table lobby (
+       id integer generated by default as identity,
+        active boolean not null,
+        code varchar(255) not null,
+        primary key (id)
+    )
+Hibernate: 
+    
+    create table lobby_users (
+       lobby_id integer not null,
+        users_id integer not null
+    )
+Hibernate: 
+    
+    create table round (
+       id integer generated by default as identity,
+        game_id integer,
+        primary key (id)
+    )
+Hibernate: 
+    
+    create table turn (
+       id integer generated by default as identity,
+        dice integer,
+        start_time timestamp not null,
+        round_id integer,
+        user_id integer,
+        primary key (id)
+    )
+Hibernate: 
+    
+    create table turn_cards (
+       turn_id integer not null,
+        cards_id integer not null
+    )
+Hibernate: 
+    
+    create table user (
+       id integer generated by default as identity,
+        avatar varchar(255) not null,
+        birth_date date not null,
+        creation_date date default now() not null,
+        email varchar(50) not null,
+        enabled boolean default true not null,
+        first_name varchar(255) not null,
+        last_name varchar(255) not null,
+        nickname varchar(30) not null,
+        password varchar(255) not null,
+        type varchar(255),
+        primary key (id)
+    )
+Hibernate: 
+    
+    create table user_achievements (
+       user_id integer not null,
+        achievements_id integer not null
+    )
+Hibernate: 
+    
+    alter table lobby 
+       add constraint UK_3d50pai5tf4m9e56srcq0iqlq unique (code)
+Hibernate: 
+    
+    alter table user 
+       add constraint UK_ob8kqyqqgmefl0aco34akdtpe unique (email)
+Hibernate: 
+    
+    alter table user 
+       add constraint UK_n4swgcf30j6bmtb4l4cjryuym unique (nickname)
+Hibernate: 
+    
+    alter table card 
+       add constraint FKiqvyntwmad1ekpa1aaai2bnxp 
+       foreign key (game_id) 
+       references game
+Hibernate: 
+    
+    alter table game 
+       add constraint FKoxjim81ppwnik0r3f4tcgmd6 
+       foreign key (lobby_id) 
+       references lobby
+Hibernate: 
+    
+    alter table island 
+       add constraint FKnyhbs4ul5udsd3nl3isshrga9 
+       foreign key (card_id) 
+       references card
+Hibernate: 
+    
+    alter table island 
+       add constraint FKdeklqlg9risrcot0w70wv0lkq 
+       foreign key (game_id) 
+       references game
+Hibernate: 
+    
+    alter table lobby_users 
+       add constraint FK1asqqo9j2ny5odql32k1gjur4 
+       foreign key (users_id) 
+       references user
+Hibernate: 
+    
+    alter table lobby_users 
+       add constraint FKk7f51vvv73d7rxyhccphwcoxu 
+       foreign key (lobby_id) 
+       references lobby
+Hibernate: 
+    
+    alter table round 
+       add constraint FKppxonwn9e98lccy46m2eve67m 
+       foreign key (game_id) 
+       references game
+Hibernate: 
+    
+    alter table turn 
+       add constraint FK36qkir0tfd8c2pk2ivul819uv 
+       foreign key (round_id) 
+       references round
+Hibernate: 
+    
+    alter table turn 
+       add constraint FK7sig8em75iwhfxdlafewitjf3 
+       foreign key (user_id) 
+       references user
+Hibernate: 
+    
+    alter table turn_cards 
+       add constraint FKmo6kod1lyikmqtnfcfcejsefd 
+       foreign key (cards_id) 
+       references card
+Hibernate: 
+    
+    alter table turn_cards 
+       add constraint FKq6jn1f80kgjnt3uv35alrvjcu 
+       foreign key (turn_id) 
+       references turn
+Hibernate: 
+    
+    alter table user_achievements 
+       add constraint FKaav56uy6a2hnutdnngb245ihb 
+       foreign key (achievements_id) 
+       references achievement
+Hibernate: 
+    
+    alter table user_achievements 
+       add constraint FK2gp4wt3thphhd9yucjl9p6jui 
+       foreign key (user_id) 
+       references user
+2022-12-15 02:26:07.752  INFO 4244 --- [  restartedMain] o.h.e.t.j.p.i.JtaPlatformInitiator       : HHH000490: Using JtaPlatform implementation: [org.hibernate.engine.transaction.jta.platform.internal.NoJtaPlatform]
+2022-12-15 02:26:07.766  INFO 4244 --- [  restartedMain] j.LocalContainerEntityManagerFactoryBean : Initialized JPA EntityManagerFactory for persistence unit 'default'
+2022-12-15 02:26:07.782  INFO 4244 --- [  restartedMain] o.s.b.d.a.OptionalLiveReloadServer       : LiveReload server is running on port 35729
+2022-12-15 02:26:08.256  WARN 4244 --- [  restartedMain] JpaBaseConfiguration$JpaWebConfiguration : spring.jpa.open-in-view is enabled by default. Therefore, database queries may be performed during view rendering. Explicitly configure spring.jpa.open-in-view to disable this warning
+2022-12-15 02:26:08.543  INFO 4244 --- [  restartedMain] o.s.s.web.DefaultSecurityFilterChain     : Creating filter chain: any request, [org.springframework.security.web.context.request.async.WebAsyncManagerIntegrationFilter@37887e51, org.springframework.security.web.context.SecurityContextPersistenceFilter@58a03d80, org.springframework.security.web.header.HeaderWriterFilter@1b2b357d, org.springframework.security.web.csrf.CsrfFilter@11bfad0a, org.springframework.security.web.authentication.logout.LogoutFilter@4a959812, org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter@7a6522ba, org.springframework.security.web.authentication.ui.DefaultLoginPageGeneratingFilter@a2f3cbf, org.springframework.security.web.authentication.ui.DefaultLogoutPageGeneratingFilter@3642dd2e, org.springframework.security.web.session.ConcurrentSessionFilter@7a06e9f1, org.springframework.security.web.savedrequest.RequestCacheAwareFilter@882cf26, org.springframework.security.web.servletapi.SecurityContextHolderAwareRequestFilter@3bca3e3c, org.springframework.security.web.authentication.AnonymousAuthenticationFilter@30d2ed83, org.springframework.security.web.session.SessionManagementFilter@27e87176, org.springframework.security.web.access.ExceptionTranslationFilter@57f8a8a4, org.springframework.security.web.access.intercept.FilterSecurityInterceptor@1a55f886]
+2022-12-15 02:26:08.682  INFO 4244 --- [  restartedMain] o.s.s.concurrent.ThreadPoolTaskExecutor  : Initializing ExecutorService 'applicationTaskExecutor'
+2022-12-15 02:26:09.144  INFO 4244 --- [  restartedMain] o.s.b.w.embedded.tomcat.TomcatWebServer  : Tomcat started on port(s): 8080 (http) with context path ''
+2022-12-15 02:26:09.144  INFO 4244 --- [  restartedMain] sevenislands.SevenislandsApplication     : Started SevenislandsApplication in 7.716 seconds (JVM running for 9.937)
+2022-12-15 02:26:13.241  INFO 4244 --- [extShutdownHook] o.s.s.concurrent.ThreadPoolTaskExecutor  : Shutting down ExecutorService 'applicationTaskExecutor'
+2022-12-15 02:26:13.243  INFO 4244 --- [extShutdownHook] j.LocalContainerEntityManagerFactoryBean : Closing JPA EntityManagerFactory for persistence unit 'default'
+2022-12-15 02:26:13.243  INFO 4244 --- [extShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000477: Starting delayed evictData of schema as part of SessionFactory shut-down'
+Hibernate: 
+    
+    drop table achievement if exists
+2022-12-15 02:26:13.244 ERROR 4244 --- [extShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000478: Unsuccessful: 
+    drop table achievement if exists
+Hibernate: 
+    
+    drop table card if exists
+2022-12-15 02:26:13.245 ERROR 4244 --- [extShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000478: Unsuccessful: 
+    drop table card if exists
+Hibernate: 
+    
+    drop table game if exists
+2022-12-15 02:26:13.245 ERROR 4244 --- [extShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000478: Unsuccessful: 
+    drop table game if exists
+Hibernate: 
+    
+    drop table island if exists
+Hibernate: 
+    
+    drop table lobby if exists
+2022-12-15 02:26:13.249 ERROR 4244 --- [extShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000478: Unsuccessful: 
+    drop table lobby if exists
+Hibernate: 
+    
+    drop table lobby_users if exists
+Hibernate: 
+    
+    drop table round if exists
+2022-12-15 02:26:13.250 ERROR 4244 --- [extShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000478: Unsuccessful: 
+    drop table round if exists
+Hibernate: 
+    
+    drop table turn if exists
+2022-12-15 02:26:13.250 ERROR 4244 --- [extShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000478: Unsuccessful: 
+    drop table turn if exists
+Hibernate: 
+    
+    drop table turn_cards if exists
+Hibernate: 
+    
+    drop table user if exists
+2022-12-15 02:26:13.251 ERROR 4244 --- [extShutdownHook] .SchemaDropperImpl$DelayedDropActionImpl : HHH000478: Unsuccessful: 
+    drop table user if exists
+Hibernate: 
+    
+    drop table user_achievements if exists
+2022-12-15 02:26:13.468  WARN 4244 --- [extShutdownHook] o.s.b.f.support.DisposableBeanAdapter    : Invocation of destroy method failed on bean with name 'inMemoryDatabaseShutdownExecutor': org.h2.jdbc.JdbcSQLNonTransientConnectionException: La base de datos ya esta cerrada (para des-habilitar el cerrado automatico durante el shutdown de la VM, agregue ";DB_CLOSE_ON_EXIT=FALSE" a la URL de conexión)
+Database is already closed (to disable automatic closing at VM shutdown, add ";DB_CLOSE_ON_EXIT=FALSE" to the db URL) [90121-200]
+2022-12-15 02:26:13.468  INFO 4244 --- [extShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown initiated...
+2022-12-15 02:26:13.471  INFO 4244 --- [extShutdownHook] com.zaxxer.hikari.HikariDataSource       : HikariPool-1 - Shutdown completed.
