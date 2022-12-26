@@ -57,9 +57,17 @@
 	height: 25px;
 	width: 25px;
 }
+.img_grafica {
+	height: 20px;
+	width: 20px;
+}
 .logros {
 	margin-top: 14px;
 	margin-right: 10px;
+}
+.estadisticas{
+	margin-top: 12px;
+	margin-right: -30px;
 }
 .menu-horizontal {
 	list-style: none;
@@ -99,6 +107,19 @@
 <sevenislands:home pageName="home">
 	<body class="content">
 		<div class="header">
+			<sec:authorize access="hasAuthority('player')">
+				<div class="estadisticas">
+					<ul class="menu-horizontal">
+						<img class="img_grafica" src="/resources/images/grafics/estadisticas.png">
+						<li><strong>Estadísticas</strong>
+							<ul class="menu-vertical">
+								<li><a href="#">Ranking</a></li>
+								<li><a href="#">Mis Métricas</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</sec:authorize>
 			<sec:authorize access="hasAuthority('player')">
 				<div class="logros">
 					<ul class="menu-horizontal">

@@ -28,7 +28,7 @@ public class GameController {
     private static final String VIEWS_LOBBY =  "redirect:/lobby"; // vista para lobby
     private static final String VIEWS_FINISHED_GAMES = "list/finishedGames"; //vista de partidas finalizadas
     private static final String VIEWS_INPROGRESS_GAMES = "list/inProgressGames"; //vista de partidas en curso
-    private static final String VIEWS_GAMES_AS_PLAYER = "list/gameAsPlayer"; //vista de partidas jugadas
+    private static final String VIEWS_GAMES_AS_PLAYER = "list/gamesAsPlayer"; //vista de partidas jugadas
 
 
     
