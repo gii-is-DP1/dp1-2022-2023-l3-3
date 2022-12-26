@@ -50,29 +50,71 @@
 	justify-content: space-between;
 	padding: 10px;
 }
-
 .btn {
 	margin: 10px;
 }
-
 .img_home {
 	height: 25px;
 	width: 25px;
-	margin-left: 10px;
+}
+.logros {
+	margin-top: 14px;
+	margin-right: 10px;
+}
+.menu-horizontal {
+	list-style: none;
+	display: flex;
+	justify-content: space-around;
+}
+.menu-horizontal > li > a {
+	display: block;
+	padding: 15px 20px;
+	color: rgb(0, 0, 0);
+	text-decoration: none;
+}
+.menu-horizontal > li:hover {
+	background-color: #5FA134
+}
+.menu-vertical {
+	position: absolute;
+	display: none;
+	list-style: none;
+	width: 135px;
+	background-color: rgba(0, 0, 0, .5);
+}
+.menu-horizontal li:hover .menu-vertical {
+	display: block;
+}
+.menu-vertical li:hover {
+	background-color: black;
+}
+.menu-vertical li a {
+	display: block;
+	color: white;
+	padding: 15px 15px 15px 20px;
+	text-decoration: none;
 }
 </style>
 
 <sevenislands:home pageName="home">
 	<body class="content">
 		<div class="header">
-			<a href="/settings">
-				<strong>${user.nickname}</strong>&thinsp;<img class="img_home" src="/resources/images/avatars/${user.avatar}">
-			</a>
 			<sec:authorize access="hasAuthority('player')">
-				<a href="/achievements">
-					<img class="img_home" src="/resources/images/grafics/trofeoIcono.png">
-				</a>
+				<div class="logros">
+					<ul class="menu-horizontal">
+						<img class="img_home" src="/resources/images/grafics/trofeoIcono.png">
+						<li><strong>Logros</strong>
+							<ul class="menu-vertical">
+								<li><a href="/achievements">Logros Globales</a></li>
+								<li><a href="/myAchievements">Mis Logros</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
 			</sec:authorize>
+			<a href="/settings">
+				<img class="img_home" src="/resources/images/avatars/${user.avatar}"><strong>${user.nickname}</strong>&thinsp;
+			</a>
 		</div>
 
 		<div class="body">
