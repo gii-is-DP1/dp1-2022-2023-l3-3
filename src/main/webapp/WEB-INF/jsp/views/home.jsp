@@ -169,7 +169,7 @@
 				</sec:authorize>
 		
 				<br/>
-				<a class="btn btn-default" href='<spring:url value="/logout" htmlEscape="true"/>'>Cerrar Sesión</a>
+				<a class="btn btn-default" href='<spring:url value="/custom-logout" htmlEscape="true"/>'>Cerrar Sesión</a>
 			</div>
 			<img id="pirata" src="/resources/images/grafics/pirataLoroAnimado.gif">
 			<div id="manual">
