@@ -103,8 +103,7 @@ tr:nth-child(odd) {
                         <br />
                         <div>
                             <a class="btn btn-default"
-                                href='<spring:url value="/game" htmlEscape="true"/>'>EMPEZAR
-                                PARTIDA</a>
+                                href='<spring:url value="/game" htmlEscape="true"/>'>Empezar Partida</a>
                         </div>
                     </c:if>
                     <br />
@@ -112,20 +111,18 @@ tr:nth-child(odd) {
                 <div>
                         <br />
                         <a class="btn btn-default" id="leave_game"
-                            href='<spring:url value="/join" htmlEscape="true"/>'>UNIRSE A PARTIDA</a>
+                            href='<spring:url value="/join" htmlEscape="true"/>'>Unirse a Partida</a>
                 </div>
                 <div>
                     <br />
                     <a class="btn btn-default" id="leave_game"
-                        href='<spring:url value="/lobby/leave" htmlEscape="true"/>'>ABANDONAR
-                        PARTIDA</a>
+                        href='<spring:url value="/lobby/leave" htmlEscape="true"/>'>Abandonar Partida</a>
                 </div>
             </div>
             <div id="player_list">
                 <h2 class="text">Jugadores</h2>
                 <table class="table table-striped">
-                    <tr>
-                        <th class="column_name">Avatar</th>			
+                    <tr>	
                         <th class="column_name">Nickname</th>
                         <c:if test="${host==logged_player}">
                             <th class="column_name">Expulsar</th>
@@ -133,8 +130,10 @@ tr:nth-child(odd) {
                     </tr>
                     <c:forEach items="${players}" var="player">
                         <tr>
-                            <td><img src="/resources/images/avatars/${player.avatar}" height="25" width="25"></td>
-                            <td><c:out value="${player.nickname}"/></td>
+                            <td>
+                                <img src="/resources/images/avatars/${player.avatar}" height="25" width="25">
+                                <c:out value="${player.nickname}"/>
+                            </td>
                             <c:if test="${host==logged_player}">
                                 <td><a href="/lobby/delete/${player.id}"><img id="delete_icon" src="resources/images/icons/deleteIcon.png"></a></td>
                             </c:if>

@@ -14,7 +14,7 @@ INSERT INTO user(nickname,password,enabled,first_name,last_name,email,creation_d
 INSERT INTO user(nickname,password,enabled,first_name,last_name,email,creation_date,type,birth_date,avatar) VALUES ('player5','$2a$10$Yurjw7YseLzZq/JOixdY/eRmBrOIzHHNooczuuMwtC42R8vRoKVPC','TRUE','Player FN','Player LN','player5@sevenislands.com','2022-10-29','player','2022-10-29','playerAvatar.png');
 
 -- LOBBY --
-INSERT INTO lobby(code,active) VALUES('aD5f8Lio','TRUE');
+INSERT INTO lobby(code,active) VALUES('aD5f8Lio','FALSE');
 INSERT INTO lobby(code,active) VALUES('a10f8Lio','FALSE');
 
 -- LOBBY PLAYERS -- 

@@ -72,7 +72,7 @@ public class TurnController {
 
         Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname(), true);
         List<Island> islandList = islandService.findIslandsByGameId(game.get().getId());
-        if(turnService.endGame(game.get())) return "game/endgame";
+        if(turnService.endGame(game.get())) return "redirect:/endGame";
         List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
                 .collect(Collectors.toList());
         Round round = roundList.get(roundList.size() - 1);
@@ -85,9 +85,9 @@ public class TurnController {
         model.put("player", logedUser);
         model.put("player_turn", lastTurn.getUser());
         model.put("dice", lastTurn.getDice());
-       model.put("IslasToChose", islasToChose);
-       model.put("NumIslands", islandList.size()); 
-       model.put("islandList", islandList);
+        model.put("IslasToChose", islasToChose);
+        model.put("NumIslands", islandList.size()); 
+        model.put("islandList", islandList);
         model.put("userList", userList);
         model.put("playerCardsMap", playerCardsMap);
 

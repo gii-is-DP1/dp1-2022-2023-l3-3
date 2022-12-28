@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -255,6 +256,7 @@ public class TurnService {
         .sorted(Map.Entry.comparingByValue())
         .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
     }
+
     @Transactional
     public List<Card> findPlayerCardsPenultimateTurn(String nickname) {
         Turn lastPlayerTurn = turnRepository.findTurnByNickname(nickname).get(1);
@@ -289,22 +291,60 @@ public class TurnService {
     }
 
 
-@Transactional
-public boolean endGame(Game game){
-    List<Island> islandList = islandService.findIslandsByGameId(game.getId());
-    boolean res=true;
-    for(Card i: cardService.findAllCardsByGameId(game.getId())){
-        if(!(i.getMultiplicity().equals(0))){
-            res=false;
+    @Transactional
+    public boolean endGame(Game game){
+        List<Island> islandList = islandService.findIslandsByGameId(game.getId());
+        boolean res=true;
+        for(Card i: cardService.findAllCardsByGameId(game.getId())){
+            if(!(i.getMultiplicity().equals(0))){
+                res=false;
+            }
         }
-    }
-    for(Island island:islandList){
-        if(!(island.getNum().equals(0))){
-            res=false;
+        for(Island island:islandList){
+            if(!(island.getNum().equals(0))){
+                res=false;
+            }
         }
+        return res;
     }
-    return res;
-}
+
+    @Transactional
+    public User findWinner(User logedUser) {
+        Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname(), true);
+        User winner = null;
+        Integer winnerPoints = -1;
+        Integer winnerDoblons = -1;
+        Integer userPoints = 0;
+        Integer doblons = 0;
+        List<Integer> pointsList = List.of(1,3,7,13,21,30,40,50,60);
+        if(game.isPresent()) {
+            for(User user : game.get().getLobby().getUsers()) {
+                doblons = 0;
+                userPoints = 0;
+                Map<Card, Integer> cards = findPlayerCardsLastTurn(user.getNickname());
+                Card doblon = cards.keySet().stream().filter(card -> card.getTipo() == Tipo.Doblon).findFirst().orElse(null);
+                if(doblon != null) {
+                    doblons = cards.get(doblon);
+                    cards.remove(doblon);
+                }
+                userPoints += doblons;
+                List<Card> listKeys = new ArrayList<>(cards.keySet());
+
+                for(Card card : listKeys) {
+                    Integer multiplicity = cards.get(card);
+                    cards.replaceAll((key,value) -> value - multiplicity);
+                    userPoints += multiplicity*pointsList.get(listKeys.size()-listKeys.indexOf(card)-1);
+                }
+
+                if(userPoints>winnerPoints || (userPoints == winnerPoints && doblons>winnerDoblons)) {
+                    winnerPoints = userPoints;
+                    winner = user;
+                    winnerDoblons = doblons;
+                }
+            }
+        }
+        return winner;
+    }
 
 
     
