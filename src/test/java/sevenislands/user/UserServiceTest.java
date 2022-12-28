@@ -1,10 +1,12 @@
 package sevenislands.user;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -26,21 +28,37 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.core.session.SessionInformation;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import sevenislands.lobby.Lobby;
+import sevenislands.lobby.LobbyRepository;
+import sevenislands.lobby.LobbyService;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 @ExtendWith(MockitoExtension.class)
 public class UserServiceTest {
     
     @Mock
+    PasswordEncoder passwordEncoder;
+    @Mock
+    SessionRegistry sessionRegistry;
+    @Mock
     UserRepository mock;
+    @Mock
+    LobbyRepository lobbyRepository;
 
     User user;
     UserService userService;
     List<User> usersRepo = new ArrayList<>();
+    LobbyService lobbyService;
 
-    @Mock
-    PasswordEncoder passwordEncoder;
+
 
     @BeforeEach
     public void config() {
@@ -135,12 +153,86 @@ public class UserServiceTest {
         assertNotEquals(oldUser.getEmail(), userService.updateUser(user, user.getEmail(), 1).getEmail());
         assertNotEquals(oldUser.getEmail(), userService.updateUser(user, user.getId().toString(), 3).getEmail());
         user.setNickname("player1");
+    }
 
+    @Test
+    public void addUserTest(){
+        user = userService.createUser(1, "prueba", "prueba@sevenislands.com");
+        user.setPassword("corta");
+        userService = new UserService(null, null,null,null, mock);
+        assertThrows(IllegalArgumentException.class, ()-> userService.addUser(user, false, null, null));
+        user.setPassword("vbhcrbfhvbrhvbrhttvt");
+        user.setEmail("notValidEmail");
+        assertThrows(IllegalArgumentException.class, ()-> userService.addUser(user, false, null, null));
+        user.setEmail("validEmail@gmail.com");
+        assertThrows(Exception.class, ()-> userService.addUser(user, false, null, null));
 
+        userService = new UserService(null, null,null,passwordEncoder, mock);
+        when(passwordEncoder.encode(any())).thenReturn("jvnipfbvrbkef");
+        when(mock.save(any())).thenReturn(user);
+        User esperado = userService.addUser(user, true, null, null);
+        assertEquals(user.getEmail(), esperado.getEmail());
+        user.setUserType("admin");
+        esperado = userService.addUser(user, true, null, null);
+        assertEquals(user.getEmail(), esperado.getEmail());
 
-        
+    }
+
+    @Test
+    public void deleteUserTest() {
+        user = userService.createUser(1, "prueba", "prueba@sevenislands.com");
+        User user2 = userService.createUser(2, "prueba2", "prueba2@sevenislands.com");
+        lobbyService = new LobbyService(lobbyRepository);
+        userService = new UserService(null, lobbyService,sessionRegistry,passwordEncoder, mock);
+        Lobby lobby = new Lobby();
+        lobby.addPlayer(user);
+        lobby.addPlayer(user2);
+        lobby.generatorCode();
+        lobby.setActive(true);
+        assertFalse(userService.deleteUser(2, user));
+        when(mock.findById(any())).thenReturn(Optional.of(user2));
+        assertTrue(userService.deleteUser(2, user));
+        when(lobbyRepository.findByPlayerId(any())).thenReturn(Optional.of(lobby));
+        when(mock.findById(any())).thenReturn(Optional.of(user2));
+        assertTrue(userService.deleteUser(2, user));
+
     }
   
+    @Test
+    public void enableUserTest(){
+        userService = new UserService(null, lobbyService,sessionRegistry,passwordEncoder, mock);
+        user = userService.createUser(1, "prueba", "prueba@sevenislands.com");
+        User user2 = userService.createUser(2, "prueba2", "prueba2@sevenislands.com");
+        assertTrue(userService.enableUser(2, user2));
+        when(mock.findById(any())).thenReturn(Optional.of(user2));
+        assertTrue(userService.enableUser(2, user));
+        assertFalse(userService.enableUser(2, user2));
+        user2.setEnabled(false);
+        assertTrue(userService.enableUser(2, user));
+    }
+
+    @Test
+    public void findAllUserTest(){
+        userService = new UserService(null, lobbyService,sessionRegistry,passwordEncoder, mock);
+        User user2 = userService.createUser(2, "prueba2", "prueba2@sevenislands.com");
+        User user3 = userService.createUser(3, "prueba3", "prueba3@sevenislands.com");
+        User user4 = userService.createUser(4, "prueba4", "prueba4@sevenislands.com");
+        User user5 = userService.createUser(5, "prueba5", "prueba5@sevenislands.com");
+        User user6 = userService.createUser(6, "prueba6", "prueba6@sevenislands.com");
+        User user7 = userService.createUser(7, "prueba7", "prueba7@sevenislands.com");
+        User user8 = userService.createUser(8, "prueba8", "prueba8@sevenislands.com");
+        User user9 = userService.createUser(9, "prueba9", "prueba9@sevenislands.com");
+        User user10 = userService.createUser(10, "prueba10", "prueba10@sevenislands.com");
+        User user11 = userService.createUser(11, "prueba11", "prueba11@sevenislands.com");
+        List<User> users = List.of(user,user2,user3,user4,user5,user6,user7,user8, user9, user10, user11);
+        when(mock.findAll()).thenReturn(users);
+        Pageable page = PageRequest.of(0, 5);
+        assertEquals(5, userService.findAllUser(page).getSize());
+        page = PageRequest.of(1, 5);
+        assertEquals(5, userService.findAllUser(page).getSize());
+        page = PageRequest.of(2, 5);
+        assertEquals(1, userService.findAllUser(page).getSize());
+    }
 
 
 

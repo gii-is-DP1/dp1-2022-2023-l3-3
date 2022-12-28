@@ -63,10 +63,10 @@ public class LobbyService {
     }
 
     @Transactional
-    public  Lobby findLobbyByPlayerId(Integer user_id) throws NotExistLobbyException {
-        Optional<Lobby> lobby = lobbyRepository.findByPlayerId(user_id);
+    public  Lobby findLobbyByPlayerId(Integer userId) throws NotExistLobbyException {
+        Optional<Lobby> lobby = lobbyRepository.findByPlayerId(userId);
         if(lobby.isPresent()){
-            return lobbyRepository.findByPlayerId(user_id).get();
+            return lobbyRepository.findByPlayerId(userId).get();
         } else {
             throw new NotExistLobbyException();
         }
@@ -75,7 +75,7 @@ public class LobbyService {
 
     public Lobby createLobbyEntity(User user) {
 		Lobby lobby = new Lobby();
-		lobby.setCode(generatorCode());
+		lobby.generatorCode();
 		lobby.setActive(true);
 		lobby.addPlayer(user);
     return lobby;

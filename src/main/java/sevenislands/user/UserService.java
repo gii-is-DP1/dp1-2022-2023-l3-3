@@ -139,21 +139,20 @@ public class UserService {
 	public Boolean enableUser(Integer id, User logedUser) {
 		Optional<User> userEdited = findUserById(id);
 		if(userEdited.isPresent()) {
-			if(userEdited.get().isEnabled()) {
+			if(userEdited.get().getNickname().equals(logedUser.getNickname())) {return false;}
+			else if(userEdited.get().isEnabled()) {
 				userEdited.get().setEnabled(false);
 				save(userEdited.get());
-				if(userEdited.get().getNickname().equals(logedUser.getNickname())) return false;
 			} else {
 				userEdited.get().setEnabled(true);
 				save(userEdited.get());
-				if(userEdited.get().getNickname().equals(logedUser.getNickname())) return false;
 			}
 		} return true;
 	}
 
 	@Transactional
-	public Boolean deleteUser(Integer id, User logedUser) throws Exception {
-		try {
+	public Boolean deleteUser(Integer id, User logedUser) {
+	
 			Optional<User> userDeleted = findUserById(id);
 		if(userDeleted.isPresent()) {
 			List<SessionInformation> infos = sessionRegistry.getAllSessions(userDeleted.get().getNickname(), false);
@@ -161,21 +160,19 @@ public class UserService {
 				info.expireNow(); //Termina la sesión
 			}
 			try{
-					Lobby Lobby = lobbyService.findLobbyByPlayerId(id);
-					List<User> userList = Lobby.getPlayerInternal();
-					userList.remove(userDeleted.get());
-					Lobby.setUsers(userList);
-					lobbyService.save(Lobby);
-				
+				Lobby lobby = lobbyService.findLobbyByPlayerId(id);
+				List<User> userList = lobby.getPlayerInternal();
+				userList.remove(userDeleted.get());
+				lobby.setUsers(userList);
+				lobbyService.save(lobby);
 				deleteUserById(id);
-		}catch(Exception e){
+				return true;
+		}catch(NotExistLobbyException e){
 			deleteUserById(id);
 			return true;
 		}
 		} return false;
-		} catch (Exception e) {
-			throw e;
-		}
+		
 	}
 
 	/**
@@ -260,7 +257,7 @@ public class UserService {
 
 
 	@Transactional
-	public void addUser(User user, Boolean isAdmin, AuthenticationManager authenticationManager, HttpServletRequest request){
+	public User addUser(User user, Boolean isAdmin, AuthenticationManager authenticationManager, HttpServletRequest request){
 		try {
 			String password = user.getPassword();
 			if(password.length() < 8){
@@ -280,8 +277,9 @@ public class UserService {
 			} else if(user.getUserType().equals("admin")){
 				user.setAvatar("adminAvatar.png");
 			}
-			save(user);
+			
 			if(!isAdmin) loginUser(user, password, request);
+			return save(user);
 		} catch (Exception e) {
 			throw e;
 		}
