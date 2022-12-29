@@ -95,4 +95,6 @@ public class GameController {
         model.put("games", games);
         return VIEWS_GAMES_AS_PLAYER;
     }
+
+    
 }

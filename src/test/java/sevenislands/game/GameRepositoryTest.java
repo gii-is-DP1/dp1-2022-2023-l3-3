@@ -16,6 +16,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import sevenislands.achievement.Achievement;
+import sevenislands.achievement.AchievementRepository;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyRepository;
 import sevenislands.user.User;
@@ -32,6 +34,9 @@ public class GameRepositoryTest {
     UserRepository userRepository;
     @Autowired
     LobbyRepository lobbyRepository;
+
+    @Autowired
+    AchievementRepository achievementRepository;
 
     UserService userService;
     List<User> users;
@@ -74,6 +79,13 @@ public class GameRepositoryTest {
         List<Game> gamesList = gameRepository.findGamesActive(true);
        assertNotEquals(0, gamesList.size());
        assertEquals(0, gamesList.stream().filter(g -> g.isActive() == false).collect(Collectors.toList()).size());
+    }
+
+    @Test
+    public void TestPrueba() {
+        System.out.println("HOla");
+        List<Achievement> logros = achievementRepository.findArchievementByNickname();
+        assertNotEquals(0, logros.size());
     }
 
     
