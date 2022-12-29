@@ -10,6 +10,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import sevenislands.card.Card;
+
 @Service
 public class IslandService {
 
@@ -27,6 +29,11 @@ public class IslandService {
     @Transactional
     public Island findByCardId(Integer cardId){
         return islandRepository.findByCardId(cardId);
+    }
+
+    @Transactional
+    public Island findCardOfIsland(Integer gameId, Integer numIsland){
+        return islandRepository.findCardOfIsland(gameId, numIsland);
     }
 
     @Transactional(readOnly = true)

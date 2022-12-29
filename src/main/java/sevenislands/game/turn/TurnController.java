@@ -182,8 +182,8 @@ public class TurnController {
 
     @RequestMapping(value ="/turn/chooseCard",method = RequestMethod.GET)
     public String chooseCard(ModelMap model,@RequestParam Integer islaId,@RequestParam Integer NumCartasDelete, @ModelAttribute("logedUser") User logedUser){
-        Card cardAnadida=cardService.findCardById(islaId);
         Optional<Game> game=gameService.findGameByNickname(logedUser.getNickname(), true);
+        Card cardAnadida=islandService.findCardOfIsland(game.get().getId(),islaId).getCard();
         Map<Card, Integer> playerCardsMap = turnService.findPlayerCardsLastTurn(logedUser.getNickname());
         if(NumCartasDelete.equals(0)){
             turnService.AnadirCarta(islaId,logedUser.getNickname());

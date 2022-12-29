@@ -1,6 +1,7 @@
 package sevenislands.game;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -29,6 +30,8 @@ public class GameController {
     private static final String VIEWS_LOBBY =  "redirect:/lobby"; // vista para lobby
     private static final String VIEWS_FINISHED_GAMES = "list/finishedGames"; //vista de partidas finalizadas
     private static final String VIEWS_INPROGRESS_GAMES = "list/inProgressGames"; //vista de partidas en curso
+    private static final String VIEWS_GAMES_AS_PLAYER = "list/gamesAsPlayer"; //vista de partidas jugadas
+
 
     
 
@@ -84,5 +87,12 @@ public class GameController {
         List<Game> games = this.gameService.findGameActive(true);
         model.put("games", games);
         return VIEWS_INPROGRESS_GAMES;
+    }
+
+    @GetMapping("/game/gamesAsPlayer")
+    public String listGamesAsPlayer(ModelMap model, @ModelAttribute("logedUser") User logedUser) {
+        List<Game> games = gameService.findGameByNickname("player4", false).stream().collect(Collectors.toList());
+        model.put("games", games);
+        return VIEWS_GAMES_AS_PLAYER;
     }
 }
