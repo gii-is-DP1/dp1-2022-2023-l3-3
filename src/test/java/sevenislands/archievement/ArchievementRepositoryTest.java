@@ -11,12 +11,16 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import sevenislands.achievement.Achievement;
 import sevenislands.achievement.AchievementRepository;
 import sevenislands.enums.AchievementType;
+import sevenislands.register.RegisterRepository;
 
 @DataJpaTest
 public class ArchievementRepositoryTest {
 
     @Autowired
     AchievementRepository archivementsRepository;
+    
+    @Autowired
+    RegisterRepository registerRepository;
 
     @Test
     public void TestAchievement(){
@@ -24,6 +28,12 @@ public class ArchievementRepositoryTest {
         List<Achievement> archivementsList = archivementsRepository.findByType(AchievementType.Games);
        assertNotEquals(0, archivementsList.size());
     
+    }
+
+    @Test
+    public void TestPrueba() {
+        List<Object []> logros = registerRepository.findArchievementByNickname("player1");
+        assertNotEquals(0, logros.size());
     }
     
 }

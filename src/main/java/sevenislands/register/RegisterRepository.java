@@ -10,6 +10,6 @@ import org.springframework.data.repository.CrudRepository;
 @Repository
 public interface RegisterRepository extends CrudRepository<Register, Integer>{
     
-    @Query("SELECT r FROM Register r INNER JOIN r.achievement a INNER JOIN r.user u WHERE u.nickname = ?1")
-    List<Register> findArchievementByNickname(String nickname);
+    @Query("SELECT a, r.acquisitionDate FROM Register r INNER JOIN r.achievement a INNER JOIN r.user u WHERE u.nickname = ?1")
+    List<Object []> findArchievementByNickname(String nickname);
 }

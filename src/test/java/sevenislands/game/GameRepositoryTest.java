@@ -3,8 +3,6 @@ package sevenislands.game;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -16,11 +14,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import sevenislands.achievement.Achievement;
-import sevenislands.achievement.AchievementRepository;
+
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyRepository;
-import sevenislands.register.Register;
+
 import sevenislands.register.RegisterRepository;
 import sevenislands.user.User;
 import sevenislands.user.UserRepository;
@@ -82,14 +79,5 @@ public class GameRepositoryTest {
        assertNotEquals(0, gamesList.size());
        assertEquals(0, gamesList.stream().filter(g -> g.isActive() == false).collect(Collectors.toList()).size());
     }
-
-    @Test
-    public void TestPrueba() {
-        System.out.println("HOla");
-        List<Register> logros = registerRepository.findArchievementByNickname("player1");
-        assertNotEquals(0, logros.size());
-    }
-
-    
 
 }
