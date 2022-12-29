@@ -35,6 +35,8 @@ public class UserController {
 
 	private final UserService userService;
 
+	private final Integer tamanoPaginacion=5;
+
 	@Autowired
 	public UserController(UserService userService) {
 		this.userService = userService;
@@ -92,9 +94,10 @@ public class UserController {
     @RequestMapping(value = "/controlPanel", method = RequestMethod.GET)
 	public String listUsersPagination(ModelMap model, @RequestParam Integer valor) throws NotExitPlayerException{
 		Page<User> paginacion=null;
-		Integer totalUsers=(userService.findAll().size()-1)/5;
-		Pageable page2=PageRequest.of(valor,5);
-		paginacion=userService.findAllUser(page2);
+		Integer totalUsers=(userService.findAll().size()-1)/tamanoPaginacion;
+		if(valor>totalUsers )return "redirect:/controlPanel?valor=0";
+		Pageable page2=PageRequest.of(valor,tamanoPaginacion);
+		paginacion=userService.findAllUser(page2,tamanoPaginacion);
 		model.addAttribute("paginas", totalUsers);
 		model.addAttribute("valores", valor);	
 		model.addAttribute("users", paginacion.get().collect(Collectors.toList()));
@@ -114,7 +117,7 @@ public class UserController {
     @GetMapping("/controlPanel/delete/{idUserDeleted}")
 	public String deleteUser(@ModelAttribute("logedUser") User logedUser, @PathVariable("idUserDeleted") Integer id){
 		try {
-			if(userService.deleteUser(id, logedUser) || logedUser.getUserType().equals("admin")) return "redirect:/controlPanel?valor="+metodosReutilizables.DeletePaginaControlPanel(id);
+			if(userService.deleteUser(id, logedUser) || logedUser.getUserType().equals("admin")) return "redirect:/controlPanel?valor="+metodosReutilizables.DeletePaginaControlPanel(id,tamanoPaginacion);
 			else return "redirect:/";
 		} catch (Exception e) {
 			return "redirect:/";
@@ -132,7 +135,7 @@ public class UserController {
 	 */
 	@GetMapping("/controlPanel/enable/{idUserEdited}")
 	public String enableUser(@ModelAttribute("logedUser") User logedUser, @PathVariable("idUserEdited") Integer id){
-		if(userService.enableUser(id, logedUser)) return "redirect:/controlPanel?valor="+metodosReutilizables.EditPaginaControlPanel(id);
+		if(userService.enableUser(id, logedUser)) return "redirect:/controlPanel?valor="+metodosReutilizables.EditPaginaControlPanel(id,tamanoPaginacion);
 		return "redirect:/";
 	}
 
