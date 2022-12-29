@@ -71,4 +71,14 @@ public class GameService {
     public List<Game> findGameActive(Boolean active) {
         return gameRepository.findGamesActive(active);
     }
+
+    @Transactional
+    public void endGame(User logedUser) {
+        Optional<Game> game = gameRepository.findGameByNickname(logedUser.getNickname(), true);
+        if(game.isPresent()) {
+            game.get().setActive(false);
+            game.get().setEndingDate(new Date(System.currentTimeMillis()));
+            gameRepository.save(game.get());
+        }
+    }
 }
