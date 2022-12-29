@@ -45,7 +45,7 @@ public class UserService {
 		this.lobbyService = lobbyService;
 		this.authenticationManager = authenticationManager;
 	}
-	
+	//que es esta funcion
 	public User createUser(Integer id, String nickname,String email) {
         User userCreate;
         userCreate = new User();
@@ -131,7 +131,7 @@ public class UserService {
 			page = new PageImpl<>(users.subList((5*(numPag-1))+5, valor*(numPag+1)));
 		}
 		
-		//userRepository2.findAll(pageable)
+	
 		return page;
     }
 
