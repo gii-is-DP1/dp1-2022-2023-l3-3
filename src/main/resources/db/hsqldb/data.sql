@@ -50,8 +50,8 @@ INSERT INTO turn_cards(turn_id,cards_id) VALUES (1, 1);
 INSERT INTO turn_cards(turn_id,cards_id) VALUES (1, 1);
 
 -- LOGROS --
-INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Inicio', 'Juega <LIMITE> partida', 'Victories', 1, '/resources/images/grafics/logroJugarPartidas.png');
-INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Veterano', 'Juega mas de <LIMITE> partidas', 'Games', 50, '/resources/images/grafics/logroJugarPartidas.png');
+INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Inicio', 'Juega LIMIT partida', 'Victories', 1, 'logroJugarPartidas.png');
+INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Veterano', 'Juega mas de LIMIT partidas', 'Games', 50, 'logroJugarPartidas.png');
 -- INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Poco a poco', 'Gana <LIMITE> partida', 'Victories', 1, '/resources/images/grafics/logroVictoria.png');
 -- INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Imparable', 'Gana un total de <LIMITE> partidas', 'Victories', 20, '/resources/images/grafics/logroVictoria.png');
 -- INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Valioso', 'Consigue el set de tesoros distintos mas grande (<LIMITE>)', 'Punctuation', 9, '/resources/images/grafics/logroPuntuacion.png');
@@ -61,3 +61,4 @@ INSERT INTO achievement(name, description, achievement_type, threshold, badge_im
 -- INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Afortunado', 'Obten <LIMITE> seis consecutivos', 'DiceResults', 3, '/resources/images/grafics/logroResultadosDado.png');
 
 INSERT INTO register(acquisition_date, achievement_id, user_id) VALUES ('2022-12-29', 1, 7);
+INSERT INTO register(acquisition_date, achievement_id, user_id) VALUES ('2022-12-28', 2, 7);

@@ -11,11 +11,22 @@
         <h2><br>Mis Logros</h2>
         <h3>Nombre de Usuario: <c:out value="${user.nickname}"/></h3>
 
-        <!-- crear una condicion que si tengo numero de logros distinto de cero, muestre una tabla como en achievementsListing -->
-        <!-- si es cero, muestra lo que hay aqui debajo -->
-        <center>
-            <p>Aún no has jugado ninguna partida. Juega tu primera partida y empieza a conseguir logros</p><br>
-            <a class="btn btn-default" href='<spring:url value="/lobby/create" htmlEscape="true"/>'>Juega Tu Primera Partida</a>
-        </center>
+        <table class="table table-striped">
+			<tr>
+				<th>Nombre</th>
+				<th>Fecha de obtención</th>
+				<th>Descripción</th>
+			</tr>
+			<c:forEach items="${achievements}" var="achievement">
+				<tr>
+                    <td>
+                        <img src="/resources/images/grafics/${achievement.getFirst().badgeImage}" height="40" width="40">
+                        <c:out value="${achievement.getFirst().name}"/>
+                    </td>
+					<td><c:out value="${achievement.getSecond()}"/></td>
+					<td><c:out value="${achievement.getFirst().description.replaceAll('LIMIT', achievement.getFirst().getThreshold())}"/></td>	
+				</tr>
+			</c:forEach>
+		</table>
     </body>
 </sevenislands:layout3>
