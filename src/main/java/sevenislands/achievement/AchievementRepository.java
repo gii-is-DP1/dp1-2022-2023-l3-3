@@ -17,7 +17,4 @@ public interface AchievementRepository extends CrudRepository<Achievement, Integ
      */
     @Query("SELECT achievement FROM Achievement achievement WHERE achievement.achievementType=:achievementType")
     List<Achievement> findByType(@Param("achievementType") AchievementType achievementType);
-
-    @Query("SELECT r FROM Register r INNER JOIN r.achievement a INNER JOIN a.user")
-    List<Achievement>  findArchievementByNickname();
 }

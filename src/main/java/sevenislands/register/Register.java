@@ -1,8 +1,6 @@
 package sevenislands.register;
 
-
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -33,9 +31,9 @@ public class Register extends BaseEntity{
 	private Date acquisitionDate;
 
     @ManyToOne
-    private User users;
+    private User user;
     
     @ManyToOne
-    private Achievement achievements;
+    private Achievement achievement;
 
 }

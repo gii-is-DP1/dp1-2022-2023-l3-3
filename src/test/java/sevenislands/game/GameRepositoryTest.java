@@ -20,6 +20,8 @@ import sevenislands.achievement.Achievement;
 import sevenislands.achievement.AchievementRepository;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyRepository;
+import sevenislands.register.Register;
+import sevenislands.register.RegisterRepository;
 import sevenislands.user.User;
 import sevenislands.user.UserRepository;
 import sevenislands.user.UserService;
@@ -36,7 +38,7 @@ public class GameRepositoryTest {
     LobbyRepository lobbyRepository;
 
     @Autowired
-    AchievementRepository achievementRepository;
+    RegisterRepository registerRepository;
 
     UserService userService;
     List<User> users;
@@ -84,7 +86,7 @@ public class GameRepositoryTest {
     @Test
     public void TestPrueba() {
         System.out.println("HOla");
-        List<Achievement> logros = achievementRepository.findArchievementByNickname();
+        List<Register> logros = registerRepository.findArchievementByNickname("player1");
         assertNotEquals(0, logros.size());
     }
 

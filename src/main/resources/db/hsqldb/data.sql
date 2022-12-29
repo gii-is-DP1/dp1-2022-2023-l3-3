@@ -60,4 +60,4 @@ INSERT INTO achievement(name, description, achievement_type, threshold, badge_im
 -- INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Comerciante', 'Contrata a barcos piratas para moverte a otra isla <LIMITE> veces', '', 30, '/resources/images/grafics/logroSaltarIslas.png');
 -- INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Afortunado', 'Obten <LIMITE> seis consecutivos', 'DiceResults', 3, '/resources/images/grafics/logroResultadosDado.png');
 
-INSERT INTO register(acquisition_date, achievements_id, users_id) VALUES ('2022-12-29',1, 7);
+INSERT INTO register(acquisition_date, achievement_id, user_id) VALUES ('2022-12-29', 1, 7);
