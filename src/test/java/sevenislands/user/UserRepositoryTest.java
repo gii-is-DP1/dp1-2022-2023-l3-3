@@ -12,7 +12,9 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 
 import java.util.NoSuchElementException;
+import java.util.stream.IntStream;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -23,12 +25,24 @@ public class UserRepositoryTest {
     @Autowired
     UserRepository userRepository;
 
+    UserService userService;
+
+    @BeforeEach
+    public void config(){
+        userService = new UserService(null, null, null, null, userRepository);
+        IntStream.range(0, 3).forEach(i -> {
+            userRepository.save(userService.createUser(10000+i, "playerTest"+i, "EmailTest"+i+"@gmail.com"));
+        });
+        User userAdminTest = userService.createUser(87654, "admin1Test", "admin1Test@gmial.com");
+        userRepository.save(userAdminTest);
+    }
+
     @Test
     public void initialDataAndFindSuccessTest(){
         List<User> players = userRepository.findAll();
 
         assertNotEquals(0, players.size());
-        assertNull(userRepository.findByNickname("sergioFalso").orElse(null));
+        assertNotNull(userRepository.findByNickname("admin1Test").orElse(null));
     }
 
     @Test
@@ -48,13 +62,12 @@ public class UserRepositoryTest {
         List<User> users = userRepository.findAll();
         assertNotNull(users, "El repositorio devuelve una colección nula");
         assertFalse(users.isEmpty(), "El repositorio ha devuelto una colección vacía");
-        assertEquals(11, users.size(), "El repositorio ha devuelto una colección incompleta");
     }
 
     @Test
     public void retrieveUserByNicknameSuccessful() {
-        User user = userRepository.findByNickname("admin1").get();
-        assertEquals("admin1", user.getNickname(), "El nombre de usuario no es igual a admin1");
+        User user = userRepository.findByNickname("admin1Test").get();
+        assertEquals("admin1Test", user.getNickname(), "El nombre de usuario no es igual a admin1");
     }
 
     @Test()
@@ -66,8 +79,8 @@ public class UserRepositoryTest {
 
     @Test
     public void retrieveUserByEmailSuccessful() {
-        User user = userRepository.findByEmail("admin1@sevenislands.com").get();
-        assertEquals("admin1@sevenislands.com", user.getEmail());
+        User user = userRepository.findByEmail("admin1Test@gmial.com").get();
+        assertEquals("admin1Test@gmial.com", user.getEmail());
     }
 
     @Test()
@@ -79,7 +92,7 @@ public class UserRepositoryTest {
 
     @Test
     public void checkUserInfoExists() {
-        Boolean email = userRepository.checkUserEmail("admin1@sevenislands.com");
+        Boolean email = userRepository.checkUserEmail("admin1Test@gmial.com");
         assertTrue(email, "El repositorio no devuelve el usuario con email admin1@sevenislands.com"); 
     }
 
@@ -93,12 +106,12 @@ public class UserRepositoryTest {
 
     @Test
     public void changeUserInfo() {
-        User user = userRepository.findByNickname("admin1").get();
+        User user = userRepository.findByNickname("admin1Test").get();
         String cambio = "cambiado";
         user.setLastName(cambio);
         userRepository.save(user);
 
-        User newUser = userRepository.findByNickname("admin1").get();
+        User newUser = userRepository.findByNickname("admin1Test").get();
         assertEquals(cambio, newUser.getLastName());
     }
 }

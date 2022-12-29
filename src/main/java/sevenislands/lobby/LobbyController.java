@@ -51,7 +51,8 @@ public class LobbyController {
 			model.put("num_players", lobby.getUsers().size());
 			model.put("lobby", lobby);
 			model.put("host", host);
-			model.put("player", logedUser);
+			model.put("logged_player", logedUser);
+			model.put("players", lobby.getPlayerInternal());
 			return VIEWS_LOBBY;
 		} catch (Exception e) {
 			return "redirect:/home";
@@ -90,38 +91,22 @@ public class LobbyController {
 		
 	}
 
-	@GetMapping("/lobby/delete")
+	@GetMapping("/lobby/leave")
 	public String leaveLobby(@ModelAttribute("logedUser") User logedUser)  {
-
-			try {
-				lobbyService.leaveLobby(logedUser);
-			} catch (NotExistLobbyException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				return "redirect:/home";
-			}
-			return "redirect:/home";
-		
-		
-	}
-
-	@GetMapping("/lobby/players")
-	public String listaPlayer(ModelMap model, @ModelAttribute("logedUser") User logedUser, HttpServletResponse response) {
 		try {
-			response.addHeader("Refresh", "2");
-		Lobby Lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
-		model.put("players", Lobby.getPlayerInternal());
-		return "game/lobbyPlayers";
-		} catch (Exception e) {
+			lobbyService.leaveLobby(logedUser);
+		} catch (NotExistLobbyException e) {
+			e.printStackTrace();
 			return "redirect:/home";
 		}
+		return "redirect:/home";
 	}
 	
-	@GetMapping("/lobby/players/delete/{idEjectedUser}")
+	@GetMapping("/lobby/delete/{idEjectedUser}")
 	public String ejectPlayer(@ModelAttribute("logedUser") User logedUser, @PathVariable("idEjectedUser") Integer id) throws Exception {
 		Optional<User> userEjected = userService.findUserById(id);
 		try {
-			if(userEjected.isPresent() && lobbyService.ejectPlayer(logedUser, userEjected.get())) return "redirect:/lobby/players";
+			if(userEjected.isPresent() && lobbyService.ejectPlayer(logedUser, userEjected.get())) return "redirect:/lobby";
 			else return "redirect:/home";
 		} catch (Exception e) {
 			return "redirect:/home";

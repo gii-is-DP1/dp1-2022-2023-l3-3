@@ -6,62 +6,141 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 
 <style>
-    body {
-        background-image: url("resources/images/grafics/tablero_fondo.png");
-        background-size: cover;
-        background-repeat: no-repeat;
-        background-position: center center;
-        background-attachment: fixed;
-        backdrop-filter: blur(8px);
-        height: 100%;
-        width: 100%;
-    }
+body {
+    background-image: url("resources/images/grafics/tablero_fondo.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: fixed;
+    backdrop-filter: blur(8px);
+    height: 100%;
+    width: 100%;
+}
+
+#content {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    height: 100%;
+}
+
+#delete_icon {
+    width: 20px;
+    height: 20px;
+}
+
+#menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px;
+}
+
+#player_list {
+    padding: 10px;
+    margin: 10px;
+    height: auto;
+    width: 35%;
+    background: #802323;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    border: 4px solid black;
+    border-radius: 25px;
+}
+
+#code {
+    color: black;
+    background-color: white;
+    border-radius: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 10px;
+    margin-bottom: 50px;
+}
+
+.text {
+    text-align: center;
+    color: white;
+}
+
+table {
+    border-radius: 25px !important;
+}
+
+tr{
+    text-align: center;
+}
+
+.column_name {
+    background-color: #7c7c7c;
+    text-align: center;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+tr:nth-child(odd) {
+    background-color: #bbbbbb !important;
+}
+
 </style>
-<sevenislands:layout2 pageName="lobby">
+
+<sevenislands:home pageName="lobby">
 
     <body>
-        <div>
-            <center>
-                <h1>Código de la partida:
+        <div id="content">
+            <div id="menu">
+                <h1 id="code">Código de la partida:
                     <c:out value="${lobby.code}" />
                 </h1>
-            </center>
-        </div>
-
-        <c:if test="${host==player}">
-            <c:if test="${num_players>1}">
-                <br />
+        
+                <c:if test="${host==logged_player}">
+                    <c:if test="${num_players>1}">
+                        <br />
+                        <div>
+                            <a class="btn btn-default"
+                                href='<spring:url value="/game" htmlEscape="true"/>'>Empezar Partida</a>
+                        </div>
+                    </c:if>
+                    <br />
+                </c:if>
                 <div>
-                    <center>
-                        <a class="btn btn-default"
-                            href='<spring:url value="/game" htmlEscape="true"/>'>EMPEZAR
-                            PARTIDA</a>
-                    </center>
+                        <br />
+                        <a class="btn btn-default" id="leave_game"
+                            href='<spring:url value="/join" htmlEscape="true"/>'>Unirse a Partida</a>
                 </div>
-            </c:if>
-            <br />
-            <div>
-                <center>
-                    <a class="btn btn-default"
-                        href='<spring:url value="/lobby/players" htmlEscape="true"/>'>LISTA DE
-                        JUGADORES</a>
-                </center>
+                <div>
+                    <br />
+                    <a class="btn btn-default" id="leave_game"
+                        href='<spring:url value="/lobby/leave" htmlEscape="true"/>'>Abandonar Partida</a>
+                </div>
             </div>
-        </c:if>
-        <div>
-            <center>
-                <br />
-                <a class="btn btn-default" id="leave_game"
-                    href='<spring:url value="/join" htmlEscape="true"/>'>UNIRSE A PARTIDA</a>
-            </center>
-        </div>
-        <div>
-            <center>
-                <br />
-                <a class="btn btn-default" id="leave_game"
-                    href='<spring:url value="/lobby/delete" htmlEscape="true"/>'>ABANDONAR
-                    PARTIDA</a>
-            </center>
+            <div id="player_list">
+                <h2 class="text">Jugadores</h2>
+                <table class="table table-striped">
+                    <tr>	
+                        <th class="column_name">Nickname</th>
+                        <c:if test="${host==logged_player}">
+                            <th class="column_name">Expulsar</th>
+                        </c:if>
+                    </tr>
+                    <c:forEach items="${players}" var="player">
+                        <tr>
+                            <td>
+                                <img src="/resources/images/avatars/${player.avatar}" height="25" width="25">
+                                <c:out value="${player.nickname}"/>
+                            </td>
+                            <c:if test="${host==logged_player}">
+                                <td><a href="/lobby/delete/${player.id}"><img id="delete_icon" src="resources/images/icons/deleteIcon.png"></a></td>
+                            </c:if>
+                        </tr>
+                    </c:forEach>
+                </table>
+            </div>
         </div>
     </body>
-</sevenislands:layout2>
+</sevenislands:home>

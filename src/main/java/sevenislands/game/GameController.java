@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import sevenislands.game.turn.TurnService;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
 import sevenislands.user.User;
@@ -28,7 +30,7 @@ public class GameController {
     private static final String VIEWS_LOBBY =  "redirect:/lobby"; // vista para lobby
     private static final String VIEWS_FINISHED_GAMES = "list/finishedGames"; //vista de partidas finalizadas
     private static final String VIEWS_INPROGRESS_GAMES = "list/inProgressGames"; //vista de partidas en curso
-    private static final String VIEWS_GAMES_AS_PLAYER = "list/gameAsPlayer"; //vista de partidas jugadas
+    private static final String VIEWS_GAMES_AS_PLAYER = "list/gamesAsPlayer"; //vista de partidas jugadas
 
 
     
@@ -36,12 +38,14 @@ public class GameController {
     private final GameService gameService;
     private final LobbyService lobbyService;
     private final UserService userService;
+    private final TurnService turnService;
 
     @Autowired
-    public GameController(UserService userService, GameService gameService, LobbyService lobbyService) {
+    public GameController(UserService userService, GameService gameService, LobbyService lobbyService, TurnService turnService) {
         this.gameService = gameService;
         this.lobbyService = lobbyService;
         this.userService = userService;
+        this.turnService = turnService;
     }
 
     @GetMapping("/game")
@@ -64,8 +68,11 @@ public class GameController {
     }
 
     @GetMapping("/endGame")
-    public String endGame(@ModelAttribute("logedUser") User logedUser){
-        return"game/endGame";
+    public String endGame(ModelMap model, @ModelAttribute("logedUser") User logedUser){
+        User winner = turnService.findWinner(logedUser);
+        model.put("winner", winner);
+        gameService.endGame(logedUser);
+        return"game/endgame";
     }
 
     @GetMapping("/game/finished")
