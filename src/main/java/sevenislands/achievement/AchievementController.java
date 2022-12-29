@@ -32,7 +32,10 @@ public class AchievementController {
 
     @GetMapping("/achievements")
     public String showAchievements(ModelMap model) {
-        model.put("achievements", achievementService.findAchievements());
+        List<Pair<Achievement, Long>> achievements = registerService.countAchievements().stream()
+        .map(r -> Pair.of((Achievement)r[0], (Long)r[1])).collect(Collectors.toList());
+
+        model.put("achievements", achievements);
         return VIEWS_ACHIEVEMENTS_LISTING;
     }
 

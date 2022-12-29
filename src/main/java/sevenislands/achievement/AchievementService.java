@@ -27,8 +27,8 @@ public class AchievementService {
 	 * @throws DataAccessException
 	 */
 	@Transactional(readOnly = true)	
-	public Iterable<Achievement> findAchievements() throws DataAccessException {
-		return achievementRepository.findAll();
+	public List<Achievement> findAchievements() throws DataAccessException {
+		return (List<Achievement>) achievementRepository.findAll();
 	}
 
 	/**

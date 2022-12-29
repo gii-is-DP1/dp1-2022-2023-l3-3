@@ -113,7 +113,7 @@
 						<img class="img_grafica" src="/resources/images/grafics/estadisticas.png">
 						<li><strong>Estadísticas</strong>
 							<ul class="menu-vertical">
-								<li><a href="#">Ranking</a></li>
+								<li><a href="/ranking">Ranking</a></li>
 								<li><a href="#">Mis Métricas</a></li>
 							</ul>
 						</li>
@@ -132,6 +132,12 @@
 						</li>
 					</ul>
 				</div>
+			</sec:authorize>
+			<sec:authorize access="hasAuthority('admin')">
+					<a href="/ranking">
+						<img class="img_grafica" src="/resources/images/grafics/estadisticas.png">
+						<strong>Ranking</strong>
+					</a>
 			</sec:authorize>
 			<a href="/settings">
 				<img class="img_home" src="/resources/images/avatars/${user.avatar}"><strong>${user.nickname}</strong>&thinsp;

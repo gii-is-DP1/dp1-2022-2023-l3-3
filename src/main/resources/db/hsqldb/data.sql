@@ -23,7 +23,7 @@ INSERT INTO lobby_users(lobby_id,users_id) VALUES (1,9);
 INSERT INTO lobby_users(lobby_id,users_id) VALUES (2,10);
 
 -- JUEGOS -- 
-INSERT INTO game(id, creation_date, ending_date, active, lobby_id) VALUES (1, '2022-11-14', '2022-11-24', 'TRUE' ,1);
+INSERT INTO game(id, creation_date, ending_date, active, lobby_id) VALUES (1, '2022-11-14', '2022-11-24', 'FALSE' ,1);
 INSERT INTO game(id, creation_date, ending_date, active, lobby_id) VALUES (2, '2022-11-09', '2022-11-09', 'FALSE', 2);
 
 -- RONDAS --
@@ -49,6 +49,11 @@ INSERT INTO turn_cards(turn_id,cards_id) VALUES (1, 1);
 INSERT INTO turn_cards(turn_id,cards_id) VALUES (1, 1);
 INSERT INTO turn_cards(turn_id,cards_id) VALUES (1, 1);
 
+-- PUNTUACION --
+INSERT INTO punctuation(punctuation, game_id, user_id) VALUES (100, 1, 7);
+INSERT INTO punctuation(punctuation, game_id, user_id) VALUES (50, 2, 7);
+INSERT INTO punctuation(punctuation, game_id, user_id) VALUES (50, 1, 8);
+
 -- LOGROS --
 INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Inicio', 'Juega LIMIT partida', 'Victories', 1, 'logroJugarPartidas.png');
 INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Veterano', 'Juega mas de LIMIT partidas', 'Games', 50, 'logroJugarPartidas.png');
@@ -62,3 +67,4 @@ INSERT INTO achievement(name, description, achievement_type, threshold, badge_im
 
 INSERT INTO register(acquisition_date, achievement_id, user_id) VALUES ('2022-12-29', 1, 7);
 INSERT INTO register(acquisition_date, achievement_id, user_id) VALUES ('2022-12-28', 2, 7);
+INSERT INTO register(acquisition_date, achievement_id, user_id) VALUES ('2022-12-28', 2, 8);

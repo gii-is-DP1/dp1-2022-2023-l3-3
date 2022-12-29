@@ -21,4 +21,9 @@ public class RegisterService {
         return registerRepository.findArchievementByNickname(nickname);
     }
 
+    @Transactional
+    public List<Object []> countAchievements() {
+        return registerRepository.countAchievements();
+    }
+
 }
