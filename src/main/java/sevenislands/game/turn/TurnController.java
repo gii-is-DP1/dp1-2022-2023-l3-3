@@ -72,7 +72,7 @@ public class TurnController {
 
         Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname(), true);
         List<Island> islandList = islandService.findIslandsByGameId(game.get().getId());
-        if(turnService.endGame(game.get())) return "game/endgame";
+        if(turnService.endGame(game.get())) return "redirect:/endGame";
         List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
                 .collect(Collectors.toList());
         Round round = roundList.get(roundList.size() - 1);
@@ -85,9 +85,9 @@ public class TurnController {
         model.put("player", logedUser);
         model.put("player_turn", lastTurn.getUser());
         model.put("dice", lastTurn.getDice());
-       model.put("IslasToChose", islasToChose);
-       model.put("NumIslands", islandList.size()); 
-       model.put("islandList", islandList);
+        model.put("IslasToChose", islasToChose);
+        model.put("NumIslands", islandList.size()); 
+        model.put("islandList", islandList);
         model.put("userList", userList);
         model.put("playerCardsMap", playerCardsMap);
 
@@ -160,7 +160,7 @@ public class TurnController {
                 Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
                 List<User> userList = lobby.getUsers();
                 List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
-                        .collect(Collectors.toList());
+                        .collect(Collectors.toList());   
                 turnService.assignTurn(logedUser, game, userList, roundList);
                 return "redirect:/turn";
             } else
@@ -182,8 +182,8 @@ public class TurnController {
 
     @RequestMapping(value ="/turn/chooseCard",method = RequestMethod.GET)
     public String chooseCard(ModelMap model,@RequestParam Integer islaId,@RequestParam Integer NumCartasDelete, @ModelAttribute("logedUser") User logedUser){
-        Card cardAnadida=cardService.findCardById(islaId);
         Optional<Game> game=gameService.findGameByNickname(logedUser.getNickname(), true);
+        Card cardAnadida=islandService.findCardOfIsland(game.get().getId(),islaId).getCard();
         Map<Card, Integer> playerCardsMap = turnService.findPlayerCardsLastTurn(logedUser.getNickname());
         if(NumCartasDelete.equals(0)){
             turnService.AnadirCarta(islaId,logedUser.getNickname());

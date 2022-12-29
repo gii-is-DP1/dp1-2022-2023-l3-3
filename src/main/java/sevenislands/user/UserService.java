@@ -45,7 +45,7 @@ public class UserService {
 		this.lobbyService = lobbyService;
 		this.authenticationManager = authenticationManager;
 	}
-	
+	//que es esta funcion
 	public User createUser(Integer id, String nickname,String email) {
         User userCreate;
         userCreate = new User();
@@ -56,6 +56,7 @@ public class UserService {
         userCreate.setEnabled(true);
         userCreate.setFirstName("Prueba");
         userCreate.setLastName("Probando");
+		userCreate.setCreationDate(new Date(System.currentTimeMillis()));
         userCreate.setBirthDate(new Date(System.currentTimeMillis()));
         userCreate.setAvatar("resource/images/avatars/playerAvatar.png");
         userCreate.setUserType("player");
@@ -115,22 +116,22 @@ public class UserService {
 	}
 
     @Transactional
-    public Page<User> findAllUser(Pageable pageable){
+    public Page<User> findAllUser(Pageable pageable,Integer tamanoPagina){
 		List<User> users=userRepository.findAll();
 		Page<User> page=null;
 		if(pageable.getPageNumber()==0){
 			int valor=(int)pageable.getPageSize();
 			page = new PageImpl<>(users.subList(0,valor));
-		}else if((pageable.getPageNumber()*5)+5>=users.size()){
+		}else if((pageable.getPageNumber()*tamanoPagina)+tamanoPagina>=users.size()){
 			int numPag=pageable.getPageNumber();
-			page = new PageImpl<>(users.subList((5*(numPag-1))+5,users.size()));
+			page = new PageImpl<>(users.subList((tamanoPagina*(numPag-1))+tamanoPagina,users.size()));
 		}else{
 			int numPag=pageable.getPageNumber();
 			int valor=(int)pageable.getPageSize();
-			page = new PageImpl<>(users.subList((5*(numPag-1))+5, valor*(numPag+1)));
+			page = new PageImpl<>(users.subList((tamanoPagina*(numPag-1))+tamanoPagina, valor*(numPag+1)));
 		}
 		
-		//userRepository2.findAll(pageable)
+	
 		return page;
     }
 
