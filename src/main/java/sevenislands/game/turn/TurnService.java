@@ -360,6 +360,11 @@ public class TurnService {
         return winner;
     }
 
+    @Transactional
+    public Integer findTotalTurnsByNickname(String nickname) {
+        return turnRepository.totalTurnsByNickname(nickname);
+    }
+
 
     
 }

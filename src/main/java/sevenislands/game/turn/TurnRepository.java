@@ -20,6 +20,6 @@ public interface TurnRepository extends CrudRepository<Turn, Integer> {
     public List<Turn> findTurnByNickname(String nickname);
 
     @Query("SELECT COUNT(t) FROM Turn t INNER JOIN t.user u WHERE u.nickname=?1")
-    public Integer numTurnsNickname(String nickname);
+    public Integer totalTurnsByNickname(String nickname);
     
 }
