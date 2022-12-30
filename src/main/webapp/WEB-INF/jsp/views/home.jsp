@@ -87,7 +87,7 @@
 	position: absolute;
 	display: none;
 	list-style: none;
-	width: 135px;
+	width: 140px;
 	background-color: rgba(0, 0, 0, .5);
 }
 .menu-horizontal li:hover .menu-vertical {
@@ -114,7 +114,7 @@
 						<li><strong>Estadísticas</strong>
 							<ul class="menu-vertical">
 								<li><a href="/ranking">Ranking</a></li>
-								<li><a href="#">Mis Métricas</a></li>
+								<li><a href="/myStatistics">Mis Estadísticas</a></li>
 							</ul>
 						</li>
 					</ul>
