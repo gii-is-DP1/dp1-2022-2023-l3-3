@@ -26,5 +26,5 @@ public interface GameRepository extends CrudRepository<Game, Integer> {
     public List<Game> findGamesActive(Boolean active);
 
     @Query("SELECT COUNT(g) FROM Game g INNER JOIN g.lobby l INNER JOIN l.users u WHERE u.nickname=?1")
-    public Integer numGamesNickname(String nickname);
+    public Integer totalGamesPlayedByNickname(String nickname);
 }

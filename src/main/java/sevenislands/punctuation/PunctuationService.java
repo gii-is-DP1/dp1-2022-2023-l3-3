@@ -30,6 +30,11 @@ public class PunctuationService {
     }
 
     @Transactional
+    public Long findPunctuationByNickname(String nickname) {
+        return punctuationRepository.findPunctuationByNickname(nickname);
+    }
+
+    @Transactional
     public void save(Punctuation punctuation) {
         punctuationRepository.save(punctuation);
     }

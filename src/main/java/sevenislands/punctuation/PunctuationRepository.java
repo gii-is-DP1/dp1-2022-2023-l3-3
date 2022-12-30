@@ -20,4 +20,6 @@ public interface PunctuationRepository extends CrudRepository<Punctuation, Integ
     @Query("SELECT COUNT(u)=1 FROM Punctuation p INNER JOIN p.user u INNER JOIN p.game g WHERE g.id=?1 AND u.nickname=?2")
     Boolean findPunctuationByGame(Integer game, String nickname);
     
+    @Query("SELECT SUM(p.punctuation) FROM Punctuation p INNER JOIN p.user u WHERE u.nickname=?1")
+    Long findPunctuationByNickname(String nickname);
 }
