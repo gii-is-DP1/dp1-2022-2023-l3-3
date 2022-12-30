@@ -6,6 +6,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import sevenislands.game.GameService;
 import sevenislands.user.User;
 
 @Controller
@@ -13,18 +14,17 @@ public class StatisticController {
 
     private static final String VIEWS_MY_STATISTICS = "statistic/myStatistics";
 
-    private final StatisticService statisticService;
+    private final GameService gameService;
 
     @Autowired
-    public StatisticController(StatisticService statisticService) {
-        this.statisticService = statisticService;
+    public StatisticController(GameService gameService) {
+        this.gameService = gameService;
     }
 
     @GetMapping("/myStatistics")
     public String showMyStatistics(ModelMap model, @ModelAttribute("logedUser") User logedUser) {
         model.put("user", logedUser);
-        model.put("num_games_player", statisticService.numGamesNickname(logedUser.getNickname()));
-        model.put("num_turns_player", statisticService.numTurnsNickname(logedUser.getNickname()));
+        model.put("num_games_player", gameService.findTotalGamesPlayedByNickname(logedUser.getNickname()));
         return VIEWS_MY_STATISTICS;
     }
 
