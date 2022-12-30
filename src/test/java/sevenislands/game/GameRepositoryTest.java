@@ -69,7 +69,7 @@ public class GameRepositoryTest {
 
     @Test
     public void TestFindLobbyByNicknameSuccess(){
-        Optional<Game> game = gameRepository.findGameByNickname(users.get(0).getNickname(),true);
+        Optional<Game> game = gameRepository.findGameByNicknameAndActive(users.get(0).getNickname(),true);
         assertNotNull(game);
     }  
 

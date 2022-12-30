@@ -6,6 +6,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import sevenislands.game.Game;
+import sevenislands.user.User;
+
 @Service
 public class PunctuationService {
     
@@ -19,5 +22,20 @@ public class PunctuationService {
     @Transactional
     public List<Object []> findPunctuations() {
         return punctuationRepository.findPunctuations();
+    }
+
+    @Transactional
+    public List<Object []> findPunctuationByGame(Game game) {
+        return punctuationRepository.findPunctuationByGame(game.getId());
+    }
+
+    @Transactional
+    public void save(Punctuation punctuation) {
+        punctuationRepository.save(punctuation);
+    }
+
+    @Transactional
+    public Boolean checkPunctuationByGameAndUser(Game game, User user) {
+        return punctuationRepository.findPunctuationByGame(game.getId(), user.getNickname());
     }
 }
