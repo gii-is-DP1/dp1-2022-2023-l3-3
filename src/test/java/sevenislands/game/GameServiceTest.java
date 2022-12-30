@@ -88,14 +88,14 @@ public class GameServiceTest {
 
     @Test
     public void findGameByNickNameTest(){
-        when(gameRepository.findGameByNickname("user1Test",true)).thenReturn(Optional.of(gameList.get(0)));
-        assertNotNull(gameService.findGameByNickname("user1Test",true));
+        when(gameRepository.findGameByNicknameAndActive("user1Test",true)).thenReturn(Optional.of(gameList.get(0)));
+        assertNotNull(gameService.findGameByNicknameAndActive("user1Test",true));
     }
 
     @Test
     public void checkNickNameANDGameIdTest(){
         Integer id = gameList.get(0).getId();
-        when(gameRepository.findGameByNickname(userList.get(0).getNickname(),true)).thenReturn(Optional.of(gameList.get(0)));
+        when(gameRepository.findGameByNicknameAndActive(userList.get(0).getNickname(),true)).thenReturn(Optional.of(gameList.get(0)));
         when(roundRepository.findRoundByGameId(id)).thenReturn(roundList.stream().filter(r -> r.getGame().getId().equals(id)).collect(Collectors.toList()));
         assertNotNull(gameService.checkUserGameWithRounds(userList.get(0)));
     }

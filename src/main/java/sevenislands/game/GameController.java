@@ -1,16 +1,19 @@
 package sevenislands.game;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 
 import sevenislands.game.turn.TurnService;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
+import sevenislands.punctuation.PunctuationService;
 import sevenislands.user.User;
 import sevenislands.user.UserService;
 
@@ -39,13 +42,15 @@ public class GameController {
     private final LobbyService lobbyService;
     private final UserService userService;
     private final TurnService turnService;
+    private final PunctuationService punctuationService;
 
     @Autowired
-    public GameController(UserService userService, GameService gameService, LobbyService lobbyService, TurnService turnService) {
+    public GameController(UserService userService, GameService gameService, LobbyService lobbyService, TurnService turnService, PunctuationService punctuationService) {
         this.gameService = gameService;
         this.lobbyService = lobbyService;
         this.userService = userService;
         this.turnService = turnService;
+        this.punctuationService = punctuationService;
     }
 
     @GetMapping("/game")
@@ -57,7 +62,7 @@ public class GameController {
         response.addHeader("Refresh", "5");
        try {
         Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
-        if(gameService.findGameByNickname(logedUser.getNickname(), true).isEmpty()) {
+        if(gameService.findGameByNicknameAndActive(logedUser.getNickname(), true).isEmpty()) {
             gameService.initGame(lobby);
             lobbyService.disableLobby(lobby);
         }
@@ -69,9 +74,20 @@ public class GameController {
 
     @GetMapping("/endGame")
     public String endGame(ModelMap model, @ModelAttribute("logedUser") User logedUser){
+        Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
+        if(game.isPresent() && game.get().isActive()) {
+            if(!turnService.endGame(game.get())) return "redirect:/turn";
+            if(game.get().getEndingDate()==null) gameService.endGame(logedUser);
+        }
+
         User winner = turnService.findWinner(logedUser);
+
+        List<Pair<User, Integer>> players = punctuationService.findPunctuationByGame(game.get()).stream()
+        .map(r -> Pair.of((User)r[0], (Integer)r[1])).collect(Collectors.toList());
+
         model.put("winner", winner);
-        gameService.endGame(logedUser);
+        model.put("players", players);
+        
         return"game/endgame";
     }
 
@@ -91,8 +107,10 @@ public class GameController {
 
     @GetMapping("/game/gamesAsPlayer")
     public String listGamesAsPlayer(ModelMap model, @ModelAttribute("logedUser") User logedUser) {
-        List<Game> games = gameService.findGameByNickname("player4", false).stream().collect(Collectors.toList());
+        List<Game> games = gameService.findGameByNicknameAndActive(logedUser.getNickname(), false).stream().collect(Collectors.toList());
         model.put("games", games);
         return VIEWS_GAMES_AS_PLAYER;
     }
+
+    
 }

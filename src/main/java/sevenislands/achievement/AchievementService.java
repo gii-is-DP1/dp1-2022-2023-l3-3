@@ -1,6 +1,7 @@
 package sevenislands.achievement;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +27,8 @@ public class AchievementService {
 	 * @throws DataAccessException
 	 */
 	@Transactional(readOnly = true)	
-	public Iterable<Achievement> findAchievements() throws DataAccessException {
-		return achievementRepository.findAll();
+	public List<Achievement> findAchievements() throws DataAccessException {
+		return (List<Achievement>) achievementRepository.findAll();
 	}
 
 	/**
@@ -60,5 +61,4 @@ public class AchievementService {
     public Collection<Achievement> getAchievementByType(AchievementType achievementType) {
         return achievementRepository.findByType(achievementType);
     }
-
 }
