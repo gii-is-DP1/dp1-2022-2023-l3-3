@@ -24,6 +24,7 @@ public class StatisticController {
     public String showMyStatistics(ModelMap model, @ModelAttribute("logedUser") User logedUser) {
         model.put("user", logedUser);
         model.put("num_games_player", statisticService.numGamesNickname(logedUser.getNickname()));
+        model.put("num_turns_player", statisticService.numTurnsNickname(logedUser.getNickname()));
         return VIEWS_MY_STATISTICS;
     }
 
