@@ -30,16 +30,18 @@ public class GameService {
 
     @Transactional
     public Integer gameCount() {
-        return gameRepository.getNumOfGames();
+        return (int) gameRepository.count();
     }
 
     @Transactional 
-    public void initGame(Lobby lobby){
+    public Game initGame(Lobby lobby){
         Game game = new Game();
         game.setCreationDate(new Date(System.currentTimeMillis()));
         game.setLobby(lobby);
         game.setActive(true);
         gameRepository.save(game);
+        
+        return game;
     }
     
     @Transactional
@@ -48,8 +50,8 @@ public class GameService {
     }
 
     @Transactional
-    public Optional<Game> findGameByNickname(String nickname) {
-        return gameRepository.findGameByNickname(nickname);
+    public Optional<Game> findGameByNickname(String nickname, Boolean active) {
+        return gameRepository.findGameByNickname(nickname, active);
     }
 
     /**
@@ -61,12 +63,22 @@ public class GameService {
      */
     @Transactional
     public Boolean checkUserGameWithRounds(User logedUser) {
-        Optional<Game> game = gameRepository.findGameByNickname(logedUser.getNickname());
+        Optional<Game> game = gameRepository.findGameByNickname(logedUser.getNickname(), true);
         return game.isPresent() && roundService.checkRoundByGameId(game.get().getId());
      }
 
     @Transactional
     public List<Game> findGameActive(Boolean active) {
         return gameRepository.findGamesActive(active);
+    }
+
+    @Transactional
+    public void endGame(User logedUser) {
+        Optional<Game> game = gameRepository.findGameByNickname(logedUser.getNickname(), true);
+        if(game.isPresent()) {
+            game.get().setActive(false);
+            game.get().setEndingDate(new Date(System.currentTimeMillis()));
+            gameRepository.save(game.get());
+        }
     }
 }

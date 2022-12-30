@@ -36,7 +36,7 @@ public class LobbyService {
         
         for(int i = 0; i<RANDOM_STRING_LENGTH; i++) {
             Random randomGenerator = new Random();
-            char ch = CHAR_LIST.charAt(randomGenerator.nextInt(CHAR_LIST.length()-1));
+            char ch = CHAR_LIST.charAt(randomGenerator.nextInt(CHAR_LIST.length()));
             randomString.append(ch);
         }
         return randomString.toString();
@@ -47,7 +47,6 @@ public class LobbyService {
         lobbyRepository.save(lobby);
 	}
 
-    //No se usa en ningún lado
     @Transactional
     public List<Lobby> findAll() {
         return lobbyRepository.findAll();
@@ -73,11 +72,6 @@ public class LobbyService {
         }
     }
 
-    //No se usa en ningún lado
-    @Transactional
-	public Boolean checkUserLobbyByNickname(String name) {
-	    return lobbyRepository.findLobbyByNicknamePlayer(name)!=null;
-	}
 
     public Lobby createLobbyEntity(User user) {
 		Lobby lobby = new Lobby();
@@ -186,7 +180,7 @@ public class LobbyService {
         Lobby lobby = findLobbyByPlayerId(logedUser.getId());
         Boolean res;
         userNumber = lobby.getUsers().size();
-		if (userNumber != null && userNumber > minPlayers && userNumber < maxPlayers) {
+		if (userNumber != null && userNumber > minPlayers && userNumber <= maxPlayers) {
             res = false;
 		} else {res= true;}
         return res;

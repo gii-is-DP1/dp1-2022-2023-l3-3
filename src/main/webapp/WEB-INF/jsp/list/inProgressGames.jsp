@@ -28,7 +28,7 @@
 				<a class="btn btn-default" href='<spring:url value="/home" htmlEscape="true"/>'>Volver</a>
 			</div>
 		</div>
-		<h2><br/>Partidas finalizadas</h2>
+			<h2><br/>Partidas en curso</h2>
 		<div class="container">
 			<br/>
 			<c:if test="${message != null}">
@@ -52,14 +52,5 @@
 				</tr>
 			</c:forEach>
 		</table>
-		<!-- <nav aria-label="Page navigation example">
-			<ul class="pagination">
-				<c:if test="${valores-1>=0}">
-				<a class="btn btn-default" href="/controlPanel?valor=${valores - 1}"  >ANTERIOR</a>
-			</c:if><c:if test="${valores+1<=paginas}">
-			  	<a class="btn btn-default" href="/controlPanel?valor=${valores + 1}" >SIGUIENTE</a>
-			</c:if>
-			</ul>
-		</nav> -->
 	</body>
 </sevenislands:layout2>

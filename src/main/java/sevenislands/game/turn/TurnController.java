@@ -2,7 +2,6 @@ package sevenislands.game.turn;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -71,9 +70,9 @@ public class TurnController {
             return "redirect:/home";
         response.addHeader("Refresh", "1");
 
-        Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
+        Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname(), true);
         List<Island> islandList = islandService.findIslandsByGameId(game.get().getId());
-        if(turnService.endGame(game.get(),islandList)) return "game/endgame";
+        if(turnService.endGame(game.get())) return "redirect:/endGame";
         List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
                 .collect(Collectors.toList());
         Round round = roundList.get(roundList.size() - 1);
@@ -86,9 +85,9 @@ public class TurnController {
         model.put("player", logedUser);
         model.put("player_turn", lastTurn.getUser());
         model.put("dice", lastTurn.getDice());
-       model.put("IslasToChose", islasToChose);
-       model.put("NumIslands", islandList.size()); 
-       model.put("islandList", islandList);
+        model.put("IslasToChose", islasToChose);
+        model.put("NumIslands", islandList.size()); 
+        model.put("islandList", islandList);
         model.put("userList", userList);
         model.put("playerCardsMap", playerCardsMap);
 
@@ -110,7 +109,7 @@ public class TurnController {
             return "redirect:/home";
 
         try {
-            Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
+            Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname(), true);
             List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
                     .collect(Collectors.toList());
             Round round = roundList.get(roundList.size() - 1);
@@ -138,7 +137,7 @@ public class TurnController {
         if (lobbyService.checkUserNoLobby(logedUser))
             return "redirect:/home";
 
-        Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
+        Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname(), true);
         List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
                 .collect(Collectors.toList());
         Round round = roundList.get(roundList.size() - 1);
@@ -156,20 +155,18 @@ public class TurnController {
         if (lobbyService.checkUserNoLobby(logedUser))
             return "redirect:/home";
         try {
-            Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
+            Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname(), true);
             if (game.isPresent()) {
                 Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
                 List<User> userList = lobby.getUsers();
                 List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
-                        .collect(Collectors.toList());
+                        .collect(Collectors.toList());   
                 turnService.assignTurn(logedUser, game, userList, roundList);
                 return "redirect:/turn";
             } else
             
                 return "redirect:/home";
         } catch (Exception e) {
-            
-            System.out.println(e.getMessage());
             return "redirect:/home";
         }
     }
@@ -184,15 +181,13 @@ public class TurnController {
     }
 
     @RequestMapping(value ="/turn/chooseCard",method = RequestMethod.GET)
-        public String chooseCard(ModelMap model,@RequestParam Integer islaId,@RequestParam Integer NumCartasDelete, @ModelAttribute("logedUser") User logedUser){
-        Card cardAnadida=cardService.findCardById(islaId);
-        Optional<Game> game=gameService.findGameByNickname(logedUser.getNickname());
+    public String chooseCard(ModelMap model,@RequestParam Integer islaId,@RequestParam Integer NumCartasDelete, @ModelAttribute("logedUser") User logedUser){
+        Optional<Game> game=gameService.findGameByNickname(logedUser.getNickname(), true);
+        Card cardAnadida=islandService.findCardOfIsland(game.get().getId(),islaId).getCard();
         Map<Card, Integer> playerCardsMap = turnService.findPlayerCardsLastTurn(logedUser.getNickname());
-        if(NumCartasDelete.equals(0)){ 
+        if(NumCartasDelete.equals(0)){
             turnService.AnadirCarta(islaId,logedUser.getNickname());
-            System.out.println("========================1");
             turnService.refreshDesk(islaId, logedUser, game);
-            System.out.println("========================2");
             return "redirect:/turn/endTurn";
         }else{
             model.put("cardAnadida", cardAnadida);
@@ -201,15 +196,13 @@ public class TurnController {
             model.put("card", playerCardsMap);
             return "/game/chooseCard";
         }
-        
-    
     }
         
-        @RequestMapping(value="/delete/chooseCard/{idCard}",method = RequestMethod.GET)
-        public String deleteMyCard(@PathVariable("idCard") Integer id,@RequestParam Integer islaId,@RequestParam Integer NumCartasDelete,@ModelAttribute("logedUser") User logedUser){
-            turnService.DeleteCard(id, logedUser.getNickname());           
-            NumCartasDelete--;         
-            return "redirect:/turn/chooseCard?islaId="+islaId+"&NumCartasDelete="+NumCartasDelete;
-        }
+    @RequestMapping(value="/delete/chooseCard/{idCard}",method = RequestMethod.GET)
+    public String deleteMyCard(@PathVariable("idCard") Integer id,@RequestParam Integer islaId,@RequestParam Integer NumCartasDelete,@ModelAttribute("logedUser") User logedUser){
+        turnService.DeleteCard(id, logedUser.getNickname());           
+        NumCartasDelete--;         
+        return "redirect:/turn/chooseCard?islaId="+islaId+"&NumCartasDelete="+NumCartasDelete;
+    }
     
 }

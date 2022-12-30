@@ -27,7 +27,7 @@ public class TurnRepositoryTest {
 
     @Test
     public void TestFindTurnByNickname(){
-        List<Turn> turns = turnRepository.findTurnByNickname("player2");
+        List<Turn> turns = turnRepository.findTurnByNickname("player3");
         assertNotNull(turns);
     }  
 

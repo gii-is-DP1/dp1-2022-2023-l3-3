@@ -45,7 +45,6 @@ public class CardService {
             card.setTipo(c);
             card.setGame(game);
             cardRepository.save(card);
-           
         }
     }
 
@@ -61,8 +60,8 @@ public class CardService {
     }
 
     @Transactional
-    public Card findCardByTreasureName(Tipo tipo){
-        return cardRepository.findCardByTreasureName(tipo);
+    public Card findCardByTreasureName(Tipo tipo,Integer id){
+        return cardRepository.findCardByTreasureName(tipo,id);
     }
 
     @Transactional

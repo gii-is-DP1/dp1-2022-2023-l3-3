@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface RoundRepository extends CrudRepository<Round, Integer> {
 
+    public List<Round> findAll();
+    
     @Query("SELECT round FROM Round round WHERE round.game.id=?1")
     public List<Round> findRoundByGameId(Integer id) throws DataAccessException;
 }

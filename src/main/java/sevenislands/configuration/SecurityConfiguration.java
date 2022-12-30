@@ -35,8 +35,9 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/user/new").permitAll()
 				.antMatchers("/welcome").permitAll()
 				//.antMatchers("/login").permitAll()
-				//.antMatchers("/logout").hasAnyAuthority("player", "admin")
+				.antMatchers("/custom-logout").permitAll()
 				.antMatchers("/achievements").hasAnyAuthority("player")
+				.antMatchers("/myAchievements").hasAnyAuthority("player")
 				.antMatchers("/signup/**").permitAll()
 				.antMatchers("/session/**").permitAll()
 				.antMatchers("/admin/**").hasAnyAuthority("admin")
@@ -45,7 +46,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/home/**").hasAnyAuthority("player", "admin")
 				.antMatchers("/lobby/**").hasAnyAuthority("player")
 				.antMatchers("/join/**").hasAnyAuthority("player")
+				.antMatchers("/game/finished").hasAnyAuthority("admin")
+				.antMatchers("/game/InProgress").hasAnyAuthority("admin")
+				.antMatchers("/myStatistics").hasAnyAuthority("player")
 				.antMatchers("/game/**").hasAnyAuthority("player")
+				.antMatchers("/endGame").hasAnyAuthority("player")
 				.antMatchers("/turn/**").hasAnyAuthority("player")
 				.antMatchers("/controlPanel/**").hasAnyAuthority("admin")
 				.antMatchers("/delete/**").hasAnyAuthority("player")
@@ -58,6 +63,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.failureUrl("/login-error")
 				.and()
 				.logout()
+				.logoutUrl("/custom-logout")
 				.logoutSuccessUrl("/");
 		// Configuración para que funcione la consola de administración
 		// de la BD H2 (deshabilitar las cabeceras de protección contra
