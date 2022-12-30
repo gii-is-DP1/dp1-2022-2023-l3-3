@@ -5,27 +5,24 @@
 <%@ taglib prefix="sevenislands" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 
-<sevenislands:layout3 pageName="myAchievements">
+<sevenislands:layout3 pageName="ranking">
     <body style="background: url(resources/images/grafics/fondo1920x1080.jpg)">
         <a class="btn btn-default" href='<spring:url value="/home" htmlEscape="true"/>'>Volver</a>
-        <h2><br>Mis Logros</h2>
-        <h3>Nombre de Usuario: <c:out value="${user.nickname}"/></h3>
+        <h2><br>Ranking</h2>
 
         <table class="table table-striped">
 			<tr>
 				<th>Nombre</th>
-				<th>Fecha de obtención</th>
-				<th>Descripción</th>
+				<th>Puntuación total</th>
 			</tr>
-			<c:forEach items="${achievements}" var="achievement">
+			<c:forEach items="${rankings}" var="ranking">
 				<tr>
                     <td>
-                        <img src="/resources/images/grafics/${achievement.getFirst().badgeImage}" height="40" width="40">
-                        <c:out value="${achievement.getFirst().name}"/>
+                        <img src="/resources/images/avatars/${ranking.getFirst().avatar}" height="40" width="40">
+                        <c:out value="${ranking.getFirst().nickname}"/>
                     </td>
-					<td><c:out value="${achievement.getSecond()}"/></td>
-					<td><c:out value="${achievement.getFirst().description.replaceAll('LIMIT', achievement.getFirst().getThreshold())}"/></td>	
-				</tr>
+                    <td><c:out value="${ranking.getSecond()}"/></td>
+                </tr>
 			</c:forEach>
 		</table>
     </body>

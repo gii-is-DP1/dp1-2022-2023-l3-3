@@ -37,4 +37,5 @@ public class Achievement extends BaseEntity {
 
     @Column(name = "badge_image", nullable = false)
     private String badgeImage;
+    
 }

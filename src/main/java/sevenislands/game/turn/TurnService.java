@@ -28,7 +28,8 @@ import sevenislands.game.round.Round;
 import sevenislands.game.round.RoundService;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
-
+import sevenislands.punctuation.Punctuation;
+import sevenislands.punctuation.PunctuationService;
 import sevenislands.user.User;
 
 @Service
@@ -40,16 +41,18 @@ public class TurnService {
     private final LobbyService lobbyService;
     private final IslandService islandService;
     private final CardService cardService;
+    private final PunctuationService punctuationService;
 
     @Autowired
     public TurnService(TurnRepository turnRepository, GameService gameService, RoundService roundService,
-            LobbyService lobbyService, IslandService islandService,CardService cardService) {
+            LobbyService lobbyService, IslandService islandService,CardService cardService, PunctuationService punctuationService) {
         this.turnRepository = turnRepository;
         this.gameService = gameService;
         this.roundService = roundService;
         this.lobbyService = lobbyService;
         this.islandService = islandService;
         this.cardService = cardService;
+        this.punctuationService = punctuationService;
     }
 
     // No se usa en ningún lado
@@ -209,12 +212,12 @@ public class TurnService {
     @Transactional
     public void checkUserGame(User logedUser) throws NotExistLobbyException {
         try {
-            if (gameService.findGameByNickname(logedUser.getNickname(), true).isPresent()) {
+            if (gameService.findGameByNicknameAndActive(logedUser.getNickname(), true).isPresent()) {
 
                 // TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que
                 // existe
                 Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
-                Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname(), true);
+                Optional<Game> game = gameService.findGameByNicknameAndActive(logedUser.getNickname(), true);
                 List<User> userList = lobby.getPlayerInternal();
                 List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
                         .collect(Collectors.toList());
@@ -269,7 +272,7 @@ public class TurnService {
     public void AnadirCarta(Integer id,String nickname){
         Turn lastPlayerTurn = turnRepository.findTurnByNickname(nickname).get(0);
         List<Card> cartasLastTurn=lastPlayerTurn.getCards();
-        Optional<Game> game=gameService.findGameByNickname(nickname, true);
+        Optional<Game> game=gameService.findGameByNicknameAndActive(nickname, true);
         Island island=islandService.findCardOfIsland(game.get().getId(),id);
         Card card=cardService.findCardById(island.getCard().getId());
         cartasLastTurn.add(card);
@@ -313,12 +316,12 @@ public class TurnService {
 
     @Transactional
     public User findWinner(User logedUser) {
-        Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname(), true);
-        User winner = null;
-        Integer winnerPoints = -1;
-        Integer winnerDoblons = -1;
+        Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
         Integer userPoints = 0;
         Integer doblons = 0;
+        User winner = null;
+        Integer winnerPoints = -1;
+        Integer winnerDoblon = -1;
         List<Integer> pointsList = List.of(1,3,7,13,21,30,40,50,60);
         if(game.isPresent()) {
             for(User user : game.get().getLobby().getUsers()) {
@@ -339,14 +342,27 @@ public class TurnService {
                     userPoints += multiplicity*pointsList.get(listKeys.size()-listKeys.indexOf(card)-1);
                 }
 
-                if(userPoints>winnerPoints || (userPoints == winnerPoints && doblons>winnerDoblons)) {
-                    winnerPoints = userPoints;
+                if(userPoints > winnerPoints || (userPoints == winnerPoints && doblons > winnerDoblon)) {
                     winner = user;
-                    winnerDoblons = doblons;
+                    winnerPoints = userPoints;
+                    winnerDoblon = doblons;
+                }
+
+                if(!punctuationService.checkPunctuationByGameAndUser(game.get(), user)) {
+                    Punctuation punctuation = new Punctuation();
+                    punctuation.setGame(game.get());
+                    punctuation.setUser(user);
+                    punctuation.setPunctuation(userPoints);
+                    punctuationService.save(punctuation);
                 }
             }
         }
         return winner;
+    }
+
+    @Transactional
+    public Integer findTotalTurnsByNickname(String nickname) {
+        return turnRepository.totalTurnsByNickname(nickname);
     }
 
 

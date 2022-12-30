@@ -70,6 +70,22 @@ body {
                 <img class="img_home" src="/resources/images/avatars/${winner.avatar}">
                 <h1>${winner.nickname}</h1>
             </div>
+            <table class="table table-striped">
+                <tr>
+                    <th>Nombre</th>
+                    <th>Puntuación</th>
+                </tr>
+                <c:forEach items="${players}" var="player">
+                    <tr>
+                        <td>
+                            <img src="/resources/images/avatars/${player.getFirst().avatar}" height="40" width="40">
+                            <c:out value="${player.getFirst().nickname}"/>
+                        </td>
+                        <td><c:out value="${player.getSecond()}"/></td>
+                    </tr>
+                </c:forEach>
+            </table>
+
         </div>
     </body>
 </sevenislands:home>

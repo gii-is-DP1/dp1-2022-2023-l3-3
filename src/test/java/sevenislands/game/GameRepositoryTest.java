@@ -3,8 +3,6 @@ package sevenislands.game;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -16,8 +14,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyRepository;
+
+import sevenislands.register.RegisterRepository;
 import sevenislands.user.User;
 import sevenislands.user.UserRepository;
 import sevenislands.user.UserService;
@@ -32,6 +33,9 @@ public class GameRepositoryTest {
     UserRepository userRepository;
     @Autowired
     LobbyRepository lobbyRepository;
+
+    @Autowired
+    RegisterRepository registerRepository;
 
     UserService userService;
     List<User> users;
@@ -65,7 +69,7 @@ public class GameRepositoryTest {
 
     @Test
     public void TestFindLobbyByNicknameSuccess(){
-        Optional<Game> game = gameRepository.findGameByNickname(users.get(0).getNickname(),true);
+        Optional<Game> game = gameRepository.findGameByNicknameAndActive(users.get(0).getNickname(),true);
         assertNotNull(game);
     }  
 
@@ -75,7 +79,5 @@ public class GameRepositoryTest {
        assertNotEquals(0, gamesList.size());
        assertEquals(0, gamesList.stream().filter(g -> g.isActive() == false).collect(Collectors.toList()).size());
     }
-
-    
 
 }

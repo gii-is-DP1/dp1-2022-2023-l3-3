@@ -66,43 +66,8 @@ public class User extends BaseEntity {
 	@Column(name = "type", unique = false, updatable = false)
 	protected String userType;
 
-	@ManyToMany
-	@JoinColumn(name = "achievements")
-    private Collection<Achievement> achievements;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
     private Set<Turn> turns;
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((achievements == null) ? 0 : achievements.hashCode());
-        result = prime * result + ((turns == null) ? 0 : turns.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        User other = (User) obj;
-        if (achievements == null) {
-            if (other.achievements != null)
-                return false;
-        } else if (!achievements.equals(other.achievements))
-            return false;
-        if (turns == null) {
-            if (other.turns != null)
-                return false;
-        } else if (!turns.equals(other.turns))
-            return false;
-        return true;
-    }
-
-    
+ 
 }
