@@ -86,4 +86,9 @@ public class GameService {
             gameRepository.save(game.get());
         }
     }
+
+    @Transactional
+    public Integer findTotalGamesPlayedByNickname(String nickname) {
+        return gameRepository.totalGamesPlayedByNickname(nickname);
+    }
 }

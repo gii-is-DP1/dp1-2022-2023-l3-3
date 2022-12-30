@@ -60,7 +60,7 @@
 				<tr>
 					<td><a href="/controlPanel/edit/${user.id}"><img src="/resources/images/icons/editIcon.png" height="30" width="30"></a></td>
 					<td><img src="/resources/images/avatars/${user.avatar}" height="25" width="25"></td>
-					<td><c:out value="${user.nickname}"/></td>
+					<td><a href="/controlPanel/details/${user.id}"><c:out value="${user.nickname}"/></a></td>
 					<td><c:out value="${user.firstName}"/></td>
 					<td><c:out value="${user.lastName}"/></td>
 					<td><c:out value="${user.email}"/></td>
