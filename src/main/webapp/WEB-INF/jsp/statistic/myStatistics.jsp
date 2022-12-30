@@ -26,7 +26,7 @@
             <h3>Nº de Partidas Jugadas: <c:out value="${num_games_player}"/></h3>
             <h3>Duración de las Partidas Jugadas:</h3>
             <h3>Puntos Totales:</h3>
-            <h3>Turnos Totales:</h3>
+            <h3>Turnos Totales: <c:out value="${num_turns_player}"/></h3>
         </div>
     </body>
 </sevenislands:layout3>
