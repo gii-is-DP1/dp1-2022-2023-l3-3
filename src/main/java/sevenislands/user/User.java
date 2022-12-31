@@ -1,6 +1,5 @@
 package sevenislands.user;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
@@ -8,8 +7,6 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -18,7 +15,6 @@ import javax.validation.constraints.Past;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import sevenislands.achievement.Achievement;
 import sevenislands.game.turn.Turn;
 import sevenislands.model.BaseEntity;
 

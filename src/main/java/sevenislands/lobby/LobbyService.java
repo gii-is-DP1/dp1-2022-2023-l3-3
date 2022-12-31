@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import sevenislands.exceptions.NotExistLobbyException;
+import sevenislands.game.Game;
+import sevenislands.game.GameService;
 import sevenislands.user.User;
 
 
@@ -17,12 +19,15 @@ import sevenislands.user.User;
 public class LobbyService {
     
     private LobbyRepository lobbyRepository;
+    private GameService gameService;
+
     private final Integer minPlayers = 1;
     private final Integer maxPlayers = 4;
 
     @Autowired
-    public LobbyService(LobbyRepository lobbyRepository){
+    public LobbyService(LobbyRepository lobbyRepository, GameService gameService) {
         this.lobbyRepository=lobbyRepository;
+        this.gameService = gameService;
     }
 
     /**
@@ -64,9 +69,10 @@ public class LobbyService {
 
     @Transactional
     public  Lobby findLobbyByPlayerId(Integer user_id) throws NotExistLobbyException {
-        Optional<Lobby> lobby = lobbyRepository.findByPlayerId(user_id);
-        if(lobby.isPresent()){
-            return lobbyRepository.findByPlayerId(user_id).get();
+        Optional<List<Lobby>> lobbyList = lobbyRepository.findByPlayerId(user_id);
+        if(lobbyList.isPresent()){
+            Lobby lobby = lobbyList.get().get(0);
+            return lobby;
         } else {
             throw new NotExistLobbyException();
         }
@@ -90,7 +96,9 @@ public class LobbyService {
     @Transactional
     public void leaveLobby(User user) throws NotExistLobbyException {
 		
-            Lobby lobby = findLobbyByPlayerId(user.getId());
+        Lobby lobby = findLobbyByPlayerId(user.getId());
+        Optional<Game> game = gameService.findGameByNickname(user.getNickname());
+		if(lobby.isActive() || (game.isPresent() && game.get().isActive())) {
             List<User> users = lobby.getPlayerInternal();
 		if (users.size() == minPlayers) {
 			lobby.setActive(false);
@@ -98,8 +106,7 @@ public class LobbyService {
 		users.remove(user);
 		lobby.setUsers(users);
 		save(lobby);
-        
-       
+        }
     }
 
     @Transactional
@@ -169,8 +176,10 @@ public class LobbyService {
      * @throws ServletException
      */
     @Transactional
-    public Boolean checkUserNoLobby(User loggedUser) {
-        return lobbyRepository.findByPlayerId(loggedUser.getId()).isEmpty();
+    public Boolean checkUserLobby(User logedUser) {
+        Optional<List<Lobby>> lobby = lobbyRepository.findLobbyActive(true,logedUser.getId());
+        if(lobby.isPresent()) return true;
+        return false;
     }
 
     @Transactional

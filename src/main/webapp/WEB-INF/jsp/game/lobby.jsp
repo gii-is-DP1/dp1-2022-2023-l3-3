@@ -116,7 +116,7 @@ tr:nth-child(odd) {
                 <div>
                     <br />
                     <a class="btn btn-default" id="leave_game"
-                        href='<spring:url value="/lobby/leave" htmlEscape="true"/>'>Abandonar Partida</a>
+                        href='<spring:url value="/home" htmlEscape="true"/>'>Abandonar Partida</a>
                 </div>
             </div>
             <div id="player_list">

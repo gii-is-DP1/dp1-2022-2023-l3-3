@@ -41,7 +41,7 @@ public class LobbyController {
 	public String joinLobby(HttpServletRequest request, ModelMap model, @ModelAttribute("logedUser") User logedUser, HttpServletResponse response) 
 	throws NotExistLobbyException, ServletException {
 		if(userService.checkUserNoExists(request)) return "redirect:/";
-		if(lobbyService.checkUserNoLobby(logedUser)) return "redirect:/home";
+		if(!lobbyService.checkUserLobby(logedUser) && !gameService.checkUserGame(logedUser)) return "redirect:/home";
 		response.addHeader("Refresh", "1");
 		try {
 			Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
@@ -62,7 +62,8 @@ public class LobbyController {
 
 	@GetMapping("/lobby/create")
 	public String createLobby(HttpServletRequest request, @ModelAttribute("logedUser") User logedUser) throws ServletException {
-		if(!lobbyService.checkUserNoLobby(logedUser)) return "redirect:/home";
+		if(lobbyService.checkUserLobby(logedUser)) return "redirect:/home";
+		if(gameService.checkUserGame(logedUser)) return "redirect:/home";
 		lobbyService.createLobby(logedUser);
 		return "redirect:/lobby";
 	}
@@ -90,22 +91,14 @@ public class LobbyController {
 		return "views/join";
 		
 	}
-
-	@GetMapping("/lobby/leave")
-	public String leaveLobby(@ModelAttribute("logedUser") User logedUser)  {
-		try {
-			lobbyService.leaveLobby(logedUser);
-		} catch (NotExistLobbyException e) {
-			e.printStackTrace();
-			return "redirect:/home";
-		}
-		return "redirect:/home";
-	}
 	
 	@GetMapping("/lobby/delete/{idEjectedUser}")
 	public String ejectPlayer(@ModelAttribute("logedUser") User logedUser, @PathVariable("idEjectedUser") Integer id) throws Exception {
 		Optional<User> userEjected = userService.findUserById(id);
 		try {
+			Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
+			User host = lobby.getUsers().get(0);
+			if(!host.equals(logedUser)) return "redirect:/lobby";
 			if(userEjected.isPresent() && lobbyService.ejectPlayer(logedUser, userEjected.get())) return "redirect:/lobby";
 			else return "redirect:/home";
 		} catch (Exception e) {
