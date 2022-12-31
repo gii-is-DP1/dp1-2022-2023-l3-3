@@ -6,8 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import sevenislands.game.Game;
-
 @Repository
 public interface PunctuationRepository extends CrudRepository<Punctuation, Integer>{
 

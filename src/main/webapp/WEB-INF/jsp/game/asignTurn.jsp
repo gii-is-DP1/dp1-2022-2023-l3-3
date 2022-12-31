@@ -47,7 +47,7 @@
         <div id="content">
             <div id="header">
                 <div>
-                    <a class="btn btn-default" href="<spring:url value='/home' htmlEscape='true'/>">ABANDONAR PARTIDA</a>
+                    <a class="btn btn-default" href="<spring:url value='/home' htmlEscape='true'/>">Abandonar Partida</a>
                 </div>
                 <div id="header_text">
                     <h1 id="text">Sé el más rápido en darle al botón y empieza tirando</h1>

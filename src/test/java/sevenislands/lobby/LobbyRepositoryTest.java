@@ -37,7 +37,7 @@ public class LobbyRepositoryTest {
 
     @BeforeEach
     public void config(){
-        userService = new UserService(null, null, null, null, userRepository);
+        userService = new UserService(null, null, null, null, userRepository, null);
         IntStream.range(0, 3).forEach(i -> {
             userRepository.save(userService.createUser(10000+i, "playerTest"+i, "EmailTest"+i+"@gmail.com"));
         });
@@ -82,7 +82,7 @@ public class LobbyRepositoryTest {
 
     @Test
     public void TestFindAllActiveLobby(){
-        List<Lobby> lobby=lobbyRepository.findLobbyActive(true,lobbyTest.getUsers().get(0).getId());
+        List<Lobby> lobby=lobbyRepository.findLobbyActive(true,lobbyTest.getUsers().get(0).getId()).get();
         assertFalse(lobby.isEmpty());
     }
 

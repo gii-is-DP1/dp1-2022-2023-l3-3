@@ -20,13 +20,10 @@ public class AchievementController {
     private static final String VIEWS_ACHIEVEMENTS_LISTING = "achievements/achievementsListing";
     private static final String VIEWS_MY_ACHIEVEMENTS_LISTING = "achievements/myAchievementsListing";
 
-
-    private final AchievementService achievementService;
     private final RegisterService registerService;
 
     @Autowired
-    public AchievementController (AchievementService achievementService, RegisterService registerService) {
-        this.achievementService = achievementService;
+    public AchievementController (RegisterService registerService) {
         this.registerService = registerService;
     }
 
