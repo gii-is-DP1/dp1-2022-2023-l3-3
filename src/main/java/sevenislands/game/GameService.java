@@ -50,13 +50,30 @@ public class GameService {
     }
 
     @Transactional
+    public Optional<List<Game>> findGamesByNicknameAndActive(String nickname, Boolean active) {
+        Optional<List<Game>> gameList = gameRepository.findGameByNicknameAndActive(nickname, active);
+        if(gameList.isPresent()) {
+            return gameList;
+        }
+        return Optional.empty();
+    }
+
+    @Transactional
     public Optional<Game> findGameByNicknameAndActive(String nickname, Boolean active) {
-        return gameRepository.findGameByNicknameAndActive(nickname, active);
+        Optional<List<Game>> gameList = gameRepository.findGameByNicknameAndActive(nickname, active);
+        if(gameList.isPresent()) {
+            return Optional.of(gameList.get().get(0));
+        }
+        return Optional.empty();
     }
 
     @Transactional
     public Optional<Game> findGameByNickname(String nickname) {
-        return gameRepository.findGameByNickname(nickname).get(0);
+        Optional<List<Game>> games = gameRepository.findGameByNickname(nickname);
+        if(games.isPresent()) {
+            return Optional.of(games.get().get(0));
+        }
+        return Optional.empty();
     }
 
     /**
@@ -68,7 +85,7 @@ public class GameService {
      */
     @Transactional
     public Boolean checkUserGameWithRounds(User logedUser) {
-        Optional<Game> game = gameRepository.findGameByNicknameAndActive(logedUser.getNickname(), true);
+        Optional<Game> game = findGameByNicknameAndActive(logedUser.getNickname(), true);
         return game.isPresent() && roundService.checkRoundByGameId(game.get().getId());
      }
 
@@ -79,11 +96,23 @@ public class GameService {
 
     @Transactional
     public void endGame(User logedUser) {
-        Optional<Game> game = gameRepository.findGameByNicknameAndActive(logedUser.getNickname(), true);
+        Optional<Game> game = findGameByNicknameAndActive(logedUser.getNickname(), true);
         if(game.isPresent()) {
             game.get().setActive(false);
             game.get().setEndingDate(new Date(System.currentTimeMillis()));
             gameRepository.save(game.get());
         }
+    }
+
+    @Transactional
+    public Integer findTotalGamesPlayedByNickname(String nickname) {
+        return gameRepository.totalGamesPlayedByNickname(nickname);
+    }
+
+    @Transactional
+    public Boolean checkUserGame(User logedUser) {
+        Optional<Game> game = findGameByNickname(logedUser.getNickname());
+        if(game.isPresent() && game.get().isActive()) return true;
+        return false;
     }
 }

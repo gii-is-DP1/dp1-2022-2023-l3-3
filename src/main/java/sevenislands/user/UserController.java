@@ -1,6 +1,7 @@
 package sevenislands.user;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -13,8 +14,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.util.Pair;
 
+import sevenislands.achievement.Achievement;
 import sevenislands.exceptions.NotExitPlayerException;
+import sevenislands.game.GameService;
+import sevenislands.punctuation.PunctuationService;
+import sevenislands.register.RegisterService;
 import sevenislands.tools.metodosReutilizables;
 
 import org.springframework.stereotype.Controller;
@@ -34,12 +40,18 @@ public class UserController {
 	private static final String VIEWS_PLAYER_UPDATE_FORM = "views/updateUserForm";
 
 	private final UserService userService;
+	private final GameService gameService;
+	private final RegisterService registerService;
+	private final PunctuationService punctuationService;
 
 	private final Integer tamanoPaginacion=5;
 
 	@Autowired
-	public UserController(UserService userService) {
+	public UserController(UserService userService, GameService gameService, RegisterService registerService, PunctuationService punctuationService) {
 		this.userService = userService;
+		this.gameService = gameService;
+		this.registerService = registerService;
+		this.punctuationService = punctuationService;
 	}
 
 	@GetMapping("/settings")
@@ -237,7 +249,29 @@ public class UserController {
 			model.put("enabledValues", List.of(Boolean.valueOf(user.isEnabled()).toString(), Boolean.valueOf(!user.isEnabled()).toString()));
 			return "admin/editUser";
 		}
-		
+	}
+
+	@GetMapping("/controlPanel/details/{idUserDetailed}")
+	public String detailsUser(ModelMap model, @PathVariable("idUserDetailed") Integer id) {
+		Optional<User> userDetailed = userService.findUserById(id);
+		if(userDetailed.isPresent()) {
+			String nickname = userDetailed.get().getNickname();
+			Integer totalGamesPlayed = gameService.findTotalGamesPlayedByNickname(nickname);
+			//Integer totalHoursPlayed = gameService.findTotalHoursPlayedByNickname(nickname);
+			Long totalPoints = punctuationService.findPunctuationByNickname(nickname);
+			//Integer totalTurns = gameService.findTotalTurnsByNickname(nickname);
+
+			List<Pair<Achievement, Date>> registers = registerService.findRegistersByNickname(nickname).stream()
+			.map(r -> Pair.of((Achievement)r[0], (Date)r[1])).collect(Collectors.toList());
+
+			model.put("totalGamesPlayed", totalGamesPlayed);
+			//model.put("totalHoursPlayed", totalHoursPlayed);
+			model.put("totalPoints", totalPoints);
+			//model.put("totalTurns", totalTurns);
+			model.put("achievements", registers);
+			model.put("user", userDetailed.get());
+			return "admin/detailsUser";
+		} else return "redirect:/controlPanel/?valor=0";
 	}
 
 }
