@@ -3,6 +3,10 @@ package sevenislands.achievement;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
+
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -61,4 +65,26 @@ public class AchievementService {
     public Collection<Achievement> getAchievementByType(AchievementType achievementType) {
         return achievementRepository.findByType(achievementType);
     }
+
+
+	@Transactional
+	public List<Achievement> findAll(){
+		return StreamSupport.stream(achievementRepository.findAll().spliterator(), false).collect(Collectors.toList());
+	}
+
+	@Transactional
+    public void updateAchievement(Achievement NewAchievement,String id) {
+    
+	try {
+		Achievement oldAchievement=achievementRepository.findById(Integer.valueOf(id)).get();
+		oldAchievement.setName(NewAchievement.getName());
+		oldAchievement.setAchievementType(NewAchievement.getAchievementType());
+		oldAchievement.setThreshold(NewAchievement.getThreshold());
+		saveAchievement(oldAchievement);
+	} catch (Exception e) {
+		throw e;
+	}
+	
+
+	}
 }

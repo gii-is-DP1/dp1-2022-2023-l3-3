@@ -163,6 +163,9 @@
 				<sec:authorize access="hasAuthority('admin')">
 					<a class="btn btn-default" href='<spring:url value="/controlPanel?valor=0" htmlEscape="true"/>'>Panel de Control</a>
 				</sec:authorize>
+				<sec:authorize access="hasAuthority('admin')">
+					<a class="btn btn-default" href='<spring:url value="/controlAchievements" htmlEscape="true"/>'>Panel de logros</a>
+				</sec:authorize>
 		
 				<sec:authorize access="hasAuthority('admin')">
 					<br/>
