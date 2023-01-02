@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 
 import sevenislands.game.GameService;
 import sevenislands.game.turn.TurnService;
+import sevenislands.punctuation.PunctuationService;
 import sevenislands.user.User;
 
 @Controller
@@ -17,11 +18,13 @@ public class StatisticController {
 
     private final GameService gameService;
     private final TurnService turnService;
+    private final PunctuationService punctuationService;
 
     @Autowired
-    public StatisticController(GameService gameService, TurnService turnService) {
+    public StatisticController(GameService gameService, TurnService turnService, PunctuationService punctuationService) {
         this.gameService = gameService;
         this.turnService = turnService;
+        this.punctuationService = punctuationService;
     }
 
     @GetMapping("/myStatistics")
@@ -30,6 +33,7 @@ public class StatisticController {
         model.put("num_games_player", gameService.findTotalGamesPlayedByNickname(logedUser.getNickname()));
         model.put("num_turns_player", turnService.findTotalTurnsByNickname(logedUser.getNickname()));
         model.put("total_time_played", gameService.findTotalTimePlayed(logedUser.getNickname()));
+        model.put("total_points_player", punctuationService.findPunctuationByNickname(logedUser.getNickname()));
         return VIEWS_MY_STATISTICS;
     }
 
