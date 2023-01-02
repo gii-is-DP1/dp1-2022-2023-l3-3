@@ -2,7 +2,7 @@ package sevenislands.island;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -53,7 +53,7 @@ public class IslandRepositoryTest {
         Island island = new Island();
         Card card = new Card();
         Game game = new Game();
-        game.setCreationDate(new Date(System.currentTimeMillis()));
+        game.setCreationDate(LocalDateTime.now());
         game.setLobby(lobby);
         card.setMultiplicity(4);
         card.setTipo(Tipo.Caliz);

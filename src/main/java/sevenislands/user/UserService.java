@@ -25,7 +25,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import sevenislands.exceptions.NotExistLobbyException;
-import sevenislands.game.Game;
 import sevenislands.game.GameService;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;

@@ -1,13 +1,10 @@
 package sevenislands.lobby;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,7 +16,6 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.user.User;
 import sevenislands.user.UserService;
-import sevenislands.user.UserServiceTest;
 
 
 @DataJpaTest
