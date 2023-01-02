@@ -56,8 +56,8 @@ public class GameController {
     @GetMapping("/game")
     public String createGame(HttpServletRequest request, @ModelAttribute("logedUser") User logedUser, HttpServletResponse response) throws Exception {
         if(userService.checkUserNoExists(request)) return VIEW_WELCOME;
-        if(lobbyService.checkUserNoLobby(logedUser)) return VIEWS_HOME;
-        if(lobbyService.checkLobbyNoAllPlayers(logedUser)) return VIEWS_LOBBY;
+        if(!lobbyService.checkUserLobby(logedUser) && !gameService.checkUserGame(logedUser)) return VIEWS_HOME;
+        if(lobbyService.checkLobbyNoAllPlayers(logedUser)) return "redirect:/home";
         if(gameService.checkUserGameWithRounds(logedUser)) return VIEWS_TURN;
         response.addHeader("Refresh", "5");
        try {
@@ -74,11 +74,14 @@ public class GameController {
 
     @GetMapping("/endGame")
     public String endGame(ModelMap model, @ModelAttribute("logedUser") User logedUser){
+        System.out.println("endGame=================================="+ logedUser.getNickname());
         Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
         if(game.isPresent() && game.get().isActive()) {
+            System.out.println("2endGame=================================="+ logedUser.getNickname());
             if(!turnService.endGame(game.get())) return "redirect:/turn";
             if(game.get().getEndingDate()==null) gameService.endGame(logedUser);
         }
+        System.out.println("3endGame=================================="+ logedUser.getNickname());
 
         User winner = turnService.findWinner(logedUser);
 
@@ -107,10 +110,8 @@ public class GameController {
 
     @GetMapping("/game/gamesAsPlayer")
     public String listGamesAsPlayer(ModelMap model, @ModelAttribute("logedUser") User logedUser) {
-        List<Game> games = gameService.findGameByNicknameAndActive(logedUser.getNickname(), false).stream().collect(Collectors.toList());
-        model.put("games", games);
+        Optional<List<Game>> gameList = gameService.findGamesByNicknameAndActive(logedUser.getNickname(), false);
+        if(gameList.isPresent()) model.put("games", gameList.get());
         return VIEWS_GAMES_AS_PLAYER;
     }
-
-    
 }

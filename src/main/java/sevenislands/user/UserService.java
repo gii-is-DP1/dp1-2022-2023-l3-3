@@ -25,6 +25,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import sevenislands.exceptions.NotExistLobbyException;
+import sevenislands.game.Game;
+import sevenislands.game.GameService;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
 
@@ -36,14 +38,16 @@ public class UserService {
 	private SessionRegistry sessionRegistry;
 	private LobbyService lobbyService;
 	private AuthenticationManager authenticationManager;
+	private GameService gameService;
 
 	@Autowired
-	public UserService(AuthenticationManager authenticationManager, LobbyService lobbyService, SessionRegistry sessionRegistry, PasswordEncoder passwordEncoder, UserRepository userRepository) {
+	public UserService(AuthenticationManager authenticationManager, LobbyService lobbyService, SessionRegistry sessionRegistry, PasswordEncoder passwordEncoder, UserRepository userRepository, GameService gameService) {
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.sessionRegistry = sessionRegistry;
 		this.lobbyService = lobbyService;
 		this.authenticationManager = authenticationManager;
+		this.gameService = gameService;
 	}
 	//que es esta funcion
 	public User createUser(Integer id, String nickname,String email) {
@@ -216,20 +220,11 @@ public class UserService {
      */
 	@Transactional
     public Boolean checkUser(HttpServletRequest request, User logedUser) throws NotExistLobbyException, ServletException {
-		Boolean res;
+		Boolean res = true;
 		try {
 		if(logedUser!=null && logedUser.isEnabled()) {
-			Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
-    
-                List<User> users = lobby.getPlayerInternal();
-                if (users.size() == 1) {
-                    lobby.setActive(false);
-                }
-                users.remove(logedUser);
-                lobby.setUsers(users);
-                lobbyService.save(lobby);
-            
-            res = false;
+			lobbyService.leaveLobby(logedUser);
+			res = false;
         } else {
             request.getSession().invalidate();
             request.logout();
@@ -241,23 +236,6 @@ public class UserService {
 		return res;
 	   }
     }
-
-	@Transactional
-    public Boolean checkUser2(HttpServletRequest request, User logedUser) throws NotExistLobbyException, ServletException {
-		Boolean res = false;
-		try {
-		if(logedUser!=null && !logedUser.isEnabled()) {
-            request.getSession().invalidate();
-            request.logout();
-            res = true;
-        }
-		return res;
-	   } catch (Exception e) {
-		res = false;
-		return res;
-	   }
-    }
-
 
 	@Transactional
 	public void addUser(User user, Boolean isAdmin, AuthenticationManager authenticationManager, HttpServletRequest request){

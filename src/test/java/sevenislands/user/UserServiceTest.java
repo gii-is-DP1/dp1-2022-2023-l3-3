@@ -31,7 +31,7 @@ public class UserServiceTest {
     @BeforeEach
     public void config() {
         userService = new UserService(null, null,
-         null, null, mock);
+         null, null, mock, null);
         user = userService.createUser(1, "prueba", "prueba@sevenislands.com");
         
         usersRepo.add(user);
@@ -60,7 +60,7 @@ public class UserServiceTest {
     @Test
     public void findByIdTest(){
         user = userService.createUser(1, "prueba", "prueba@sevenislands.com");
-        UserService userService = new UserService(null, null,null,null, mock);
+        UserService userService = new UserService(null, null,null,null, mock, null);
         when(mock.findById(1)).thenReturn(Optional.of(user));
         assertEquals(user, userService.findUserById(1).get());
         assertEquals(null, userService.findUserById(2).orElse(null));
@@ -70,7 +70,7 @@ public class UserServiceTest {
     @Test
     public void findByEmailTest(){
         user = userService.createUser(1, "prueba", "prueba@sevenislands.com");
-        UserService userService = new UserService(null, null,null,null, mock);
+        UserService userService = new UserService(null, null,null,null, mock, null);
         when(mock.findByEmail("prueba@sevenislands.com")).thenReturn(Optional.of(user));
         assertEquals(user, userService.findUserByEmail("prueba@sevenislands.com"));
         assertEquals(null, userService.findUserByEmail("pruebaMal@sevenislands.com"));
@@ -80,7 +80,7 @@ public class UserServiceTest {
     @Test
     public void findAllTest(){
         user = userService.createUser(1, "prueba", "prueba@sevenislands.com");
-        UserService userService = new UserService(null, null,null,null, mock);
+        UserService userService = new UserService(null, null,null,null, mock, null);
         when(mock.findAll()).thenReturn(usersRepo);
         assertEquals(usersRepo, userService.findAll());
     }
@@ -88,7 +88,7 @@ public class UserServiceTest {
     @Test
     public void checkersTest(){
         user = userService.createUser(1, "prueba", "prueba@sevenislands.com");
-        UserService userService = new UserService(null, null,null,null, mock);
+        UserService userService = new UserService(null, null,null,null, mock, null);
         when(mock.checkUserEmail("prueba@sevenislands.com")).thenReturn(true);
         when(mock.checkUserEmail("pruebaFalso@sevenislands.com")).thenReturn(false);
 

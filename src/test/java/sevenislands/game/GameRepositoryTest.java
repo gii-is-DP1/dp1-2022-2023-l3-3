@@ -43,7 +43,7 @@ public class GameRepositoryTest {
 
     @BeforeEach
     public void config(){
-        userService = new UserService(null, null, null, null, userRepository);
+        userService = new UserService(null, null, null, null, userRepository, null);
         IntStream.range(0, 3).forEach(i -> {
             userRepository.save(userService.createUser(10000+i, "playerTest"+i, "EmailTest"+i+"@gmail.com"));
         });
@@ -70,7 +70,7 @@ public class GameRepositoryTest {
 
     @Test
     public void TestFindLobbyByNicknameSuccess(){
-        Optional<Game> game = gameRepository.findGameByNicknameAndActive(users.get(0).getNickname(),true);
+        Optional<List<Game>> game = gameRepository.findGameByNicknameAndActive(users.get(0).getNickname(),true);
         assertNotNull(game);
     }  
 

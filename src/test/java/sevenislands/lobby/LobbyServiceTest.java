@@ -30,8 +30,8 @@ public class LobbyServiceTest {
 
     @BeforeEach
     public void config(){
-        LobbyService lobbyService = new LobbyService(lobbyRepository);
-        userService = new UserService(null, lobbyService, null, null, null);
+        LobbyService lobbyService = new LobbyService(lobbyRepository, null);
+        userService = new UserService(null, lobbyService, null, null, null, null);
         User user1 = userService.createUser(1, "user1Test", "user1Test@gmail.com");
         User user2 = userService.createUser(2, "user2Test", "user2Test@gmail.com");
         User user3 = userService.createUser(3, "user3Test", "user3Test@gmail.com");
@@ -51,15 +51,15 @@ public class LobbyServiceTest {
 
     @Test
     public void numPartidasTest(){
-        LobbyService lobbyService = new LobbyService(lobbyRepository);
+        LobbyService lobbyService = new LobbyService(lobbyRepository, null);
         Integer numberOfLobbys = lobbyService.findAll().size();
         assertEquals(2, numberOfLobbys);
     }
 
     @Test
     public void findLobbyByPlayerIdAndLobbyId() throws NotExistLobbyException {
-        when(lobbyRepository.findByPlayerId(1)).thenReturn(Optional.of(listaLobby.get(0)));
-        LobbyService lobbyService = new LobbyService(lobbyRepository);
+        when(lobbyRepository.findByPlayerId(1)).thenReturn(Optional.of(listaLobby));
+        LobbyService lobbyService = new LobbyService(lobbyRepository, null);
         assertEquals(listaLobby.get(0).getCode(), lobbyService.findLobbyByPlayerId(1).getCode());
         assertThrows(NotExistLobbyException.class,() ->lobbyService.findLobbyByCode("fgcvcjcljhdbla.kv"));
     }

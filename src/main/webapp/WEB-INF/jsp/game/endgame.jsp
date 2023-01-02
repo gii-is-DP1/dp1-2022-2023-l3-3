@@ -52,7 +52,7 @@ body {
             <div id="menu">
                 <div>
                     <a class="btn btn-default" id="leave_game"
-                        href='<spring:url value="/lobby/leave" htmlEscape="true"/>'>Abandonar Partida</a>
+                        href='<spring:url value="/home" htmlEscape="true"/>'>Abandonar Partida</a>
                 </div>
                 <div>
                     <br />
