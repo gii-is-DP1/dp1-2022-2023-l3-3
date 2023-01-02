@@ -19,7 +19,7 @@ import org.springframework.data.util.Pair;
 import sevenislands.achievement.Achievement;
 import sevenislands.exceptions.NotExitPlayerException;
 import sevenislands.game.GameService;
-import sevenislands.punctuation.PunctuationService;
+import sevenislands.gameDetails.GameDetailsService;
 import sevenislands.register.RegisterService;
 import sevenislands.tools.metodosReutilizables;
 
@@ -42,12 +42,12 @@ public class UserController {
 	private final UserService userService;
 	private final GameService gameService;
 	private final RegisterService registerService;
-	private final PunctuationService punctuationService;
+	private final GameDetailsService punctuationService;
 
 	private final Integer tamanoPaginacion=5;
 
 	@Autowired
-	public UserController(UserService userService, GameService gameService, RegisterService registerService, PunctuationService punctuationService) {
+	public UserController(UserService userService, GameService gameService, RegisterService registerService, GameDetailsService punctuationService) {
 		this.userService = userService;
 		this.gameService = gameService;
 		this.registerService = registerService;

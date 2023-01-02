@@ -19,6 +19,7 @@ INSERT INTO lobby(code,active) VALUES('a10f8Lio','FALSE');
 
 -- LOBBY JUGADORES -- 
 INSERT INTO lobby_users(lobby_id,users_id) VALUES (1,7);
+INSERT INTO lobby_users(lobby_id,users_id) VALUES (1,8);
 INSERT INTO lobby_users(lobby_id,users_id) VALUES (1,9);
 INSERT INTO lobby_users(lobby_id,users_id) VALUES (2,10);
 
@@ -50,9 +51,9 @@ INSERT INTO turn_cards(turn_id,cards_id) VALUES (1, 1);
 INSERT INTO turn_cards(turn_id,cards_id) VALUES (1, 1);
 
 -- PUNTUACION --
-INSERT INTO punctuation(punctuation, game_id, user_id) VALUES (100, 1, 7);
-INSERT INTO punctuation(punctuation, game_id, user_id) VALUES (50, 2, 7);
-INSERT INTO punctuation(punctuation, game_id, user_id) VALUES (50, 1, 8);
+INSERT INTO details(punctuation, winner_id, tie_break, game_id, user_id) VALUES (100, 7, 'FALSE', 1, 7);
+INSERT INTO details(punctuation, winner_id, tie_break, game_id, user_id) VALUES (50, 7, 'FALSE', 2, 7);
+INSERT INTO details(punctuation, winner_id, tie_break, game_id, user_id) VALUES (50, 7, 'FALSE', 1, 8);
 
 -- LOGROS --
 INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Inicio', 'Juega LIMIT partida', 'Victories', 1, 'logroJugarPartidas.png');

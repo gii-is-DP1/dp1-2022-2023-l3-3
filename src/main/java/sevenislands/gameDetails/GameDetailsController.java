@@ -1,4 +1,4 @@
-package sevenislands.punctuation;
+package sevenislands.gameDetails;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import sevenislands.user.User;
 
 @Controller
-public class PunctuationController {
+public class GameDetailsController {
     
-    private final PunctuationService punctuationService;
+    private final GameDetailsService punctuationService;
 
     @Autowired
-    public PunctuationController(PunctuationService punctuationService) {
+    public GameDetailsController(GameDetailsService punctuationService) {
         this.punctuationService = punctuationService;
     }
 

@@ -11,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 
 import sevenislands.game.turn.TurnService;
+import sevenislands.gameDetails.GameDetailsService;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
-import sevenislands.punctuation.PunctuationService;
 import sevenislands.user.User;
 import sevenislands.user.UserService;
 
@@ -39,15 +39,15 @@ public class GameController {
     private final LobbyService lobbyService;
     private final UserService userService;
     private final TurnService turnService;
-    private final PunctuationService punctuationService;
+    private final GameDetailsService gameDetailsService;
 
     @Autowired
-    public GameController(UserService userService, GameService gameService, LobbyService lobbyService, TurnService turnService, PunctuationService punctuationService) {
+    public GameController(UserService userService, GameService gameService, LobbyService lobbyService, TurnService turnService, GameDetailsService gameDetailsService) {
         this.gameService = gameService;
         this.lobbyService = lobbyService;
         this.userService = userService;
         this.turnService = turnService;
-        this.punctuationService = punctuationService;
+        this.gameDetailsService = gameDetailsService;
     }
 
     @GetMapping("/game")
@@ -77,12 +77,13 @@ public class GameController {
             if(game.get().getEndingDate()==null) gameService.endGame(logedUser);
         }
 
-        User winner = turnService.findWinner(logedUser);
-
-        List<Pair<User, Integer>> players = punctuationService.findPunctuationByGame(game.get()).stream()
+        if(!gameDetailsService.checkPunctuationByGame(game.get())) gameDetailsService.calculateDetails(logedUser);
+        
+        List<Pair<User, Integer>> players = gameDetailsService.findPunctuationByGame(game.get()).stream()
         .map(r -> Pair.of((User)r[0], (Integer)r[1])).collect(Collectors.toList());
+
         model.put("logedUser", logedUser);
-        model.put("winner", winner);
+        model.put("winner", players.get(0).getFirst());
         model.put("players", players);
         
         return"game/endgame";
