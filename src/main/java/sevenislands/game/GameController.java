@@ -74,20 +74,16 @@ public class GameController {
 
     @GetMapping("/endGame")
     public String endGame(ModelMap model, @ModelAttribute("logedUser") User logedUser){
-        System.out.println("endGame=================================="+ logedUser.getNickname());
         Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
         if(game.isPresent() && game.get().isActive()) {
-            System.out.println("2endGame=================================="+ logedUser.getNickname());
             if(!turnService.endGame(game.get())) return "redirect:/turn";
             if(game.get().getEndingDate()==null) gameService.endGame(logedUser);
         }
-        System.out.println("3endGame=================================="+ logedUser.getNickname());
 
         User winner = turnService.findWinner(logedUser);
 
         List<Pair<User, Integer>> players = punctuationService.findPunctuationByGame(game.get()).stream()
         .map(r -> Pair.of((User)r[0], (Integer)r[1])).collect(Collectors.toList());
-
         model.put("winner", winner);
         model.put("players", players);
         

@@ -24,7 +24,6 @@ public class ArchievementRepositoryTest {
 
     @Test
     public void TestAchievement(){
-        System.out.println("Hola");
         List<Achievement> archivementsList = archivementsRepository.findByType(AchievementType.Games);
        assertNotEquals(0, archivementsList.size());
     
