@@ -19,30 +19,48 @@ body {
 
 #content {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     height: 100%;
 }
 
 #menu {
+    width: 100%;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     align-items: center;
     justify-content: space-between;
     padding: 10px;
 }
 
-#winner {
-    color: black;
-    background-color: white;
-    border-radius: 25px;
+#winner_text {
     display: flex;
     flex-direction: column;
+    align-items: center;
     justify-content: center;
-    padding: 10px;
-    margin-bottom: 50px;
 }
+
+#points_table {
+    width: auto;
+}
+
+tr{
+    text-align: center;
+}
+
+.column_name {
+    background-color: #7c7c7c;
+    text-align: center;
+}
+
+tr:nth-child(even) {
+    background-color: #dddddd;
+}
+tr:nth-child(odd) {
+    background-color: #bbbbbb !important;
+}
+
 </style>
 
 <sevenislands:home pageName="lobby">
@@ -50,36 +68,35 @@ body {
     <body>
         <div id="content">
             <div id="menu">
-                <div>
-                    <a class="btn btn-default" id="leave_game"
-                        href='<spring:url value="/home" htmlEscape="true"/>'>Abandonar Partida</a>
-                </div>
-                <div>
-                    <br />
-                    <a class="btn btn-default" id="create_lobby"
-                        href='<spring:url value="/lobby/create" htmlEscape="true"/>'>Volver a Jugar</a>
-                </div>
-                <div>
-                    <br />
-                    <a class="btn btn-default" id="leave_game"
-                        href='<spring:url value="/join" htmlEscape="true"/>'>Unirse a Partida</a>
-                </div>
+                <a class="btn btn-default" id="leave_game"
+                    href='<spring:url value="/home" htmlEscape="true"/>'>Abandonar Partida</a>
+                <a class="btn btn-default" id="join_game"
+                    href='<spring:url value="/join" htmlEscape="true"/>'>Unirse a Partida</a>
+                <a class="btn btn-default" id="create_lobby"
+                href='<spring:url value="/lobby/create" htmlEscape="true"/>'>Volver a Jugar</a>
             </div>
-            <div>
+            <div id="winner_text">
                 <h1>Ganador</h1>
                 <img class="img_home" src="/resources/images/avatars/${winner.avatar}">
                 <h1>${winner.nickname}</h1>
             </div>
-            <table class="table table-striped">
+            <table class="table table-striped" id="points_table">
                 <tr>
-                    <th>Nombre</th>
-                    <th>Puntuación</th>
+                    <th class="column_name">Nombre</th>
+                    <th class="column_name">Puntuación</th>
                 </tr>
                 <c:forEach items="${players}" var="player">
                     <tr>
                         <td>
                             <img src="/resources/images/avatars/${player.getFirst().avatar}" height="40" width="40">
-                            <c:out value="${player.getFirst().nickname}"/>
+                            <c:choose>
+                                <c:when test="${player.getFirst()==logedUser}">
+                                    <strong><c:out value="${player.getFirst().nickname}"/></strong>
+                                </c:when>
+                                <c:otherwise>
+                                    <c:out value="${player.getFirst().nickname}"/>
+                                </c:otherwise>
+                            </c:choose>
                         </td>
                         <td><c:out value="${player.getSecond()}"/></td>
                     </tr>

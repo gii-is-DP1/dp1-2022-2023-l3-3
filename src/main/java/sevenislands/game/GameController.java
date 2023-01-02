@@ -35,9 +35,6 @@ public class GameController {
     private static final String VIEWS_INPROGRESS_GAMES = "list/inProgressGames"; //vista de partidas en curso
     private static final String VIEWS_GAMES_AS_PLAYER = "list/gamesAsPlayer"; //vista de partidas jugadas
 
-
-    
-
     private final GameService gameService;
     private final LobbyService lobbyService;
     private final UserService userService;
@@ -84,6 +81,7 @@ public class GameController {
 
         List<Pair<User, Integer>> players = punctuationService.findPunctuationByGame(game.get()).stream()
         .map(r -> Pair.of((User)r[0], (Integer)r[1])).collect(Collectors.toList());
+        model.put("logedUser", logedUser);
         model.put("winner", winner);
         model.put("players", players);
         
