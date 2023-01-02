@@ -1,8 +1,9 @@
-package sevenislands.punctuation;
+package sevenislands.gameDetails;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,10 +14,17 @@ import sevenislands.user.User;
 @Getter
 @Setter
 @Entity
-public class Punctuation extends BaseEntity{
+@Table(name = "details")
+public class GameDetails extends BaseEntity{
     
     @Column(name = "punctuation", nullable = false, columnDefinition = "Integer default 0")
     private Integer punctuation;
+
+    @ManyToOne
+    private User winner;
+
+    @Column(name = "tieBreak", nullable = false)
+    private boolean tieBreak;
 
     @ManyToOne
     private User user;

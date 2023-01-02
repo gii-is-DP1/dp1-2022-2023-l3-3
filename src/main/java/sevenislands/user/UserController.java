@@ -19,7 +19,7 @@ import org.springframework.data.util.Pair;
 import sevenislands.achievement.Achievement;
 import sevenislands.exceptions.NotExitPlayerException;
 import sevenislands.game.GameService;
-import sevenislands.punctuation.PunctuationService;
+import sevenislands.gameDetails.GameDetailsService;
 import sevenislands.register.RegisterService;
 import sevenislands.tools.metodosReutilizables;
 
@@ -42,16 +42,16 @@ public class UserController {
 	private final UserService userService;
 	private final GameService gameService;
 	private final RegisterService registerService;
-	private final PunctuationService punctuationService;
+	private final GameDetailsService gameDetailsService;
 
 	private final Integer tamanoPaginacion=5;
 
 	@Autowired
-	public UserController(UserService userService, GameService gameService, RegisterService registerService, PunctuationService punctuationService) {
+	public UserController(UserService userService, GameService gameService, RegisterService registerService, GameDetailsService gameDetailsService) {
 		this.userService = userService;
 		this.gameService = gameService;
 		this.registerService = registerService;
-		this.punctuationService = punctuationService;
+		this.gameDetailsService = gameDetailsService;
 	}
 
 	@GetMapping("/settings")
@@ -258,7 +258,7 @@ public class UserController {
 			String nickname = userDetailed.get().getNickname();
 			Integer totalGamesPlayed = gameService.findTotalGamesPlayedByNickname(nickname);
 			//Integer totalHoursPlayed = gameService.findTotalHoursPlayedByNickname(nickname);
-			Long totalPoints = punctuationService.findPunctuationByNickname(nickname);
+			Long totalPoints = gameDetailsService.findPunctuationByNickname(nickname);
 			//Integer totalTurns = gameService.findTotalTurnsByNickname(nickname);
 
 			List<Pair<Achievement, Date>> registers = registerService.findRegistersByNickname(nickname).stream()

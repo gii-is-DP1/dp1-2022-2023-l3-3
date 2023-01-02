@@ -25,21 +25,21 @@ public class TurnServiceTest {
 
     @Test
     public void getAllTurnTest(){
-        TurnService turnService = new TurnService(turnRepository, null, null, null, null, null, null);
+        TurnService turnService = new TurnService(turnRepository, null, null, null, null, null);
         List<Turn> listaTurnos = turnService.findAllTurns();
         assertNotEquals(0, listaTurnos.size());
     }
 
     @Test
     public void getTurnByIdTest(){
-        TurnService turnService = new TurnService(turnRepository, null, null, null, null, null, null);
+        TurnService turnService = new TurnService(turnRepository, null, null, null, null, null);
         Turn turno = turnService.findTurnById(1).get();
         assertNotNull(turno);
     }
 
     @Test
     public void getTurnByRoundIdTest(){
-        TurnService turnService = new TurnService(turnRepository, null, null, null, null, null, null);
+        TurnService turnService = new TurnService(turnRepository, null, null, null, null, null);
         List<Turn> turnos = turnService.findByRoundId(1);
         assertNotNull(turnos);
     }

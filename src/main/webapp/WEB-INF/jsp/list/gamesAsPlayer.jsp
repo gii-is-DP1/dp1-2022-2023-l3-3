@@ -14,8 +14,8 @@
         <thead>
         <tr>
             <th>Id</th>
-			<th>Creation_date</th>
-			<th>Ending_date</th>
+			<th>Fecha de creación</th>
+			<th>Fecha de finalización</th>
         </tr>
         </thead>
         <tbody>

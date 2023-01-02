@@ -1,8 +1,10 @@
 package sevenislands.game;
 
-import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -36,7 +38,7 @@ public class GameService {
     @Transactional 
     public Game initGame(Lobby lobby){
         Game game = new Game();
-        game.setCreationDate(new Date(System.currentTimeMillis()));
+        game.setCreationDate(LocalDateTime.now());
         game.setLobby(lobby);
         game.setActive(true);
         gameRepository.save(game);
@@ -99,7 +101,7 @@ public class GameService {
         Optional<Game> game = findGameByNicknameAndActive(logedUser.getNickname(), true);
         if(game.isPresent()) {
             game.get().setActive(false);
-            game.get().setEndingDate(new Date(System.currentTimeMillis()));
+            game.get().setEndingDate(LocalDateTime.now());
             gameRepository.save(game.get());
         }
     }
@@ -110,6 +112,20 @@ public class GameService {
     }
 
     @Transactional
+    public Long findTotalTimePlayed(String nickname) {
+        Optional<List<Game>> games = gameRepository.findGameByNickname(nickname);
+        Duration played = Duration.ZERO;
+        if(games.isPresent()){
+            for(Game g : games.get()) {
+                LocalDateTime creationDate = g.getCreationDate();
+                LocalDateTime endingDate = g.getEndingDate();
+                Duration diference = Duration.between(creationDate,endingDate);
+                played = played.plus(diference);
+            }
+        }
+        return played.toMinutes();   
+    }
+    
     public Boolean checkUserGame(User logedUser) {
         Optional<Game> game = findGameByNickname(logedUser.getNickname());
         if(game.isPresent() && game.get().isActive()) return true;

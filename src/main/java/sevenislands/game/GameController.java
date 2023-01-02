@@ -10,10 +10,11 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 
+import sevenislands.achievement.AchievementService;
 import sevenislands.game.turn.TurnService;
+import sevenislands.gameDetails.GameDetailsService;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
-import sevenislands.punctuation.PunctuationService;
 import sevenislands.user.User;
 import sevenislands.user.UserService;
 
@@ -30,27 +31,26 @@ public class GameController {
     private static final String VIEW_WELCOME = "redirect:/"; // vista para welcome
     private static final String VIEWS_HOME =  "redirect:/home"; // vista para home
     private static final String VIEWS_TURN =  "redirect:/turn"; // vista para turn
-    private static final String VIEWS_LOBBY =  "redirect:/lobby"; // vista para lobby
     private static final String VIEWS_FINISHED_GAMES = "list/finishedGames"; //vista de partidas finalizadas
     private static final String VIEWS_INPROGRESS_GAMES = "list/inProgressGames"; //vista de partidas en curso
     private static final String VIEWS_GAMES_AS_PLAYER = "list/gamesAsPlayer"; //vista de partidas jugadas
-
-
-    
 
     private final GameService gameService;
     private final LobbyService lobbyService;
     private final UserService userService;
     private final TurnService turnService;
-    private final PunctuationService punctuationService;
+    private final GameDetailsService gameDetailsService;
+    private final AchievementService achievementService;
 
     @Autowired
-    public GameController(UserService userService, GameService gameService, LobbyService lobbyService, TurnService turnService, PunctuationService punctuationService) {
+    public GameController(UserService userService, GameService gameService, LobbyService lobbyService, 
+    TurnService turnService, GameDetailsService gameDetailsService, AchievementService achievementService) {
         this.gameService = gameService;
         this.lobbyService = lobbyService;
         this.userService = userService;
         this.turnService = turnService;
-        this.punctuationService = punctuationService;
+        this.gameDetailsService = gameDetailsService;
+        this.achievementService = achievementService;
     }
 
     @GetMapping("/game")
@@ -74,21 +74,19 @@ public class GameController {
 
     @GetMapping("/endGame")
     public String endGame(ModelMap model, @ModelAttribute("logedUser") User logedUser){
-        System.out.println("endGame=================================="+ logedUser.getNickname());
         Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
         if(game.isPresent() && game.get().isActive()) {
-            System.out.println("2endGame=================================="+ logedUser.getNickname());
             if(!turnService.endGame(game.get())) return "redirect:/turn";
             if(game.get().getEndingDate()==null) gameService.endGame(logedUser);
+            gameDetailsService.calculateDetails(logedUser);
+            achievementService.calculateAchievements(logedUser);
         }
-        System.out.println("3endGame=================================="+ logedUser.getNickname());
-
-        User winner = turnService.findWinner(logedUser);
-
-        List<Pair<User, Integer>> players = punctuationService.findPunctuationByGame(game.get()).stream()
+        
+        List<Pair<User, Integer>> players = gameDetailsService.findPunctuationByGame(game.get()).stream()
         .map(r -> Pair.of((User)r[0], (Integer)r[1])).collect(Collectors.toList());
 
-        model.put("winner", winner);
+        model.put("logedUser", logedUser);
+        model.put("winner", players.get(0).getFirst());
         model.put("players", players);
         
         return"game/endgame";

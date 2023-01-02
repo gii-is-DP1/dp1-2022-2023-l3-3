@@ -14,15 +14,27 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import sevenislands.enums.AchievementType;
+import sevenislands.game.Game;
+import sevenislands.game.GameService;
+import sevenislands.gameDetails.GameDetailsService;
+import sevenislands.register.RegisterService;
+import sevenislands.user.User;
 
 @Service
 public class AchievementService {
  
     private AchievementRepository achievementRepository;
 
+	private GameService gameService;
+	private GameDetailsService gameDetailsService;
+	public RegisterService registerService;
+
     @Autowired
-	public AchievementService(AchievementRepository achievementRepository) {
+	public AchievementService(AchievementRepository achievementRepository, GameService gameService, GameDetailsService gameDetailsService, RegisterService registerService) {
 		this.achievementRepository = achievementRepository;
+		this.gameService = gameService;
+		this.gameDetailsService = gameDetailsService;
+		this.registerService = registerService;
 	}		
 
 	/**
@@ -86,5 +98,36 @@ public class AchievementService {
 	}
 	
 
+	}
+
+	@Transactional
+	public List<Achievement> getAll() {
+		return (List<Achievement>) achievementRepository.findAll();
+	}
+
+	@Transactional
+	public void calculateAchievements(User logedUser) {
+		Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
+		if(game.isPresent()) {
+			for(User user: game.get().getLobby().getUsers()) {
+				Long totalPoints = gameDetailsService.findPunctuationByNickname(user.getNickname());
+				Long totalVictories = gameDetailsService.findVictoriesByNickname(user.getNickname());
+				Long totalTieBreaks = gameDetailsService.findTieBreaksByNickname(user.getNickname());
+				Long totalGames = gameDetailsService.findGamesByNickname(user.getNickname());
+
+				for(Achievement achievement: getAll()) {
+					if(achievement.getAchievementType().equals(AchievementType.Punctuation) && totalPoints >= achievement.getThreshold()) {
+						registerService.save(achievement, user);
+					} else if(achievement.getAchievementType().equals(AchievementType.Victories) && totalVictories >= achievement.getThreshold()) {
+						registerService.save(achievement, user);
+					} else if(achievement.getAchievementType().equals(AchievementType.TieBreaker) && totalTieBreaks >= achievement.getThreshold()) {
+						registerService.save(achievement, user);
+					} else if(achievement.getAchievementType().equals(AchievementType.Games) && totalGames >= achievement.getThreshold()) {
+						registerService.save(achievement, user);
+					}
+				}
+			}
+
+		}
 	}
 }

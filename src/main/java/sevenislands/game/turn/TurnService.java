@@ -27,8 +27,6 @@ import sevenislands.game.round.Round;
 import sevenislands.game.round.RoundService;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
-import sevenislands.punctuation.Punctuation;
-import sevenislands.punctuation.PunctuationService;
 import sevenislands.user.User;
 
 @Service
@@ -40,18 +38,16 @@ public class TurnService {
     private final LobbyService lobbyService;
     private final IslandService islandService;
     private final CardService cardService;
-    private final PunctuationService punctuationService;
 
     @Autowired
     public TurnService(TurnRepository turnRepository, GameService gameService, RoundService roundService,
-            LobbyService lobbyService, IslandService islandService,CardService cardService, PunctuationService punctuationService) {
+            LobbyService lobbyService, IslandService islandService,CardService cardService) {
         this.turnRepository = turnRepository;
         this.gameService = gameService;
         this.roundService = roundService;
         this.lobbyService = lobbyService;
         this.islandService = islandService;
         this.cardService = cardService;
-        this.punctuationService = punctuationService;
     }
 
     // No se usa en ningún lado
@@ -104,8 +100,11 @@ public class TurnService {
         turn.setUser(userList.get(nextUser));
         List<Card> treasureList = new ArrayList<>();
         if (cards == null) {
-            Turn prevTurn = turnRepository.findTurnByNickname(userList.get(nextUser).getNickname()).get(0);
-            treasureList.addAll(prevTurn.getCards());
+            Optional<List<Turn>> turnList = turnRepository.findTurnByNickname(userList.get(nextUser).getNickname());
+            if(turnList.isPresent()) {
+                Turn prevTurn = turnList.get().get(0);
+                treasureList.addAll(prevTurn.getCards());
+            }
         } else
             treasureList.addAll(cards);
         turn.setCards(treasureList);
@@ -240,59 +239,75 @@ public class TurnService {
 
     @Transactional
     public List<Turn> findTurnByNickname(String nickname) {
-        return turnRepository.findTurnByNickname(nickname);
+        Optional<List<Turn>> turnList = turnRepository.findTurnByNickname(nickname);
+        if (turnList.isPresent()) {
+            return turnList.get();
+        } else {
+            return new ArrayList<Turn>();
+        }
     }
 
     @Transactional
     public Map<Card, Integer> findPlayerCardsLastTurn(String nickname) {
-        Turn lastPlayerTurn = turnRepository.findTurnByNickname(nickname).get(0);
+        Optional<List<Turn>> turnList = turnRepository.findTurnByNickname(nickname);
         Map<Card, Integer> map = new HashMap<>();
-        for (Card t : lastPlayerTurn.getCards()) {
-            if (map.containsKey(t)) {
-                Integer newValue = map.get(t) + 1;
-                map.put(t, newValue);
-            } else {
-                map.put(t, 1);
+        if(turnList.isPresent()) {
+            Turn lastPlayerTurn = turnList.get().get(0);
+            for (Card t : lastPlayerTurn.getCards()) {
+                if (map.containsKey(t)) {
+                    Integer newValue = map.get(t) + 1;
+                    map.put(t, newValue);
+                } else {
+                    map.put(t, 1);
+                }
             }
+            map = map.entrySet().stream().sorted(Map.Entry.comparingByValue())
+            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
         }
-        return map.entrySet()
-        .stream()
-        .sorted(Map.Entry.comparingByValue())
-        .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+        return map;
     }
 
     @Transactional
     public List<Card> findPlayerCardsPenultimateTurn(String nickname) {
-        Turn lastPlayerTurn = turnRepository.findTurnByNickname(nickname).get(1);
-        return lastPlayerTurn.getCards();
+        Optional<List<Turn>> turnList = turnRepository.findTurnByNickname(nickname);
+        if(turnList.isPresent()) {
+            Turn lastPlayerTurn = turnList.get().get(1);
+            return lastPlayerTurn.getCards();
+        }
+        return new ArrayList<Card>();
     }
 
     @Transactional
     public void AnadirCarta(Integer id,String nickname){
-        Turn lastPlayerTurn = turnRepository.findTurnByNickname(nickname).get(0);
-        List<Card> cartasLastTurn=lastPlayerTurn.getCards();
-        Optional<Game> game=gameService.findGameByNicknameAndActive(nickname, true);
-        Island island=islandService.findCardOfIsland(game.get().getId(),id);
-        Card card=cardService.findCardById(island.getCard().getId());
-        cartasLastTurn.add(card);
-        lastPlayerTurn.setCards(cartasLastTurn);
-        turnRepository.save(lastPlayerTurn);
+        Optional<List<Turn>> turnList = turnRepository.findTurnByNickname(nickname);
+        if(turnList.isPresent()) {
+            Turn lastPlayerTurn = turnList.get().get(0);
+            List<Card> cartasLastTurn=lastPlayerTurn.getCards();
+            Optional<Game> game=gameService.findGameByNicknameAndActive(nickname, true);
+            Island island=islandService.findCardOfIsland(game.get().getId(),id);
+            Card card=cardService.findCardById(island.getCard().getId());
+            cartasLastTurn.add(card);
+            lastPlayerTurn.setCards(cartasLastTurn);
+            turnRepository.save(lastPlayerTurn);
+        }
     }
 
     @Transactional
     public void DeleteCard(Integer id,String nickname){
-        
-        Turn lastPlayerTurn = turnRepository.findTurnByNickname(nickname).get(0);
-        List<Card> cartasLastTurn=lastPlayerTurn.getCards();
-        Card carta=cardService.findCardById(id);
-        for(Card c:cartasLastTurn){
-            if(c.getTipo().equals(carta.getTipo())){
-                cartasLastTurn.remove(c);
-                break;
+        Optional<List<Turn>> turnList = turnRepository.findTurnByNickname(nickname);
+        if(turnList.isPresent()) {
+            Turn lastPlayerTurn = turnList.get().get(0);
+            List<Card> cartasLastTurn=lastPlayerTurn.getCards();
+            Card carta=cardService.findCardById(id);
+            for(Card c:cartasLastTurn){
+                if(c.getTipo().equals(carta.getTipo())){
+                    cartasLastTurn.remove(c);
+                    break;
+                }
             }
+            lastPlayerTurn.setCards(cartasLastTurn);
+            turnRepository.save(lastPlayerTurn);
         }
-        lastPlayerTurn.setCards(cartasLastTurn);
-        turnRepository.save(lastPlayerTurn);
     }
 
 
@@ -314,56 +329,7 @@ public class TurnService {
     }
 
     @Transactional
-    public User findWinner(User logedUser) {
-        Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
-        Integer userPoints = 0;
-        Integer doblons = 0;
-        User winner = null;
-        Integer winnerPoints = -1;
-        Integer winnerDoblon = -1;
-        List<Integer> pointsList = List.of(1,3,7,13,21,30,40,50,60);
-        if(game.isPresent()) {
-            for(User user : game.get().getLobby().getUsers()) {
-                doblons = 0;
-                userPoints = 0;
-                Map<Card, Integer> cards = findPlayerCardsLastTurn(user.getNickname());
-                Card doblon = cards.keySet().stream().filter(card -> card.getTipo() == Tipo.Doblon).findFirst().orElse(null);
-                if(doblon != null) {
-                    doblons = cards.get(doblon);
-                    cards.remove(doblon);
-                }
-                userPoints += doblons;
-                List<Card> listKeys = new ArrayList<>(cards.keySet());
-
-                for(Card card : listKeys) {
-                    Integer multiplicity = cards.get(card);
-                    cards.replaceAll((key,value) -> value - multiplicity);
-                    userPoints += multiplicity*pointsList.get(listKeys.size()-listKeys.indexOf(card)-1);
-                }
-
-                if(userPoints > winnerPoints || (userPoints == winnerPoints && doblons > winnerDoblon)) {
-                    winner = user;
-                    winnerPoints = userPoints;
-                    winnerDoblon = doblons;
-                }
-
-                if(!punctuationService.checkPunctuationByGameAndUser(game.get(), user)) {
-                    Punctuation punctuation = new Punctuation();
-                    punctuation.setGame(game.get());
-                    punctuation.setUser(user);
-                    punctuation.setPunctuation(userPoints);
-                    punctuationService.save(punctuation);
-                }
-            }
-        }
-        return winner;
-    }
-
-    @Transactional
     public Integer findTotalTurnsByNickname(String nickname) {
         return turnRepository.totalTurnsByNickname(nickname);
     }
-
-
-    
 }
