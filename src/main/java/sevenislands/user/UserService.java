@@ -25,6 +25,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 
 import sevenislands.exceptions.NotExistLobbyException;
+import sevenislands.game.GameService;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
 
@@ -36,14 +37,16 @@ public class UserService {
 	private SessionRegistry sessionRegistry;
 	private LobbyService lobbyService;
 	private AuthenticationManager authenticationManager;
+	private GameService gameService;
 
 	@Autowired
-	public UserService(AuthenticationManager authenticationManager, LobbyService lobbyService, SessionRegistry sessionRegistry, PasswordEncoder passwordEncoder, UserRepository userRepository) {
+	public UserService(AuthenticationManager authenticationManager, LobbyService lobbyService, SessionRegistry sessionRegistry, PasswordEncoder passwordEncoder, UserRepository userRepository, GameService gameService) {
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.sessionRegistry = sessionRegistry;
 		this.lobbyService = lobbyService;
 		this.authenticationManager = authenticationManager;
+		this.gameService = gameService;
 	}
 	//que es esta funcion
 	public User createUser(Integer id, String nickname,String email) {
