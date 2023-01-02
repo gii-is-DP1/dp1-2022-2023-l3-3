@@ -6,8 +6,6 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
-import sevenislands.user.User;
-
 @Repository
 public interface GameDetailsRepository extends CrudRepository<GameDetails, Integer>{
 
@@ -25,4 +23,13 @@ public interface GameDetailsRepository extends CrudRepository<GameDetails, Integ
     
     @Query("SELECT SUM(gd.punctuation) FROM GameDetails gd INNER JOIN gd.user u WHERE u.nickname=?1")
     Long findPunctuationByNickname(String nickname);
+
+    @Query("SELECT COUNT(gd) FROM GameDetails gd INNER JOIN gd.winner w WHERE w.nickname=?1")
+    Long findVictoriesByNickname(String nickname);
+
+    @Query("SELECT COUNT(gd) FROM GameDetails gd INNER JOIN gd.winner w WHERE w.nickname=?1 AND gd.tieBreak=TRUE")
+    Long findTieBreaksByNickname(String nickname);
+
+    @Query("SELECT COUNT(gd) FROM GameDetails gd INNER JOIN gd.user u WHERE u.nickname=?1")
+    Long findAllByNickname(String nickname);
 }

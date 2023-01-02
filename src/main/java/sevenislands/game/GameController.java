@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 
+import sevenislands.achievement.AchievementService;
 import sevenislands.game.turn.TurnService;
 import sevenislands.gameDetails.GameDetailsService;
 import sevenislands.lobby.Lobby;
@@ -30,7 +31,6 @@ public class GameController {
     private static final String VIEW_WELCOME = "redirect:/"; // vista para welcome
     private static final String VIEWS_HOME =  "redirect:/home"; // vista para home
     private static final String VIEWS_TURN =  "redirect:/turn"; // vista para turn
-    private static final String VIEWS_LOBBY =  "redirect:/lobby"; // vista para lobby
     private static final String VIEWS_FINISHED_GAMES = "list/finishedGames"; //vista de partidas finalizadas
     private static final String VIEWS_INPROGRESS_GAMES = "list/inProgressGames"; //vista de partidas en curso
     private static final String VIEWS_GAMES_AS_PLAYER = "list/gamesAsPlayer"; //vista de partidas jugadas
@@ -40,14 +40,17 @@ public class GameController {
     private final UserService userService;
     private final TurnService turnService;
     private final GameDetailsService gameDetailsService;
+    private final AchievementService achievementService;
 
     @Autowired
-    public GameController(UserService userService, GameService gameService, LobbyService lobbyService, TurnService turnService, GameDetailsService gameDetailsService) {
+    public GameController(UserService userService, GameService gameService, LobbyService lobbyService, 
+    TurnService turnService, GameDetailsService gameDetailsService, AchievementService achievementService) {
         this.gameService = gameService;
         this.lobbyService = lobbyService;
         this.userService = userService;
         this.turnService = turnService;
         this.gameDetailsService = gameDetailsService;
+        this.achievementService = achievementService;
     }
 
     @GetMapping("/game")
@@ -75,9 +78,9 @@ public class GameController {
         if(game.isPresent() && game.get().isActive()) {
             if(!turnService.endGame(game.get())) return "redirect:/turn";
             if(game.get().getEndingDate()==null) gameService.endGame(logedUser);
+            gameDetailsService.calculateDetails(logedUser);
+            achievementService.calculateAchievements(logedUser);
         }
-
-        if(!gameDetailsService.checkPunctuationByGame(game.get())) gameDetailsService.calculateDetails(logedUser);
         
         List<Pair<User, Integer>> players = gameDetailsService.findPunctuationByGame(game.get()).stream()
         .map(r -> Pair.of((User)r[0], (Integer)r[1])).collect(Collectors.toList());

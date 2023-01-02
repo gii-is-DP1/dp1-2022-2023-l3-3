@@ -19,46 +19,46 @@ import sevenislands.user.User;
 @Service
 public class GameDetailsService {
     
-    private GameDetailsRepository punctuationRepository;
+    private GameDetailsRepository gameDetailsRepository;
 
     private GameService gameService;
     private TurnService turnService;
 
     @Autowired
-    public GameDetailsService(GameDetailsRepository punctuationRepository, GameService gameService, TurnService turnService) {
-        this.punctuationRepository = punctuationRepository;
+    public GameDetailsService(GameDetailsRepository gameDetailsRepository, GameService gameService, TurnService turnService) {
+        this.gameDetailsRepository = gameDetailsRepository;
         this.gameService = gameService;
         this.turnService = turnService;
     }
 
     @Transactional
     public List<Object []> findPunctuations() {
-        return punctuationRepository.findPunctuations();
+        return gameDetailsRepository.findPunctuations();
     }
 
     @Transactional
     public List<Object []> findPunctuationByGame(Game game) {
-        return punctuationRepository.findPunctuationByGame(game.getId());
+        return gameDetailsRepository.findPunctuationByGame(game.getId());
     }
 
     @Transactional
     public Long findPunctuationByNickname(String nickname) {
-        return punctuationRepository.findPunctuationByNickname(nickname);
+        return gameDetailsRepository.findPunctuationByNickname(nickname);
     }
 
     @Transactional
     public void save(GameDetails gameDetails) {
-        punctuationRepository.save(gameDetails);
+        gameDetailsRepository.save(gameDetails);
     }
 
     @Transactional
     public Boolean checkPunctuationByGameAndUser(Game game, User user) {
-        return punctuationRepository.checkPunctuationByGameAndUser(game.getId(), user.getNickname());
+        return gameDetailsRepository.checkPunctuationByGameAndUser(game.getId(), user.getNickname());
     }
 
     @Transactional
     public Boolean checkPunctuationByGame(Game game) {
-        return punctuationRepository.checkPunctuationByGame(game.getId());
+        return gameDetailsRepository.checkPunctuationByGame(game.getId());
     }
 
     @Transactional
@@ -119,5 +119,20 @@ public class GameDetailsService {
                 save(gameDetails);
             }
         }
+    }
+
+    @Transactional
+    public Long findVictoriesByNickname(String nickname) {
+        return gameDetailsRepository.findVictoriesByNickname(nickname);
+    }
+
+    @Transactional
+    public Long findTieBreaksByNickname(String nickname) {
+        return gameDetailsRepository.findTieBreaksByNickname(nickname);
+    }
+
+    @Transactional
+    public Long findGamesByNickname(String nickname) {
+        return gameDetailsRepository.findAllByNickname(nickname);
     }
 }
