@@ -1,6 +1,7 @@
 package sevenislands.game.turn;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.jpa.repository.Query;
@@ -17,7 +18,7 @@ public interface TurnRepository extends CrudRepository<Turn, Integer> {
 
     //Para obtener el último turno tendriamos que coger el primer elemento de la lista
     @Query("SELECT t FROM Turn t INNER JOIN t.user u INNER JOIN t.round r INNER JOIN r.game g WHERE u.nickname=?1 ORDER BY t.round.id DESC")
-    public List<Turn> findTurnByNickname(String nickname);
+    public Optional<List<Turn>> findTurnByNickname(String nickname);
 
     @Query("SELECT COUNT(t) FROM Turn t INNER JOIN t.user u WHERE u.nickname=?1")
     public Integer totalTurnsByNickname(String nickname);
