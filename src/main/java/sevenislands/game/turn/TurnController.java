@@ -62,14 +62,10 @@ public class TurnController {
     public String gameTurn(ModelMap model, @ModelAttribute("logedUser") User logedUser, HttpServletRequest request,
             HttpServletResponse response) throws ServletException, NotExistLobbyException, Exception {
         if (userService.checkUserNoExists(request)) return "redirect:/";
-        System.out.println("=================================="+ logedUser.getNickname());
         if(turnService.endGame(gameService.findGameByNickname(logedUser.getNickname()).get())) return "redirect:/endGame";
-        System.out.println("2=================================="+ logedUser.getNickname());
         if (!lobbyService.checkUserLobby(logedUser) && !gameService.checkUserGame(logedUser)) return "redirect:/home";
-        System.out.println("3=================================="+ logedUser.getNickname());
         if(!gameService.checkUserGame(logedUser)) return "redirect:/home";
         if(lobbyService.checkLobbyNoAllPlayers(logedUser)) return "redirect:/home";
-        System.out.println("4=================================="+ logedUser.getNickname());
         response.addHeader("Refresh", "1");
         
         Optional<Game> game = gameService.findGameByNicknameAndActive(logedUser.getNickname(), true);
@@ -149,30 +145,22 @@ public class TurnController {
     @GetMapping("/turn/newRound")
     public String gameAsignTurn(@ModelAttribute("logedUser") User logedUser, HttpServletRequest request)
             throws ServletException {
-        System.out.println("newRound=====================");
         if (userService.checkUserNoExists(request)) return "redirect:/";
         if (!lobbyService.checkUserLobby(logedUser) && !gameService.checkUserGame(logedUser)) return "redirect:/home";
         if(!gameService.checkUserGame(logedUser)) return "redirect:/home";
-        System.out.println("2newRound=====================");
 
         try {
             Optional<Game> game = gameService.findGameByNicknameAndActive(logedUser.getNickname(), true);
-            System.out.println("3newRound=====================");
             if (game.isPresent()) {
                 Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
-                System.out.println("4newRound=====================");
                 List<User> userList = lobby.getUsers();
                 List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
                         .collect(Collectors.toList());   
-                System.out.println("5newRound=====================");
                 turnService.assignTurn(logedUser, game, userList, roundList);
                 return "redirect:/turn";
             } else
-            System.out.println("6newRound=====================");
                 return "redirect:/home";
         } catch (Exception e) {
-            System.out.println("7newRound=====================");
-            System.out.println("Error: " + e.getMessage());
             return "redirect:/home";
         }
     }
