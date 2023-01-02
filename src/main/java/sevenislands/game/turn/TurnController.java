@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import sevenislands.card.Card;
-import sevenislands.card.CardService;
 import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.Game;
 import sevenislands.game.GameService;
@@ -47,18 +46,16 @@ public class TurnController {
     private final LobbyService lobbyService;
     private final GameService gameService;
     private final IslandService islandService;
-    private final CardService cardService;
 
     @Autowired
     public TurnController(GameService gameService, LobbyService lobbyService, RoundService roundService,
-            TurnService turnService, IslandService islandService, UserService userService,CardService cardService) {
+            TurnService turnService, IslandService islandService, UserService userService) {
         this.turnService = turnService;
         this.userService = userService;
         this.roundService = roundService;
         this.lobbyService = lobbyService;
         this.gameService = gameService;
         this.islandService = islandService;
-        this.cardService=cardService;
     }
 
     @GetMapping("/turn")

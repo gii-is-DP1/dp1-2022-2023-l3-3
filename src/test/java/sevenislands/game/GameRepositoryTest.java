@@ -3,7 +3,8 @@ package sevenislands.game;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import java.util.Date;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -54,7 +55,7 @@ public class GameRepositoryTest {
         lobbyRepository.save(lobby);
         Game game = new Game();
         game.setActive(true);
-        game.setCreationDate(new Date(System.currentTimeMillis()));
+        game.setCreationDate(LocalDateTime.now());
         game.setLobby(lobby);
         gameRepository.save(game);
     }
