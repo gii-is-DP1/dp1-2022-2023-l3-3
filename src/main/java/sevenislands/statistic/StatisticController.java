@@ -29,6 +29,7 @@ public class StatisticController {
         model.put("user", logedUser);
         model.put("num_games_player", gameService.findTotalGamesPlayedByNickname(logedUser.getNickname()));
         model.put("num_turns_player", turnService.findTotalTurnsByNickname(logedUser.getNickname()));
+        model.put("total_time_played", gameService.findTotalTimePlayed(logedUser.getNickname()));
         return VIEWS_MY_STATISTICS;
     }
 

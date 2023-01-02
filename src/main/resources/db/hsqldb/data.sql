@@ -23,8 +23,8 @@ INSERT INTO lobby_users(lobby_id,users_id) VALUES (1,9);
 INSERT INTO lobby_users(lobby_id,users_id) VALUES (2,10);
 
 -- JUEGOS -- 
-INSERT INTO game(id, creation_date, ending_date, active, lobby_id) VALUES (1, '2022-11-14', '2022-11-24', 'FALSE' ,1);
-INSERT INTO game(id, creation_date, ending_date, active, lobby_id) VALUES (2, '2022-11-09', '2022-11-09', 'FALSE', 2);
+INSERT INTO game(id, creation_date, ending_date, active, lobby_id) VALUES (1, '2022-11-14 01:01:00', '2022-11-14 01:20:00', 'FALSE' ,1);
+INSERT INTO game(id, creation_date, ending_date, active, lobby_id) VALUES (2, '2022-11-09 01:01:00', '2022-11-09 01:20:00', 'FALSE', 2);
 
 -- RONDAS --
 INSERT INTO round(game_id) VALUES (1);

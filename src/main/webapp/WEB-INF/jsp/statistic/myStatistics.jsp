@@ -24,7 +24,7 @@
 
         <div class="caja">
             <h3>Nº de Partidas Jugadas: <c:out value="${num_games_player}"/></h3>
-            <h3>Duración de las Partidas Jugadas:</h3>
+            <h3>Duración de las Partidas Jugadas: <c:out value="${total_time_played}"/> min</h3>
             <h3>Puntos Totales:</h3>
             <h3>Turnos Totales: <c:out value="${num_turns_player}"/></h3>
         </div>
