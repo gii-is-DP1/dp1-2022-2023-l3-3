@@ -30,7 +30,6 @@ public class GameController {
     private static final String VIEW_WELCOME = "redirect:/"; // vista para welcome
     private static final String VIEWS_HOME =  "redirect:/home"; // vista para home
     private static final String VIEWS_TURN =  "redirect:/turn"; // vista para turn
-    private static final String VIEWS_LOBBY =  "redirect:/lobby"; // vista para lobby
     private static final String VIEWS_FINISHED_GAMES = "list/finishedGames"; //vista de partidas finalizadas
     private static final String VIEWS_INPROGRESS_GAMES = "list/inProgressGames"; //vista de partidas en curso
     private static final String VIEWS_GAMES_AS_PLAYER = "list/gamesAsPlayer"; //vista de partidas jugadas
