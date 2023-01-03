@@ -6,7 +6,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -128,6 +127,28 @@ public class AchievementService {
 				}
 			}
 
+		}
+	}
+
+	@Transactional
+	public void addAchievement(Achievement achievement){
+		try {
+			if(achievement.getAchievementType().equals(AchievementType.Games)){
+				achievement.setDescription("Juega mas de LIMIT partidas");
+				achievement.setBadgeImage("logroJugarGames.png");
+			}else if(achievement.getAchievementType().equals(AchievementType.Punctuation)){
+				achievement.setDescription("Consigue LIMIT puntos");
+				achievement.setBadgeImage("logroJugarGames.png");
+			}else if(achievement.getAchievementType().equals(AchievementType.TieBreaker)){
+				achievement.setDescription("Desempata LIMIT partidas");
+				achievement.setBadgeImage("logroTieBreaker.png");
+			}else if(achievement.getAchievementType().equals(AchievementType.Victories)){
+				achievement.setDescription("Gana mas de LIMIT partidas");
+				achievement.setBadgeImage("logroVictories.png");
+			}
+			saveAchievement(achievement);
+		} catch (Exception e) {
+			throw e;
 		}
 	}
 }

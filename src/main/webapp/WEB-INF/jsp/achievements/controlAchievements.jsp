@@ -29,7 +29,7 @@
 				<a class="btn btn-default" href='<spring:url value="/home" htmlEscape="true"/>'>Volver</a>
 			</div>
 			<div>
-				<a class="btn btn-default" href='<spring:url value="/controlPanel/add" htmlEscape="true"/>'>Añadir logro</a>
+				<a class="btn btn-default" href='<spring:url value="/controlAchievements/add" htmlEscape="true"/>'>Añadir logro</a>
 			</div>
 		</div>
 		<h2><br/>Usuarios</h2>
