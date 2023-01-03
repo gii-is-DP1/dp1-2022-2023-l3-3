@@ -17,6 +17,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.util.Pair;
 
 import sevenislands.achievement.Achievement;
+import sevenislands.enums.UserType;
 import sevenislands.exceptions.NotExitPlayerException;
 import sevenislands.game.GameService;
 import sevenislands.gameDetails.GameDetailsService;
@@ -206,7 +207,7 @@ public class UserController {
 	public String editUser(@PathVariable("idUserEdited") Integer id, ModelMap model) {
 		Optional<User> userEdited = userService.findUserById(id);
 		if(userEdited.isPresent()) {
-			List<String> authList = userService.findDistinctAuthorities();
+			List<UserType> authList = userService.findDistinctAuthorities();
 			userEdited.get().setPassword("");
 			authList.remove(userEdited.get().getUserType());
 			authList.add(0, userEdited.get().getUserType());

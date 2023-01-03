@@ -9,6 +9,8 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
+import sevenislands.enums.UserType;
+
 @Repository
 public interface UserRepository extends CrudRepository<User, Integer> {
 
@@ -27,5 +29,5 @@ public interface UserRepository extends CrudRepository<User, Integer> {
     public Boolean checkUserEmail(String email);
 
     @Query("SELECT DISTINCT user.userType FROM User user")
-    public List<String> findAuthorities();
+    public List<UserType> findAuthorities();
 }

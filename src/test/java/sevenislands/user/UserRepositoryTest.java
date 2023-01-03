@@ -18,6 +18,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import sevenislands.enums.UserType;
+
 @DataJpaTest
 public class UserRepositoryTest {
     
@@ -97,7 +99,7 @@ public class UserRepositoryTest {
 
     @Test
     public void retrieveAuthorities() {
-        List<String> authorities = userRepository.findAuthorities();
+        List<UserType> authorities = userRepository.findAuthorities();
         assertNotNull(authorities, "El repositorio devuelve una colección nula");
         assertFalse(authorities.isEmpty(), "El repositorio ha devuelto una colección vacía");
         assertEquals(2, authorities.size(), "El repositorio ha devuelto una colección de tamaño inesperado");
