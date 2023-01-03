@@ -23,7 +23,7 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
+import sevenislands.enums.UserType;
 import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.GameService;
 import sevenislands.lobby.Lobby;
@@ -62,7 +62,7 @@ public class UserService {
 		userCreate.setCreationDate(new Date(System.currentTimeMillis()));
         userCreate.setBirthDate(new Date(System.currentTimeMillis()));
         userCreate.setAvatar("resource/images/avatars/playerAvatar.png");
-        userCreate.setUserType("player");
+        userCreate.setUserType(UserType.player);
 
         return userCreate;
     }
@@ -114,7 +114,7 @@ public class UserService {
 	}
 
 	@Transactional
-	public List<String> findDistinctAuthorities() {
+	public List<UserType> findDistinctAuthorities() {
 		return userRepository.findAuthorities();
 	}
 
@@ -250,11 +250,11 @@ public class UserService {
 			user.setCreationDate(new Date(System.currentTimeMillis()));
 			user.setEnabled(true);
 			
-			if(user.getUserType().equals("player")){
+			if(user.getUserType().equals(UserType.player)){
 				user.setAvatar("playerAvatar.png");
 				
 
-			} else if(user.getUserType().equals("admin")){
+			} else if(user.getUserType().equals(UserType.admin)){
 				user.setAvatar("adminAvatar.png");
 			}
 			save(user);
