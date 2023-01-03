@@ -66,8 +66,5 @@ public class User extends BaseEntity {
 	@Enumerated(value = EnumType.STRING)
 	protected UserType userType;
 
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
-    private Set<Turn> turns;
  
 }
