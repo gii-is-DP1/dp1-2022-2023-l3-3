@@ -6,6 +6,8 @@ import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
@@ -15,6 +17,7 @@ import javax.validation.constraints.Past;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import sevenislands.enums.UserType;
 import sevenislands.game.turn.Turn;
 import sevenislands.model.BaseEntity;
 
@@ -60,7 +63,8 @@ public class User extends BaseEntity {
 	private String avatar;
 
 	@Column(name = "type", unique = false, updatable = false)
-	protected String userType;
+	@Enumerated(value = EnumType.STRING)
+	protected UserType userType;
 
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
