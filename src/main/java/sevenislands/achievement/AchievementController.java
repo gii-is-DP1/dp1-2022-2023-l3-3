@@ -88,4 +88,23 @@ public class AchievementController {
         return "redirect:/controlAchievements";
     }
 
+
+    @GetMapping("/controlAchievements/add")
+    public String addAchievement(ModelMap model){
+        model.put("achievement", new Achievement());
+        model.put("tipoLogro", List.of(AchievementType.values()));
+        return "/achievements/addAchievement";
+    }
+
+    @PostMapping("/controlAchievements/add")
+    public String processCreationAchievementForm(ModelMap model,@Valid Achievement achievement,BindingResult result){
+        if(result.hasErrors()) return "/achievements/addAchievement";
+        try {
+            achievementService.addAchievement(achievement);
+        } catch (Exception e) {
+            throw e;
+        }
+        return "redirect:/controlAchievements";
+    }
+
 }
