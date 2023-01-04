@@ -92,7 +92,7 @@ public class GameService {
      }
 
     @Transactional
-    public List<Game> findGameActive(Boolean active) {
+    public List<Object []> findGameActive(Boolean active) {
         return gameRepository.findGamesActive(active);
     }
 
