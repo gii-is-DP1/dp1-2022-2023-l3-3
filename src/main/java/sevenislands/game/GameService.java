@@ -109,11 +109,11 @@ public class GameService {
 
     @Transactional
     public Integer findTotalGamesPlayedByNickname(String nickname) {
-        return gameRepository.totalGamesPlayedByNickname(nickname);
+        return gameRepository.findTotalGamesPlayedByNickname(nickname);
     }
 
     @Transactional
-    public Long findTotalTimePlayed(String nickname) {
+    public Long findTotalTimePlayedByNickname(String nickname) {
         Optional<List<Game>> games = gameRepository.findGameByNickname(nickname);
         Duration played = Duration.ZERO;
         if(games.isPresent()){
@@ -126,10 +126,26 @@ public class GameService {
         }
         return played.toMinutes();   
     }
+
+    @Transactional
+    public Long findTotalTimePlayed() {
+        List<Game> games = gameRepository.findAll();
+        Duration played = Duration.ZERO;
+        for(Game g : games) {
+            LocalDateTime creationDate = g.getCreationDate();
+            LocalDateTime endingDate = g.getEndingDate();
+            Duration diference = Duration.between(creationDate,endingDate);
+            played = played.plus(diference);
+        }
+
+        return played.toMinutes();   
+    }
+
     
     public Boolean checkUserGame(User logedUser) {
         Optional<Game> game = findGameByNickname(logedUser.getNickname());
         if(game.isPresent() && game.get().isActive()) return true;
         return false;
     }
+
 }
