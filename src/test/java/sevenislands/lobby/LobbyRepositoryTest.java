@@ -44,7 +44,7 @@ public class LobbyRepositoryTest {
         users = userRepository.findAll().stream().filter(u -> u.getNickname().contains("Test")).limit(3).collect(Collectors.toList());
         lobby.setUsers(users);
         lobby.setActive(true);
-        lobby.setCode(lobby.generatorCode());
+        lobby.generatorCode();
         lobbyRepository.save(lobby);
         lobbyTest = lobbyRepository.findByCode(lobby.getCode()).orElse(null);
     }

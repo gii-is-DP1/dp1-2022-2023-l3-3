@@ -58,7 +58,9 @@ public class Lobby extends BaseEntity {
       }
       SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
       randomString.append(formatter.format(new Date(System.currentTimeMillis())));
-      return randomString.toString();
+      String code = randomString.toString();
+      this.setCode(code);
+      return code;
   }
 
  

@@ -137,4 +137,9 @@ public class GameDetailsService {
     public Long findGamesByNickname(String nickname) {
         return gameDetailsRepository.findAllByNickname(nickname);
     }
+
+    @Transactional
+    public Integer findTotalPunctuation() {
+        return gameDetailsRepository.findTotalPunctuation();
+    }
 }

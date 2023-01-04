@@ -38,10 +38,10 @@ public class CardService {
     public void initGameCards(Game game) {
         for (Tipo c : Tipo.values()) {
             Card card = new Card();
-            if(c==c.Doblon) card.setMultiplicity(27);
-            if(c==c.Caliz || c==c.Rubi || c==c.Diamante) card.setMultiplicity(3);
-            if(c==c.Collar || c==c.MapaTesoro || c==c.Corona) card.setMultiplicity(4);
-            if(c==c.Revolver || c==c.Espada || c==c.BarrilRon) card.setMultiplicity(6);
+            if(c==Tipo.Doblon) card.setMultiplicity(27);
+            if(c==Tipo.Caliz || c==Tipo.Rubi || c==Tipo.Diamante) card.setMultiplicity(3);
+            if(c==Tipo.Collar || c==Tipo.MapaTesoro || c==Tipo.Corona) card.setMultiplicity(4);
+            if(c==Tipo.Revolver || c==Tipo.Espada || c==Tipo.BarrilRon) card.setMultiplicity(6);
             card.setTipo(c);
             card.setGame(game);
             cardRepository.save(card);
@@ -60,8 +60,8 @@ public class CardService {
     }
 
     @Transactional
-    public Card findCardByTreasureName(Tipo tipo,Integer id){
-        return cardRepository.findCardByTreasureName(tipo,id);
+    public Card findCardByTreasureName(Tipo tipo){
+        return cardRepository.findCardByTreasureName(tipo);
     }
 
     @Transactional
