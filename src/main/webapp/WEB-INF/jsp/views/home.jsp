@@ -125,39 +125,34 @@
 <sevenislands:home pageName="home">
 	<body class="content">
 		<div class="header">
-			<sec:authorize access="hasAuthority('player')">
-				<div class="estadisticas">
-					<ul class="menu-horizontal">
-						<img class="img_grafica" src="/resources/images/grafics/estadisticas.png">
-						<li><strong>Estadísticas</strong>
-							<ul class="menu-vertical">
-								<li><a href="/ranking">Ranking</a></li>
-								<li><a href="/statistics">Estadísticas Globales</a></li>
+			<div class="estadisticas">
+				<ul class="menu-horizontal">
+					<img class="img_grafica" src="/resources/images/grafics/estadisticas.png">
+					<li><strong>Estadísticas</strong>
+						<ul class="menu-vertical">
+							<li><a href="/ranking/points">Ranking Puntos</a></li>
+							<li><a href="/ranking/victories">Ranking Victorias</a></li>
+							<li><a href="/statistics">Estadísticas Globales</a></li>
+							<sec:authorize access="hasAuthority('player')">
 								<li><a href="/myStatistics">Mis Estadísticas</a></li>
-							</ul>
-						</li>
-					</ul>
-				</div>
-			</sec:authorize>
-			<sec:authorize access="hasAuthority('player')">
-				<div class="logros">
-					<ul class="menu-horizontal">
-						<img class="img_home" src="/resources/images/grafics/trofeoIcono.png">
-						<li><strong>Logros</strong>
-							<ul class="menu-vertical">
-								<li><a href="/achievements">Logros Globales</a></li>
+							</sec:authorize>
+						</ul>
+					</li>
+				</ul>
+			</div>
+			<div class="logros">
+				<ul class="menu-horizontal">
+					<img class="img_home" src="/resources/images/grafics/trofeoIcono.png">
+					<li><strong>Logros</strong>
+						<ul class="menu-vertical">
+							<li><a href="/achievements">Logros Globales</a></li>
+							<sec:authorize access="hasAuthority('player')">
 								<li><a href="/myAchievements">Mis Logros</a></li>
-							</ul>
-						</li>
-					</ul>
-				</div>
-			</sec:authorize>
-			<sec:authorize access="hasAuthority('admin')">
-					<a href="/ranking">
-						<img class="img_grafica" src="/resources/images/grafics/estadisticas.png">
-						<strong>Ranking</strong>
-					</a>
-			</sec:authorize>
+							</sec:authorize>
+						</ul>
+					</li>
+				</ul>
+			</div>
 			<a href="/settings">
 				<img class="img_home" src="/resources/images/avatars/${user.avatar}"><strong>${user.nickname}</strong>&thinsp;
 			</a>

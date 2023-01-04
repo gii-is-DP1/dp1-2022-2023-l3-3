@@ -26,5 +26,13 @@ public interface GameRepository extends CrudRepository<Game, Integer> {
 
     @Query("SELECT COUNT(g) FROM Game g INNER JOIN g.lobby l INNER JOIN l.users u WHERE u.nickname=?1")
     public Integer findTotalGamesPlayedByNickname(String nickname);
+
+    @Query("SELECT COUNT(game) FROM Game game INNER JOIN game.winner winner WHERE winner.nickname=?1")
+    Long findVictoriesByNickname(String nickname);
     
+    @Query("SELECT winner, COUNT(game) FROM Game game INNER JOIN game.winner winner GROUP BY winner ORDER BY COUNT(game) DESC")
+    List<Object []> findVictories();
+
+    @Query("SELECT COUNT(game) FROM Game game INNER JOIN game.winner winner WHERE winner.nickname=?1 AND game.tieBreak=TRUE")
+    Long findTieBreaksByNickname(String nickname);
 }

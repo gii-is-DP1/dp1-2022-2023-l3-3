@@ -257,6 +257,7 @@ public class UserController {
 	@GetMapping("/controlPanel/details/{idUserDetailed}")
 	public String detailsUser(ModelMap model, @PathVariable("idUserDetailed") Integer id) {
 		Optional<User> userDetailed = userService.findUserById(id);
+			
 		if(userDetailed.isPresent()) {
 			String nickname = userDetailed.get().getNickname();
 			Integer totalGamesPlayed = gameService.findTotalGamesPlayedByNickname(nickname);

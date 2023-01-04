@@ -116,21 +116,12 @@ public class GameDetailsService {
                 gameDetails.setGame(game.get());
                 gameDetails.setUser((User) detail[0]);
                 gameDetails.setPunctuation((Integer) detail[1]);
-                gameDetails.setTieBreak(tieBreak);
-                gameDetails.setWinner(winner);
+                game.get().setTieBreak(tieBreak);
+                game.get().setWinner(winner);
                 save(gameDetails);
+                gameService.save(game.get());
             }
         }
-    }
-
-    @Transactional
-    public Long findVictoriesByNickname(String nickname) {
-        return gameDetailsRepository.findVictoriesByNickname(nickname);
-    }
-
-    @Transactional
-    public Long findTieBreaksByNickname(String nickname) {
-        return gameDetailsRepository.findTieBreaksByNickname(nickname);
     }
 
     @Transactional

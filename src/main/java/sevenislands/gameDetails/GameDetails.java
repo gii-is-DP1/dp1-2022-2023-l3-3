@@ -21,12 +21,6 @@ public class GameDetails extends BaseEntity{
     private Integer punctuation;
 
     @ManyToOne
-    private User winner;
-
-    @Column(name = "tieBreak", nullable = false)
-    private boolean tieBreak;
-
-    @ManyToOne
     private User user;
 
     @ManyToOne
