@@ -43,7 +43,9 @@ public class GameDetailsService {
 
     @Transactional
     public Long findPunctuationByNickname(String nickname) {
-        return gameDetailsRepository.findPunctuationByNickname(nickname);
+        Long totalPoints = gameDetailsRepository.findPunctuationByNickname(nickname);
+        totalPoints = totalPoints == null ? 0 : totalPoints;
+        return totalPoints;
     }
 
     @Transactional
