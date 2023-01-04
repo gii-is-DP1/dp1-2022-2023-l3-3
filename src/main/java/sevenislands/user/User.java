@@ -22,7 +22,6 @@ import org.springframework.format.annotation.DateTimeFormat;
 import sevenislands.configuration.AuditableEntity;
 import sevenislands.enums.UserType;
 import sevenislands.game.turn.Turn;
-import sevenislands.model.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
