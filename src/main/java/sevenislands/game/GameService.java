@@ -31,6 +31,7 @@ public class GameService {
     }
 
     @Transactional
+
     public Integer gameCount() {
         return (int) gameRepository.count();
     }

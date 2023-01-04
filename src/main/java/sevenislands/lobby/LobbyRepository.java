@@ -16,10 +16,10 @@ public interface LobbyRepository extends CrudRepository<Lobby,Integer> {
 	public Optional<Lobby> findByCode(String code);
     
     @Query("SELECT lobby FROM Lobby lobby INNER JOIN lobby.users user WHERE user.id=?1 ORDER BY lobby.id DESC")
-    public Optional<List<Lobby>> findByPlayerId(Integer user_id);
+    public Optional<List<Lobby>> findByPlayerId(Integer userId);
 
     @Query("SELECT lobby FROM Lobby lobby INNER JOIN lobby.users user WHERE user.id=?2 AND lobby.active=?1")
-    public Optional<List<Lobby>> findLobbyActive(Boolean active,Integer user_id);
+    public Optional<List<Lobby>> findLobbyActive(Boolean active,Integer userId);
 
 
 }

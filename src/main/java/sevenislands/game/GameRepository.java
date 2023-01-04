@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 public interface GameRepository extends CrudRepository<Game, Integer> {
 
     public List<Game> findAll();
-    
     @Query("SELECT game FROM Game game WHERE game.lobby.id=?1")
     public Optional<Game> findGamebByLobbyId(Integer code);
 
