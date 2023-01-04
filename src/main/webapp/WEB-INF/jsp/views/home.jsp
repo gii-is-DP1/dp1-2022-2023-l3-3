@@ -132,6 +132,7 @@
 						<li><strong>Estadísticas</strong>
 							<ul class="menu-vertical">
 								<li><a href="/ranking">Ranking</a></li>
+								<li><a href="/statistics">Estadísticas Globales</a></li>
 								<li><a href="/myStatistics">Mis Estadísticas</a></li>
 							</ul>
 						</li>

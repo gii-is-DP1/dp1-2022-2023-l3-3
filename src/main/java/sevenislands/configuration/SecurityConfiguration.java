@@ -48,6 +48,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/join/**").hasAnyAuthority("player")
 				.antMatchers("/game/finished").hasAnyAuthority("admin")
 				.antMatchers("/game/InProgress").hasAnyAuthority("admin")
+				.antMatchers("/statistics").hasAnyAuthority("player")
 				.antMatchers("/myStatistics").hasAnyAuthority("player")
 				.antMatchers("/controlAchievements/**").hasAnyAuthority("admin")
 				.antMatchers("/game/**").hasAnyAuthority("player")

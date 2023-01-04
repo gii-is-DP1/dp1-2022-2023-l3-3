@@ -330,6 +330,11 @@ public class TurnService {
 
     @Transactional
     public Integer findTotalTurnsByNickname(String nickname) {
-        return turnRepository.totalTurnsByNickname(nickname);
+        return turnRepository.findTotalTurnsByNickname(nickname);
+    }
+
+    @Transactional
+    public Integer turnCount() {
+        return (int) turnRepository.count();
     }
 }
