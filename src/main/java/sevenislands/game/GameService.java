@@ -148,4 +148,19 @@ public class GameService {
         return false;
     }
 
+    @Transactional
+    public Long findVictoriesByNickname(String nickname) {
+        return gameRepository.findVictoriesByNickname(nickname);
+    }
+
+    @Transactional
+    public List<Object []> findVictories() {
+        return gameRepository.findVictories();
+    }
+
+    @Transactional
+    public Long findTieBreaksByNickname(String nickname) {
+        return gameRepository.findTieBreaksByNickname(nickname);
+    }
+
 }

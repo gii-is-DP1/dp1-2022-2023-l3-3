@@ -110,8 +110,8 @@ public class AchievementService {
 		if(game.isPresent()) {
 			for(User user: game.get().getLobby().getUsers()) {
 				Long totalPoints = gameDetailsService.findPunctuationByNickname(user.getNickname());
-				Long totalVictories = gameDetailsService.findVictoriesByNickname(user.getNickname());
-				Long totalTieBreaks = gameDetailsService.findTieBreaksByNickname(user.getNickname());
+				Long totalVictories = gameService.findVictoriesByNickname(user.getNickname());
+				Long totalTieBreaks = gameService.findTieBreaksByNickname(user.getNickname());
 				Long totalGames = gameDetailsService.findGamesByNickname(user.getNickname());
 
 				for(Achievement achievement: getAll()) {

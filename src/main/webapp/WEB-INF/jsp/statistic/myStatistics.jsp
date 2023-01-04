@@ -23,7 +23,7 @@
         <h3>Nombre de Usuario: <c:out value="${user.nickname}"/></h3><br>
 
         <div class="caja">
-            <h3>Nº de Partidas Jugadas: <c:out value="${total_games_player}"/></h3>
+            <h3>Número de Partidas Jugadas: <c:out value="${total_games_player}"/></h3>
             <h3>Tiempo Total Jugado: <c:out value="${total_time_player}"/> min</h3>
             <h3>Puntos Totales: <c:out value="${total_points_player}"/></h3>
             <h3>Turnos Totales: <c:out value="${total_turns_player}"/></h3>

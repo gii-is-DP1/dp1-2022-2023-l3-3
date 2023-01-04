@@ -33,33 +33,38 @@
                 <p>Tipo de usuario: <c:out value="${user.userType}"/></p>
                 <p>Estado: <c:out value="${user.enabled}"/></p>
             </div>
+            <c:if test="${user.userType.toString()=='player'}">
+                <div>
+                    <h1><br>Detalles de las partidas</h1>
+                    <p>Número de partidas jugadas: <c:out value="${totalGamesPlayed}"/></p>
+                    <p>Total de puntos obtenidos: <c:out value="${totalPoints}"/></p>
+                    <p>Tiempo total jugado: <c:out value="${totalHoursPlayed}"/></p>
+                    <p>Turnos totales jugados: <c:out value="${totalTurns}"/></p>
+                </div>
+            </c:if>
+            
+        </div>
+        <c:if test="${user.userType.toString()=='player'}">
             <div>
-                <h1><br>Detalles de las partidas</h1>
-                <p>Número de partidas jugadas: <c:out value="${totalGamesPlayed}"/></p>
-                <p>Total de puntos obtenidos: <c:out value="${totalPoints}"/></p>
-                <p>Tiempo total jugado: <c:out value="${totalHoursPlayed}"/></p>
-                <p>Turnos totales jugados: <c:out value="${totalTurns}"/></p>
-            </div>
-        </div>
-        <div>
-            <h1><br>Logros obtenidos</h1>
-            <table class="table table-striped">
-                <tr>
-                    <th>Nombre</th>
-                    <th>Fecha de obtención</th>
-                    <th>Descripción</th>
-                </tr>
-                <c:forEach items="${achievements}" var="achievement">
+                <h1><br>Logros obtenidos</h1>
+                <table class="table table-striped">
                     <tr>
-                        <td>
-                            <img src="/resources/images/grafics/${achievement.getFirst().badgeImage}" height="40" width="40">
-                            <c:out value="${achievement.getFirst().name}"/>
-                        </td>
-                        <td><c:out value="${achievement.getSecond()}"/></td>
-                        <td><c:out value="${achievement.getFirst().description.replaceAll('LIMIT', achievement.getFirst().getThreshold())}"/></td>	
+                        <th>Nombre</th>
+                        <th>Fecha de obtención</th>
+                        <th>Descripción</th>
                     </tr>
-                </c:forEach>
-            </table>
-        </div>
+                    <c:forEach items="${achievements}" var="achievement">
+                        <tr>
+                            <td>
+                                <img src="/resources/images/grafics/${achievement.getFirst().badgeImage}" height="40" width="40">
+                                <c:out value="${achievement.getFirst().name}"/>
+                            </td>
+                            <td><c:out value="${achievement.getSecond()}"/></td>
+                            <td><c:out value="${achievement.getFirst().description.replaceAll('LIMIT', achievement.getFirst().getThreshold())}"/></td>	
+                        </tr>
+                    </c:forEach>
+                </table>
+            </div>
+        </c:if>
     </body>
 </sevenislands:layout2>
