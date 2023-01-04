@@ -10,10 +10,9 @@ import javax.validation.constraints.NotNull;
 
 import lombok.Getter;
 import lombok.Setter;
-
+import sevenislands.enums.Tipo;
 import sevenislands.game.Game;
 import sevenislands.model.BaseEntity;
-import sevenislands.enums.Tipo;
 
 @Getter
 @Setter
@@ -21,7 +20,7 @@ import sevenislands.enums.Tipo;
 public class Card extends BaseEntity{
 
     @Enumerated(value = EnumType.STRING)
-    private Tipo Tipo;
+    private Tipo tipo;
     
     @NotNull
     private Integer multiplicity;

@@ -1,6 +1,7 @@
 package sevenislands.game.turn;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -45,5 +46,12 @@ public class Turn extends BaseEntity {
 
     public static Integer rollDice() {
         return 1 + (int) Math.floor(Math.random() * 6);
+    }
+
+    public void addCard(Card card){
+        if(cards==null){
+            cards = new ArrayList<>();
+        }
+        cards.add(card);
     }
 }

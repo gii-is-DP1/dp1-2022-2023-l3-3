@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 public interface GameRepository extends CrudRepository<Game, Integer> {
 
     public List<Game> findAll();
-    
     @Query("SELECT game FROM Game game WHERE game.lobby.id=?1")
     public Optional<Game> findGamebByLobbyId(Integer code);
 
@@ -26,5 +25,14 @@ public interface GameRepository extends CrudRepository<Game, Integer> {
     public List<Object []> findGamesActive(Boolean active);
 
     @Query("SELECT COUNT(g) FROM Game g INNER JOIN g.lobby l INNER JOIN l.users u WHERE u.nickname=?1")
-    public Integer totalGamesPlayedByNickname(String nickname);
+    public Integer findTotalGamesPlayedByNickname(String nickname);
+
+    @Query("SELECT COUNT(game) FROM Game game INNER JOIN game.winner winner WHERE winner.nickname=?1")
+    Long findVictoriesByNickname(String nickname);
+    
+    @Query("SELECT winner, COUNT(game) FROM Game game INNER JOIN game.winner winner GROUP BY winner ORDER BY COUNT(game) DESC")
+    List<Object []> findVictories();
+
+    @Query("SELECT COUNT(game) FROM Game game INNER JOIN game.winner winner WHERE winner.nickname=?1 AND game.tieBreak=TRUE")
+    Long findTieBreaksByNickname(String nickname);
 }

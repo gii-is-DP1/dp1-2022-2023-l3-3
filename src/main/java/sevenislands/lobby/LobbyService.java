@@ -3,7 +3,6 @@ package sevenislands.lobby;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,26 +29,9 @@ public class LobbyService {
         this.gameService = gameService;
     }
 
-    /**
-     * Crea un código aleatorio para la lobby.
-     * @return String
-     */
-    public String generatorCode() {
-        String CHAR_LIST = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-        Integer RANDOM_STRING_LENGTH = 8;
-        StringBuffer randomString = new StringBuffer();
-        
-        for(int i = 0; i<RANDOM_STRING_LENGTH; i++) {
-            Random randomGenerator = new Random();
-            char ch = CHAR_LIST.charAt(randomGenerator.nextInt(CHAR_LIST.length()));
-            randomString.append(ch);
-        }
-        return randomString.toString();
-    }
-
     @Transactional
-	public void save(Lobby lobby) {
-        lobbyRepository.save(lobby);
+	public Lobby save(Lobby lobby) {
+        return lobbyRepository.save(lobby);
 	}
 
     @Transactional
@@ -81,23 +63,23 @@ public class LobbyService {
 
     public Lobby createLobbyEntity(User user) {
 		Lobby lobby = new Lobby();
-		lobby.setCode(generatorCode());
+		lobby.generatorCode();
 		lobby.setActive(true);
 		lobby.addPlayer(user);
     return lobby;
     }
 
     @Transactional
-    public void createLobby(User user) {
+    public Lobby createLobby(User user) {
 		Lobby lobby = createLobbyEntity(user);
-		save(lobby);
+		return save(lobby);
     }
 
     @Transactional
-    public void leaveLobby(User user) throws NotExistLobbyException {
+    public Lobby leaveLobby(User user) throws NotExistLobbyException {
 		
-        Lobby lobby = findLobbyByPlayerId(user.getId());
         Optional<Game> game = gameService.findGameByNickname(user.getNickname());
+        Lobby lobby = findLobbyByPlayerId(user.getId());
 		if(lobby.isActive() || (game.isPresent() && game.get().isActive())) {
             List<User> users = lobby.getPlayerInternal();
 		if (users.size() == minPlayers) {
@@ -105,8 +87,9 @@ public class LobbyService {
 		}
 		users.remove(user);
 		lobby.setUsers(users);
-		save(lobby);
-        }
+		lobby = save(lobby);
+        } 
+        return lobby;
     }
 
     @Transactional
@@ -134,36 +117,26 @@ public class LobbyService {
     }
 
     @Transactional
-    public Boolean validateJoin(String code, User user) throws NotExistLobbyException {
+    public void joinLobby(String code, User user) throws NotExistLobbyException {
         code = code.trim();
-        Integer userNumber = null;
-        try {
-            Lobby lobby = findLobbyByCode(code);
-            userNumber = lobby.getUsers().size();
-            if (lobby.isActive() && userNumber != null && userNumber >= minPlayers && userNumber <= maxPlayers) {
-                lobby.addPlayer(user);
-                save(lobby);
-                return true;
-            } else return false;
-        } catch (Exception e) {
-            throw e;
-        }
-       
-        
-		
+        Lobby lobby = findLobbyByCode(code);
+        lobby.addPlayer(user);
+        save(lobby);
     }
 
     @Transactional
     public List<String> checkLobbyErrors(String code) throws NotExistLobbyException {
         List<String> errors = new ArrayList<>();
         try {
+            code = code.trim();
             Lobby lobby = findLobbyByCode(code);
             Integer userNumber = lobby.getUsers().size();
 		    if(!lobby.isActive()) errors.add("La partida ya ha empezado o ha finalizado");
 		    if(userNumber == maxPlayers) errors.add("La lobby está llena");
             return errors;
         } catch (Exception e) {
-            throw e;
+            errors.add("El código no pertenece a ninguna lobby");
+            return errors;
         }
         
        
@@ -189,7 +162,7 @@ public class LobbyService {
         Lobby lobby = findLobbyByPlayerId(logedUser.getId());
         Boolean res;
         userNumber = lobby.getUsers().size();
-		if (userNumber != null && userNumber > minPlayers && userNumber <= maxPlayers) {
+		if (userNumber != null && userNumber >= minPlayers && userNumber < maxPlayers) {
             res = false;
 		} else {res= true;}
         return res;
@@ -199,8 +172,8 @@ public class LobbyService {
     }
 
     @Transactional
-    public void disableLobby(Lobby lobby) {
+    public Lobby disableLobby(Lobby lobby) {
         lobby.setActive(false);
-        lobbyRepository.save(lobby);
+        return lobbyRepository.save(lobby);
     } 
 }

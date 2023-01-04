@@ -62,7 +62,7 @@ public class GameController {
         if(lobbyService.checkLobbyNoAllPlayers(logedUser)) return "redirect:/home";
         if(gameService.checkUserGameWithRounds(logedUser)) return VIEWS_TURN;
         response.addHeader("Refresh", "5");
-       try {
+        try {
         Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
         if(gameService.findGameByNicknameAndActive(logedUser.getNickname(), true).isEmpty()) {
             gameService.initGame(lobby);

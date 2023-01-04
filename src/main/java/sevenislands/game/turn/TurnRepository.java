@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository;
 public interface TurnRepository extends CrudRepository<Turn, Integer> {
 
     @Query("SELECT turn FROM Turn turn WHERE turn.round.id=?1")
-    public List<Turn> findByRoundId(int Id) throws DataAccessException;
+    public List<Turn> findByRoundId(Integer id) throws DataAccessException;
 
     public List<Turn> findAll();
 
@@ -21,6 +21,6 @@ public interface TurnRepository extends CrudRepository<Turn, Integer> {
     public Optional<List<Turn>> findTurnByNickname(String nickname);
 
     @Query("SELECT COUNT(t) FROM Turn t INNER JOIN t.user u WHERE u.nickname=?1")
-    public Integer totalTurnsByNickname(String nickname);
+    public Integer findTotalTurnsByNickname(String nickname);
     
 }
