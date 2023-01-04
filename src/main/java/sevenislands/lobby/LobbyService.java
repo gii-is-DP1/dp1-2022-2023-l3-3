@@ -134,36 +134,26 @@ public class LobbyService {
     }
 
     @Transactional
-    public Boolean validateJoin(String code, User user) throws NotExistLobbyException {
+    public void joinLobby(String code, User user) throws NotExistLobbyException {
         code = code.trim();
-        Integer userNumber = null;
-        try {
-            Lobby lobby = findLobbyByCode(code);
-            userNumber = lobby.getUsers().size();
-            if (lobby.isActive() && userNumber != null && userNumber >= minPlayers && userNumber <= maxPlayers) {
-                lobby.addPlayer(user);
-                save(lobby);
-                return true;
-            } else return false;
-        } catch (Exception e) {
-            throw e;
-        }
-       
-        
-		
+        Lobby lobby = findLobbyByCode(code);
+        lobby.addPlayer(user);
+        save(lobby);
     }
 
     @Transactional
     public List<String> checkLobbyErrors(String code) throws NotExistLobbyException {
         List<String> errors = new ArrayList<>();
         try {
+            code = code.trim();
             Lobby lobby = findLobbyByCode(code);
             Integer userNumber = lobby.getUsers().size();
 		    if(!lobby.isActive()) errors.add("La partida ya ha empezado o ha finalizado");
 		    if(userNumber == maxPlayers) errors.add("La lobby está llena");
             return errors;
         } catch (Exception e) {
-            throw e;
+            errors.add("El código no pertenece a ninguna lobby");
+            return errors;
         }
         
        

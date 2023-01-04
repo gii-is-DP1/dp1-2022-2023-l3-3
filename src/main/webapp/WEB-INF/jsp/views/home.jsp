@@ -1,126 +1,126 @@
 <%@ page session="false" trimDirectiveWhitespaces="true" %>
-	<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-		<%@ taglib prefix="sevenislands" tagdir="/WEB-INF/tags" %>
-			<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
-				<%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="sevenislands" tagdir="/WEB-INF/tags" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 
-					<style>
-						.content {
-							background: url(resources/images/grafics/fondo1920x1080.jpg);
-						}
+<style>
+.content {
+	background: url(resources/images/grafics/fondo1920x1080.jpg);
+}
 
-						#name {
-							width: 700;
-							height: 200;
-						}
+#name {
+	width: 700;
+	height: 200;
+}
 
-						#manual {
-							padding: 10px;
-							margin-right: 0;
-							align-self: flex-end;
-						}
+#manual {
+	padding: 10px;
+	margin-right: 0;
+	align-self: flex-end;
+}
 
-						#pirata {
-							position: absolute;
-							right: 0;
-							bottom: 20px;
-							height: 80%;
-							width: 40%;
-							z-index: -1;
-						}
+#pirata {
+	position: absolute;
+	right: 0;
+	bottom: 20px;
+	height: 80%;
+	width: 40%;
+	z-index: -1;
+}
 
-						.header {
-							padding-right: 10px;
-							width: 100%;
-							height: 5%;
-							display: flex;
-							flex-direction: row;
-							justify-content: end;
-							align-items: center;
-						}
+.header {
+	padding-right: 10px;
+	width: 100%;
+	height: 5%;
+	display: flex;
+	flex-direction: row;
+	justify-content: end;
+	align-items: center;
+}
 
-						.body {
-							width: 100%;
-							height: 95%;
-							display: flex;
-							flex: 1;
-							flex-direction: column;
-							align-items: center;
-							justify-content: space-between;
-						}
+.body {
+	width: 100%;
+	height: 95%;
+	display: flex;
+	flex: 1;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+}
 
-						.menu {
-							display: flex;
-							flex-direction: column;
-							align-items: center;
-							justify-content: space-between;
-							padding: 10px;
-						}
+.menu {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
+	padding: 10px;
+}
 
-						.btn {
-							margin: 10px;
-						}
+.btn {
+	margin: 10px;
+}
 
-						.img_home {
-							height: 25px;
-							width: 25px;
-						}
+.img_home {
+	height: 25px;
+	width: 25px;
+}
 
-						.img_grafica {
-							height: 20px;
-							width: 20px;
-						}
+.img_grafica {
+	height: 20px;
+	width: 20px;
+}
 
-						.logros {
-							margin-top: 14px;
-							margin-right: 10px;
-						}
+.logros {
+	margin-top: 14px;
+	margin-right: 10px;
+}
 
-						.estadisticas {
-							margin-top: 12px;
-							margin-right: -30px;
-						}
+.estadisticas {
+	margin-top: 12px;
+	margin-right: -30px;
+}
 
-						.menu-horizontal {
-							list-style: none;
-							display: flex;
-							justify-content: space-around;
-						}
+.menu-horizontal {
+	list-style: none;
+	display: flex;
+	justify-content: space-around;
+}
 
-						.menu-horizontal>li>a {
-							display: block;
-							padding: 15px 20px;
-							color: rgb(0, 0, 0);
-							text-decoration: none;
-						}
+.menu-horizontal>li>a {
+	display: block;
+	padding: 15px 20px;
+	color: rgb(0, 0, 0);
+	text-decoration: none;
+}
 
-						.menu-horizontal>li:hover {
-							background-color: #5FA134
-						}
+.menu-horizontal>li:hover {
+	background-color: #5FA134
+}
 
-						.menu-vertical {
-							position: absolute;
-							display: none;
-							list-style: none;
-							width: 140px;
-							background-color: rgba(0, 0, 0, .5);
-						}
+.menu-vertical {
+	position: absolute;
+	display: none;
+	list-style: none;
+	width: 140px;
+	background-color: rgba(0, 0, 0, .5);
+}
 
-						.menu-horizontal li:hover .menu-vertical {
-							display: block;
-						}
+.menu-horizontal li:hover .menu-vertical {
+	display: block;
+}
 
-						.menu-vertical li:hover {
-							background-color: black;
-						}
+.menu-vertical li:hover {
+	background-color: black;
+}
 
-						.menu-vertical li a {
-							display: block;
-							color: white;
-							padding: 15px 15px 15px 20px;
-							text-decoration: none;
-						}
-					</style>
+.menu-vertical li a {
+	display: block;
+	color: white;
+	padding: 15px 15px 15px 20px;
+	text-decoration: none;
+}
+</style>
 
 <sevenislands:home pageName="home">
 	<body class="content">
@@ -161,40 +161,22 @@
 				<img class="img_home" src="/resources/images/avatars/${user.avatar}"><strong>${user.nickname}</strong>&thinsp;
 			</a>
 		</div>
-
-							<div class="body">
-								<img id="name" src="/resources/images/grafics/letras_7_islas.png">
-								<div class="menu">
-									<sec:authorize access="hasAuthority('player')">
-										<a class="btn btn-default"
-											href='<spring:url value="/lobby/create" htmlEscape="true"/>'>Crear
-											Partida</a>
-									</sec:authorize>
-									<sec:authorize access="hasAuthority('player')">
-										<br />
-										<a class="btn btn-default"
-											href='<spring:url value="/join" htmlEscape="true"/>'>Unirse a Partida</a>
-									</sec:authorize>
-
+		<div class="body">
+			<img id="name" src="/resources/images/grafics/letras_7_islas.png">
+			<div class="menu">
 				<sec:authorize access="hasAuthority('player')">
-					<br/>
+					<a class="btn btn-default" href='<spring:url value="/lobby/create" htmlEscape="true"/>'>Crear Partida</a>
+					<a class="btn btn-default" href='<spring:url value="/join" htmlEscape="true"/>'>Unirse a Partida</a>
+					<c:if test="${hasPlayed}">
+						<a class="btn btn-default" href='<spring:url value="/endGame" htmlEscape="true"/>'>Resultados anteriores</a>
+					</c:if>
 					<a class="btn btn-default" href='<spring:url value="/game/gamesAsPlayer" htmlEscape="true"/>'>Partidas jugadas</a>
 				</sec:authorize>
 		
 				<sec:authorize access="hasAuthority('admin')">
 					<a class="btn btn-default" href='<spring:url value="/controlPanel?valor=0" htmlEscape="true"/>'>Panel de Control</a>
-				</sec:authorize>
-				<sec:authorize access="hasAuthority('admin')">
 					<a class="btn btn-default" href='<spring:url value="/controlAchievements" htmlEscape="true"/>'>Panel de logros</a>
-				</sec:authorize>
-		
-				<sec:authorize access="hasAuthority('admin')">
-					<br/>
 					<a class="btn btn-default" href='<spring:url value="/game/finished" htmlEscape="true"/>'>Partidas finalizadas</a>
-				</sec:authorize>
-		
-				<sec:authorize access="hasAuthority('admin')">
-					<br/>
 					<a class="btn btn-default" href='<spring:url value="/game/InProgress" htmlEscape="true"/>'>Partidas en curso</a>
 				</sec:authorize>
 		
