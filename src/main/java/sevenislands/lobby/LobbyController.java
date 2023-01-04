@@ -81,9 +81,11 @@ public class LobbyController {
 
 	@PostMapping("/join")
 	public String validateJoin(ModelMap model, @ModelAttribute("code") String code, @ModelAttribute("logedUser") User logedUser) throws NotExistLobbyException {
-		if(lobbyService.validateJoin(code, logedUser)) return "redirect:/lobby";
 		List<String> errors = lobbyService.checkLobbyErrors(code);
-		
+		if(errors.isEmpty()) {
+			lobbyService.joinLobby(code, logedUser);
+			return "redirect:/lobby";
+		} 
 		model.put("errors", errors);
 		Lobby lobby2 = new Lobby();
 		lobby2.setCode(code);
