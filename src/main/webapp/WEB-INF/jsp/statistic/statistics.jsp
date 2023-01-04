@@ -23,7 +23,7 @@
 
         <table class="table table-striped">
 			<tr>
-                <th></th>
+                <th>Nombre</th>
 				<th>Total</th>
 				<th>Promedio</th>
 				<th>Máximo</th>

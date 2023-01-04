@@ -260,7 +260,7 @@ public class UserController {
 		if(userDetailed.isPresent()) {
 			String nickname = userDetailed.get().getNickname();
 			Integer totalGamesPlayed = gameService.findTotalGamesPlayedByNickname(nickname);
-			Long totalHoursPlayed = gameService.findTotalTimePlayed(nickname);
+			Long totalHoursPlayed = gameService.findTotalTimePlayedByNickname(nickname);
 			Long totalPoints = gameDetailsService.findPunctuationByNickname(nickname);
 			Integer totalTurns = turnService.findTotalTurnsByNickname(nickname);
 
