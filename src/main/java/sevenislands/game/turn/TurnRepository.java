@@ -11,7 +11,7 @@ import org.springframework.stereotype.Repository;
 public interface TurnRepository extends CrudRepository<Turn, Integer> {
 
     @Query("SELECT turn FROM Turn turn WHERE turn.round.id=?1")
-    public List<Turn> findByRoundId(int Id) throws DataAccessException;
+    public List<Turn> findByRoundId(Integer id) throws DataAccessException;
 
     //No se usa en ningún lado
     public List<Turn> findAll();

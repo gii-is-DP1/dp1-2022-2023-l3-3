@@ -71,10 +71,10 @@ public class TurnService {
         return turnRepository.findByRoundId(id);
     }
     @Transactional
-    public List<Island> IslandToChoose(Turn turn,String nickName, List<Island> islandList){
+    public List<Island> islandToChoose(Turn turn,String nickName, List<Island> islandList){
         List<Island> islas=new ArrayList<>();
-        Map<Card, Integer> playerCardsMap=findPlayerCardsLastTurn(nickName);
-        Integer numCardMazo=playerCardsMap.values().stream().mapToInt(x->x).sum();
+        Map<Card, Integer> playerCardsMap = findPlayerCardsLastTurn(nickName);
+        Integer numCardMazo = playerCardsMap.values().stream().mapToInt(x->x).sum();
         if(turn.getDice()!=null){
             for(int i=1; i<=(turn.getDice()+numCardMazo);i++){
                 Integer cambioIsla=turn.getDice()-i;
@@ -88,8 +88,8 @@ public class TurnService {
     }
 
     @Transactional
-    public void save(Turn turn) {
-        turnRepository.save(turn);
+    public Turn save(Turn turn) {
+        return turnRepository.save(turn);
     }
 
     @Transactional
@@ -111,11 +111,11 @@ public class TurnService {
 
 
     @Transactional
-    public void dice(Turn turn) {
+    public Turn dice(Turn turn) {
         Random randomGenerator = new Random();
         Integer dice = randomGenerator.nextInt(6) + 1;
         turn.setDice(dice);
-        save(turn);
+        return save(turn);
     }
 
     @Transactional
@@ -246,12 +246,12 @@ public class TurnService {
     public Map<Card, Integer> findPlayerCardsLastTurn(String nickname) {
         Turn lastPlayerTurn = turnRepository.findTurnByNickname(nickname).get(0);
         Map<Card, Integer> map = new HashMap<>();
-        for (Card t : lastPlayerTurn.getCards()) {
-            if (map.containsKey(t)) {
-                Integer newValue = map.get(t) + 1;
-                map.put(t, newValue);
+        for (Card card : lastPlayerTurn.getCards()) {
+            if (map.containsKey(card)) {
+                Integer newValue = map.get(card) + 1;
+                map.put(card, newValue);
             } else {
-                map.put(t, 1);
+                map.put(card, 1);
             }
         }
         return map.entrySet()

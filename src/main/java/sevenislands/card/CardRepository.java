@@ -15,10 +15,10 @@ public interface CardRepository extends CrudRepository<Card, Integer> {
     @Query("SELECT card FROM Card card WHERE card.game.id=?1")
     public List<Card> findAllByGameId(Integer gameId);
  
-    @Query("SELECT card FROM Card card WHERE card.game.id=?1 AND card.Tipo=?2")
+    @Query("SELECT card FROM Card card WHERE card.game.id=?1 AND card.tipo=?2")
     public Card findByGameAndTreasure(Integer gameId,Tipo tipo);
  
-    @Query("Select card FROM Card card WHERE card.Tipo=?1")
+    @Query("Select card FROM Card card WHERE card.tipo=?1")
     public Card findCardByTreasureName(Tipo tipo);
 
     @Query("SELECT card FROM Card card ORDER BY card.multiplicity DESC")

@@ -20,8 +20,9 @@ public class TurnRepositoryTest {
     @Test
     public void initialData(){
         List<Turn> turnos = turnRepository.findAll();
-
+        List<Turn> turnosRoundId  = turnRepository.findByRoundId(1);
         assertNotNull(turnos);
+        assertNotNull(turnosRoundId);
         assertNotNull(turnRepository.findById(98765));
     }
 
