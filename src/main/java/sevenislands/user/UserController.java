@@ -20,6 +20,7 @@ import sevenislands.achievement.Achievement;
 import sevenislands.enums.UserType;
 import sevenislands.exceptions.NotExitPlayerException;
 import sevenislands.game.GameService;
+import sevenislands.game.turn.TurnService;
 import sevenislands.gameDetails.GameDetailsService;
 import sevenislands.register.RegisterService;
 import sevenislands.tools.metodosReutilizables;
@@ -44,15 +45,16 @@ public class UserController {
 	private final GameService gameService;
 	private final RegisterService registerService;
 	private final GameDetailsService gameDetailsService;
-
+	private final TurnService turnService;
 	private final Integer tamanoPaginacion=5;
 
 	@Autowired
-	public UserController(UserService userService, GameService gameService, RegisterService registerService, GameDetailsService gameDetailsService) {
+	public UserController(UserService userService, GameService gameService, RegisterService registerService, GameDetailsService gameDetailsService, TurnService turnService) {
 		this.userService = userService;
 		this.gameService = gameService;
 		this.registerService = registerService;
 		this.gameDetailsService = gameDetailsService;
+		this.turnService = turnService;
 	}
 
 	@GetMapping("/settings")
@@ -258,17 +260,17 @@ public class UserController {
 		if(userDetailed.isPresent()) {
 			String nickname = userDetailed.get().getNickname();
 			Integer totalGamesPlayed = gameService.findTotalGamesPlayedByNickname(nickname);
-			//Integer totalHoursPlayed = gameService.findTotalHoursPlayedByNickname(nickname);
+			Long totalHoursPlayed = gameService.findTotalTimePlayedByNickname(nickname);
 			Long totalPoints = gameDetailsService.findPunctuationByNickname(nickname);
-			//Integer totalTurns = gameService.findTotalTurnsByNickname(nickname);
+			Integer totalTurns = turnService.findTotalTurnsByNickname(nickname);
 
 			List<Pair<Achievement, Date>> registers = registerService.findRegistersByNickname(nickname).stream()
 			.map(r -> Pair.of((Achievement)r[0], (Date)r[1])).collect(Collectors.toList());
 
 			model.put("totalGamesPlayed", totalGamesPlayed);
-			//model.put("totalHoursPlayed", totalHoursPlayed);
+			model.put("totalHoursPlayed", totalHoursPlayed);
 			model.put("totalPoints", totalPoints);
-			//model.put("totalTurns", totalTurns);
+			model.put("totalTurns", totalTurns);
 			model.put("achievements", registers);
 			model.put("user", userDetailed.get());
 			return "admin/detailsUser";
