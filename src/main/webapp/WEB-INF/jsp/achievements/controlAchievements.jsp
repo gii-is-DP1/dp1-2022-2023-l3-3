@@ -4,6 +4,7 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page session="false" trimDirectiveWhitespaces="true" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -21,17 +22,17 @@
 	}
 </style>
 
-<sevenislands:layout2 pageName="finishedGames">
+<sevenislands:layout2 pageName="controlPanel">
 	<body>
 		<div class="controlPanel-menu">
 			<div>
 				<a class="btn btn-default" href='<spring:url value="/home" htmlEscape="true"/>'>Volver</a>
 			</div>
+			<div>
+				<a class="btn btn-default" href='<spring:url value="/controlAchievements/add" htmlEscape="true"/>'>Añadir logro</a>
+			</div>
 		</div>
-		<c:forEach items="${games}" var="game">
-			<c:if test="${game.active == false}"><h2><br/>Partidas finalizadas</h2></c:if>
-			<c:if test="${game.active == true}"><h2><br/>Partidas en curso</h2></c:if>
-		</c:forEach>
+		<h2><br/>Usuarios</h2>
 		<div class="container">
 			<br/>
 			<c:if test="${message != null}">
@@ -43,26 +44,22 @@
 		</div>
 		<table class="table table-striped">
 			<tr>
-				<th>ID</th>
-				<th>Creation_date</th>
-				<th>Ending_date</th>
+				<th>Editar</th>
+				<th>Logro</th>
+				<th>Description</th>
+                <th>Tipo</th>
+                <th>Name</th>
+				
 			</tr>
-			<c:forEach items="${games}" var="game">
+			<c:forEach items="${logros}" var="logro">
 				<tr>
-                    <td><c:out value="${game.id}"/></td>
-					<td><c:out value="${game.creationDate}"/></td>
-					<td><c:out value="${game.endingDate}"/></td>	
+					<td><a href="/controlAchievements/edit/${logro.getFirst().id}"><img src="/resources/images/icons/editIcon.png" height="30" width="30"></a></td>
+					<td><img src="/resources/images/grafics/${logro.getFirst().badgeImage}" height="25" width="25"></td>
+					<td><c:out value="${logro.getFirst().description.replaceAll('LIMIT', logro.getFirst().getThreshold())}"/></td>	
+					<td><c:out value="${logro.getFirst().achievementType}"/></td>
+                    <td><c:out value="${logro.getFirst().name}"/></td>
 				</tr>
 			</c:forEach>
 		</table>
-		<!-- <nav aria-label="Page navigation example">
-			<ul class="pagination">
-				<c:if test="${valores-1>=0}">
-				<a class="btn btn-default" href="/controlPanel?valor=${valores - 1}"  >ANTERIOR</a>
-			</c:if><c:if test="${valores+1<=paginas}">
-			  	<a class="btn btn-default" href="/controlPanel?valor=${valores + 1}" >SIGUIENTE</a>
-			</c:if>
-			</ul>
-		</nav> -->
 	</body>
 </sevenislands:layout2>

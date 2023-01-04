@@ -6,6 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+
+import sevenislands.enums.UserType;
 import sevenislands.user.User;
 import sevenislands.user.UserService;
 
@@ -45,7 +47,7 @@ public class SignUpController {
 			return VIEWS_PLAYER_SIGNUP;
 		} 
 		try {
-			user.setUserType("player");
+			user.setUserType(UserType.player);
 			userService.addUser(user, false, authenticationManager, request);
 			return "redirect:/home";
 		} catch (Exception e) {

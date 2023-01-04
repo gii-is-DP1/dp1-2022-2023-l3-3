@@ -1,13 +1,11 @@
 package sevenislands.game;
 
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 
@@ -25,20 +23,16 @@ import lombok.Setter;
 public class Game extends BaseEntity {
 
 	@Past
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "yyyy/MM/dd")
+	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
 	@Column(name = "creation_date", nullable = false)
-	private Date creationDate;
+	private LocalDateTime creationDate;
 
 	@Column(name = "active", unique = false, nullable = false)
 	private boolean active;
 
 	@Past
-	@Temporal(TemporalType.DATE)
-	@DateTimeFormat(pattern = "yyyy/MM/dd")
-	private Date endingDate;
-
-	
+	@DateTimeFormat(pattern = "yyyy/MM/dd HH:mm:ss")
+	private LocalDateTime endingDate;	
 
 	@OneToOne
 	@NotNull

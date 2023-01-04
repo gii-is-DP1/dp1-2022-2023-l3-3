@@ -1,133 +1,180 @@
 <%@ page session="false" trimDirectiveWhitespaces="true" %>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-<%@ taglib prefix="sevenislands" tagdir="/WEB-INF/tags" %>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
-<%@ page contentType="text/html; charset=UTF-8" %>
+	<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+		<%@ taglib prefix="sevenislands" tagdir="/WEB-INF/tags" %>
+			<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+				<%@ page contentType="text/html; charset=UTF-8" %>
 
-<style>
-.content {
-	background: url(resources/images/grafics/fondo1920x1080.jpg);
-}
+					<style>
+						.content {
+							background: url(resources/images/grafics/fondo1920x1080.jpg);
+						}
 
-#name {
-	width: 700;
-	height: 200;
-}
-#manual {
-	padding: 10px;
-	margin-right: 0;
-	align-self: flex-end;
-}
+						#name {
+							width: 700;
+							height: 200;
+						}
 
-#pirata {
-	position: absolute;
-<<<<<<< HEAD
-	bottom: 35px;
-	right: 35px;
-  }
-.posicion {
-	position: absolute;
-    bottom: 15px;
-    right: 5px;
-}
-.trofeo {
-	position: absolute;
-    top: 34px;
-    right: 270px;
-}
-</style>
+						#manual {
+							padding: 10px;
+							margin-right: 0;
+							align-self: flex-end;
+						}
 
-<sevenislands:layout3 pageName="home">
-	<body style="background: url(resources/images/grafics/fondo1920x1080.jpg)">
-		<div>
-			<div>${onlineUsers}</div>
-			<div class="text-right" style="margin-bottom: 24px">
-				<a href="/settings">
-					<strong>${user.nickname}</strong>&thinsp;<img src="/resources/images/avatars/${user.avatar}" height="25" width="25">
-				</a>
-			</div>
-			<div class="trofeo">
-				<sec:authorize access="hasAuthority('player')">
-					<a href="/achievements">
-						<img src="/resources/images/grafics/trofeoIcono.png" height="35" width="35">
-					</a>
-				</sec:authorize>
-			</div>
-			<div class="posicion">
-				<img src="/resources/images/grafics/pirataLoroAnimado.gif" width="550" height="688">
-			</div>
-=======
-	right: 0;
-	bottom: 20px;
-	height: 80%;
-	width: 40%;
-	z-index: -1;
-}
+						#pirata {
+							position: absolute;
+							right: 0;
+							bottom: 20px;
+							height: 80%;
+							width: 40%;
+							z-index: -1;
+						}
 
-.header {
-	padding-right: 10px;
-	width: 100%;
-	height: 5%;
-	display: flex;
-	flex-direction: row;
-	justify-content: end;
-	align-items: center;
-}
+						.header {
+							padding-right: 10px;
+							width: 100%;
+							height: 5%;
+							display: flex;
+							flex-direction: row;
+							justify-content: end;
+							align-items: center;
+						}
 
-.body {
-	width: 100%;
-	height: 95%;
-	display: flex;
-	flex: 1;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-between;
-}
+						.body {
+							width: 100%;
+							height: 95%;
+							display: flex;
+							flex: 1;
+							flex-direction: column;
+							align-items: center;
+							justify-content: space-between;
+						}
 
-.menu {
-	display: flex;
-	flex-direction: column;
-	align-items: center;
-	justify-content: space-between;
-	padding: 10px;
-}
+						.menu {
+							display: flex;
+							flex-direction: column;
+							align-items: center;
+							justify-content: space-between;
+							padding: 10px;
+						}
 
-.btn {
-	margin: 10px;
-}
+						.btn {
+							margin: 10px;
+						}
 
-.img_home {
-	height: 25px;
-	width: 25px;
-	margin-left: 10px;
-}
+						.img_home {
+							height: 25px;
+							width: 25px;
+						}
 
-</style>
+						.img_grafica {
+							height: 20px;
+							width: 20px;
+						}
+
+						.logros {
+							margin-top: 14px;
+							margin-right: 10px;
+						}
+
+						.estadisticas {
+							margin-top: 12px;
+							margin-right: -30px;
+						}
+
+						.menu-horizontal {
+							list-style: none;
+							display: flex;
+							justify-content: space-around;
+						}
+
+						.menu-horizontal>li>a {
+							display: block;
+							padding: 15px 20px;
+							color: rgb(0, 0, 0);
+							text-decoration: none;
+						}
+
+						.menu-horizontal>li:hover {
+							background-color: #5FA134
+						}
+
+						.menu-vertical {
+							position: absolute;
+							display: none;
+							list-style: none;
+							width: 140px;
+							background-color: rgba(0, 0, 0, .5);
+						}
+
+						.menu-horizontal li:hover .menu-vertical {
+							display: block;
+						}
+
+						.menu-vertical li:hover {
+							background-color: black;
+						}
+
+						.menu-vertical li a {
+							display: block;
+							color: white;
+							padding: 15px 15px 15px 20px;
+							text-decoration: none;
+						}
+					</style>
 
 <sevenislands:home pageName="home">
 	<body class="content">
 		<div class="header">
-			<a href="/settings">
-				<strong>${user.nickname}</strong>&thinsp;<img class="img_home" src="/resources/images/avatars/${user.avatar}">
-			</a>
 			<sec:authorize access="hasAuthority('player')">
-				<a href="/achievements">
-					<img class="img_home" src="/resources/images/grafics/trofeoIcono.png">
-				</a>
+				<div class="estadisticas">
+					<ul class="menu-horizontal">
+						<img class="img_grafica" src="/resources/images/grafics/estadisticas.png">
+						<li><strong>Estadísticas</strong>
+							<ul class="menu-vertical">
+								<li><a href="/ranking">Ranking</a></li>
+								<li><a href="/myStatistics">Mis Estadísticas</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
 			</sec:authorize>
->>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
+			<sec:authorize access="hasAuthority('player')">
+				<div class="logros">
+					<ul class="menu-horizontal">
+						<img class="img_home" src="/resources/images/grafics/trofeoIcono.png">
+						<li><strong>Logros</strong>
+							<ul class="menu-vertical">
+								<li><a href="/achievements">Logros Globales</a></li>
+								<li><a href="/myAchievements">Mis Logros</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+			</sec:authorize>
+			<sec:authorize access="hasAuthority('admin')">
+					<a href="/ranking">
+						<img class="img_grafica" src="/resources/images/grafics/estadisticas.png">
+						<strong>Ranking</strong>
+					</a>
+			</sec:authorize>
+			<a href="/settings">
+				<img class="img_home" src="/resources/images/avatars/${user.avatar}"><strong>${user.nickname}</strong>&thinsp;
+			</a>
 		</div>
 
-		<div class="body">
-			<img id="name" src="/resources/images/grafics/letras_7_islas.png">
-			<div class="menu">
-				<sec:authorize access="hasAuthority('player')">
-					<a class="btn btn-default" href='<spring:url value="/lobby/create" htmlEscape="true"/>'>Crear Partida</a>
-				</sec:authorize>
-				<sec:authorize access="hasAuthority('player')">
-					<br/>
-					<a class="btn btn-default" href='<spring:url value="/join" htmlEscape="true"/>'>Unirse a Partida</a>
-				</sec:authorize>
+							<div class="body">
+								<img id="name" src="/resources/images/grafics/letras_7_islas.png">
+								<div class="menu">
+									<sec:authorize access="hasAuthority('player')">
+										<a class="btn btn-default"
+											href='<spring:url value="/lobby/create" htmlEscape="true"/>'>Crear
+											Partida</a>
+									</sec:authorize>
+									<sec:authorize access="hasAuthority('player')">
+										<br />
+										<a class="btn btn-default"
+											href='<spring:url value="/join" htmlEscape="true"/>'>Unirse a Partida</a>
+									</sec:authorize>
 
 				<sec:authorize access="hasAuthority('player')">
 					<br/>
@@ -137,44 +184,22 @@
 				<sec:authorize access="hasAuthority('admin')">
 					<a class="btn btn-default" href='<spring:url value="/controlPanel?valor=0" htmlEscape="true"/>'>Panel de Control</a>
 				</sec:authorize>
-<<<<<<< HEAD
-			</center>
-		</div>
-
-		<div>
-            <center>
-=======
+				<sec:authorize access="hasAuthority('admin')">
+					<a class="btn btn-default" href='<spring:url value="/controlAchievements" htmlEscape="true"/>'>Panel de logros</a>
+				</sec:authorize>
 		
->>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
 				<sec:authorize access="hasAuthority('admin')">
 					<br/>
 					<a class="btn btn-default" href='<spring:url value="/game/finished" htmlEscape="true"/>'>Partidas finalizadas</a>
 				</sec:authorize>
-<<<<<<< HEAD
-			</center>
-		</div>
-
-		<div>
-            <center>
-=======
 		
->>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
 				<sec:authorize access="hasAuthority('admin')">
 					<br/>
 					<a class="btn btn-default" href='<spring:url value="/game/InProgress" htmlEscape="true"/>'>Partidas en curso</a>
 				</sec:authorize>
-<<<<<<< HEAD
-			</center>
-		</div>
-
-
-		<div>
-            <center>
-=======
 		
->>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
 				<br/>
-				<a class="btn btn-default" href='<spring:url value="/logout" htmlEscape="true"/>'>Cerrar Sesión</a>
+				<a class="btn btn-default" href='<spring:url value="/custom-logout" htmlEscape="true"/>'>Cerrar Sesión</a>
 			</div>
 			<img id="pirata" src="/resources/images/grafics/pirataLoroAnimado.gif">
 			<div id="manual">
@@ -230,8 +255,4 @@
 			</div>
 		</div>
     </body>
-<<<<<<< HEAD
-</sevenislands:layout3>
-=======
 </sevenislands:home>
->>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722

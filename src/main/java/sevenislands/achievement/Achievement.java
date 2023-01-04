@@ -10,7 +10,6 @@ import javax.validation.constraints.Size;
 
 import sevenislands.enums.AchievementType;
 import sevenislands.model.BaseEntity;
-import sevenislands.model.NamedEntity;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -38,4 +37,5 @@ public class Achievement extends BaseEntity {
 
     @Column(name = "badge_image", nullable = false)
     private String badgeImage;
+    
 }

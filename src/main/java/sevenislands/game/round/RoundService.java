@@ -1,7 +1,8 @@
 package sevenislands.game.round;
 
-import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -29,8 +30,8 @@ public class RoundService {
     }
 
     @Transactional(readOnly = true)
-    public Collection<Round> findRoundsByGameId(int id) throws DataAccessException {
-        return roundRepository.findRoundByGameId(id);
+    public List<Round> findRoundsByGameId(int id) throws DataAccessException {
+        return roundRepository.findRoundByGameId(id).stream().collect(Collectors.toList());
     }
 
     @Transactional

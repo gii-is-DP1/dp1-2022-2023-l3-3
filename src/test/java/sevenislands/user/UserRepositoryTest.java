@@ -3,7 +3,6 @@ package sevenislands.user;
 import java.util.List;
 
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
@@ -19,6 +18,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import sevenislands.enums.UserType;
+
 @DataJpaTest
 public class UserRepositoryTest {
     
@@ -29,7 +30,7 @@ public class UserRepositoryTest {
 
     @BeforeEach
     public void config(){
-        userService = new UserService(null, null, null, null, userRepository);
+        userService = new UserService(null, null, null, null, userRepository, null);
         IntStream.range(0, 3).forEach(i -> {
             userRepository.save(userService.createUser(10000+i, "playerTest"+i, "EmailTest"+i+"@gmail.com"));
         });
@@ -98,7 +99,7 @@ public class UserRepositoryTest {
 
     @Test
     public void retrieveAuthorities() {
-        List<String> authorities = userRepository.findAuthorities();
+        List<UserType> authorities = userRepository.findAuthorities();
         assertNotNull(authorities, "El repositorio devuelve una colección nula");
         assertFalse(authorities.isEmpty(), "El repositorio ha devuelto una colección vacía");
         assertEquals(2, authorities.size(), "El repositorio ha devuelto una colección de tamaño inesperado");

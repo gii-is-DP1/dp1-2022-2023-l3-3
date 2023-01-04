@@ -1,9 +1,9 @@
 <%@ page session="false" trimDirectiveWhitespaces="true" %>
-    <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
-        <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-            <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-                <%@ taglib prefix="sevenislands" tagdir="/WEB-INF/tags" %>
-                    <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sevenislands" tagdir="/WEB-INF/tags" %>
+<%@ page contentType="text/html; charset=UTF-8" %>
 
                         <style>
                             body {
@@ -246,15 +246,9 @@
                                                 <br />
                                                 <center>
                                                     <c:forEach items="${IslasToChose}" var="isla">
-<<<<<<< HEAD
-                                                        <c:if test="${isla.id<=NumIslands}">    
-                                                            <a class="btn btn-default"
-                                                            href='<spring:url value="/turn/chooseIsland/${isla.id}" htmlEscape="true"/>'>Isla ${isla.id}
-=======
                                                         <c:if test="${isla.num<=NumIslands}">    
                                                             <a class="btn btn-default"
                                                             href='<spring:url value="/turn/chooseIsland/${isla.num}" htmlEscape="true"/>'>Isla ${isla.num}
->>>>>>> 935c036c6c38b5066c4fe22ce19a08dd2e3e0722
                                                             </a>
                                                         </c:if>
                                             </c:forEach>

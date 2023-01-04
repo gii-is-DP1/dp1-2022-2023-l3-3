@@ -8,7 +8,6 @@ import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -73,7 +72,7 @@ public class TurnServiceTest {
 
     @BeforeEach
     public void config(){
-        userService = new UserService(null, null, null, null, userRepository);
+        userService = new UserService(null, null, null, null, userRepository, null);
         turnService = new TurnService(turnRepository, null, null, null, null, null);
 
         user1 = userService.createUser(1, "userFalse1", "userFalse1@gmail.com");
@@ -99,10 +98,10 @@ public class TurnServiceTest {
         game1.setId(1);
         game2.setId(2);
         game1.setActive(true);
-        game1.setCreationDate( new Date(System.currentTimeMillis()));
+        game1.setCreationDate( LocalDateTime.now());
         game1.setLobby(lobby1);
         game2.setActive(true);
-        game2.setCreationDate( new Date(System.currentTimeMillis()));
+        game2.setCreationDate( LocalDateTime.now());
         game2.setLobby(lobby2);
 
         round1 = new Round();
@@ -201,7 +200,7 @@ public class TurnServiceTest {
     @Test
     public void getTurnByNicknameTest(){
         TurnService turnService = new TurnService(turnRepository, null, null, null, null, null);
-        when(turnRepository.findTurnByNickname(user1.getNickname())).thenReturn(turnList.stream().filter(t-> t.getUser().getNickname().equals(user1.getNickname())).collect(Collectors.toList()));
+        when(turnRepository.findTurnByNickname(user1.getNickname())).thenReturn(Optional.of(turnList.stream().filter(t-> t.getUser().getNickname().equals(user1.getNickname())).collect(Collectors.toList())));
         List<Turn> turnos = turnService.findTurnByNickname(user1.getNickname());
         assertEquals(1, turnos.size());
         assertEquals(turnos.get(0).getUser().getId(), user1.getId());
@@ -228,7 +227,7 @@ public class TurnServiceTest {
     @Test
     public void getCardLastTurnTest(){
         TurnService turnService = new TurnService(turnRepository, null, null, null, null, null);
-        when(turnRepository.findTurnByNickname(user1.getNickname())).thenReturn(turnList.stream().filter(t-> t.getUser().getNickname().equals(user1.getNickname())).collect(Collectors.toList()));
+        when(turnRepository.findTurnByNickname(user1.getNickname())).thenReturn(Optional.of(turnList.stream().filter(t-> t.getUser().getNickname().equals(user1.getNickname())).collect(Collectors.toList())));
         Map<Card, Integer> mano = turnService.findPlayerCardsLastTurn(user1.getNickname());
         assertEquals(1, mano.values().size());
         assertEquals(Tipo.Caliz, mano.keySet().stream().findFirst().orElse(null).getTipo());
@@ -245,7 +244,7 @@ public class TurnServiceTest {
         card.setGame(game1);
         turn1.addCard(card);
         TurnService turnService = new TurnService(turnRepository, null, null, null, null, null);
-        when(turnRepository.findTurnByNickname(user1.getNickname())).thenReturn(turnList.stream().filter(t-> t.getUser().getNickname().equals(user1.getNickname())).collect(Collectors.toList()));
+        when(turnRepository.findTurnByNickname(user1.getNickname())).thenReturn(Optional.of(turnList.stream().filter(t-> t.getUser().getNickname().equals(user1.getNickname())).collect(Collectors.toList())));
         Map<Card, Integer> mano = turnService.findPlayerCardsLastTurn(user1.getNickname());
         assertEquals(2, mano.values().size());
         assertEquals(Tipo.Caliz, mano.keySet().stream().findFirst().orElse(null).getTipo());

@@ -1,6 +1,7 @@
 package sevenislands.user;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -13,8 +14,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.util.Pair;
 
+import sevenislands.achievement.Achievement;
+import sevenislands.enums.UserType;
 import sevenislands.exceptions.NotExitPlayerException;
+import sevenislands.game.GameService;
+import sevenislands.gameDetails.GameDetailsService;
+import sevenislands.register.RegisterService;
 import sevenislands.tools.metodosReutilizables;
 
 import org.springframework.stereotype.Controller;
@@ -34,10 +41,18 @@ public class UserController {
 	private static final String VIEWS_PLAYER_UPDATE_FORM = "views/updateUserForm";
 
 	private final UserService userService;
+	private final GameService gameService;
+	private final RegisterService registerService;
+	private final GameDetailsService gameDetailsService;
+
+	private final Integer tamanoPaginacion=5;
 
 	@Autowired
-	public UserController(UserService userService) {
+	public UserController(UserService userService, GameService gameService, RegisterService registerService, GameDetailsService gameDetailsService) {
 		this.userService = userService;
+		this.gameService = gameService;
+		this.registerService = registerService;
+		this.gameDetailsService = gameDetailsService;
 	}
 
 	@GetMapping("/settings")
@@ -92,9 +107,10 @@ public class UserController {
     @RequestMapping(value = "/controlPanel", method = RequestMethod.GET)
 	public String listUsersPagination(ModelMap model, @RequestParam Integer valor) throws NotExitPlayerException{
 		Page<User> paginacion=null;
-		Integer totalUsers=(userService.findAll().size()-1)/5;
-		Pageable page2=PageRequest.of(valor,5);
-		paginacion=userService.findAllUser(page2);
+		Integer totalUsers=(userService.findAll().size()-1)/tamanoPaginacion;
+		if(valor>totalUsers )return "redirect:/controlPanel?valor=0";
+		Pageable page2=PageRequest.of(valor,tamanoPaginacion);
+		paginacion=userService.findAllUser(page2,tamanoPaginacion);
 		model.addAttribute("paginas", totalUsers);
 		model.addAttribute("valores", valor);	
 		model.addAttribute("users", paginacion.get().collect(Collectors.toList()));
@@ -114,7 +130,7 @@ public class UserController {
     @GetMapping("/controlPanel/delete/{idUserDeleted}")
 	public String deleteUser(@ModelAttribute("logedUser") User logedUser, @PathVariable("idUserDeleted") Integer id){
 		try {
-			if(userService.deleteUser(id, logedUser)|| logedUser.getUserType().equals("admin")) return "redirect:/controlPanel?valor="+metodosReutilizables.DeletePaginaControlPanel(id);
+			if(userService.deleteUser(id, logedUser) || logedUser.getUserType().equals("admin")) return "redirect:/controlPanel?valor="+metodosReutilizables.DeletePaginaControlPanel(id,tamanoPaginacion);
 			else return "redirect:/";
 		} catch (Exception e) {
 			return "redirect:/";
@@ -132,7 +148,7 @@ public class UserController {
 	 */
 	@GetMapping("/controlPanel/enable/{idUserEdited}")
 	public String enableUser(@ModelAttribute("logedUser") User logedUser, @PathVariable("idUserEdited") Integer id){
-		if(userService.enableUser(id, logedUser)) return "redirect:/controlPanel?valor="+metodosReutilizables.EditPaginaControlPanel(id);
+		if(userService.enableUser(id, logedUser)) return "redirect:/controlPanel?valor="+metodosReutilizables.EditPaginaControlPanel(id,tamanoPaginacion);
 		return "redirect:/";
 	}
 
@@ -191,7 +207,7 @@ public class UserController {
 	public String editUser(@PathVariable("idUserEdited") Integer id, ModelMap model) {
 		Optional<User> userEdited = userService.findUserById(id);
 		if(userEdited.isPresent()) {
-			List<String> authList = userService.findDistinctAuthorities();
+			List<UserType> authList = userService.findDistinctAuthorities();
 			userEdited.get().setPassword("");
 			authList.remove(userEdited.get().getUserType());
 			authList.add(0, userEdited.get().getUserType());
@@ -234,7 +250,29 @@ public class UserController {
 			model.put("enabledValues", List.of(Boolean.valueOf(user.isEnabled()).toString(), Boolean.valueOf(!user.isEnabled()).toString()));
 			return "admin/editUser";
 		}
-		
+	}
+
+	@GetMapping("/controlPanel/details/{idUserDetailed}")
+	public String detailsUser(ModelMap model, @PathVariable("idUserDetailed") Integer id) {
+		Optional<User> userDetailed = userService.findUserById(id);
+		if(userDetailed.isPresent()) {
+			String nickname = userDetailed.get().getNickname();
+			Integer totalGamesPlayed = gameService.findTotalGamesPlayedByNickname(nickname);
+			//Integer totalHoursPlayed = gameService.findTotalHoursPlayedByNickname(nickname);
+			Long totalPoints = gameDetailsService.findPunctuationByNickname(nickname);
+			//Integer totalTurns = gameService.findTotalTurnsByNickname(nickname);
+
+			List<Pair<Achievement, Date>> registers = registerService.findRegistersByNickname(nickname).stream()
+			.map(r -> Pair.of((Achievement)r[0], (Date)r[1])).collect(Collectors.toList());
+
+			model.put("totalGamesPlayed", totalGamesPlayed);
+			//model.put("totalHoursPlayed", totalHoursPlayed);
+			model.put("totalPoints", totalPoints);
+			//model.put("totalTurns", totalTurns);
+			model.put("achievements", registers);
+			model.put("user", userDetailed.get());
+			return "admin/detailsUser";
+		} else return "redirect:/controlPanel/?valor=0";
 	}
 
 }

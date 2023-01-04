@@ -4,8 +4,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.util.ArrayList;
-import java.util.Date;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -16,8 +15,11 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyRepository;
+
+import sevenislands.register.RegisterRepository;
 import sevenislands.user.User;
 import sevenislands.user.UserRepository;
 import sevenislands.user.UserService;
@@ -33,12 +35,15 @@ public class GameRepositoryTest {
     @Autowired
     LobbyRepository lobbyRepository;
 
+    @Autowired
+    RegisterRepository registerRepository;
+
     UserService userService;
     List<User> users;
 
     @BeforeEach
     public void config(){
-        userService = new UserService(null, null, null, null, userRepository);
+        userService = new UserService(null, null, null, null, userRepository, null);
         IntStream.range(0, 3).forEach(i -> {
             userRepository.save(userService.createUser(10000+i, "playerTest"+i, "EmailTest"+i+"@gmail.com"));
         });
@@ -50,7 +55,7 @@ public class GameRepositoryTest {
         lobbyRepository.save(lobby);
         Game game = new Game();
         game.setActive(true);
-        game.setCreationDate(new Date(System.currentTimeMillis()));
+        game.setCreationDate(LocalDateTime.now());
         game.setLobby(lobby);
         gameRepository.save(game);
     }
@@ -65,9 +70,7 @@ public class GameRepositoryTest {
 
     @Test
     public void TestFindLobbyByNicknameSuccess(){
-
-        Optional<Game> game = gameRepository.findGameByNickname(users.get(0).getNickname(),true);
-
+        Optional<List<Game>> game = gameRepository.findGameByNicknameAndActive(users.get(0).getNickname(),true);
         assertNotNull(game);
     }  
 
@@ -77,7 +80,5 @@ public class GameRepositoryTest {
        assertNotEquals(0, gamesList.size());
        assertEquals(0, gamesList.stream().filter(g -> g.isActive() == false).collect(Collectors.toList()).size());
     }
-
-    
 
 }

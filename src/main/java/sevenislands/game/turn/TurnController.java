@@ -14,7 +14,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import sevenislands.card.Card;
-import sevenislands.card.CardService;
 import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.Game;
 import sevenislands.game.GameService;
@@ -47,33 +46,30 @@ public class TurnController {
     private final LobbyService lobbyService;
     private final GameService gameService;
     private final IslandService islandService;
-    private final CardService cardService;
 
     @Autowired
     public TurnController(GameService gameService, LobbyService lobbyService, RoundService roundService,
-            TurnService turnService, IslandService islandService, UserService userService,CardService cardService) {
+            TurnService turnService, IslandService islandService, UserService userService) {
         this.turnService = turnService;
         this.userService = userService;
         this.roundService = roundService;
         this.lobbyService = lobbyService;
         this.gameService = gameService;
         this.islandService = islandService;
-        this.cardService=cardService;
     }
 
     @GetMapping("/turn")
     public String gameTurn(ModelMap model, @ModelAttribute("logedUser") User logedUser, HttpServletRequest request,
-            HttpServletResponse response) throws ServletException, NotExistLobbyException {
-        if (userService.checkUserNoExists(request))
-            return "redirect:/";
-        if (lobbyService.checkUserNoLobby(logedUser))
-            return "redirect:/home";
+            HttpServletResponse response) throws ServletException, NotExistLobbyException, Exception {
+        if (userService.checkUserNoExists(request)) return "redirect:/";
+        if(turnService.endGame(gameService.findGameByNickname(logedUser.getNickname()).get())) return "redirect:/endGame";
+        if (!lobbyService.checkUserLobby(logedUser) && !gameService.checkUserGame(logedUser)) return "redirect:/home";
+        if(!gameService.checkUserGame(logedUser)) return "redirect:/home";
+        if(lobbyService.checkLobbyNoAllPlayers(logedUser)) return "redirect:/home";
         response.addHeader("Refresh", "1");
-
-
-        Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname(), true);
+        
+        Optional<Game> game = gameService.findGameByNicknameAndActive(logedUser.getNickname(), true);
         List<Island> islandList = islandService.findIslandsByGameId(game.get().getId());
-        if(turnService.endGame(game.get())) return "game/endgame";
         List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
                 .collect(Collectors.toList());
         Round round = roundList.get(roundList.size() - 1);
@@ -86,9 +82,9 @@ public class TurnController {
         model.put("player", logedUser);
         model.put("player_turn", lastTurn.getUser());
         model.put("dice", lastTurn.getDice());
-       model.put("IslasToChose", islasToChose);
-       model.put("NumIslands", islandList.size()); 
-       model.put("islandList", islandList);
+        model.put("IslasToChose", islasToChose);
+        model.put("NumIslands", islandList.size()); 
+        model.put("islandList", islandList);
         model.put("userList", userList);
         model.put("playerCardsMap", playerCardsMap);
 
@@ -104,13 +100,12 @@ public class TurnController {
     @GetMapping("/turn/endTurn")
     public String gameEndTurn(@ModelAttribute("logedUser") User logedUser, HttpServletRequest request)
             throws ServletException {
-        if (userService.checkUserNoExists(request))
-            return "redirect:/";
-        if (lobbyService.checkUserNoLobby(logedUser))
-            return "redirect:/home";
+        if(userService.checkUserNoExists(request)) return "redirect:/";
+        if(!lobbyService.checkUserLobby(logedUser)  && !gameService.checkUserGame(logedUser)) return "redirect:/home";
+        if(!gameService.checkUserGame(logedUser)) return "redirect:/home";
 
         try {
-            Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname(), true);
+            Optional<Game> game = gameService.findGameByNicknameAndActive(logedUser.getNickname(), true);
             List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
                     .collect(Collectors.toList());
             Round round = roundList.get(roundList.size() - 1);
@@ -133,12 +128,11 @@ public class TurnController {
     @GetMapping("/turn/dice")
     public String gameRollDice(@ModelAttribute("logedUser") User logedUser, HttpServletRequest request)
             throws ServletException {
-        if (userService.checkUserNoExists(request))
-            return "redirect:/";
-        if (lobbyService.checkUserNoLobby(logedUser))
-            return "redirect:/home";
+        if (userService.checkUserNoExists(request)) return "redirect:/";
+        if (!lobbyService.checkUserLobby(logedUser)  && !gameService.checkUserGame(logedUser)) return "redirect:/home";
+        if(!gameService.checkUserGame(logedUser)) return "redirect:/home";
 
-        Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname(), true);
+        Optional<Game> game = gameService.findGameByNicknameAndActive(logedUser.getNickname(), true);
         List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
                 .collect(Collectors.toList());
         Round round = roundList.get(roundList.size() - 1);
@@ -151,22 +145,20 @@ public class TurnController {
     @GetMapping("/turn/newRound")
     public String gameAsignTurn(@ModelAttribute("logedUser") User logedUser, HttpServletRequest request)
             throws ServletException {
-        if (userService.checkUserNoExists(request))
-            return "redirect:/";
-        if (lobbyService.checkUserNoLobby(logedUser))
-            return "redirect:/home";
-        try {
+        if (userService.checkUserNoExists(request)) return "redirect:/";
+        if (!lobbyService.checkUserLobby(logedUser) && !gameService.checkUserGame(logedUser)) return "redirect:/home";
+        if(!gameService.checkUserGame(logedUser)) return "redirect:/home";
 
-            Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname(), true);
+        try {
+            Optional<Game> game = gameService.findGameByNicknameAndActive(logedUser.getNickname(), true);
             if (game.isPresent()) {
                 Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
                 List<User> userList = lobby.getUsers();
                 List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
-                        .collect(Collectors.toList());
+                        .collect(Collectors.toList());   
                 turnService.assignTurn(logedUser, game, userList, roundList);
                 return "redirect:/turn";
             } else
-            
                 return "redirect:/home";
         } catch (Exception e) {
             return "redirect:/home";
@@ -183,9 +175,8 @@ public class TurnController {
     }
 
     @RequestMapping(value ="/turn/chooseCard",method = RequestMethod.GET)
-
     public String chooseCard(ModelMap model,@RequestParam Integer islaId,@RequestParam Integer NumCartasDelete, @ModelAttribute("logedUser") User logedUser){
-        Optional<Game> game=gameService.findGameByNickname(logedUser.getNickname(), true);
+        Optional<Game> game=gameService.findGameByNicknameAndActive(logedUser.getNickname(), true);
         Card cardAnadida=islandService.findCardOfIsland(game.get().getId(),islaId).getCard();
         Map<Card, Integer> playerCardsMap = turnService.findPlayerCardsLastTurn(logedUser.getNickname());
         if(NumCartasDelete.equals(0)){

@@ -3,6 +3,7 @@ package sevenislands.turn;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,8 +29,8 @@ public class TurnRepositoryTest {
 
     @Test
     public void TestFindTurnByNickname(){
-        List<Turn> turns = turnRepository.findTurnByNickname("player3");
-        assertNotNull(turns);
+        Optional<List<Turn>> turns = turnRepository.findTurnByNickname("player3");
+        assertNotNull(turns.get());
     }  
 
 }

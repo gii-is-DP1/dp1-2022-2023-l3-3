@@ -23,8 +23,9 @@ import org.springframework.security.web.authentication.WebAuthenticationDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-
+import sevenislands.enums.UserType;
 import sevenislands.exceptions.NotExistLobbyException;
+import sevenislands.game.GameService;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
 
@@ -36,16 +37,18 @@ public class UserService {
 	private SessionRegistry sessionRegistry;
 	private LobbyService lobbyService;
 	private AuthenticationManager authenticationManager;
+	private GameService gameService;
 
 	@Autowired
-	public UserService(AuthenticationManager authenticationManager, LobbyService lobbyService, SessionRegistry sessionRegistry, PasswordEncoder passwordEncoder, UserRepository userRepository) {
+	public UserService(AuthenticationManager authenticationManager, LobbyService lobbyService, SessionRegistry sessionRegistry, PasswordEncoder passwordEncoder, UserRepository userRepository, GameService gameService) {
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.sessionRegistry = sessionRegistry;
 		this.lobbyService = lobbyService;
 		this.authenticationManager = authenticationManager;
+		this.gameService = gameService;
 	}
-	
+	//que es esta funcion
 	public User createUser(Integer id, String nickname,String email) {
         User userCreate;
         userCreate = new User();
@@ -59,7 +62,7 @@ public class UserService {
 		userCreate.setCreationDate(new Date(System.currentTimeMillis()));
         userCreate.setBirthDate(new Date(System.currentTimeMillis()));
         userCreate.setAvatar("resource/images/avatars/playerAvatar.png");
-        userCreate.setUserType("player");
+        userCreate.setUserType(UserType.player);
 
         return userCreate;
     }
@@ -111,27 +114,27 @@ public class UserService {
 	}
 
 	@Transactional
-	public List<String> findDistinctAuthorities() {
+	public List<UserType> findDistinctAuthorities() {
 		return userRepository.findAuthorities();
 	}
 
     @Transactional
-    public Page<User> findAllUser(Pageable pageable){
+    public Page<User> findAllUser(Pageable pageable,Integer tamanoPagina){
 		List<User> users=userRepository.findAll();
 		Page<User> page=null;
 		if(pageable.getPageNumber()==0){
 			int valor=(int)pageable.getPageSize();
 			page = new PageImpl<>(users.subList(0,valor));
-		}else if((pageable.getPageNumber()*5)+5>=users.size()){
+		}else if((pageable.getPageNumber()*tamanoPagina)+tamanoPagina>=users.size()){
 			int numPag=pageable.getPageNumber();
-			page = new PageImpl<>(users.subList((5*(numPag-1))+5,users.size()));
+			page = new PageImpl<>(users.subList((tamanoPagina*(numPag-1))+tamanoPagina,users.size()));
 		}else{
 			int numPag=pageable.getPageNumber();
 			int valor=(int)pageable.getPageSize();
-			page = new PageImpl<>(users.subList((5*(numPag-1))+5, valor*(numPag+1)));
+			page = new PageImpl<>(users.subList((tamanoPagina*(numPag-1))+tamanoPagina, valor*(numPag+1)));
 		}
 		
-		//userRepository2.findAll(pageable)
+	
 		return page;
     }
 
@@ -213,20 +216,11 @@ public class UserService {
      */
 	@Transactional
     public Boolean checkUser(HttpServletRequest request, User logedUser) throws NotExistLobbyException, ServletException {
-		Boolean res;
+		Boolean res = true;
 		try {
 		if(logedUser!=null && logedUser.isEnabled()) {
-			Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
-    
-                List<User> users = lobby.getPlayerInternal();
-                if (users.size() == 1) {
-                    lobby.setActive(false);
-                }
-                users.remove(logedUser);
-                lobby.setUsers(users);
-                lobbyService.save(lobby);
-            
-            res = false;
+			lobbyService.leaveLobby(logedUser);
+			res = false;
         } else {
             request.getSession().invalidate();
             request.logout();
@@ -238,23 +232,6 @@ public class UserService {
 		return res;
 	   }
     }
-
-	@Transactional
-    public Boolean checkUser2(HttpServletRequest request, User logedUser) throws NotExistLobbyException, ServletException {
-		Boolean res = false;
-		try {
-		if(logedUser!=null && !logedUser.isEnabled()) {
-            request.getSession().invalidate();
-            request.logout();
-            res = true;
-        }
-		return res;
-	   } catch (Exception e) {
-		res = false;
-		return res;
-	   }
-    }
-
 
 	@Transactional
 	public User addUser(User user, Boolean isAdmin, AuthenticationManager authenticationManager, HttpServletRequest request){
@@ -270,11 +247,11 @@ public class UserService {
 			user.setCreationDate(new Date(System.currentTimeMillis()));
 			user.setEnabled(true);
 			
-			if(user.getUserType().equals("player")){
+			if(user.getUserType().equals(UserType.player)){
 				user.setAvatar("playerAvatar.png");
 				
 
-			} else if(user.getUserType().equals("admin")){
+			} else if(user.getUserType().equals(UserType.admin)){
 				user.setAvatar("adminAvatar.png");
 			}
 			

@@ -3,7 +3,7 @@ package sevenislands.round;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.sql.Date;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -58,7 +58,7 @@ public class RoundServiceTest {
         RoundService roundService=new RoundService(roundRepository);
         Round ronda=new Round();
         Game game=new Game();
-        Date fecha=new Date(1);
+        LocalDateTime fecha = LocalDateTime.now();
         game.setCreationDate(fecha);
         ronda.setGame(game);
         roundService.save(ronda);

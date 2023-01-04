@@ -1,15 +1,14 @@
 package sevenislands.user;
 
-import java.util.Collection;
 import java.util.Date;
 import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -18,13 +17,11 @@ import javax.validation.constraints.Past;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
-import sevenislands.achievement.Achievement;
+import sevenislands.enums.UserType;
 import sevenislands.game.turn.Turn;
 import sevenislands.model.BaseEntity;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.With;
 
 @Getter
 @Setter
@@ -65,51 +62,17 @@ public class User extends BaseEntity {
 	private String avatar;
 
 	@Column(name = "type", unique = false, updatable = false)
-	protected String userType;
+	@Enumerated(value = EnumType.STRING)
+	protected UserType userType;
 
-	@ManyToMany
-	@JoinColumn(name = "achievements")
-    private Collection<Achievement> achievements;
     
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
     private Set<Turn> turns;
-
-    @Override
-    public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + ((achievements == null) ? 0 : achievements.hashCode());
-        result = prime * result + ((turns == null) ? 0 : turns.hashCode());
-        return result;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
-        User other = (User) obj;
-        if (achievements == null) {
-            if (other.achievements != null)
-                return false;
-        } else if (!achievements.equals(other.achievements))
-            return false;
-        if (turns == null) {
-            if (other.turns != null)
-                return false;
-        } else if (!turns.equals(other.turns))
-            return false;
-        return true;
-    }
 
     public User copy(){
         User cloneUser = new User();
         cloneUser.setId(this.getId());
         cloneUser.setAvatar(this.getAvatar());
-        cloneUser.setAchievements(this.getAchievements());
         cloneUser.setBirthDate(this.getBirthDate());
         cloneUser.setCreationDate(this.getCreationDate());
         cloneUser.setEmail(this.getEmail());
@@ -123,5 +86,83 @@ public class User extends BaseEntity {
         return cloneUser;
     }
 
-    
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((nickname == null) ? 0 : nickname.hashCode());
+        result = prime * result + ((password == null) ? 0 : password.hashCode());
+        result = prime * result + (enabled ? 1231 : 1237);
+        result = prime * result + ((firstName == null) ? 0 : firstName.hashCode());
+        result = prime * result + ((lastName == null) ? 0 : lastName.hashCode());
+        result = prime * result + ((email == null) ? 0 : email.hashCode());
+        result = prime * result + ((creationDate == null) ? 0 : creationDate.hashCode());
+        result = prime * result + ((birthDate == null) ? 0 : birthDate.hashCode());
+        result = prime * result + ((avatar == null) ? 0 : avatar.hashCode());
+        result = prime * result + ((userType == null) ? 0 : userType.hashCode());
+        result = prime * result + ((turns == null) ? 0 : turns.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        User other = (User) obj;
+        if (nickname == null) {
+            if (other.nickname != null)
+                return false;
+        } else if (!nickname.equals(other.nickname))
+            return false;
+        if (password == null) {
+            if (other.password != null)
+                return false;
+        } else if (!password.equals(other.password))
+            return false;
+        if (enabled != other.enabled)
+            return false;
+        if (firstName == null) {
+            if (other.firstName != null)
+                return false;
+        } else if (!firstName.equals(other.firstName))
+            return false;
+        if (lastName == null) {
+            if (other.lastName != null)
+                return false;
+        } else if (!lastName.equals(other.lastName))
+            return false;
+        if (email == null) {
+            if (other.email != null)
+                return false;
+        } else if (!email.equals(other.email))
+            return false;
+        if (creationDate == null) {
+            if (other.creationDate != null)
+                return false;
+        } else if (!creationDate.equals(other.creationDate))
+            return false;
+        if (birthDate == null) {
+            if (other.birthDate != null)
+                return false;
+        } else if (!birthDate.equals(other.birthDate))
+            return false;
+        if (avatar == null) {
+            if (other.avatar != null)
+                return false;
+        } else if (!avatar.equals(other.avatar))
+            return false;
+        if (userType != other.userType)
+            return false;
+        if (turns == null) {
+            if (other.turns != null)
+                return false;
+        } else if (!turns.equals(other.turns))
+            return false;
+        return true;
+    }
+ 
 }
