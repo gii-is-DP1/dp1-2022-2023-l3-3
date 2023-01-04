@@ -21,8 +21,8 @@ public interface GameRepository extends CrudRepository<Game, Integer> {
     @Query("SELECT g FROM Game g INNER JOIN g.lobby l INNER JOIN l.users u WHERE u.nickname=?1 ORDER BY g.id DESC")
     public Optional<List<Game>> findGameByNickname(String nickname);
 
-    @Query("SELECT g FROM Game g WHERE g.active=?1")
-    public List<Game> findGamesActive(Boolean active);
+    @Query("SELECT g, u.nickname FROM Game g INNER JOIN g.lobby l INNER JOIN l.users u WHERE g.active=?1")
+    public List<Object []> findGamesActive(Boolean active);
 
     @Query("SELECT COUNT(g) FROM Game g INNER JOIN g.lobby l INNER JOIN l.users u WHERE u.nickname=?1")
     public Integer findTotalGamesPlayedByNickname(String nickname);
