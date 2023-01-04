@@ -15,8 +15,11 @@ import javax.persistence.TemporalType;
 
 import javax.validation.constraints.Past;
 
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import sevenislands.configuration.AuditableEntity;
 import sevenislands.enums.UserType;
 import sevenislands.game.turn.Turn;
 import sevenislands.model.BaseEntity;
@@ -26,46 +29,55 @@ import lombok.Setter;
 @Getter
 @Setter
 @Entity
-public class User extends BaseEntity {
+@Audited
+public class User extends AuditableEntity {
 	
 	@Column(name = "nickname", unique = true, nullable = false, length = 30)
 	private String nickname;
 
+    @NotAudited
 	@Column(name = "password", unique = false, nullable = false)
 	private String password;
 
 	@Column(name = "enabled", unique = false, nullable = false, columnDefinition = "boolean default true")
 	private boolean enabled;
 
+    @NotAudited
 	@Column(name = "first_name", unique = false, nullable = false)
 	private String firstName;
-
+    
+    @NotAudited
 	@Column(name = "last_name", unique = false, nullable = false)
 	private String lastName;
 
+    @NotAudited
 	@Column(name = "email", unique = true, nullable = false, length = 50)
 	private String email;
 
+    @NotAudited
 	@Past
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	@Column(name = "creation_date", unique = false, nullable = false, columnDefinition = "date default now()")
 	private Date creationDate;
 	
+    @NotAudited
 	@Past
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	@Column(name = "birth_date", unique = false, nullable = false)
 	private Date birthDate;
 
+    @NotAudited
 	@Column(name = "avatar", unique = false, nullable = false)
 	private String avatar;
 
+    @NotAudited
 	@Column(name = "type", unique = false, updatable = false)
 	@Enumerated(value = EnumType.STRING)
 	protected UserType userType;
 
-    
+    @NotAudited
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
     private Set<Turn> turns;
 
