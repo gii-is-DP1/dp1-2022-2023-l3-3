@@ -56,8 +56,8 @@ public class Lobby extends BaseEntity {
           char ch = Character.toString(ascii == 96 ? ascii+1 : ascii).charAt(0); //Por comodidad para el usuario, eliminamos un acento grave
           randomString.append(ch);
       }
-      SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
-      randomString.append(formatter.format(new Date(System.currentTimeMillis())));
+      // SimpleDateFormat formatter= new SimpleDateFormat("yyyy-MM-dd");
+      // randomString.append(formatter.format(new Date(System.currentTimeMillis())));
       String code = randomString.toString();
       this.setCode(code);
       return code;
