@@ -29,6 +29,23 @@ public class LobbyService {
         this.gameService = gameService;
     }
 
+    /**
+     * Crea un código aleatorio para la lobby.
+     * @return String
+     */
+    /*public String generatorCode() {
+        String CHAR_LIST = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+        Integer RANDOM_STRING_LENGTH = 8;
+        StringBuffer randomString = new StringBuffer();
+        
+        for(int i = 0; i<RANDOM_STRING_LENGTH; i++) {
+            Random randomGenerator = new Random();
+            char ch = CHAR_LIST.charAt(randomGenerator.nextInt(CHAR_LIST.length()));
+            randomString.append(ch);
+        }
+        return randomString.toString();
+    }*/
+
     @Transactional
 	public Lobby save(Lobby lobby) {
         return lobbyRepository.save(lobby);
@@ -162,7 +179,7 @@ public class LobbyService {
         Lobby lobby = findLobbyByPlayerId(logedUser.getId());
         Boolean res;
         userNumber = lobby.getUsers().size();
-		if (userNumber != null && userNumber >= minPlayers && userNumber < maxPlayers) {
+		if (userNumber != null && userNumber > minPlayers && userNumber <= maxPlayers) {
             res = false;
 		} else {res= true;}
         return res;
