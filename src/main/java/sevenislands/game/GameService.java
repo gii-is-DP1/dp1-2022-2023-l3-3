@@ -1,5 +1,6 @@
 package sevenislands.game;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 
@@ -141,7 +142,23 @@ public class GameService {
         return played.toMinutes();   
     }
 
-    
+    @Transactional
+    public Double findAverageGamesPlayed() {
+        return (double) gameCount() / gameRepository.findDaysPlayed().size();
+    }
+
+    @Transactional
+    public Integer findMaxGamesPlayedADay() {
+        List<Integer> daysPlayed = gameRepository.findDaysPlayed();
+        return daysPlayed.stream().max(Comparator.naturalOrder()).get();
+    }
+
+    @Transactional
+    public Integer findMinGamesPlayedADay() {
+        List<Integer> daysPlayed = gameRepository.findDaysPlayed();
+        return daysPlayed.stream().min(Comparator.naturalOrder()).get();
+    }
+
     public Boolean checkUserGame(User logedUser) {
         Optional<Game> game = findGameByNickname(logedUser.getNickname());
         if(game.isPresent() && game.get().isActive()) return true;

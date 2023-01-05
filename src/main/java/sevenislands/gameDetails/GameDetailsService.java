@@ -1,6 +1,7 @@
 package sevenislands.gameDetails;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -133,4 +134,17 @@ public class GameDetailsService {
     public Integer findTotalPunctuation() {
         return gameDetailsRepository.findTotalPunctuation();
     }
+
+    @Transactional
+    public Integer findMaxPunctuation() {
+        List<Integer> points = gameDetailsRepository.findSumPunctuations();
+        return points.stream().max(Comparator.naturalOrder()).get();
+    }
+
+    @Transactional
+    public Integer findMinPunctuation() {
+        List<Integer> points = gameDetailsRepository.findSumPunctuations();
+        return points.stream().min(Comparator.naturalOrder()).get();
+    }
+
 }
