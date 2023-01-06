@@ -155,7 +155,6 @@ public class LobbyServiceTest {
         listaLobby.get(0).addPlayer(user4);
         listaLobby.get(0).addPlayer(user3);
         assertTrue(lobbyService.checkLobbyNoAllPlayers(user1));
-
     }
 
     @Test
