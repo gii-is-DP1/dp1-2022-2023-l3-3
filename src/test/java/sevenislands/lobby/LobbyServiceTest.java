@@ -18,7 +18,6 @@ import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import sevenislands.exceptions.NotExistLobbyException;
-import sevenislands.game.Game;
 import sevenislands.game.GameRepository;
 import sevenislands.game.GameService;
 import sevenislands.user.User;

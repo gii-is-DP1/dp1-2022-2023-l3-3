@@ -30,13 +30,53 @@
 }
 
 .header {
-	padding-right: 10px;
 	width: 100%;
 	height: 5%;
 	display: flex;
 	flex-direction: row;
 	justify-content: end;
 	align-items: center;
+	background-color: #34302D;
+}
+.titulo-menu {
+	width: 10%;
+	text-align: center;
+	font-size: 15px;
+	color: #FFFFFF;
+	display: inline-block;
+  	position: relative;
+}
+.titulo-menu a{
+	color:#FFFFFF;
+}
+.titulo-menu:hover {
+	color: #6db33f;
+}
+.titulo-menu:hover .desplegable{
+	display: block;
+}
+.img_home {
+	height: 23px;
+	width: 23px;
+}
+.desplegable {
+	font-size: 15px;
+	display: none;
+	position: absolute;
+	width: 100%;
+	overflow: auto;
+	box-shadow: 0px 10px 10px 0px rgba(0,0,0,0.4);
+	background-color: #34302D;
+}
+.desplegable a {
+	display: block;
+  	color: #FFFFFF;
+	margin-top: 10px;
+  	padding: 5px;
+  	text-decoration: none;
+}
+.desplegable a:hover {
+	background-color: #595252;
 }
 
 .body {
@@ -61,101 +101,34 @@
 	margin: 10px;
 }
 
-.img_home {
-	height: 25px;
-	width: 25px;
-}
-
-.img_grafica {
-	height: 20px;
-	width: 20px;
-}
-
-.logros {
-	margin-top: 14px;
-	margin-right: 10px;
-}
-
-.estadisticas {
-	margin-top: 12px;
-	margin-right: -30px;
-}
-
-.menu-horizontal {
-	list-style: none;
-	display: flex;
-	justify-content: space-around;
-}
-
-.menu-horizontal>li>a {
-	display: block;
-	padding: 15px 20px;
-	color: rgb(0, 0, 0);
-	text-decoration: none;
-}
-
-.menu-horizontal>li:hover {
-	background-color: #5FA134
-}
-
-.menu-vertical {
-	position: absolute;
-	display: none;
-	list-style: none;
-	width: 140px;
-	background-color: rgba(0, 0, 0, .5);
-}
-
-.menu-horizontal li:hover .menu-vertical {
-	display: block;
-}
-
-.menu-vertical li:hover {
-	background-color: black;
-}
-
-.menu-vertical li a {
-	display: block;
-	color: white;
-	padding: 15px 15px 15px 20px;
-	text-decoration: none;
-}
 </style>
 
 <sevenislands:home pageName="home">
 	<body class="content">
 		<div class="header">
-			<div class="estadisticas">
-				<ul class="menu-horizontal">
-					<img class="img_grafica" src="/resources/images/grafics/estadisticas.png">
-					<li><strong>Estadísticas</strong>
-						<ul class="menu-vertical">
-							<li><a href="/ranking/points">Ranking Puntos</a></li>
-							<li><a href="/ranking/victories">Ranking Victorias</a></li>
-							<li><a href="/statistics">Estadísticas Globales</a></li>
-							<sec:authorize access="hasAuthority('player')">
-								<li><a href="/myStatistics">Mis Estadísticas</a></li>
-							</sec:authorize>
-						</ul>
-					</li>
-				</ul>
+			<div class="titulo-menu">
+				<div><img class="img_home" src="/resources/images/grafics/estadisticas.png">Estadísticas</div>
+				<div class="desplegable">
+					<a href="/ranking/points">Ranking Puntos</a>
+					<a href="/ranking/victories">Ranking Victorias</a>
+					<a href="/statistics">Estadísticas Globales</a>
+					<sec:authorize access="hasAuthority('player')">
+						<a href="/myStatistics">Mis Estadísticas</a>
+					</sec:authorize>
+				</div>
 			</div>
-			<div class="logros">
-				<ul class="menu-horizontal">
-					<img class="img_home" src="/resources/images/grafics/trofeoIcono.png">
-					<li><strong>Logros</strong>
-						<ul class="menu-vertical">
-							<li><a href="/achievements">Logros Globales</a></li>
-							<sec:authorize access="hasAuthority('player')">
-								<li><a href="/myAchievements">Mis Logros</a></li>
-							</sec:authorize>
-						</ul>
-					</li>
-				</ul>
+			<div class="titulo-menu">
+				<div><img class="img_home" src="/resources/images/grafics/trofeoIcono.png">Logros</div>
+				<div class="desplegable">
+					<a href="/achievements">Logros Globales</a>
+					<sec:authorize access="hasAuthority('player')">
+						<a href="/myAchievements">Mis Logros</a>
+					</sec:authorize>
+				</div>
 			</div>
-			<a href="/settings">
-				<img class="img_home" src="/resources/images/avatars/${user.avatar}"><strong>${user.nickname}</strong>&thinsp;
-			</a>
+			<div class="titulo-menu">
+				<a href="/settings"><img class="img_home" src="/resources/images/avatars/${user.avatar}">${user.nickname}&thinsp;</a>
+			</div>
 		</div>
 		<div class="body">
 			<img id="name" src="/resources/images/grafics/letras_7_islas.png">
