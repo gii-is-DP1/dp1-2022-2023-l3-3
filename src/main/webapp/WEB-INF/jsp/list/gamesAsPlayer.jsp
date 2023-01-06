@@ -25,7 +25,7 @@
                     <c:out value="${game.id}"/>
                 </td>
                 <td>                    
-                    <c:out value="${game.creationDate}"/>                                        
+                    <sevenislands:dateFormatter input="${game.creationDate}"/>                                        
                 </td>
                 <td>       
                     <c:out value="${game.endingDate} "/>

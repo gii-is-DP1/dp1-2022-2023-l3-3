@@ -5,17 +5,6 @@
 <%@ taglib prefix="sevenislands" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 
-<style>
-.caja{
-    padding: 15px;
-    border-left: 6px solid #5FA134;
-    background:#F5F5F5;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 50px;
-    
-}
-</style>
 <sevenislands:layout3 pageName="statistics">
     <body style="background: url(resources/images/grafics/fondo1920x1080.jpg)">
         <a class="btn btn-default" href='<spring:url value="/home" htmlEscape="true"/>'>Volver</a>
