@@ -1,6 +1,5 @@
 package sevenislands.game;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -36,9 +35,13 @@ public class GameService {
     }
 
     @Transactional
-
     public Integer gameCount() {
         return (int) gameRepository.count();
+    }
+
+    @Transactional
+    public List<Game> findAll() {
+        return gameRepository.findAll();
     }
 
     @Transactional 
@@ -134,7 +137,7 @@ public class GameService {
 
     @Transactional
     public Long findTotalTimePlayed() {
-        List<Game> games = gameRepository.findAll();
+        List<Game> games = findAll();
         Duration played = Duration.ZERO;
         for(Game g : games) {
             LocalDateTime creationDate = g.getCreationDate();
@@ -147,20 +150,23 @@ public class GameService {
     }
 
     @Transactional
+    public List<Integer> findTotalGamesPlayedPerDay() {
+        return gameRepository.findTotalGamesPlayedPerDay();
+    }
+
+    @Transactional
     public Double findAverageGamesPlayed() {
-        return (double) gameCount() / gameRepository.findTotalGamesPlayedPerDay().size();
+        return (double) gameCount() / findTotalGamesPlayedPerDay().size();
     }
 
     @Transactional
     public Integer findMaxGamesPlayedADay() {
-        List<Integer> totalGamesPlayedPerDay = gameRepository.findTotalGamesPlayedPerDay();
-        return totalGamesPlayedPerDay.stream().max(Comparator.naturalOrder()).get();
+        return findTotalGamesPlayedPerDay().stream().max(Comparator.naturalOrder()).get();
     }
 
     @Transactional
     public Integer findMinGamesPlayedADay() {
-        List<Integer> totalGamesPlayedPerDay = gameRepository.findTotalGamesPlayedPerDay();
-        return totalGamesPlayedPerDay.stream().min(Comparator.naturalOrder()).get();
+        return findTotalGamesPlayedPerDay().stream().min(Comparator.naturalOrder()).get();
     }
 
     public Boolean checkUserGame(User logedUser) {
@@ -186,13 +192,13 @@ public class GameService {
 
     @Transactional
     public Double findAverageTimePlayed() {
-        return (double) findTotalTimePlayed() / gameRepository.findTotalGamesPlayedPerDay().size();
+        return (double) findTotalTimePlayed() / findTotalGamesPlayedPerDay().size();
     }
 
     @Transactional
     public Map<LocalDate, Duration> findGamesDurationsByDate() {
         Map<LocalDate, Duration> durationsByDate = new HashMap<>();
-        List<Game> games = gameRepository.findAll();
+        List<Game> games = findAll();
         for(Game g : games) {
             LocalDateTime creationDate = g.getCreationDate();
             LocalDateTime endingDate = g.getEndingDate();
