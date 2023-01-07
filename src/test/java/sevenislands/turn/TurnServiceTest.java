@@ -379,4 +379,12 @@ public class TurnServiceTest {
         Turn turn = turnService.addCarta(1, user1.getNickname());
         assertEquals(3, turn.getCards().size());
     }
+
+    @Test
+    public void findTotalTurnByNicknameTest(){
+        when(turnRepository.totalTurnsByNickname(user1.getNickname())).thenReturn((turnList.stream().filter(t-> t.getUser().getNickname().equals(user1.getNickname())).collect(Collectors.toList()).size()));
+       
+        assertEquals(1, turnService.findTotalTurnsByNickname(user1.getNickname()));
+    }
+
 }
