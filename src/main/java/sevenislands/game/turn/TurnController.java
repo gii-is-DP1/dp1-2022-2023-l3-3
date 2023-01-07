@@ -180,7 +180,7 @@ public class TurnController {
         Card cardAnadida=islandService.findCardOfIsland(game.get().getId(),islaId).getCard();
         Map<Card, Integer> playerCardsMap = turnService.findPlayerCardsLastTurn(logedUser.getNickname());
         if(NumCartasDelete.equals(0)){
-            turnService.AnadirCarta(islaId,logedUser.getNickname());
+            turnService.addCarta(islaId,logedUser.getNickname());
             turnService.refreshDesk(islaId, logedUser, game);
             return "redirect:/turn/endTurn";
         }else{
@@ -194,7 +194,7 @@ public class TurnController {
         
     @RequestMapping(value="/delete/chooseCard/{idCard}",method = RequestMethod.GET)
     public String deleteMyCard(@PathVariable("idCard") Integer id,@RequestParam Integer islaId,@RequestParam Integer NumCartasDelete,@ModelAttribute("logedUser") User logedUser){
-        turnService.DeleteCard(id, logedUser.getNickname());           
+        turnService.deleteCard(id, logedUser.getNickname());           
         NumCartasDelete--;         
         return "redirect:/turn/chooseCard?islaId="+islaId+"&NumCartasDelete="+NumCartasDelete;
     }
