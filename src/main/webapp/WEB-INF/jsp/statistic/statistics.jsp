@@ -46,7 +46,7 @@
             <tr>
                 <th>Puntos Totales</th>
                 <td><c:out value="${total_points}"/></td>
-                <td><c:out value="${}"/></td>
+                <td><c:out value="${average_points}"/></td>
                 <td><c:out value="${max_points}"/></td>
                 <td><c:out value="${min_points}"/></td>
             </tr>
