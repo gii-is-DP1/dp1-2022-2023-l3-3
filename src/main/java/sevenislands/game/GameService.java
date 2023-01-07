@@ -1,10 +1,14 @@
 package sevenislands.game;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -144,19 +148,19 @@ public class GameService {
 
     @Transactional
     public Double findAverageGamesPlayed() {
-        return (double) gameCount() / gameRepository.findDaysPlayed().size();
+        return (double) gameCount() / gameRepository.findTotalGamesPlayedPerDay().size();
     }
 
     @Transactional
     public Integer findMaxGamesPlayedADay() {
-        List<Integer> daysPlayed = gameRepository.findDaysPlayed();
-        return daysPlayed.stream().max(Comparator.naturalOrder()).get();
+        List<Integer> totalGamesPlayedPerDay = gameRepository.findTotalGamesPlayedPerDay();
+        return totalGamesPlayedPerDay.stream().max(Comparator.naturalOrder()).get();
     }
 
     @Transactional
     public Integer findMinGamesPlayedADay() {
-        List<Integer> daysPlayed = gameRepository.findDaysPlayed();
-        return daysPlayed.stream().min(Comparator.naturalOrder()).get();
+        List<Integer> totalGamesPlayedPerDay = gameRepository.findTotalGamesPlayedPerDay();
+        return totalGamesPlayedPerDay.stream().min(Comparator.naturalOrder()).get();
     }
 
     public Boolean checkUserGame(User logedUser) {
@@ -179,5 +183,56 @@ public class GameService {
     public Long findTieBreaksByNickname(String nickname) {
         return gameRepository.findTieBreaksByNickname(nickname);
     }
+
+    @Transactional
+    public Double findAverageTimePlayed() {
+        return (double) findTotalTimePlayed() / gameRepository.findTotalGamesPlayedPerDay().size();
+    }
+
+    @Transactional
+    public Map<LocalDate, Duration> findGamesDurationsByDate() {
+        Map<LocalDate, Duration> durationsByDate = new HashMap<>();
+        List<Game> games = gameRepository.findAll();
+        for(Game g : games) {
+            LocalDateTime creationDate = g.getCreationDate();
+            LocalDateTime endingDate = g.getEndingDate();
+            LocalDate date = creationDate.toLocalDate();
+            Duration diference = Duration.between(creationDate,endingDate);
+            if(durationsByDate.containsKey(date)) {
+                Duration updatedDuration = durationsByDate.get(date).plus(diference);
+                durationsByDate.put(date, updatedDuration);
+            }
+            else {
+                durationsByDate.put(date, diference);
+            }
+        }
+        return durationsByDate;
+    }
+
+    @Transactional
+    public Long findMaxTimePlayedADay() {
+        Map<LocalDate, Duration> gamesDurationsByDate = findGamesDurationsByDate();
+        Duration maxDuration = null;
+        Optional<Map.Entry<LocalDate, Duration>> maxEntry = gamesDurationsByDate.entrySet().stream()
+        .max(Comparator.comparing(Map.Entry::getValue));
+        if(maxEntry.isPresent()) {
+            maxDuration = maxEntry.get().getValue();
+        }
+        return maxDuration != null ? maxDuration.toMinutes() : null;
+    }
+
+    @Transactional
+    public Long findMinTimePlayedADay() {
+        Map<LocalDate, Duration> gamesDurationsByDate = findGamesDurationsByDate();
+        Duration minDuration = null;
+        Optional<Map.Entry<LocalDate, Duration>> minEntry = gamesDurationsByDate.entrySet().stream()
+        .min(Comparator.comparing(Map.Entry::getValue));
+        if(minEntry.isPresent()) {
+            minDuration = minEntry.get().getValue();
+        }
+        return minDuration != null ? minDuration.toMinutes() : null;
+    }
+
+    
 
 }
