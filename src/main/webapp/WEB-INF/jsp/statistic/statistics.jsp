@@ -39,9 +39,9 @@
             <tr>
                 <th>Tiempo Total Jugado</th>
                 <td><c:out value="${total_time}"/> min</td>
-                <td><c:out value="${}"/></td>
-                <td><c:out value="${}"/></td>
-                <td><c:out value="${}"/></td>
+                <td><c:out value="${average_time}"/> min</td>
+                <td><c:out value="${max_time}"/> min</td>
+                <td><c:out value="${min_time}"/> min</td>
             </tr>
             <tr>
                 <th>Puntos Totales</th>
