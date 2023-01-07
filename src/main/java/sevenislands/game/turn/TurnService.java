@@ -2,6 +2,7 @@ package sevenislands.game.turn;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -383,5 +384,25 @@ public class TurnService {
                     selectedCards.put(selectedCard, selectedCards.get(selectedCard)+1);
                 } else selectedCards.put(card, 1);
         }
+    }
+
+    @Transactional
+    public List<Integer> findTotalTurnsPerDay() {
+        return turnRepository.findTotalTurnsPerDay();
+    }
+
+    @Transactional
+    public Double findAverageTurns() {
+        return (double) turnCount() / findTotalTurnsPerDay().size();
+    }
+
+    @Transactional
+    public Integer findMaxTurnsADay() {
+        return findTotalTurnsPerDay().stream().max(Comparator.naturalOrder()).get();
+    }
+
+    @Transactional
+    public Integer findMinTurnsADay() {
+        return findTotalTurnsPerDay().stream().min(Comparator.naturalOrder()).get();
     }
 }
