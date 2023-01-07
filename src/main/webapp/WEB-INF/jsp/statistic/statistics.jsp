@@ -53,9 +53,9 @@
             <tr>
                 <th>Turnos Totales</th>
                 <td><c:out value="${total_turns}"/></td>
-                <td><c:out value="${}"/></td>
-                <td><c:out value="${}"/></td>
-                <td><c:out value="${}"/></td>
+                <td><c:out value="${average_turns}"/></td>
+                <td><c:out value="${max_turns}"/></td>
+                <td><c:out value="${min_turns}"/></td>
             </tr>
 		</table>
     </body>

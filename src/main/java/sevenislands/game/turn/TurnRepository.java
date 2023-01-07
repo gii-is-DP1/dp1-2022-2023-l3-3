@@ -22,5 +22,7 @@ public interface TurnRepository extends CrudRepository<Turn, Integer> {
 
     @Query("SELECT COUNT(t) FROM Turn t INNER JOIN t.user u WHERE u.nickname=?1")
     public Integer findTotalTurnsByNickname(String nickname);
-    
+
+    @Query("SELECT COUNT(t) FROM Turn t GROUP BY TO_CHAR(t.startTime, 'YYYY-MM-DD')")
+    public List<Integer> findTotalTurnsPerDay();    
 }

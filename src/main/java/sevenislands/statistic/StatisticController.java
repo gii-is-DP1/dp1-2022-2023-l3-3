@@ -43,6 +43,9 @@ public class StatisticController {
         model.put("average_points", gameDetailsService.findAveragePunctuation());
         model.put("max_points", gameDetailsService.findMaxPunctuationADay());
         model.put("min_points", gameDetailsService.findMinPunctuationADay());
+        model.put("average_turns", turnService.findAverageTurns());
+        model.put("max_turns", turnService.findMaxTurnsADay());
+        model.put("min_turns", turnService.findMinTurnsADay());
         return VIEWS_STATISTICS;
     }
 
