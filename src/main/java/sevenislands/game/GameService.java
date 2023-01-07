@@ -1,6 +1,5 @@
 package sevenislands.game;
 
-import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -84,6 +83,11 @@ public class GameService {
         return Optional.empty();
     }
 
+    @Transactional
+    public List<Object []> findGamePLayedByNickname(String nickname) {
+        return gameRepository.findGamePLayedByNickname(nickname);
+    }
+
     /**
      * Comprueba si el usuario está en una partida o si existe una ronda asociada a la partida en la que se
      * encuentra el usuario.
@@ -99,7 +103,7 @@ public class GameService {
 
     @Transactional
     public List<Object []> findGameActive(Boolean active) {
-        return gameRepository.findGamesActive(active);
+        return gameRepository.findGameActive(active);
     }
 
     @Transactional

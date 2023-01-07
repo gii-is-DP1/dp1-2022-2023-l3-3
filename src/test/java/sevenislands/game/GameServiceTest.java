@@ -102,12 +102,12 @@ public class GameServiceTest {
 
     @Test
     public void checkGameActiveTest(){
-        when(gameRepository.findGamesActive(true).stream()
+        when(gameRepository.findGameActive(true).stream()
         .map(r -> (Game)r[0]).collect(Collectors.toList())).thenReturn(gameList.stream().filter(g->g.isActive()).collect(Collectors.toList()));
         
         assertEquals(2, gameService.findGameActive(true).size());
         gameList.get(1).setActive(false);
-        when(gameRepository.findGamesActive(false).stream()
+        when(gameRepository.findGameActive(false).stream()
         .map(r -> (Game)r[0]).collect(Collectors.toList())).thenReturn(gameList.stream().filter(g->g.isActive()==false).collect(Collectors.toList()));
 
         assertEquals(1, gameService.findGameActive(false).size());
