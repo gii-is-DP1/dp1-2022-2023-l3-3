@@ -5,6 +5,7 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -20,6 +21,7 @@ import sevenislands.card.Card;
 import sevenislands.card.CardRepository;
 import sevenislands.card.CardService;
 import sevenislands.enums.Tipo;
+import sevenislands.exceptions.NotExistLobbyException;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -100,6 +102,7 @@ public class TurnServiceTest {
     Lobby lobby2;
 
     Island island;
+    Island island2;
     List<Island> islands;
 
     @BeforeEach
@@ -210,6 +213,11 @@ public class TurnServiceTest {
         island.setCard(card1);
         island.setGame(game1);
         island.setNum(1);
+        island2 = new Island();
+        island2.setCard(card2);
+        island2.setGame(game1);
+        island2.setNum(2);
+
 
         islands = List.of(island, island, island,island,island,island);
         
@@ -291,7 +299,7 @@ public class TurnServiceTest {
     }
 
     @Test
-    public void repartirCartasJugadoresTest(){
+    public void initRoundTest(){
         Round round = new Round();
         List<Card> treasureList = new ArrayList<>();
         when(roundRepository.save(round)).thenReturn(round);
@@ -386,5 +394,101 @@ public class TurnServiceTest {
        
         assertEquals(1, turnService.findTotalTurnsByNickname(user1.getNickname()));
     }
+
+    @Test
+    public void chooseIslandTest(){
+        when(turnRepository.findTurnByNickname(user1.getNickname())).thenReturn(Optional.of(turnList.stream().filter(t-> t.getUser().getNickname().equals(user1.getNickname())).collect(Collectors.toList())));
+        List<Island> islasDisponibles = List.of(island, island2);
+        List<Island> opIslands = turnService.islandToChoose(turn1, user1.getNickname(), islasDisponibles);
+        assertEquals(0, opIslands.size());
+        turn1.setDice(1);
+        opIslands = turnService.islandToChoose(turn1, user1.getNickname(), islasDisponibles);
+        assertEquals(2, opIslands.size());
+    }
+
+    @Test
+    public void initTurnTest(){
+        when(turnRepository.findTurnByNickname(user1.getNickname())).thenReturn(Optional.of(turnList.stream().filter(t-> t.getUser().getNickname().equals(user1.getNickname())).collect(Collectors.toList())));
+        List<User> userOp = List.of(user1, user2);
+        List<Card> cards = List.of(card1, card2);
+        Turn turnRes = turnService.initTurn(user1, round1, userOp, cards);
+        assertEquals(2, turnRes.getCards().size());
+        turnRes = turnService.initTurn(user1, round1, userOp, null);
+        assertEquals(0, turnRes.getCards().size());
+        when(turnRepository.findTurnByNickname(user2.getNickname())).thenReturn(Optional.of(turnList.stream().filter(t-> t.getUser().getNickname().equals(user2.getNickname())).collect(Collectors.toList())));
+        turnRes = turnService.initTurn(user1, round1, userOp, null);
+        assertEquals(1, turnRes.getCards().size());
+    }
+
+
+
+
+    @Test
+    public void dealtreasuresTest(){
+        Round round = new Round();
+        List<Card> treasureList = new ArrayList<>();
+        when(roundRepository.save(round)).thenReturn(round);
+        List<User> users = List.of(user1,user2);
+        when(cardRepository.findByGameAndTreasure(any(), any())).thenReturn(card2);
+        when(roundRepository.save(round)).thenReturn(round);
+        when(cardRepository.save(any())).thenReturn(card2);
+        List<Turn> turns = turnService.repartirCartaJugadoresIniciales(users, user1, round, treasureList, Optional.of(game1));
+        List<Card> cards = List.of(card1,card2,card3,card4);
+        when(cardRepository.findAllByGameId(any())).thenReturn(cards);
+        List<Island> islands = turnService.asignarCartasIslas(Optional.of(game1));
+        assertEquals(6, islands.size());
+        assertEquals(2, turns.size());
+        assertEquals(game1.getId(), turnService.initRound(round, Optional.of(game1), treasureList).getGame().getId());
+        List<Island> islands2 = turnService.dealtreasures(user1, Optional.of(game1), users, List.of(round1));
+        assertEquals(islands.size(), islands2.size());
+    
+    }
+
+
+
+    @Test
+    public void asignTurnTest(){
+        when(turnRepository.findTurnByNickname(user1.getNickname())).thenReturn(Optional.of(turnList.stream().filter(t-> t.getUser().getNickname().equals(user1.getNickname())).collect(Collectors.toList())));
+        when(roundRepository.findRoundByGameId(any())).thenReturn(List.of(round1, round2));
+        when(turnRepository.findByRoundId(any())).thenReturn(List.of(turn1, turn2));
+
+
+        Round round = new Round();
+        when(roundRepository.save(round)).thenReturn(round);
+        when(cardRepository.findByGameAndTreasure(any(), any())).thenReturn(card2);
+        when(roundRepository.save(round)).thenReturn(round);
+        when(cardRepository.save(any())).thenReturn(card2);
+        List<Card> cards = List.of(card1,card2,card3,card4);
+        when(cardRepository.findAllByGameId(any())).thenReturn(cards);
+
+        List<User> userOp = List.of(user1, user2);
+        Turn turnRes = turnService.assignTurn(user1, Optional.of(game1), userOp, List.of(round1));
+        assertEquals(user2.getNickname(), turnRes.getUser().getNickname());
+        when(roundRepository.findRoundByGameId(any())).thenReturn(List.of());
+        userOp = List.of(user1, user2);
+        turnRes = turnService.assignTurn(user1, Optional.of(game1), userOp, List.of(round1));
+        assertEquals(user1.getNickname(), turnRes.getUser().getNickname());
+        
+    }
+
+    @Test
+    public void checkUserGameTest() throws NotExistLobbyException{
+        when(turnRepository.findTurnByNickname(user1.getNickname())).thenReturn(Optional.of(turnList.stream().filter(t-> t.getUser().getNickname().equals(user1.getNickname())).collect(Collectors.toList())));
+        when(turnRepository.findByRoundId(any())).thenReturn((turnList.stream().filter(t-> t.getUser().getNickname().equals(user1.getNickname())).collect(Collectors.toList())));
+        when(gameRepository.findGameByNicknameAndActive(any(), any())).thenReturn(Optional.empty());
+        when(gameRepository.findGameByNicknameAndActive(any(), any())).thenReturn(Optional.of(List.of(game1)));
+        assertThrows(NotExistLobbyException.class,()-> turnService.checkUserGame(user1));
+        when(lobbyRepository.findByPlayerId(any())).thenReturn(Optional.of(List.of(lobby1)));
+        when(roundRepository.findRoundByGameId(any())).thenReturn(List.of(round1));
+        Optional<Game> game = turnService.checkUserGame(user1);
+        assertNotNull(game.orElse(null));
+        lobby1.setUsers(List.of(user1));
+        game = turnService.checkUserGame(user1);
+        assertNotNull(game.orElse(null));
+        
+        
+    }
+
+
 
 }
