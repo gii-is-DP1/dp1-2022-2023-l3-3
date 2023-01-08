@@ -81,7 +81,7 @@ public class AchievementController {
             return "/home";
         }
         try{
-            achievementService.updateAchievement(achievement,id.toString());
+            achievementService.updateAchievement(achievement,id);
         }catch(Exception e){
            throw e;
         }

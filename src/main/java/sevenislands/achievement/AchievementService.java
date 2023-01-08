@@ -1,9 +1,11 @@
 package sevenislands.achievement;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.StreamSupport;
 
 
@@ -37,16 +39,6 @@ public class AchievementService {
 	}		
 
 	/**
-	 * Encuentra todos los logros de la base de datos.
-	 * @return
-	 * @throws DataAccessException
-	 */
-	@Transactional(readOnly = true)	
-	public List<Achievement> findAchievements() throws DataAccessException {
-		return (List<Achievement>) achievementRepository.findAll();
-	}
-
-	/**
 	 * Encuentra un logro dado su id
 	 * @param id
 	 * @return
@@ -63,8 +55,8 @@ public class AchievementService {
 	 * @throws DataAccessException
 	 */
     @Transactional
-	public void saveAchievement(Achievement achievement) throws DataAccessException {
-		achievementRepository.save(achievement);
+	public Achievement saveAchievement(Achievement achievement) throws DataAccessException {
+		return achievementRepository.save(achievement);
 	}
 	
 	/**
@@ -72,26 +64,26 @@ public class AchievementService {
 	 * @param achievementType
 	 * @return
 	 */
-    @Transactional
-    public Collection<Achievement> getAchievementByType(AchievementType achievementType) {
+    @Transactional(readOnly = true)
+    public List<Achievement> getAchievementByType(AchievementType achievementType) {
         return achievementRepository.findByType(achievementType);
     }
 
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<Achievement> findAll(){
-		return StreamSupport.stream(achievementRepository.findAll().spliterator(), false).collect(Collectors.toList());
+		return achievementRepository.findAll();
 	}
 
 	@Transactional
-    public void updateAchievement(Achievement NewAchievement,String id) {
+    public Achievement updateAchievement(Achievement NewAchievement,Integer id) {
     
 	try {
-		Achievement oldAchievement=achievementRepository.findById(Integer.valueOf(id)).get();
+		Achievement oldAchievement=achievementRepository.findById(id).get();
 		oldAchievement.setName(NewAchievement.getName());
 		oldAchievement.setAchievementType(NewAchievement.getAchievementType());
 		oldAchievement.setThreshold(NewAchievement.getThreshold());
-		saveAchievement(oldAchievement);
+		return saveAchievement(oldAchievement);
 	} catch (Exception e) {
 		throw e;
 	}
@@ -100,12 +92,9 @@ public class AchievementService {
 	}
 
 	@Transactional
-	public List<Achievement> getAll() {
-		return (List<Achievement>) achievementRepository.findAll();
-	}
-
-	@Transactional
-	public void calculateAchievements(User logedUser) {
+	public List<Boolean> calculateAchievements(User logedUser) {
+		List<Boolean> res = new ArrayList<>();
+		IntStream.range(0, 4).forEach(i -> res.add(false));
 		Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
 		if(game.isPresent()) {
 			for(User user: game.get().getLobby().getUsers()) {
@@ -114,24 +103,29 @@ public class AchievementService {
 				Long totalTieBreaks = gameDetailsService.findTieBreaksByNickname(user.getNickname());
 				Long totalGames = gameDetailsService.findGamesByNickname(user.getNickname());
 
-				for(Achievement achievement: getAll()) {
+				for(Achievement achievement: findAll()) {
 					if(achievement.getAchievementType().equals(AchievementType.Punctuation) && totalPoints >= achievement.getThreshold()) {
 						registerService.save(achievement, user);
+						res.set(0, true);
 					} else if(achievement.getAchievementType().equals(AchievementType.Victories) && totalVictories >= achievement.getThreshold()) {
 						registerService.save(achievement, user);
+						res.set(1, true);
 					} else if(achievement.getAchievementType().equals(AchievementType.TieBreaker) && totalTieBreaks >= achievement.getThreshold()) {
 						registerService.save(achievement, user);
+						res.set(2, true);
 					} else if(achievement.getAchievementType().equals(AchievementType.Games) && totalGames >= achievement.getThreshold()) {
 						registerService.save(achievement, user);
+						res.set(3, true);
 					}
 				}
 			}
 
 		}
+		return res;
 	}
 
 	@Transactional
-	public void addAchievement(Achievement achievement){
+	public Achievement addAchievement(Achievement achievement){
 		try {
 			if(achievement.getAchievementType().equals(AchievementType.Games)){
 				achievement.setDescription("Juega mas de LIMIT partidas");
@@ -147,6 +141,7 @@ public class AchievementService {
 				achievement.setBadgeImage("logroVictories.png");
 			}
 			saveAchievement(achievement);
+			return achievement;
 		} catch (Exception e) {
 			throw e;
 		}
