@@ -7,6 +7,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
@@ -85,6 +86,7 @@ public class TurnController {
         List<User> userList = lobby.getUsers();
         Map<Card, Integer> playerCardsMap = turnService.findPlayerCardsLastTurn(logedUser.getNickname());
         List<Island> islasToChose=turnService.islandToChoose(lastTurn,logedUser.getNickname(),islandList, request);
+        System.out.println("+++++++++++++++++++++=>"+islasToChose);
         model.put("player", logedUser);
         model.put("player_turn", lastTurn.getUser());
         model.put("dice", lastTurn.getDice());
@@ -125,7 +127,7 @@ public class TurnController {
 
             if (logedUser.getId() == lastTurn.getUser().getId()) {
                 HttpSession session = request.getSession();
-                Map<Card,Integer> selectedCards = new HashMap<>();
+                Map<Card,Integer> selectedCards = new TreeMap<>();
                 selectedCards = (Map<Card,Integer>) session.getAttribute("selectedCards");
                 for(Card card : selectedCards.keySet()){
                     for(int i=0;i<selectedCards.get(card);i++) {
@@ -190,7 +192,7 @@ public class TurnController {
         turnService.AnadirCarta(id,logedUser.getNickname());
         turnService.refreshDesk(id, logedUser, game);
         HttpSession session = request.getSession();
-        Map<Card,Integer> selectedCards = new HashMap<Card,Integer>();
+        Map<Card,Integer> selectedCards = new TreeMap<Card,Integer>();
         session.setAttribute("selectedCards", selectedCards);
         return "redirect:/turn/endTurn";
     }

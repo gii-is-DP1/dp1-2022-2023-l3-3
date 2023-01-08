@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -255,7 +256,7 @@ public class TurnService {
     @Transactional
     public Map<Card, Integer> findPlayerCardsLastTurn(String nickname) {
         Optional<List<Turn>> turnList = turnRepository.findTurnByNickname(nickname);
-        Map<Card, Integer> map = new HashMap<>();
+        Map<Card, Integer> map = new TreeMap<>();
         if(turnList.isPresent()) {
             Turn lastPlayerTurn = turnList.get().get(0);
             for (Card card : lastPlayerTurn.getCards()) {
@@ -266,8 +267,8 @@ public class TurnService {
                     map.put(card, 1);
                 }
             }
-            map = map.entrySet().stream().sorted(Map.Entry.comparingByValue())
-            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+            
+            
         }
         return map;
     }
@@ -359,7 +360,7 @@ public class TurnService {
     public void changeCard(Integer id, User logedUser, Integer mode, HttpServletRequest request) {
         Card card = cardService.findCardById(id);
         HttpSession session = request.getSession();
-        Map<Card,Integer> selectedCards = new HashMap<>();
+        Map<Card,Integer> selectedCards = new TreeMap<>();
 
         selectedCards = (Map<Card,Integer>) session.getAttribute("selectedCards");
         List<Card> cards = selectedCards.keySet().stream().collect(Collectors.toList());

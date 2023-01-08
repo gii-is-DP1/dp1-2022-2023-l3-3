@@ -319,7 +319,7 @@ body {
                     <c:if test="${player_turn==player}">
                         <c:if test="${dice!=null && IslasToChose!=null}">
                                 <c:forEach items="${IslasToChose}" var="isla">
-                                    <c:if test="${isla.num<=NumIslands}">    
+                                    <c:if test="${isla.num<=NumIslands && isla.num!=0}">    
                                         <a class="game-btn"
                                         href='<spring:url value="/turn/chooseIsland/${isla.num}" htmlEscape="true"/>'>Isla ${isla.num}
                                         </a>
