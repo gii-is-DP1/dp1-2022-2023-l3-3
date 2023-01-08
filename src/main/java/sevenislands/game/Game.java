@@ -4,7 +4,7 @@ import java.time.LocalDateTime;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
@@ -13,7 +13,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import sevenislands.lobby.Lobby;
 import sevenislands.model.BaseEntity;
-
+import sevenislands.user.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -37,4 +37,10 @@ public class Game extends BaseEntity {
 	@OneToOne
 	@NotNull
 	private Lobby lobby;
+
+	@ManyToOne
+    private User winner;
+
+	@Column(name = "tieBreak")
+    private boolean tieBreak;
 }

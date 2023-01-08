@@ -2,15 +2,16 @@ package sevenislands.game.turn;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
-import javax.validation.constraints.NotNull;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -72,20 +73,21 @@ public class TurnService {
         return turnRepository.findByRoundId(id);
     }
     @Transactional
-    public List<Island> islandToChoose(Turn turn,String nickName, List<Island> islandList){
-        List<Island> islas=new ArrayList<>();
-        Map<Card, Integer> playerCardsMap = findPlayerCardsLastTurn(nickName);
-        Integer numCardMazo = playerCardsMap.values().stream().mapToInt(x->x).sum();
+    public List<Island> islandToChoose(Turn turn,String nickName, List<Island> islandList, HttpServletRequest request){
+        List<Island> islands=new ArrayList<>();
+        HttpSession session = request.getSession();
+        Map<Card, Integer> selectedCards = (Map<Card,Integer>) session.getAttribute("selectedCards");
+        Integer numSelectedCards = selectedCards.values().stream().mapToInt(x->x).sum();
         if(turn.getDice()!=null){
-            for(int i=1; i<=(turn.getDice()+numCardMazo);i++){
-                Integer cambioIsla=turn.getDice()-i;
-                if(i<=islandList.size() && numCardMazo>=cambioIsla &&islandList.get(i-1).getNum()!=0){
-                    islas.add(islandList.get(i-1));
-                }
-                
+            Integer selectedIsland1=turn.getDice()-numSelectedCards;
+            Integer selectedIsland2=turn.getDice()+numSelectedCards;
+            if(numSelectedCards!=0) {
+                if(selectedIsland1>0) islands.add(islandList.get(selectedIsland1-1));
+                if(selectedIsland2<=islandList.size()) islands.add(islandList.get(selectedIsland2-1));
+            } else islands.add(islandList.get(turn.getDice()-1));
+            
         }
-    }
-        return islas;
+        return islands;
     }
 
     @Transactional
@@ -279,7 +281,7 @@ public class TurnService {
     @Transactional
     public Map<Card, Integer> findPlayerCardsLastTurn(String nickname) {
         Optional<List<Turn>> turnList = turnRepository.findTurnByNickname(nickname);
-        Map<Card, Integer> map = new HashMap<>();
+        Map<Card, Integer> map = new TreeMap<>();
         if(turnList.isPresent()) {
             Turn lastPlayerTurn = turnList.get().get(0);
             for (Card card : lastPlayerTurn.getCards()) {
@@ -290,8 +292,8 @@ public class TurnService {
                     map.put(card, 1);
                 }
             }
-            map = map.entrySet().stream().sorted(Map.Entry.comparingByValue())
-            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+            
+            
         }
         return map;
     }
@@ -345,6 +347,18 @@ public class TurnService {
         return turn;
     }
 
+    @Transactional
+    public void addCardToUser(Integer id, User user){
+        Optional<List<Turn>> turnList = turnRepository.findTurnByNickname(user.getNickname());
+        if(turnList.isPresent()) {
+            Turn lastPlayerTurn = turnList.get().get(0);
+            List<Card> cartasLastTurn=lastPlayerTurn.getCards();
+            Card card = cardService.findCardById(id);
+            cartasLastTurn.add(card);
+            lastPlayerTurn.setCards(cartasLastTurn);
+            turnRepository.save(lastPlayerTurn);
+        }
+    }
 
     @Transactional
     public Boolean endGame(Game game){
@@ -365,6 +379,74 @@ public class TurnService {
 
     @Transactional
     public Integer findTotalTurnsByNickname(String nickname) {
-        return turnRepository.totalTurnsByNickname(nickname);
+        return turnRepository.findTotalTurnsByNickname(nickname);
+    }
+
+    @Transactional
+    public Integer turnCount() {
+        return (int) turnRepository.count();
+    }
+
+    @Transactional
+    public void changeCard(Integer id, User logedUser, Integer mode, HttpServletRequest request) {
+        Card card = cardService.findCardById(id);
+        HttpSession session = request.getSession();
+        Map<Card,Integer> selectedCards = new TreeMap<>();
+
+        selectedCards = (Map<Card,Integer>) session.getAttribute("selectedCards");
+        List<Card> cards = selectedCards.keySet().stream().collect(Collectors.toList());
+        
+        switch (mode) {
+            case 0:
+                if(cards.stream().anyMatch(c -> c.getTipo().equals(card.getTipo()))) {
+                    Card selectedCard = cards.stream().filter(x -> x.getTipo().equals(card.getTipo())).findFirst().get();
+                    selectedCards.put(selectedCard, selectedCards.get(selectedCard)+1);
+                } else selectedCards.put(card, 1);
+                break;
+            case 1:
+                if(cards.stream().anyMatch(c -> c.getTipo().equals(card.getTipo()))) {
+                    Card selectedCard = cards.stream().filter(x -> x.getTipo().equals(card.getTipo())).findFirst().get();
+                    selectedCards.put(selectedCard, selectedCards.get(selectedCard)-1);
+                    if(selectedCards.get(selectedCard) == 0) selectedCards.remove(selectedCard);
+                }
+                break;
+            default:
+                if(cards.stream().anyMatch(c -> c.getTipo().equals(card.getTipo()))) {
+                    Card selectedCard = cards.stream().filter(x -> x.getTipo().equals(card.getTipo())).findFirst().get();
+                    selectedCards.put(selectedCard, selectedCards.get(selectedCard)+1);
+                } else selectedCards.put(card, 1);
+        }
+    }
+
+    @Transactional
+    public Double findDailyAverageTurns() {
+        Double average = (double) turnCount() / turnRepository.findTotalTurnsByDay().size();
+        return Math.round(average * 100.0) / 100.0;
+    }
+
+    @Transactional
+    public Integer findMaxTurnsADay() {
+        return turnRepository.findTotalTurnsByDay().stream().max(Comparator.naturalOrder()).get();
+    }
+
+    @Transactional
+    public Integer findMinTurnsADay() {
+        return turnRepository.findTotalTurnsByDay().stream().min(Comparator.naturalOrder()).get();
+    }
+
+    @Transactional
+    public Double findAverageTurns() {
+        Double average = (double) turnCount() / gameService.gameCount();
+        return Math.round(average * 100.0) / 100.0;
+    }
+
+    @Transactional
+    public Integer findMaxTurns() {
+        return turnRepository.findTotalTurns().stream().max(Comparator.naturalOrder()).get();
+    }
+
+    @Transactional
+    public Integer findMinTurns() {
+        return turnRepository.findTotalTurns().stream().min(Comparator.naturalOrder()).get();
     }
 }

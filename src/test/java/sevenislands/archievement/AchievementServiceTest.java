@@ -185,8 +185,8 @@ public class AchievementServiceTest {
     public void calculateAchievementTest(){
         when(gameRepository.findGameByNickname(any())).thenReturn(Optional.of(List.of(game1)));
         when(gameDetailsRepository.findPunctuationByNickname(any())).thenReturn(400L);
-        when(gameDetailsRepository.findVictoriesByNickname(any())).thenReturn(50L);
-        when(gameDetailsRepository.findTieBreaksByNickname(any())).thenReturn(7L);
+        when(gameRepository.findVictoriesByNickname(any())).thenReturn(50L);
+        when(gameRepository.findTieBreaksByNickname(any())).thenReturn(7L);
         when(gameDetailsRepository.findAllByNickname(any())).thenReturn(200L);
         when(achievementRepository.findAll()).thenReturn(List.of(achievement,achievement2,achievement3,achievement4));
         assertEquals(List.of(true,true,true, true), achievementService.calculateAchievements(user1));

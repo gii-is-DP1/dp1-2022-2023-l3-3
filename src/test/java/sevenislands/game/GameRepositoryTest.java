@@ -76,7 +76,8 @@ public class GameRepositoryTest {
 
     @Test
     public void TestActiveGames(){
-        List<Game> gamesList = gameRepository.findGamesActive(true);
+        List<Game> gamesList = gameRepository.findGameActive(true).stream()
+        .map(r -> (Game)r[0]).collect(Collectors.toList());
        assertNotEquals(0, gamesList.size());
        assertEquals(0, gamesList.stream().filter(g -> g.isActive() == false).collect(Collectors.toList()).size());
     }

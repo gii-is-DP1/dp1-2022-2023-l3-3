@@ -5,18 +5,20 @@
 <%@ taglib prefix="sevenislands" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 
-<sevenislands:layout3 pageName="ranking">
+<sevenislands:layout2 pageName="rankingVictories">
     <body style="background: url(resources/images/grafics/fondo1920x1080.jpg)">
         <a class="btn btn-default" href='<spring:url value="/home" htmlEscape="true"/>'>Volver</a>
-        <h2><br>Ranking</h2>
+        <h2><br>Ranking por victorias</h2>
 
         <table class="table table-striped">
-			<tr>
+			<tr>   
+                <th>Posición</th>
 				<th>Nombre</th>
-				<th>Puntuación total</th>
+				<th>Número de victorias</th>
 			</tr>
 			<c:forEach items="${rankings}" var="ranking">
 				<tr>
+                    <td>${rankings.indexOf(ranking)+1}</td>
                     <td>
                         <img src="/resources/images/avatars/${ranking.getFirst().avatar}" height="40" width="40">
                         <c:out value="${ranking.getFirst().nickname}"/>
@@ -26,4 +28,4 @@
 			</c:forEach>
 		</table>
     </body>
-</sevenislands:layout3>
+</sevenislands:layout2>

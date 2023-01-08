@@ -5,258 +5,330 @@
 <%@ taglib prefix="sevenislands" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 
-                        <style>
-                            body {
-                                background-color: rgb(62, 179, 188) !important;
-                                height: 100%;
-                                width: 100%;
-                                display: flex;
-                                flex-direction: row;
-                            }
+<style>
+body {
+    background-color: rgb(62, 179, 188) !important;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    padding: 10px;
+}
+#turn {
+    color: black;
+    text-align: center;
+    background-color: rgb(255, 50, 50);
+    border: 2px solid black;
+    font-weight: 700;
+    border-radius: 50px;
+    margin: 3px;
+    width: 100%;
+}
 
-                            #turn {
-                                color: black;
-                                text-align: center;
-                                background-color: rgb(255, 50, 50);
-                                border: 2px solid black;
-                                font-weight: 700;
-                                border-radius: 50px;
-                                margin: 3px;
-                                width: 100%;
-                            }
+/* SECITION 1 */
+#section1 {
+    padding: 10px;
+    height: auto;
+    width: 30%;
+    background: #802323;
+    border: 3px solid black;
+    border-radius: 25px;
+}
 
-                            #dice {
-                                color: rgb(0, 0, 0);
-                                text-align: center;
-                                background-color: rgb(255, 255, 255);
-                                border: 2px solid black;
-                                font-weight: 700;
-                                border-radius: 50px;
-                                margin: 3px;
-                                width: 25px;
-                            }
+#actions {
+    padding-bottom: 10px;
+}
 
-                            #time_left {
-                                color: black;
-                                background-color: white;
-                                border-radius: 50px;
-                                margin: 10px;
-                                padding: 5px;
-                            }
+#leave-game {
+    background-color: rgb(174, 24, 24);
+}
 
-                            #section1 {
-                                margin: 10px;
-                                padding: 10px;
-                                height: auto;
-                                width: 20%;
-                                background: #581212;
-                                border: 5px solid black;
-                            }
+#dice {
+    background-color: #ffffff;
+    color: black;
+    border: 3px solid black;
+    border-radius: 25px;
+    padding: 5px 10px 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
 
-                            #section2 {
-                                height: auto;
-                                width: 45%;
-                                display: flex;
-                                flex-direction: column;
-                            }
+#actions-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
 
-                            #section3 {
-                                padding: 10px;
-                                margin: 10px;
-                                height: auto;
-                                width: 35%;
-                                background: #581212;
-                                color: white;
-                                display: flex;
-                                flex-direction: column;
-                                border: 5px solid black;
+#players {
+    border-top: 3px solid black;
+    border-bottom: 3px solid black;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+}
 
-                            }
+#players-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
 
-                            #cards {
-                                padding: 10px;
-                                width: 100%;
-                                height: 70%;
-                                border-bottom: 5px solid black;
-                            }
+#player-img {
+    width: 35px;
+}
 
-                            #selected_cards {
-                                padding: 10px;
-                                height: auto;
-                                width: 100%;
-                            }
+#player-details {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 
-                            #board {
-                                height: 100%;
-                                width: 100%;
-                            }
+#player-turn {
+    color: #ff9a56;
+    font-weight: bold;
+}
 
-                            #canvas {
-                                height: 100%;
-                                width: 100%;
-                            }
+#my-turn {
+    color: #85ff54;
+    font-weight: bold;
+}
 
-                            #options {
-                                padding: 10px;
-                                width: 100%;
-                                height: 30%;
-                                border-bottom: 5px solid black;
-                            }
+.player-text {
+    color: white;
+    padding-left: 5px;
+}
 
-                            #players {
-                                padding: 10px;
-                                height: 70%;
-                                width: 100%;
-                                display: flex;
-                                flex-direction: column;
-                            }
+#chat {
+    padding-top: 10px;
+}
 
-                            .game_text {
-                                color: white;
-                            }
+/* SECTION 2 */
+#section2 {
+    margin-left: 10px;
+    margin-right: 10px;
+    height: auto;
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+}
 
-                            #playerDetails {
-                                display: flex;
-                                flex-direction: row;
-                                align-items: center;
-                                margin-bottom: 20px;
-                            }
+#time-left {
+    color: black;
+    background-color: white;
+    border: 3px solid black;
+    border-radius: 25px;
+    font-weight: bold;
+    margin-bottom: 10px;
+    padding: 5px;
+    text-align: center;
+}
 
-                            #playerImg {
-                                width: 20%;
-                            }
+#board {
+    height: 100%;
+    width: 100%;
+    border: 3px solid black;
+    border-radius: 25px;
+}
 
-                            #leaveGame {
-                                background-color: rgb(167, 16, 16);
-                            }
+#canvas {
+    height: 100%;
+    width: 100%;
+    border-radius: 25px;
+}
 
-                            #myCards {
-                                height: 100%;
-                                width: 100%;
-                            }
+/* SECTION 3 */
+#section3 {
+    padding: 10px;
+    height: auto;
+    width: 30%;
+    background: #802323;
+    border: 3px solid black;
+    border-radius: 25px;
+}
 
-                            #myCards {
-                                display: flex;
-                            }
+#my-cards {
+    padding-bottom: 10px;
+}
 
-                            #treasure_div {
-                                width: 33%;
-                                height: 25%;
-                                display: flex;
-                            }
-                        </style>
-                        <sevenislands:gameContent pageName="lobby">
+#cards-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    flex-wrap: wrap;
+}
 
-                            <body>
-                                <div id="section1">
-                                    <div id="options">
-                                        <a class="btn btn-default" id="leaveGame"
-                                            href='<spring:url value="/home" htmlEscape="true"/>'>Abandonar partida</a>
-                                        <c:if test="${player_turn==player}">
-                                            <br />
-                                            <c:if test="${dice==null}">
-                                                <br />
-                                                <div>
-                                                    <center>
-                                                        <a class="btn btn-default"
-                                                            href='<spring:url value="/turn/dice" htmlEscape="true"/>'>Lanzar
-                                                            dado</a>
-                                                    </center>
-                                                </div>
-                                            </c:if>
-                                            <c:if test="${dice!=null}">
-                                                <br />
-                                                <center>
-                                                    <h2 id="dice">${dice}</h2>
-                                                </center>
-                                            </c:if>
-                                            <br />
-                                            <div>
-                                                <center>
-                                                    <a class="btn btn-default"
-                                                        href='<spring:url value="/turn/endTurn" htmlEscape="true"/>'>Terminar
-                                                        turno</a>
-                                                </center>
-                                            </div>
-                                        </c:if>
-                                    </div>
-                                    <div id="players">
-                                        <c:forEach items="${userList}" var="user">
-                                            <div id="playerDetails">
-                                                <h1 class="game_text">${user.nickname}</h1>
-                                                <img id="playerImg" src="/resources/images/avatars/${user.avatar}">
-                                                <c:if test="${player_turn==user && player_turn==player}">
-                                                    <br />
-                                                    <div>
-                                                        <center>
-                                                            <h2 id="turn">Tu turno</h2>
-                                                        </center>
-                                                    </div>
-                                                    
-                                                </c:if>
-                                                <c:if test="${player_turn==user && player_turn!=player}">
-                                                    <br />
-                                                    <div>
-                                                        <center>
-                                                            <h2 id="turn">Turno de ${player_turn.nickname}</h2>
-                                                        </center>
-                                                    </div>
-                                                </c:if>
-                                            </div>
-                                        </c:forEach>
-                                    </div>
-                                </div>
-                                <div id="section2">
-                                    <center>
-                                        <h1 id="time_left">Tiempo restante: ${time_left}</h1>
-                                    </center>
-                                    <div id="board">
-                                        <sevenislands:game>
-                                            <c:forEach items="${islandList}" var="island">
-                                                <c:if test="${island.num!=0}">
-                                                <sevenislands:island island="${island}" />
-                                                </c:if>
-                                            </c:forEach>
-                                            <sevenislands:deck />
-                                        </sevenislands:game>
-                                    </div>
-                                </div>
-                                <div id="section3">
+#cards-details {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
 
-                                    <div id="cards">
-                                        <center>
-                                            <h1 class="game_text">Mis cartas</h1>
-                                        </center>
-                                        <div id="myCards">
-                                            <c:forEach items="${playerCardsMap}" var="card">
-                                            <img src="/resources/images/cards/${card.key.tipo}.png" width="150"
-                                                height="150"> 
-                                                  
-                                                <h3 class="game_text">${card.value}</h3> 
-                                            </c:forEach>
-                                        </div>
-                                    </div>
-                                    <div id="Islas a escoger">
-                                        <center>
-                                            <h1 class="game_text">Islas a escoger</h1>
-                                        </center>
-                                        <c:if test="${player_turn==player}">
-                                            <br />
-                                            <c:if test="${dice!=null && IslasToChose!=null}">
-                                                <br />
-                                                <center>
-                                                    <c:forEach items="${IslasToChose}" var="isla">
-                                                        <c:if test="${isla.num<=NumIslands}">    
-                                                            <a class="btn btn-default"
-                                                            href='<spring:url value="/turn/chooseIsland/${isla.num}" htmlEscape="true"/>'>Isla ${isla.num}
-                                                            </a>
-                                                        </c:if>
-                                            </c:forEach>
-                                                    
-                                                </center>
-                                            </c:if>
-                                        </c:if>
-                                    </div>
-                                </div>
-                                </body>
-                            </sevenislands:gameContent>
+#cards-img {
+    width: 55px;
+}
+
+#selected-cards {
+    border-top: 3px solid black;
+    border-bottom: 3px solid black;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+#select-island {
+    padding-top: 10px;
+}
+
+#select-island-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+/* OTHERS */
+
+.text {
+    color: white;
+}
+
+#cards {
+    padding: 10px;
+    width: 100%;
+    height: 70%;
+    border-bottom: 3px solid black;
+}
+
+#selected_cards {
+    padding: 10px;
+    height: auto;
+    width: 100%;
+}
+
+.game-btn {
+    background-color: #a75d21;
+    color: white;
+    border: 3px solid black;
+    border-radius: 25px;
+    padding: 5px 10px 5px 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.game-btn:hover {
+    color: white;
+    text-decoration: none;
+}
+
+</style>
+<sevenislands:gameContent pageName="lobby">
+
+    <body>
+        <div id="section1">
+            <div id="actions">
+                <h1 class="text">Acciones</h1>
+                <div id="actions-container">
+                    <a class="game-btn" id="leave-game" href='<spring:url value="/home" htmlEscape="true"/>'>Abandonar</a>
+                    <c:if test="${player_turn==player}">
+                        <c:if test="${dice==null}">
+                            <a class="game-btn" href='<spring:url value="/turn/dice" htmlEscape="true"/>'>Lanzar dado</a>
+                        </c:if>
+                        <c:if test="${dice!=null}">
+                            <p id="dice">${dice}</p>
+                        </c:if>
+                        <a class="game-btn" href='<spring:url value="/turn/endTurn" htmlEscape="true"/>'>Pasar</a>
+                    </c:if>
+                </div>
+            </div>
+            <div id="players">
+                <h1 class="text">Jugadores</h1>
+                <div id="players-container">
+                    <c:forEach items="${userList}" var="user">
+                        <div id="player-details">
+                            <img id="player-img" src="/resources/images/avatars/${user.avatar}">
+                            <c:choose>
+                                <c:when test="${player_turn==user && player_turn==player}">
+                                    <p class="player-text" id="my-turn">${user.nickname}</p>
+                                </c:when>
+                                <c:when test="${player_turn==user && player_turn!=player}">
+                                    <p class="player-text" id="player-turn">${user.nickname}</p>
+                                </c:when> 
+                                <c:otherwise>
+                                    <p class="player-text">${user.nickname}</p>
+                                </c:otherwise>
+                            </c:choose>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+            <div id="chat">
+                <h1 class="text">Chat</h1>
+            </div>
+        </div>
+
+        <div id="section2">
+            <p id="time-left">Tiempo restante: ${time_left}</p>
+            <div id="board">
+                <sevenislands:game>
+                    <c:forEach items="${islandList}" var="island">
+                        <c:if test="${island.num!=0}">
+                        <sevenislands:island island="${island}" />
+                        </c:if>
+                    </c:forEach>
+                    <sevenislands:deck />
+                </sevenislands:game>
+            </div>
+        </div>
+
+        <div id="section3">
+            <div id="my-cards">
+                <h1 class="text">Mis cartas</h1>
+                <div id="cards-container">
+                    <c:forEach items="${playerCardsMap}" var="card">
+                        <div id="cards-details">
+                            <a href="/turn/selectCard/${card.key.id}">
+                                <img id="cards-img" src="/resources/images/cards/${card.key.tipo}.png">
+                            </a>
+                            <p class="text">${card.value}</p>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+            <div id="selected-cards">
+                <h1 class="text">Cartas seleccionadas</h1>
+                <div id="cards-container">
+                    <c:forEach items="${selectedCards}" var="card">
+                        <div id="cards-details">
+                            <a href="/turn/deselectCard/${card.key.id}">
+                                <img id="cards-img" src="/resources/images/cards/${card.key.tipo}.png">
+                            </a>
+                            <p class="text">${card.value}</p>
+                        </div>
+                    </c:forEach>
+                </div>
+            </div>
+            <div id="select-island">
+                <h1 class="text">Islas a escoger</h1>
+                <div id="select-island-container">
+                    <c:if test="${player_turn==player}">
+                        <c:if test="${dice!=null && IslasToChose!=null}">
+                                <c:forEach items="${IslasToChose}" var="isla">
+                                    <c:if test="${isla.num<=NumIslands && isla.num!=0}">    
+                                        <a class="game-btn"
+                                        href='<spring:url value="/turn/chooseIsland/${isla.num}" htmlEscape="true"/>'>Isla ${isla.num}
+                                        </a>
+                                    </c:if>
+                                </c:forEach>
+                        </c:if>
+                    </c:if>
+                </div>
+            </div>
+        </div>
+    </body>
+</sevenislands:gameContent>

@@ -8,14 +8,18 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import sevenislands.card.Card;
 import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.GameService;
 import sevenislands.user.User;
@@ -47,6 +51,11 @@ public class LobbyController {
 			Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
 		
 			if (gameService.findGameByNicknameAndActive(logedUser.getNickname(), true).isPresent()) return "redirect:/game";
+
+			HttpSession session = request.getSession();
+			Map<Card,Integer> selectedCards = new TreeMap<Card,Integer>();
+			session.setAttribute("selectedCards", selectedCards);
+
 			User host = lobby.getUsers().get(0);
 			model.put("num_players", lobby.getUsers().size());
 			model.put("lobby", lobby);
@@ -81,9 +90,11 @@ public class LobbyController {
 
 	@PostMapping("/join")
 	public String validateJoin(ModelMap model, @ModelAttribute("code") String code, @ModelAttribute("logedUser") User logedUser) throws NotExistLobbyException {
-		if(lobbyService.validateJoin(code, logedUser)) return "redirect:/lobby";
 		List<String> errors = lobbyService.checkLobbyErrors(code);
-		
+		if(errors.isEmpty()) {
+			lobbyService.joinLobby(code, logedUser);
+			return "redirect:/lobby";
+		} 
 		model.put("errors", errors);
 		Lobby lobby2 = new Lobby();
 		lobby2.setCode(code);

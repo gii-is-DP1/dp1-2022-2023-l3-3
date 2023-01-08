@@ -129,20 +129,22 @@ public class GameServiceTest {
 
     @Test
     public void checkGameActiveTest(){
-        when(gameRepository.findGamesActive(true)).thenReturn(gameList.stream().filter(g->g.isActive()).collect(Collectors.toList()));
+        when(gameRepository.findGameActive(true).stream()
+        .map(r -> (Game)r[0]).collect(Collectors.toList())).thenReturn(gameList.stream().filter(g->g.isActive()).collect(Collectors.toList()));
         
         assertEquals(2, gameService.findGameActive(true).size());
         gameList.get(1).setActive(false);
-        when(gameRepository.findGamesActive(false)).thenReturn(gameList.stream().filter(g->g.isActive()==false).collect(Collectors.toList()));
+        when(gameRepository.findGameActive(false).stream()
+        .map(r -> (Game)r[0]).collect(Collectors.toList())).thenReturn(gameList.stream().filter(g->g.isActive()==false).collect(Collectors.toList()));
 
         assertEquals(1, gameService.findGameActive(false).size());
     }
     
     @Test
     public void findTotalTimePlayedTest(){
-        assertTrue(gameService.findTotalTimePlayed(user1.getNickname())==0);
-        when(gameRepository.findGameByNickname(any())).thenReturn(Optional.of(List.of(game1)));
-        assertTrue(gameService.findTotalTimePlayed(user1.getNickname())>0);
+        assertTrue(gameService.findTotalTimePlayed()==0);
+        when(gameRepository.findAll()).thenReturn((List.of(game1)));
+        assertTrue(gameService.findTotalTimePlayed()>0);
     }
 
     @Test
@@ -168,7 +170,7 @@ public class GameServiceTest {
 
     @Test
     public void findTotalGamesPlayedByNicknameTest(){
-        when(gameRepository.totalGamesPlayedByNickname(any())).thenReturn(gameList.size());
+        when(gameRepository.findTotalGamesPlayedByNickname(any())).thenReturn(gameList.size());
         assertFalse(gameService.findTotalGamesPlayedByNickname(user1.getNickname())==0);
     }
 

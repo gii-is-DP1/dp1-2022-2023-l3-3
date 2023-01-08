@@ -1,8 +1,10 @@
 package sevenislands.game;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -60,7 +62,7 @@ public class GameController {
         if(lobbyService.checkLobbyNoAllPlayers(logedUser)) return "redirect:/home";
         if(gameService.checkUserGameWithRounds(logedUser)) return VIEWS_TURN;
         response.addHeader("Refresh", "5");
-       try {
+        try {
         Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
         if(gameService.findGameByNicknameAndActive(logedUser.getNickname(), true).isEmpty()) {
             gameService.initGame(lobby);
@@ -94,22 +96,50 @@ public class GameController {
 
     @GetMapping("/game/finished")
     public String listFinishedGames(ModelMap model) {
-        List<Game> games = this.gameService.findGameActive(false);
-        model.put("games", games);
+        HashMap<Game, String[]> gamesResult = new HashMap<>(); 
+        List<Object[]> games = this.gameService.findGameActive(false);
+
+        games.stream().forEach(g -> {
+            if (gamesResult.containsKey(g[0])) {
+                Game game = (Game) g[0];
+                String[] list = gamesResult.get(game);
+                String[] both = Stream.of(list, new String[] {(String) g[1]}).flatMap(Stream::of)
+                      .toArray(String[]::new);
+                
+                gamesResult.put(game, both);
+            } else {
+                gamesResult.put((Game) g[0], new String[] {(String) g[1]});
+            }
+        });
+        model.put("games", gamesResult.entrySet().stream().map(r -> Pair.of((Game)r.getKey(), (String[])r.getValue())).collect(Collectors.toList()));
         return VIEWS_FINISHED_GAMES;
     }
 
     @GetMapping("/game/InProgress")
     public String listGames(ModelMap model) {
-        List<Game> games = this.gameService.findGameActive(true);
-        model.put("games", games);
+        HashMap<Game, String[]> gamesResult = new HashMap<>(); 
+        List<Object[]> games = this.gameService.findGameActive(true);
+
+        games.stream().forEach(g -> {
+            if (gamesResult.containsKey(g[0])) {
+                Game game = (Game) g[0];
+                String[] list = gamesResult.get(game);
+                String[] both = Stream.of(list, new String[] {(String) g[1]}).flatMap(Stream::of)
+                      .toArray(String[]::new);
+                
+                gamesResult.put(game, both);
+            } else {
+                gamesResult.put((Game) g[0], new String[] {(String) g[1]});
+            }
+        });
+        model.put("games", gamesResult.entrySet().stream().map(r -> Pair.of((Game)r.getKey(), (String[])r.getValue())).collect(Collectors.toList()));
         return VIEWS_INPROGRESS_GAMES;
     }
 
     @GetMapping("/game/gamesAsPlayer")
     public String listGamesAsPlayer(ModelMap model, @ModelAttribute("logedUser") User logedUser) {
         Optional<List<Game>> gameList = gameService.findGamesByNicknameAndActive(logedUser.getNickname(), false);
-        if(gameList.isPresent()) model.put("games", gameList.get());
+        model.put("games", gameList.get());
         return VIEWS_GAMES_AS_PLAYER;
     }
 }

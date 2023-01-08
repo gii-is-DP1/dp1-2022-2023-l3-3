@@ -175,11 +175,11 @@ public class gameDetailsServiceTest {
         when(gameRepository.findGameByNickname(any())).thenReturn(Optional.of(List.of(game1)));
         List<GameDetails> gameDetails = gameDetailsService.calculateDetails(user1);
         assertNotNull(gameDetails);
-        assertEquals(user1.getNickname(), gameDetails.get(0).getWinner().getNickname());
+        assertEquals(user1.getNickname(), gameDetails.get(0).getUser().getNickname());
         turn2.addCard(card2);
         gameDetails = gameDetailsService.calculateDetails(user1);
         assertNotNull(gameDetails);
-        assertTrue(gameDetails.get(0).isTieBreak());
+        assertTrue(gameDetails.get(0).getPunctuation()==2);
     }
 
 }

@@ -15,61 +15,68 @@ import javax.persistence.TemporalType;
 
 import javax.validation.constraints.Past;
 
+import org.hibernate.envers.Audited;
+import org.hibernate.envers.NotAudited;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import sevenislands.configuration.AuditableEntity;
 import sevenislands.enums.UserType;
 import sevenislands.game.turn.Turn;
-import sevenislands.model.BaseEntity;
 import lombok.Getter;
 import lombok.Setter;
 
 @Getter
 @Setter
 @Entity
-public class User extends BaseEntity {
+@Audited
+public class User extends AuditableEntity {
 	
 	@Column(name = "nickname", unique = true, nullable = false, length = 30)
 	private String nickname;
 
+    @NotAudited
 	@Column(name = "password", unique = false, nullable = false)
 	private String password;
 
 	@Column(name = "enabled", unique = false, nullable = false, columnDefinition = "boolean default true")
 	private boolean enabled;
 
+    @NotAudited
 	@Column(name = "first_name", unique = false, nullable = false)
 	private String firstName;
-
+    
+    @NotAudited
 	@Column(name = "last_name", unique = false, nullable = false)
 	private String lastName;
 
+    @NotAudited
 	@Column(name = "email", unique = true, nullable = false, length = 50)
 	private String email;
 
+    @NotAudited
 	@Past
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	@Column(name = "creation_date", unique = false, nullable = false, columnDefinition = "date default now()")
 	private Date creationDate;
 	
+    @NotAudited
 	@Past
 	@Temporal(TemporalType.DATE)
 	@DateTimeFormat(pattern = "yyyy/MM/dd")
 	@Column(name = "birth_date", unique = false, nullable = false)
 	private Date birthDate;
 
+    @NotAudited
 	@Column(name = "avatar", unique = false, nullable = false)
 	private String avatar;
 
+    @NotAudited
 	@Column(name = "type", unique = false, updatable = false)
 	@Enumerated(value = EnumType.STRING)
 	protected UserType userType;
 
-    
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user", fetch = FetchType.LAZY)
-    private Set<Turn> turns;
-
-    public User copy(){
+	public User copy(){
         User cloneUser = new User();
         cloneUser.setId(this.getId());
         cloneUser.setAvatar(this.getAvatar());
@@ -81,7 +88,6 @@ public class User extends BaseEntity {
         cloneUser.setLastName(this.getLastName());
         cloneUser.setNickname(this.getNickname());
         cloneUser.setPassword(this.getPassword());
-        cloneUser.setTurns(this.getTurns());
         cloneUser.setUserType(this.getUserType());
         return cloneUser;
     }
@@ -100,7 +106,6 @@ public class User extends BaseEntity {
         result = prime * result + ((birthDate == null) ? 0 : birthDate.hashCode());
         result = prime * result + ((avatar == null) ? 0 : avatar.hashCode());
         result = prime * result + ((userType == null) ? 0 : userType.hashCode());
-        result = prime * result + ((turns == null) ? 0 : turns.hashCode());
         return result;
     }
 
@@ -157,12 +162,7 @@ public class User extends BaseEntity {
             return false;
         if (userType != other.userType)
             return false;
-        if (turns == null) {
-            if (other.turns != null)
-                return false;
-        } else if (!turns.equals(other.turns))
-            return false;
         return true;
     }
- 
+
 }

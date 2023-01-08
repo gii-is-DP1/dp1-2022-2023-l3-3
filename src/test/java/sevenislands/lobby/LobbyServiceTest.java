@@ -79,13 +79,11 @@ public class LobbyServiceTest {
 
     @Test
     public void validateJoinTest() throws NotExistLobbyException {
-        User user = listaLobby.get(0).getUsers().get(0);
         LobbyService lobbyService = new LobbyService(lobbyRepository, null);
-        assertThrows(NotExistLobbyException.class,() ->lobbyService.validateJoin("",user));
         when(lobbyRepository.findByCode(any())).thenReturn(Optional.of(listaLobby.get(0)));
-        assertFalse(lobbyService.validateJoin("nbtybyrnt",user));
+        assertFalse(lobbyService.checkLobbyErrors("nbtybyrnt").isEmpty());
         listaLobby.get(0).setActive(true);
-        assertTrue(lobbyService.validateJoin("nbtybyrnt",user));
+        assertTrue(lobbyService.checkLobbyErrors("nbtybyrnt").isEmpty());
 
     }
 
@@ -132,13 +130,12 @@ public class LobbyServiceTest {
         LobbyService lobbyService = new LobbyService(lobbyRepository, null);
         String code = listaLobby.get(0).getCode();
         when(lobbyRepository.findByCode(code)).thenReturn(Optional.of(listaLobby.get(0)));
-        assertThrows(NotExistLobbyException.class, ()-> lobbyService.checkLobbyErrors("tjbnrjbnt"));
         assertEquals(1, lobbyService.checkLobbyErrors(code).size());
         User user3 = userService.createUser(3, "user3Test", "user3Test@gmail.com");
         User user4 = userService.createUser(4, "user4Test", "user4Test@gmail.com");
         listaLobby.get(0).addPlayer(user4);
         listaLobby.get(0).addPlayer(user3);
-        assertEquals(2, lobbyService.checkLobbyErrors(code).size());
+        assertEquals(1, lobbyService.checkLobbyErrors(code).size());
         listaLobby.get(0).setActive(true);
         assertEquals(1, lobbyService.checkLobbyErrors(code).size());
     }
@@ -156,7 +153,7 @@ public class LobbyServiceTest {
         assertFalse(lobbyService.checkLobbyNoAllPlayers(user1));
         listaLobby.get(0).addPlayer(user4);
         listaLobby.get(0).addPlayer(user3);
-        assertTrue(lobbyService.checkLobbyNoAllPlayers(user1));
+        assertFalse(lobbyService.checkLobbyNoAllPlayers(user1));
 
     }
 

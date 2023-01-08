@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/functions" prefix = "fn" %>
 <%@ taglib prefix="sevenislands" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ page session="false" trimDirectiveWhitespaces="true" %>
@@ -40,15 +41,19 @@
 		</div>
 		<table class="table table-striped">
 			<tr>
-				<th>ID</th>
+				<th>Id</th>
 				<th>Creation_date</th>
 				<th>Ending_date</th>
+				<th>Creador</th>
+				<th>Participantes</th>
 			</tr>
 			<c:forEach items="${games}" var="game">
 				<tr>
-                    <td><c:out value="${game.id}"/></td>
-					<td><c:out value="${game.creationDate}"/></td>
-					<td><c:out value="${game.endingDate}"/></td>	
+					<td><c:out value="${game.getFirst().id}"/></td>
+					<td><c:out value="${game.getFirst().creationDate}"/></td>
+					<td><c:out value="${game.getFirst().endingDate}"/></td>	
+					<td><c:out value="${game.getFirst().lobby.users[0].nickname}"></c:out></td>
+					<td><c:out value="${fn:join(game.getSecond(), ', ')}"/></td>
 				</tr>
 			</c:forEach>
 		</table>
