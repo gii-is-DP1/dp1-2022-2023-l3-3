@@ -275,6 +275,43 @@ public class GameService {
     public Long findMinTimePlayed() {
         return findTotalTimePlayedByGame().stream().min(Comparator.naturalOrder()).get().toMinutes();
     }
+
+    @Transactional
+    public Integer findTotalPlayersDistinct() {
+        return gameRepository.findTotalPlayersDistinct();
+    }
+
+    @Transactional
+    public Double findAveragePlayers() {
+        Double average = (double) gameRepository.findTotalPlayers() / gameCount();
+        return Math.round(average * 100.0) / 100.0; 
+    }
+
+    @Transactional
+    public Integer findMaxPlayers() {
+        return gameRepository.findTotalPlayersByGame().stream().max(Comparator.naturalOrder()).get();
+    }
+
+    @Transactional
+    public Integer findMinPlayers() {
+        return gameRepository.findTotalPlayersByGame().stream().min(Comparator.naturalOrder()).get();
+    }
+
+    @Transactional
+    public Double findDailyAveragePlayers() {
+        Double average = (double) gameRepository.findTotalPlayers() / findTotalGamesPlayedByDay().size();
+        return Math.round(average * 100.0) / 100.0; 
+    }
+
+    @Transactional
+    public Integer findMaxPlayersADay() {
+        return gameRepository.findTotalPlayersByDay().stream().max(Comparator.naturalOrder()).get();
+    }
+
+    @Transactional
+    public Integer findMinPlayersADay() {
+        return gameRepository.findTotalPlayersByDay().stream().min(Comparator.naturalOrder()).get();
+    }
     
 
 }

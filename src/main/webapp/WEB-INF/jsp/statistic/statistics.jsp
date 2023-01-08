@@ -5,17 +5,6 @@
 <%@ taglib prefix="sevenislands" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 
-<style>
-.caja{
-    padding: 15px;
-    border-left: 6px solid #5FA134;
-    background:#F5F5F5;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 50px;
-    
-}
-</style>
 <sevenislands:layout3 pageName="statistics">
     <body style="background: url(resources/images/grafics/fondo1920x1080.jpg)">
         <a class="btn btn-default" href='<spring:url value="/home" htmlEscape="true"/>'>Volver</a>
@@ -38,11 +27,18 @@
                 <td><c:out value="${min_games}"/></td>
             </tr>
             <tr>
-                <th>Tiempo Total Jugado</th>
+                <th>Duración de las Partidas</th>
                 <td><c:out value="${total_time}"/> min</td>
                 <td><c:out value="${average_time}"/> min</td>
                 <td><c:out value="${max_time}"/> min</td>
                 <td><c:out value="${min_time}"/> min</td>
+            </tr>
+            <tr>
+                <th>Nº de Jugadores por Partida</th>
+                <td><c:out value="${total_players}"/></td>
+                <td><c:out value="${average_players}"/></td>
+                <td><c:out value="${max_players}"/></td>
+                <td><c:out value="${min_players}"/></td>
             </tr>
             <tr>
                 <th>Puntos Totales</th>
