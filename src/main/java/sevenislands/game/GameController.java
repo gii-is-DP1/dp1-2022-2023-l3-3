@@ -139,7 +139,7 @@ public class GameController {
     @GetMapping("/game/gamesAsPlayer")
     public String listGamesAsPlayer(ModelMap model, @ModelAttribute("logedUser") User logedUser) {
         Optional<List<Game>> gameList = gameService.findGamesByNicknameAndActive(logedUser.getNickname(), false);
-        if(gameList.isPresent()) model.put("games", gameList.get());
+        model.put("games", gameList.get());
         return VIEWS_GAMES_AS_PLAYER;
     }
 }

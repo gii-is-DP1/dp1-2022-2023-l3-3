@@ -17,10 +17,11 @@ INSERT INTO user(nickname,password,enabled,first_name,last_name,email,creation_d
 INSERT INTO lobby(active,code) VALUES('FALSE','ZgC[pLc>');
 
 -- LOBBY JUGADORES -- 
-INSERT INTO lobby_users(lobby_id,users_id) VALUES(1,7);
-INSERT INTO lobby_users(lobby_id,users_id) VALUES(1,8);
-INSERT INTO lobby_users(lobby_id,users_id) VALUES(1,9);
-INSERT INTO lobby_users(lobby_id,users_id) VALUES(1,10);
+INSERT INTO lobby_users(lobby_id,users_id) VALUES (1,7);
+INSERT INTO lobby_users(lobby_id,users_id) VALUES (1,8);
+INSERT INTO lobby_users(lobby_id,users_id) VALUES (1,9);
+INSERT INTO lobby_users(lobby_id,users_id) VALUES (2,7);
+INSERT INTO lobby_users(lobby_id,users_id) VALUES (2,10);
 
 -- JUEGOS -- 
 INSERT INTO game(active,creation_date,ending_date,tie_break,lobby_id,winner_id) VALUES('FALSE','2023-01-06 12:59:40.241642','2023-01-06 13:03:28.611833','FALSE',1,8);

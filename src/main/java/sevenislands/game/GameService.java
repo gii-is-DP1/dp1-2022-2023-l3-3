@@ -1,10 +1,14 @@
 package sevenislands.game;
 
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,9 +36,13 @@ public class GameService {
     }
 
     @Transactional
-
     public Integer gameCount() {
         return (int) gameRepository.count();
+    }
+
+    @Transactional
+    public List<Game> findAll() {
+        return gameRepository.findAll();
     }
 
     @Transactional 
@@ -80,6 +88,11 @@ public class GameService {
         return Optional.empty();
     }
 
+    @Transactional
+    public List<Object []> findGamePLayedByNickname(String nickname) {
+        return gameRepository.findGamePLayedByNickname(nickname);
+    }
+
     /**
      * Comprueba si el usuario está en una partida o si existe una ronda asociada a la partida en la que se
      * encuentra el usuario.
@@ -95,7 +108,7 @@ public class GameService {
 
     @Transactional
     public List<Object []> findGameActive(Boolean active) {
-        return gameRepository.findGamesActive(active);
+        return gameRepository.findGameActive(active);
     }
 
     @Transactional
@@ -130,7 +143,7 @@ public class GameService {
 
     @Transactional
     public Long findTotalTimePlayed() {
-        List<Game> games = gameRepository.findAll();
+        List<Game> games = findAll();
         Duration played = Duration.ZERO;
         for(Game g : games) {
             LocalDateTime creationDate = g.getCreationDate();
@@ -143,20 +156,24 @@ public class GameService {
     }
 
     @Transactional
+    public List<Integer> findTotalGamesPlayedByDay() {
+        return gameRepository.findTotalGamesPlayedByDay();
+    }
+
+    @Transactional
     public Double findAverageGamesPlayed() {
-        return (double) gameCount() / gameRepository.findDaysPlayed().size();
+        Double average = (double) gameCount() / findTotalGamesPlayedByDay().size();
+        return Math.round(average * 100.0) / 100.0;
     }
 
     @Transactional
     public Integer findMaxGamesPlayedADay() {
-        List<Integer> daysPlayed = gameRepository.findDaysPlayed();
-        return daysPlayed.stream().max(Comparator.naturalOrder()).get();
+        return findTotalGamesPlayedByDay().stream().max(Comparator.naturalOrder()).get();
     }
 
     @Transactional
     public Integer findMinGamesPlayedADay() {
-        List<Integer> daysPlayed = gameRepository.findDaysPlayed();
-        return daysPlayed.stream().min(Comparator.naturalOrder()).get();
+        return findTotalGamesPlayedByDay().stream().min(Comparator.naturalOrder()).get();
     }
 
     public Boolean checkUserGame(User logedUser) {
@@ -179,5 +196,85 @@ public class GameService {
     public Long findTieBreaksByNickname(String nickname) {
         return gameRepository.findTieBreaksByNickname(nickname);
     }
+
+    @Transactional
+    public Double findDailyAverageTimePlayed() {
+        Double average = (double) findTotalTimePlayed() / findTotalGamesPlayedByDay().size();
+        return Math.round(average * 100.0) / 100.0;
+    }
+
+    @Transactional
+    public Map<LocalDate, Duration> findGamesDurationsByDate() {
+        Map<LocalDate, Duration> durationsByDate = new HashMap<>();
+        List<Game> games = findAll();
+        for(Game g : games) {
+            LocalDateTime creationDate = g.getCreationDate();
+            LocalDateTime endingDate = g.getEndingDate();
+            LocalDate date = creationDate.toLocalDate();
+            Duration diference = Duration.between(creationDate,endingDate);
+            if(durationsByDate.containsKey(date)) {
+                Duration updatedDuration = durationsByDate.get(date).plus(diference);
+                durationsByDate.put(date, updatedDuration);
+            }
+            else {
+                durationsByDate.put(date, diference);
+            }
+        }
+        return durationsByDate;
+    }
+
+    @Transactional
+    public Long findMaxTimePlayedADay() {
+        Map<LocalDate, Duration> gamesDurationsByDate = findGamesDurationsByDate();
+        Duration maxDuration = null;
+        Optional<Map.Entry<LocalDate, Duration>> maxEntry = gamesDurationsByDate.entrySet().stream()
+        .max(Comparator.comparing(Map.Entry::getValue));
+        if(maxEntry.isPresent()) {
+            maxDuration = maxEntry.get().getValue();
+        }
+        return maxDuration != null ? maxDuration.toMinutes() : null;
+    }
+
+    @Transactional
+    public Long findMinTimePlayedADay() {
+        Map<LocalDate, Duration> gamesDurationsByDate = findGamesDurationsByDate();
+        Duration minDuration = null;
+        Optional<Map.Entry<LocalDate, Duration>> minEntry = gamesDurationsByDate.entrySet().stream()
+        .min(Comparator.comparing(Map.Entry::getValue));
+        if(minEntry.isPresent()) {
+            minDuration = minEntry.get().getValue();
+        }
+        return minDuration != null ? minDuration.toMinutes() : null;
+    }
+
+    @Transactional
+    public Double findAverageTimePlayed() {
+        Double average = (double) findTotalTimePlayed() / gameCount();
+        return Math.round(average * 100.0) / 100.0;
+    }
+
+    @Transactional
+    public List<Duration> findTotalTimePlayedByGame() {
+        List<Game> games = findAll();
+        List<Duration> times = new ArrayList<>();
+        for(Game g : games) {
+            LocalDateTime creationDate = g.getCreationDate();
+            LocalDateTime endingDate = g.getEndingDate();
+            Duration diference = Duration.between(creationDate,endingDate);
+            times.add(diference);
+        }
+        return times;
+    }
+
+    @Transactional
+    public Long findMaxTimePlayed() {
+        return findTotalTimePlayedByGame().stream().max(Comparator.naturalOrder()).get().toMinutes();
+    }
+
+    @Transactional
+    public Long findMinTimePlayed() {
+        return findTotalTimePlayedByGame().stream().min(Comparator.naturalOrder()).get().toMinutes();
+    }
+    
 
 }

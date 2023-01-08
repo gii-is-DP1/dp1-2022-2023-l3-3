@@ -2,18 +2,22 @@ package sevenislands.game.turn;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import sevenislands.card.Card;
+import sevenislands.card.CardService;
 import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.Game;
 import sevenislands.game.GameService;
@@ -46,16 +50,18 @@ public class TurnController {
     private final LobbyService lobbyService;
     private final GameService gameService;
     private final IslandService islandService;
+    private final CardService cardService;
 
     @Autowired
     public TurnController(GameService gameService, LobbyService lobbyService, RoundService roundService,
-            TurnService turnService, IslandService islandService, UserService userService) {
+            TurnService turnService, IslandService islandService, UserService userService, CardService cardService) {
         this.turnService = turnService;
         this.userService = userService;
         this.roundService = roundService;
         this.lobbyService = lobbyService;
         this.gameService = gameService;
         this.islandService = islandService;
+        this.cardService = cardService;
     }
 
     @GetMapping("/turn")
@@ -78,7 +84,7 @@ public class TurnController {
         Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
         List<User> userList = lobby.getUsers();
         Map<Card, Integer> playerCardsMap = turnService.findPlayerCardsLastTurn(logedUser.getNickname());
-        List<Island> islasToChose=turnService.islandToChoose(lastTurn,logedUser.getNickname(),islandList);
+        List<Island> islasToChose=turnService.islandToChoose(lastTurn,logedUser.getNickname(),islandList, request);
         model.put("player", logedUser);
         model.put("player_turn", lastTurn.getUser());
         model.put("dice", lastTurn.getDice());
@@ -90,10 +96,13 @@ public class TurnController {
 
         Duration timeElapsed = Duration.between(lastTurn.getStartTime(), LocalDateTime.now());
         model.put("time_left", 40 - timeElapsed.toSeconds());
+
         if (lastTurn.getUser().getId() == logedUser.getId() && timeElapsed.toSeconds() >= 40) {
             return "redirect:/turn/endTurn";
         }
-
+        HttpSession session = request.getSession();
+        Map<Card,Integer> selectedCards = (Map<Card,Integer>) session.getAttribute("selectedCards");
+        model.put("selectedCards",selectedCards);
         return VIEWS_GAME;
     }
 
@@ -115,6 +124,16 @@ public class TurnController {
             List<User> userList = lobby.getUsers();
 
             if (logedUser.getId() == lastTurn.getUser().getId()) {
+                HttpSession session = request.getSession();
+                Map<Card,Integer> selectedCards = new TreeMap<>();
+                selectedCards = (Map<Card,Integer>) session.getAttribute("selectedCards");
+                for(Card card : selectedCards.keySet()){
+                    for(int i=0;i<selectedCards.get(card);i++) {
+                        turnService.addCardToUser(card.getId(), logedUser);
+                    }
+                }
+                session.setAttribute("selectedCards", new HashMap<>());
+                
                 if (turnList.size() >= userList.size())
                     return "redirect:/turn/newRound";
                 turnService.initTurn(logedUser, round, userList, null);
@@ -165,38 +184,29 @@ public class TurnController {
         }
     }
 
- 
- 
     @GetMapping("/turn/chooseIsland/{IdIsland}")
-    public String chooseIsland(ModelMap model,@PathVariable("IdIsland") Integer id, @ModelAttribute("logedUser") User logedUser){
-        Integer NumDelDado=turnService.findTurnByNickname(logedUser.getNickname()).get(0).getDice();
-        Integer NumCartasEliminar=Math.abs(id-NumDelDado);
-        return "redirect:/turn/chooseCard?islaId="+id+"&NumCartasDelete="+NumCartasEliminar;
+    public String chooseIsland(ModelMap model,@PathVariable("IdIsland") Integer id, @ModelAttribute("logedUser") User logedUser, HttpServletRequest request){
+        Optional<Game> game=gameService.findGameByNicknameAndActive(logedUser.getNickname(), true);
+        turnService.AnadirCarta(id,logedUser.getNickname());
+        turnService.refreshDesk(id, logedUser, game);
+        HttpSession session = request.getSession();
+        Map<Card,Integer> selectedCards = new TreeMap<Card,Integer>();
+        session.setAttribute("selectedCards", selectedCards);
+        return "redirect:/turn/endTurn";
     }
 
-    @RequestMapping(value ="/turn/chooseCard",method = RequestMethod.GET)
-    public String chooseCard(ModelMap model,@RequestParam Integer islaId,@RequestParam Integer NumCartasDelete, @ModelAttribute("logedUser") User logedUser){
-        Optional<Game> game=gameService.findGameByNicknameAndActive(logedUser.getNickname(), true);
-        Card cardAnadida=islandService.findCardOfIsland(game.get().getId(),islaId).getCard();
-        Map<Card, Integer> playerCardsMap = turnService.findPlayerCardsLastTurn(logedUser.getNickname());
-        if(NumCartasDelete.equals(0)){
-            turnService.AnadirCarta(islaId,logedUser.getNickname());
-            turnService.refreshDesk(islaId, logedUser, game);
-            return "redirect:/turn/endTurn";
-        }else{
-            model.put("cardAnadida", cardAnadida);
-            model.put("IslaId", islaId);
-            model.put("cardsToEliminate", NumCartasDelete);
-            model.put("card", playerCardsMap);
-            return "/game/chooseCard";
-        }
+    @RequestMapping(value="/turn/selectCard/{idCard}",method = RequestMethod.GET)
+    public String selectCard(@PathVariable("idCard") Integer id, @ModelAttribute("logedUser") User logedUser, HttpServletRequest request) {
+        turnService.DeleteCard(id, logedUser.getNickname());
+        turnService.changeCard(id, logedUser, 0, request);
+        return "redirect:/turn";
     }
-        
-    @RequestMapping(value="/delete/chooseCard/{idCard}",method = RequestMethod.GET)
-    public String deleteMyCard(@PathVariable("idCard") Integer id,@RequestParam Integer islaId,@RequestParam Integer NumCartasDelete,@ModelAttribute("logedUser") User logedUser){
-        turnService.DeleteCard(id, logedUser.getNickname());           
-        NumCartasDelete--;         
-        return "redirect:/turn/chooseCard?islaId="+islaId+"&NumCartasDelete="+NumCartasDelete;
+
+    @RequestMapping(value="/turn/deselectCard/{idCard}",method = RequestMethod.GET)
+    public String deselectCard(@PathVariable("idCard") Integer id, @ModelAttribute("logedUser") User logedUser, HttpServletRequest request) {
+        turnService.addCardToUser(id, logedUser);
+        turnService.changeCard(id, logedUser, 1, request);
+        return "redirect:/turn";
     }
     
 }

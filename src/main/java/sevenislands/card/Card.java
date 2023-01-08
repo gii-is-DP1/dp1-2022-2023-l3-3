@@ -17,7 +17,7 @@ import sevenislands.model.BaseEntity;
 @Getter
 @Setter
 @Entity
-public class Card extends BaseEntity{
+public class Card extends BaseEntity implements Comparable<Card>{
 
     @Enumerated(value = EnumType.STRING)
     private Tipo tipo;
@@ -27,4 +27,11 @@ public class Card extends BaseEntity{
 
     @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private Game game;
+
+    @Override
+    public int compareTo(Card c) {
+        if (this.getId() == c.getId()) return 0; 
+        else if (this.getId() > c.getId()) return 1; 
+        else return -1;
+    }
 }

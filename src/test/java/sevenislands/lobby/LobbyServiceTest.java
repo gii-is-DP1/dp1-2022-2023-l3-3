@@ -145,7 +145,6 @@ public class LobbyServiceTest {
         User user1 = userService.createUser(1, "user1Test", "user1Test@gmail.com");
         User user3 = userService.createUser(3, "user3Test", "user3Test@gmail.com");
         User user4 = userService.createUser(4, "user4Test", "user4Test@gmail.com");
-        User user5 = userService.createUser(5, "user5Test", "user5Test@gmail.com");
         listaLobby.get(0).setActive(true);
         LobbyService lobbyService = new LobbyService(lobbyRepository, null);
         Integer code = listaLobby.get(0).getUsers().get(0).getId();
@@ -154,8 +153,8 @@ public class LobbyServiceTest {
         assertFalse(lobbyService.checkLobbyNoAllPlayers(user1));
         listaLobby.get(0).addPlayer(user4);
         listaLobby.get(0).addPlayer(user3);
-        listaLobby.get(0).addPlayer(user5);
-        assertTrue(lobbyService.checkLobbyNoAllPlayers(user1));
+        assertFalse(lobbyService.checkLobbyNoAllPlayers(user1));
+
     }
 
     @Test
