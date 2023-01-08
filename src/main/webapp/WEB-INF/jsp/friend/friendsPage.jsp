@@ -118,6 +118,7 @@ body {
     background: #ffffff;
     border: 3px solid black;
     border-radius: 25px;
+    padding-left: 10px;
 }
 
 .user-content {
@@ -287,7 +288,7 @@ a:hover {
                 <div id="search" class="two-rows first-row">
                     <h1>Enviar solicitud</h1>
                     <form:form modelAttribute="searchedUser" class="form-horizontal">
-                        <form:input id="search-bar" path="" size="20" required="true" placeholder="Buscar..."/>
+                        <form:input id="search-bar" path="nickname" maxlength="20" required="true" placeholder="Buscar..."/>
                     </form:form>
                     <div class="content-box" id="results-box">
                         <c:forEach items="${searchResults}" var="user">

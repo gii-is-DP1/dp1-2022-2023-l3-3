@@ -31,7 +31,7 @@ public class FriendController {
     @GetMapping("/friends")
     public String getFriends(ModelMap model, @ModelAttribute("logedUser") User logedUser) {
         model.put("logedUser", logedUser);
-        model.put("searchedUser", "");
+        model.put("searchedUser", new User());
         model.put("searchResults", new ArrayList<>());
         model.put("friends", friendService.findFriends(logedUser, Status.ACCEPTED));
         model.put("sentRequests", friendService.findFriendsFrom(logedUser, Status.PENDING));
@@ -41,10 +41,12 @@ public class FriendController {
     }
 
     @PostMapping("/friends")
-    public String searchUser(ModelMap model, @ModelAttribute("logedUser") User logedUser, @ModelAttribute("searchedUser") String searchedUser) {
-        List<User> usersList = userService.searchUserByNickname(logedUser.getNickname(), searchedUser);
+    public String searchUser(ModelMap model, @ModelAttribute("searchedUser") User searchedUser) {
+        User logedUser = userService.getCurrentUser();
+
+        List<User> usersList = userService.searchUserByNickname(logedUser.getNickname(), searchedUser.getNickname());
         model.put("logedUser", logedUser);
-        model.put("searchedUser", searchedUser);
+        model.put("searchedUser", new User());
         model.put("searchResults", usersList);
         model.put("friends", friendService.findFriends(logedUser, Status.ACCEPTED));
         model.put("sentRequests", friendService.findFriendsFrom(logedUser, Status.PENDING));

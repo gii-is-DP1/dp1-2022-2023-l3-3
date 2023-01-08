@@ -315,4 +315,15 @@ public class UserService {
 	public List<User> searchUserByNickname(String logedUser,String nickname){
 		return userRepository.findByNicknameContaining(logedUser, nickname);
 	}
+
+	@Transactional
+	public User getCurrentUser() {
+		User logedUser = null;
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if(auth!=null && auth.isAuthenticated() && !auth.getAuthorities().toString().contains("[ROLE_ANONYMOUS]")) {
+            Optional<User> user = findUserByNickname(auth.getName());
+            if(user.isPresent()) logedUser = user.get();
+        }
+		return logedUser;
+	}
 }
