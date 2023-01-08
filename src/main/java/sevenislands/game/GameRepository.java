@@ -40,6 +40,6 @@ public interface GameRepository extends CrudRepository<Game, Integer> {
     Long findTieBreaksByNickname(String nickname);
     
     @Query("SELECT COUNT(g) FROM Game g GROUP BY TO_CHAR(g.creationDate, 'YYYY-MM-DD')")
-    public List<Integer> findTotalGamesPlayedPerDay();
+    public List<Integer> findTotalGamesPlayedByDay();
 
 }
