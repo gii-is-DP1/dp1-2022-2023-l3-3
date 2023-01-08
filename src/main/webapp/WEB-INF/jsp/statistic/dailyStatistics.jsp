@@ -18,9 +18,8 @@
 </style>
 <sevenislands:layout3 pageName="statistics">
     <body style="background: url(resources/images/grafics/fondo1920x1080.jpg)">
-        <a class="btn btn-default" href='<spring:url value="/home" htmlEscape="true"/>'>Volver</a>
-        <a class="btn btn-default" href='<spring:url value="/dailyStatistics" htmlEscape="true"/>'>Estadísticas Globales Diarias</a>
-        <h2><br>Estadísticas Globales</h2>
+        <a class="btn btn-default" href='<spring:url value="/statistics" htmlEscape="true"/>'>Volver</a>
+        <h2><br>Estadísticas Globales Diarias</h2>
 
         <table class="table table-striped">
 			<tr>
@@ -40,23 +39,23 @@
             <tr>
                 <th>Tiempo Total Jugado</th>
                 <td><c:out value="${total_time}"/> min</td>
-                <td><c:out value="${average_time}"/> min</td>
-                <td><c:out value="${max_time}"/> min</td>
-                <td><c:out value="${min_time}"/> min</td>
+                <td><c:out value="${average_time_day}"/> min</td>
+                <td><c:out value="${max_time_day}"/> min</td>
+                <td><c:out value="${min_time_day}"/> min</td>
             </tr>
             <tr>
                 <th>Puntos Totales</th>
                 <td><c:out value="${total_points}"/></td>
-                <td><c:out value="${average_points}"/></td>
-                <td><c:out value="${max_points}"/></td>
-                <td><c:out value="${min_points}"/></td>
+                <td><c:out value="${average_points_day}"/></td>
+                <td><c:out value="${max_points_day}"/></td>
+                <td><c:out value="${min_points_day}"/></td>
             </tr>
             <tr>
                 <th>Turnos Totales</th>
                 <td><c:out value="${total_turns}"/></td>
-                <td><c:out value="${average_turns}"/></td>
-                <td><c:out value="${max_turns}"/></td>
-                <td><c:out value="${min_turns}"/></td>
+                <td><c:out value="${average_turns_day}"/></td>
+                <td><c:out value="${max_turns_day}"/></td>
+                <td><c:out value="${min_turns_day}"/></td>
             </tr>
 		</table>
     </body>

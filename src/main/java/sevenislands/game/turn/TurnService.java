@@ -387,22 +387,34 @@ public class TurnService {
     }
 
     @Transactional
-    public List<Integer> findTotalTurnsPerDay() {
-        return turnRepository.findTotalTurnsPerDay();
-    }
-
-    @Transactional
-    public Double findAverageTurns() {
-        return (double) turnCount() / findTotalTurnsPerDay().size();
+    public Double findDailyAverageTurns() {
+        Double average = (double) turnCount() / turnRepository.findTotalTurnsByDay().size();
+        return Math.round(average * 100.0) / 100.0;
     }
 
     @Transactional
     public Integer findMaxTurnsADay() {
-        return findTotalTurnsPerDay().stream().max(Comparator.naturalOrder()).get();
+        return turnRepository.findTotalTurnsByDay().stream().max(Comparator.naturalOrder()).get();
     }
 
     @Transactional
     public Integer findMinTurnsADay() {
-        return findTotalTurnsPerDay().stream().min(Comparator.naturalOrder()).get();
+        return turnRepository.findTotalTurnsByDay().stream().min(Comparator.naturalOrder()).get();
+    }
+
+    @Transactional
+    public Double findAverageTurns() {
+        Double average = (double) turnCount() / gameService.gameCount();
+        return Math.round(average * 100.0) / 100.0;
+    }
+
+    @Transactional
+    public Integer findMaxTurns() {
+        return turnRepository.findTotalTurns().stream().max(Comparator.naturalOrder()).get();
+    }
+
+    @Transactional
+    public Integer findMinTurns() {
+        return turnRepository.findTotalTurns().stream().min(Comparator.naturalOrder()).get();
     }
 }
