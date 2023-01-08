@@ -310,4 +310,9 @@ public class UserService {
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		authToken.setDetails(new WebAuthenticationDetails(request));
     }
+
+	@Transactional
+	public List<User> searchUserByNickname(String logedUser,String nickname){
+		return userRepository.findByNicknameContaining(logedUser, nickname);
+	}
 }
