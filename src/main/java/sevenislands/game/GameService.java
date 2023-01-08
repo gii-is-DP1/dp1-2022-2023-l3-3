@@ -98,13 +98,14 @@ public class GameService {
     }
 
     @Transactional
-    public void endGame(User logedUser) {
+    public Optional<Game> endGame(User logedUser) {
         Optional<Game> game = findGameByNicknameAndActive(logedUser.getNickname(), true);
         if(game.isPresent()) {
             game.get().setActive(false);
             game.get().setEndingDate(LocalDateTime.now());
             gameRepository.save(game.get());
         }
+        return game;
     }
 
     @Transactional
