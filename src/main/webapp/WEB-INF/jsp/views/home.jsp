@@ -125,6 +125,9 @@
 <sevenislands:home pageName="home">
 	<body class="content">
 		<div class="header">
+			<sec:authorize access="hasAuthority('player')">
+				<a href="/friends">Amigos</a>
+			</sec:authorize>
 			<div class="estadisticas">
 				<ul class="menu-horizontal">
 					<img class="img_grafica" src="/resources/images/grafics/estadisticas.png">
