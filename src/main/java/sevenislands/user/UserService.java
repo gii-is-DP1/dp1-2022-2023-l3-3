@@ -243,7 +243,6 @@ public class UserService {
 				throw new IllegalArgumentException("Email no válido, formato no válido"); 
 			}
 			user.setPassword(passwordEncoder.encode(password));
-			
 			user.setCreationDate(new Date(System.currentTimeMillis()));
 			user.setEnabled(true);
 			

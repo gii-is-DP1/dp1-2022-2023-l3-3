@@ -198,6 +198,7 @@ public class TurnService {
             island.setCard(selectedCard);
             selectedCard.setMultiplicity(selectedCard.getMultiplicity() - 1);
             cardService.save(selectedCard);
+            islandService.save(island);
             islandList.add(island);
         }
         return islandList;

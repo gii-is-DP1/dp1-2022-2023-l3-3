@@ -20,10 +20,10 @@ import sevenislands.enums.UserType;
 import lombok.Getter;
 import lombok.Setter;
 
+@Audited
 @Getter
 @Setter
 @Entity
-@Audited
 public class User extends AuditableEntity {
 	
 	@Column(name = "nickname", unique = true, nullable = false, length = 30)
