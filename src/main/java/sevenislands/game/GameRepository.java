@@ -40,6 +40,18 @@ public interface GameRepository extends CrudRepository<Game, Integer> {
     Long findTieBreaksByNickname(String nickname);
     
     @Query("SELECT COUNT(g) FROM Game g GROUP BY TO_CHAR(g.creationDate, 'YYYY-MM-DD')")
-    public List<Integer> findTotalGamesPlayedPerDay();
+    public List<Integer> findTotalGamesPlayedByDay();
+
+    @Query("SELECT COUNT(DISTINCT u) FROM Game g INNER JOIN g.lobby l INNER JOIN l.users u")
+    public Integer findTotalPlayersDistinct();
+
+    @Query("SELECT COUNT(u) FROM Game g INNER JOIN g.lobby l INNER JOIN l.users u")
+    public Integer findTotalPlayers();
+
+    @Query("SELECT COUNT(u) FROM Game g INNER JOIN g.lobby l INNER JOIN l.users u GROUP BY g")
+    public List<Integer> findTotalPlayersByGame();
+
+    @Query("SELECT COUNT(DISTINCT u) FROM Game g INNER JOIN g.lobby l INNER JOIN l.users u GROUP BY TO_CHAR(g.creationDate, 'YYYY-MM-DD')")
+    public List<Integer> findTotalPlayersByDay();
 
 }

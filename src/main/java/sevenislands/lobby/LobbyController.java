@@ -7,11 +7,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -54,7 +53,7 @@ public class LobbyController {
 			if (gameService.findGameByNicknameAndActive(logedUser.getNickname(), true).isPresent()) return "redirect:/game";
 
 			HttpSession session = request.getSession();
-			Map<Card,Integer> selectedCards = new HashMap<Card,Integer>();
+			Map<Card,Integer> selectedCards = new TreeMap<Card,Integer>();
 			session.setAttribute("selectedCards", selectedCards);
 
 			User host = lobby.getUsers().get(0);

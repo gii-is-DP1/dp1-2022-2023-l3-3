@@ -3,12 +3,11 @@ package sevenislands.game.turn;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -255,7 +254,7 @@ public class TurnService {
     @Transactional
     public Map<Card, Integer> findPlayerCardsLastTurn(String nickname) {
         Optional<List<Turn>> turnList = turnRepository.findTurnByNickname(nickname);
-        Map<Card, Integer> map = new HashMap<>();
+        Map<Card, Integer> map = new TreeMap<>();
         if(turnList.isPresent()) {
             Turn lastPlayerTurn = turnList.get().get(0);
             for (Card card : lastPlayerTurn.getCards()) {
@@ -266,8 +265,8 @@ public class TurnService {
                     map.put(card, 1);
                 }
             }
-            map = map.entrySet().stream().sorted(Map.Entry.comparingByValue())
-            .collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+            
+            
         }
         return map;
     }
@@ -359,7 +358,7 @@ public class TurnService {
     public void changeCard(Integer id, User logedUser, Integer mode, HttpServletRequest request) {
         Card card = cardService.findCardById(id);
         HttpSession session = request.getSession();
-        Map<Card,Integer> selectedCards = new HashMap<>();
+        Map<Card,Integer> selectedCards = new TreeMap<>();
 
         selectedCards = (Map<Card,Integer>) session.getAttribute("selectedCards");
         List<Card> cards = selectedCards.keySet().stream().collect(Collectors.toList());
@@ -387,22 +386,34 @@ public class TurnService {
     }
 
     @Transactional
-    public List<Integer> findTotalTurnsPerDay() {
-        return turnRepository.findTotalTurnsPerDay();
-    }
-
-    @Transactional
-    public Double findAverageTurns() {
-        return (double) turnCount() / findTotalTurnsPerDay().size();
+    public Double findDailyAverageTurns() {
+        Double average = (double) turnCount() / turnRepository.findTotalTurnsByDay().size();
+        return Math.round(average * 100.0) / 100.0;
     }
 
     @Transactional
     public Integer findMaxTurnsADay() {
-        return findTotalTurnsPerDay().stream().max(Comparator.naturalOrder()).get();
+        return turnRepository.findTotalTurnsByDay().stream().max(Comparator.naturalOrder()).get();
     }
 
     @Transactional
     public Integer findMinTurnsADay() {
-        return findTotalTurnsPerDay().stream().min(Comparator.naturalOrder()).get();
+        return turnRepository.findTotalTurnsByDay().stream().min(Comparator.naturalOrder()).get();
+    }
+
+    @Transactional
+    public Double findAverageTurns() {
+        Double average = (double) turnCount() / gameService.gameCount();
+        return Math.round(average * 100.0) / 100.0;
+    }
+
+    @Transactional
+    public Integer findMaxTurns() {
+        return turnRepository.findTotalTurns().stream().max(Comparator.naturalOrder()).get();
+    }
+
+    @Transactional
+    public Integer findMinTurns() {
+        return turnRepository.findTotalTurns().stream().min(Comparator.naturalOrder()).get();
     }
 }

@@ -136,35 +136,35 @@ public class GameDetailsService {
     }
 
     @Transactional
-    public Double findAveragePunctuation() {
-        return (double) findTotalPunctuation() / gameService.findTotalGamesPlayedPerDay().size();
-    }
-
-    @Transactional
-    public List<Integer> findSumPunctuationsPerDay() {
-        return gameDetailsRepository.findSumPunctuationsPerDay();
+    public Double findDailyAveragePunctuation() {
+        Double average = (double) findTotalPunctuation() / gameService.findTotalGamesPlayedByDay().size();
+        return Math.round(average * 100.0) / 100.0;
     }
 
     @Transactional
     public Integer findMaxPunctuationADay() {
-        return findSumPunctuationsPerDay().stream().max(Comparator.naturalOrder()).get();
+        return gameDetailsRepository.findSumPunctuationsByDay().stream().max(Comparator.naturalOrder()).get();
     }
 
     @Transactional
     public Integer findMinPunctuationADay() {
-        return findSumPunctuationsPerDay().stream().min(Comparator.naturalOrder()).get();
+        return gameDetailsRepository.findSumPunctuationsByDay().stream().min(Comparator.naturalOrder()).get();
+    }
+
+    @Transactional
+    public Double findAveragePunctuation() {
+        Double average = (double) findTotalPunctuation() / gameService.gameCount();
+        return Math.round(average * 100.0) / 100.0;
     }
 
     @Transactional
     public Integer findMaxPunctuation() {
-        List<Integer> points = gameDetailsRepository.findSumPunctuations();
-        return points.stream().max(Comparator.naturalOrder()).get();
+        return gameDetailsRepository.findSumPunctuations().stream().max(Comparator.naturalOrder()).get();
     }
 
     @Transactional
     public Integer findMinPunctuation() {
-        List<Integer> points = gameDetailsRepository.findSumPunctuations();
-        return points.stream().min(Comparator.naturalOrder()).get();
+        return gameDetailsRepository.findSumPunctuations().stream().min(Comparator.naturalOrder()).get();
     }
 
 }

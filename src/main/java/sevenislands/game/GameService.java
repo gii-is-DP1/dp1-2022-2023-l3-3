@@ -1,5 +1,6 @@
 package sevenislands.game;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
@@ -155,23 +156,24 @@ public class GameService {
     }
 
     @Transactional
-    public List<Integer> findTotalGamesPlayedPerDay() {
-        return gameRepository.findTotalGamesPlayedPerDay();
+    public List<Integer> findTotalGamesPlayedByDay() {
+        return gameRepository.findTotalGamesPlayedByDay();
     }
 
     @Transactional
     public Double findAverageGamesPlayed() {
-        return (double) gameCount() / findTotalGamesPlayedPerDay().size();
+        Double average = (double) gameCount() / findTotalGamesPlayedByDay().size();
+        return Math.round(average * 100.0) / 100.0;
     }
 
     @Transactional
     public Integer findMaxGamesPlayedADay() {
-        return findTotalGamesPlayedPerDay().stream().max(Comparator.naturalOrder()).get();
+        return findTotalGamesPlayedByDay().stream().max(Comparator.naturalOrder()).get();
     }
 
     @Transactional
     public Integer findMinGamesPlayedADay() {
-        return findTotalGamesPlayedPerDay().stream().min(Comparator.naturalOrder()).get();
+        return findTotalGamesPlayedByDay().stream().min(Comparator.naturalOrder()).get();
     }
 
     public Boolean checkUserGame(User logedUser) {
@@ -196,8 +198,9 @@ public class GameService {
     }
 
     @Transactional
-    public Double findAverageTimePlayed() {
-        return (double) findTotalTimePlayed() / findTotalGamesPlayedPerDay().size();
+    public Double findDailyAverageTimePlayed() {
+        Double average = (double) findTotalTimePlayed() / findTotalGamesPlayedByDay().size();
+        return Math.round(average * 100.0) / 100.0;
     }
 
     @Transactional
@@ -244,6 +247,71 @@ public class GameService {
         return minDuration != null ? minDuration.toMinutes() : null;
     }
 
+    @Transactional
+    public Double findAverageTimePlayed() {
+        Double average = (double) findTotalTimePlayed() / gameCount();
+        return Math.round(average * 100.0) / 100.0;
+    }
+
+    @Transactional
+    public List<Duration> findTotalTimePlayedByGame() {
+        List<Game> games = findAll();
+        List<Duration> times = new ArrayList<>();
+        for(Game g : games) {
+            LocalDateTime creationDate = g.getCreationDate();
+            LocalDateTime endingDate = g.getEndingDate();
+            Duration diference = Duration.between(creationDate,endingDate);
+            times.add(diference);
+        }
+        return times;
+    }
+
+    @Transactional
+    public Long findMaxTimePlayed() {
+        return findTotalTimePlayedByGame().stream().max(Comparator.naturalOrder()).get().toMinutes();
+    }
+
+    @Transactional
+    public Long findMinTimePlayed() {
+        return findTotalTimePlayedByGame().stream().min(Comparator.naturalOrder()).get().toMinutes();
+    }
+
+    @Transactional
+    public Integer findTotalPlayersDistinct() {
+        return gameRepository.findTotalPlayersDistinct();
+    }
+
+    @Transactional
+    public Double findAveragePlayers() {
+        Double average = (double) gameRepository.findTotalPlayers() / gameCount();
+        return Math.round(average * 100.0) / 100.0; 
+    }
+
+    @Transactional
+    public Integer findMaxPlayers() {
+        return gameRepository.findTotalPlayersByGame().stream().max(Comparator.naturalOrder()).get();
+    }
+
+    @Transactional
+    public Integer findMinPlayers() {
+        return gameRepository.findTotalPlayersByGame().stream().min(Comparator.naturalOrder()).get();
+    }
+
+    @Transactional
+    public Double findDailyAveragePlayers() {
+        Double average = (double) gameRepository.findTotalPlayers() / findTotalGamesPlayedByDay().size();
+        return Math.round(average * 100.0) / 100.0; 
+    }
+
+    @Transactional
+    public Integer findMaxPlayersADay() {
+        return gameRepository.findTotalPlayersByDay().stream().max(Comparator.naturalOrder()).get();
+    }
+
+    @Transactional
+    public Integer findMinPlayersADay() {
+        return gameRepository.findTotalPlayersByDay().stream().min(Comparator.naturalOrder()).get();
+    }
     
 
 }

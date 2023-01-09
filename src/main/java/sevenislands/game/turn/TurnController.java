@@ -2,11 +2,11 @@ package sevenislands.game.turn;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.TreeMap;
 import java.util.stream.Collectors;
 
 import javax.servlet.ServletException;
@@ -148,7 +148,7 @@ public class TurnController {
 
             if (logedUser.getId() == lastTurn.getUser().getId()) {
                 HttpSession session = request.getSession();
-                Map<Card,Integer> selectedCards = new HashMap<>();
+                Map<Card,Integer> selectedCards = new TreeMap<>();
                 selectedCards = (Map<Card,Integer>) session.getAttribute("selectedCards");
                 for(Card card : selectedCards.keySet()){
                     for(int i=0;i<selectedCards.get(card);i++) {
@@ -213,7 +213,7 @@ public class TurnController {
         turnService.AnadirCarta(id,logedUser.getNickname());
         turnService.refreshDesk(id, logedUser, game);
         HttpSession session = request.getSession();
-        Map<Card,Integer> selectedCards = new HashMap<Card,Integer>();
+        Map<Card,Integer> selectedCards = new TreeMap<Card,Integer>();
         session.setAttribute("selectedCards", selectedCards);
         return "redirect:/turn/endTurn";
     }
