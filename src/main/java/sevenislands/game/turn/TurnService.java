@@ -348,8 +348,9 @@ public class TurnService {
     }
 
     @Transactional
-    public void addCardToUser(Integer id, User user){
+    public Turn addCardToUser(Integer id, User user){
         Optional<List<Turn>> turnList = turnRepository.findTurnByNickname(user.getNickname());
+        Turn turn = null;
         if(turnList.isPresent()) {
             Turn lastPlayerTurn = turnList.get().get(0);
             List<Card> cartasLastTurn=lastPlayerTurn.getCards();
@@ -357,7 +358,9 @@ public class TurnService {
             cartasLastTurn.add(card);
             lastPlayerTurn.setCards(cartasLastTurn);
             turnRepository.save(lastPlayerTurn);
+            turn = lastPlayerTurn;
         }
+        return turn;
     }
 
     @Transactional
