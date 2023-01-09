@@ -28,6 +28,8 @@ import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.GameService;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
+import sevenislands.lobby.lobbyUser.LobbyUser;
+import sevenislands.lobby.lobbyUser.LobbyUserService;
 
 @Service
 public class UserService {
@@ -38,15 +40,18 @@ public class UserService {
 	private LobbyService lobbyService;
 	private AuthenticationManager authenticationManager;
 	private GameService gameService;
+	private LobbyUserService lobbyUserService;
 
 	@Autowired
-	public UserService(AuthenticationManager authenticationManager, LobbyService lobbyService, SessionRegistry sessionRegistry, PasswordEncoder passwordEncoder, UserRepository userRepository, GameService gameService) {
+	public UserService(AuthenticationManager authenticationManager, LobbyService lobbyService, SessionRegistry sessionRegistry, 
+	PasswordEncoder passwordEncoder, UserRepository userRepository, GameService gameService, LobbyUserService lobbyUserService) {
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.sessionRegistry = sessionRegistry;
 		this.lobbyService = lobbyService;
 		this.authenticationManager = authenticationManager;
 		this.gameService = gameService;
+		this.lobbyUserService = lobbyUserService;
 	}
 	//que es esta funcion
 	public User createUser(Integer id, String nickname,String email) {
@@ -163,11 +168,9 @@ public class UserService {
 				info.expireNow(); //Termina la sesión
 			}
 			try{
-				Lobby lobby = lobbyService.findLobbyByPlayerId(id);
-				List<User> userList = lobby.getPlayerInternal();
-				userList.remove(userDeleted.get());
-				lobby.setUsers(userList);
-				lobbyService.save(lobby);
+				Lobby lobby = lobbyUserService.findLobbyByUser(userDeleted.get());
+				LobbyUser lobbyUser = lobbyUserService.findByLobbyAndUser(lobby, userDeleted.get());
+				lobbyUserService.deleteLobbyUser(lobbyUser);
 				deleteUserById(id);
 				return true;
 		}catch(NotExistLobbyException e){
@@ -219,7 +222,7 @@ public class UserService {
 		Boolean res = true;
 		try {
 		if(logedUser!=null && logedUser.isEnabled()) {
-			lobbyService.leaveLobby(logedUser);
+			gameService.leaveLobby(logedUser);
 			res = false;
         } else {
             request.getSession().invalidate();

@@ -29,7 +29,7 @@ import sevenislands.game.island.IslandService;
 import sevenislands.game.round.Round;
 import sevenislands.game.round.RoundService;
 import sevenislands.lobby.Lobby;
-import sevenislands.lobby.LobbyService;
+import sevenislands.lobby.lobbyUser.LobbyUserService;
 import sevenislands.user.User;
 
 @Service
@@ -38,19 +38,19 @@ public class TurnService {
     private TurnRepository turnRepository;
     private final GameService gameService;
     private final RoundService roundService;
-    private final LobbyService lobbyService;
     private final IslandService islandService;
     private final CardService cardService;
+    private final LobbyUserService lobbyUserService;
 
     @Autowired
     public TurnService(TurnRepository turnRepository, GameService gameService, RoundService roundService,
-            LobbyService lobbyService, IslandService islandService,CardService cardService) {
+            IslandService islandService,CardService cardService, LobbyUserService lobbyUserService) {
         this.turnRepository = turnRepository;
         this.gameService = gameService;
         this.roundService = roundService;
-        this.lobbyService = lobbyService;
         this.islandService = islandService;
         this.cardService = cardService;
+        this.lobbyUserService = lobbyUserService;
     }
 
     // No se usa en ningún lado
@@ -214,13 +214,12 @@ public class TurnService {
     @Transactional
     public void checkUserGame(User logedUser) throws NotExistLobbyException {
         try {
-            if (gameService.findGameByNicknameAndActive(logedUser.getNickname(), true).isPresent()) {
-
+            Optional<Game> game = gameService.findGameByUserAndActive(logedUser, true);
+            if (game.isPresent()) {
                 // TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que
                 // existe
-                Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
-                Optional<Game> game = gameService.findGameByNicknameAndActive(logedUser.getNickname(), true);
-                List<User> userList = lobby.getPlayerInternal();
+                Lobby lobby = lobbyUserService.findLobbyByUser(logedUser);
+                List<User> userList = lobbyUserService.findUsersByLobby(lobby);
                 List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
                         .collect(Collectors.toList());
                 if (roundList.size() != 0) {
@@ -282,12 +281,12 @@ public class TurnService {
     }
 
     @Transactional
-    public void AnadirCarta(Integer id,String nickname){
-        Optional<List<Turn>> turnList = turnRepository.findTurnByNickname(nickname);
+    public void AnadirCarta(Integer id, User user){
+        Optional<List<Turn>> turnList = turnRepository.findTurnByNickname(user.getNickname());
         if(turnList.isPresent()) {
             Turn lastPlayerTurn = turnList.get().get(0);
             List<Card> cartasLastTurn=lastPlayerTurn.getCards();
-            Optional<Game> game=gameService.findGameByNicknameAndActive(nickname, true);
+            Optional<Game> game=gameService.findGameByUserAndActive(user, true);
             Island island=islandService.findCardOfIsland(game.get().getId(),id);
             Card card=cardService.findCardById(island.getCard().getId());
             cartasLastTurn.add(card);

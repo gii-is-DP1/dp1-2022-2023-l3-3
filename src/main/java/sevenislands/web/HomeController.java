@@ -28,7 +28,7 @@ public class HomeController {
 	public String home(ModelMap model, HttpServletRequest request, @ModelAttribute("logedUser") User logedUser) throws Exception {
 		//turnService.checkUserGame(logedUser);
 		if(userService.checkUser(request, logedUser)) return "redirect:/";
-		Boolean hasPlayed = gameService.findGameByNickname(logedUser.getNickname()).isPresent();
+		Boolean hasPlayed = gameService.findGameByUser(logedUser).isPresent();
 		model.put("hasPlayed", hasPlayed);
 		model.put("user", logedUser);
 		return "views/home";

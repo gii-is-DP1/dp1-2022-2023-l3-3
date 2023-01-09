@@ -18,11 +18,11 @@ INSERT INTO lobby(code,active) VALUES('aD5f8Lio','FALSE');
 INSERT INTO lobby(code,active) VALUES('a10f8Lio','FALSE');
 
 -- LOBBY JUGADORES -- 
-INSERT INTO lobby_users(lobby_id,users_id) VALUES (1,7);
-INSERT INTO lobby_users(lobby_id,users_id) VALUES (1,8);
-INSERT INTO lobby_users(lobby_id,users_id) VALUES (1,9);
-INSERT INTO lobby_users(lobby_id,users_id) VALUES (2,10);
-INSERT INTO lobby_users(lobby_id,users_id) VALUES (2,7);
+INSERT INTO lobby_user(lobby_id,user_id) VALUES (1,7);
+INSERT INTO lobby_user(lobby_id,user_id) VALUES (1,8);
+INSERT INTO lobby_user(lobby_id,user_id) VALUES (1,9);
+INSERT INTO lobby_user(lobby_id,user_id) VALUES (2,10);
+INSERT INTO lobby_user(lobby_id,user_id) VALUES (2,7);
 
 -- JUEGOS -- 
 INSERT INTO game(id, creation_date, ending_date, active, lobby_id, winner_id, tie_break) VALUES (1, '2022-11-14 01:01:00', '2022-11-14 01:20:00', 'FALSE', 1, 7, 'FALSE');
@@ -59,7 +59,7 @@ INSERT INTO details(punctuation, game_id, user_id) VALUES (50, 2, 7);
 INSERT INTO details(punctuation, game_id, user_id) VALUES (50, 2, 10);
 
 -- LOGROS --
-INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Inicio', 'Juega LIMIT partida', 'Victories', 1, 'logroJugarGames.png');
+INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Inicio', 'Gana LIMIT partida', 'Victories', 1, 'logroJugarGames.png');
 INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Veterano', 'Juega mas de LIMIT partidas', 'Games', 50, 'logroJugarGames.png');
 INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Veterano', 'Juega mas de LIMIT partidas', 'Games', 2, 'logroJugarGames.png');
 -- INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Poco a poco', 'Gana <LIMITE> partida', 'Victories', 1, '/resources/images/grafics/logroVictoria.png');

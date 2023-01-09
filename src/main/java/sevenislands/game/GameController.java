@@ -1,5 +1,6 @@
 package sevenislands.game;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -13,10 +14,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 
 import sevenislands.achievement.AchievementService;
+import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.turn.TurnService;
 import sevenislands.gameDetails.GameDetailsService;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyService;
+import sevenislands.lobby.lobbyUser.LobbyUserService;
 import sevenislands.user.User;
 import sevenislands.user.UserService;
 
@@ -43,28 +46,31 @@ public class GameController {
     private final TurnService turnService;
     private final GameDetailsService gameDetailsService;
     private final AchievementService achievementService;
+    private final LobbyUserService lobbyUserService;
 
     @Autowired
     public GameController(UserService userService, GameService gameService, LobbyService lobbyService, 
-    TurnService turnService, GameDetailsService gameDetailsService, AchievementService achievementService) {
+    TurnService turnService, GameDetailsService gameDetailsService, AchievementService achievementService,
+    LobbyUserService lobbyUserService) {
         this.gameService = gameService;
         this.lobbyService = lobbyService;
         this.userService = userService;
         this.turnService = turnService;
         this.gameDetailsService = gameDetailsService;
         this.achievementService = achievementService;
+        this.lobbyUserService = lobbyUserService;
     }
 
     @GetMapping("/game")
     public String createGame(HttpServletRequest request, @ModelAttribute("logedUser") User logedUser, HttpServletResponse response) throws Exception {
         if(userService.checkUserNoExists(request)) return VIEW_WELCOME;
-        if(!lobbyService.checkUserLobby(logedUser) && !gameService.checkUserGame(logedUser)) return VIEWS_HOME;
-        if(lobbyService.checkLobbyNoAllPlayers(logedUser)) return "redirect:/home";
+        if(!lobbyUserService.checkUserLobby(logedUser) && !gameService.checkUserGame(logedUser)) return VIEWS_HOME;
+        if(gameService.checkLobbyNoAllPlayers(logedUser)) return "redirect:/home";
         if(gameService.checkUserGameWithRounds(logedUser)) return VIEWS_TURN;
         response.addHeader("Refresh", "5");
         try {
-        Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
-        if(gameService.findGameByNicknameAndActive(logedUser.getNickname(), true).isEmpty()) {
+        Lobby lobby = lobbyUserService.findLobbyByUser(logedUser);
+        if(gameService.findGameByUserAndActive(logedUser, true).isEmpty()) {
             gameService.initGame(lobby);
             lobbyService.disableLobby(lobby);
         }
@@ -75,8 +81,8 @@ public class GameController {
     }
 
     @GetMapping("/endGame")
-    public String endGame(ModelMap model, @ModelAttribute("logedUser") User logedUser){
-        Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
+    public String endGame(ModelMap model, @ModelAttribute("logedUser") User logedUser) throws NotExistLobbyException{
+        Optional<Game> game = gameService.findGameByUser(logedUser);
         if(game.isPresent() && game.get().isActive()) {
             if(!turnService.endGame(game.get())) return "redirect:/turn";
             if(game.get().getEndingDate()==null) gameService.endGame(logedUser);
@@ -138,8 +144,9 @@ public class GameController {
 
     @GetMapping("/game/gamesAsPlayer")
     public String listGamesAsPlayer(ModelMap model, @ModelAttribute("logedUser") User logedUser) {
-        Optional<List<Game>> gameList = gameService.findGamesByNicknameAndActive(logedUser.getNickname(), false);
-        model.put("games", gameList.get());
+        List<Object []> games = gameService.findGameAndHostPLayedByUser(logedUser);
+        List<Pair<Game, User>> gamesResult = games.stream().map(r -> Pair.of((Game)r[0], (User)r[1])).collect(Collectors.toList());
+        model.put("games", gamesResult);
         return VIEWS_GAMES_AS_PLAYER;
     }
 }

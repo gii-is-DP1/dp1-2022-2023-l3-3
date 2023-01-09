@@ -52,7 +52,7 @@
 					<td><c:out value="${game.getFirst().id}"/></td>
 					<td><c:out value="${game.getFirst().creationDate}"/></td>
 					<td><c:out value="${game.getFirst().endingDate}"/></td>	
-					<td><c:out value="${game.getFirst().lobby.users[0].nickname}"></c:out></td>
+					<td><c:out value="${game.getSecond()[0]}"></c:out></td>
 					<td><c:out value="${fn:join(game.getSecond(), ', ')}"/></td>
 				</tr>
 			</c:forEach>

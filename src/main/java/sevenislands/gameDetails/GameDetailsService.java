@@ -12,9 +12,11 @@ import org.springframework.transaction.annotation.Transactional;
 
 import sevenislands.card.Card;
 import sevenislands.enums.Tipo;
+import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.Game;
 import sevenislands.game.GameService;
 import sevenislands.game.turn.TurnService;
+import sevenislands.lobby.lobbyUser.LobbyUserService;
 import sevenislands.user.User;
 
 @Service
@@ -24,12 +26,15 @@ public class GameDetailsService {
 
     private GameService gameService;
     private TurnService turnService;
+    private final LobbyUserService lobbyUserService;
 
     @Autowired
-    public GameDetailsService(GameDetailsRepository gameDetailsRepository, GameService gameService, TurnService turnService) {
+    public GameDetailsService(GameDetailsRepository gameDetailsRepository, GameService gameService, TurnService turnService,
+            LobbyUserService lobbyUserService) {
         this.gameDetailsRepository = gameDetailsRepository;
         this.gameService = gameService;
         this.turnService = turnService;
+        this.lobbyUserService = lobbyUserService;
     }
 
     @Transactional
@@ -65,8 +70,8 @@ public class GameDetailsService {
     }
 
     @Transactional
-    public void calculateDetails(User logedUser) {
-        Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
+    public void calculateDetails(User logedUser) throws NotExistLobbyException {
+        Optional<Game> game = gameService.findGameByUser(logedUser);
 
         if(game.isPresent()) {
             List<Integer> pointsList = List.of(1,3,7,13,21,30,40,50,60);
@@ -81,7 +86,7 @@ public class GameDetailsService {
             Integer winnerPoints = -1;
             Integer winnerDoblon = -1;
 
-            for(User user : game.get().getLobby().getUsers()) {
+            for(User user : lobbyUserService.findUsersByLobby(game.get().getLobby())) {
                 doblons = 0;
                 userPoints = 0;
                 Map<Card, Integer> cards = turnService.findPlayerCardsLastTurn(user.getNickname());
@@ -126,8 +131,8 @@ public class GameDetailsService {
     }
 
     @Transactional
-    public Long findGamesByNickname(String nickname) {
-        return gameDetailsRepository.findAllByNickname(nickname);
+    public Long findGamesByUser(User user) {
+        return gameDetailsRepository.findAllByUser(user);
     }
 
     @Transactional

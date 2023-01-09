@@ -7,51 +7,46 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import sevenislands.lobby.Lobby;
+
 
 @Repository
 public interface GameRepository extends CrudRepository<Game, Integer> {
 
     public List<Game> findAll();
     @Query("SELECT game FROM Game game WHERE game.lobby.id=?1")
-    public Optional<Game> findGamebByLobbyId(Integer code);
+    public Optional<Game> findGameByLobbyId(Integer code);
 
-    @Query("SELECT g FROM Game g INNER JOIN g.lobby l INNER JOIN l.users u WHERE u.nickname=?1 AND g.active=?2 ORDER BY g.id DESC")
-    public Optional<List<Game>> findGameByNicknameAndActive(String nickname, Boolean active);
+    @Query("SELECT game FROM Game game WHERE game.lobby=?1")
+    public Optional<Game> findGameByLobby(Lobby lobby);
 
-    @Query("SELECT g FROM Game g INNER JOIN g.lobby l INNER JOIN l.users u WHERE u.nickname=?1 ORDER BY g.id DESC")
-    public Optional<List<Game>> findGameByNickname(String nickname);
+    @Query("SELECT game FROM Game game WHERE game.lobby IN ?1")
+    public Optional<List<Game>> findGamesByLobbies(List<Lobby> lobbies);
 
-    @Query("SELECT g, u.nickname FROM Game g INNER JOIN g.lobby l INNER JOIN l.users u WHERE g.active=?1")
-    public List<Object []> findGameActive(Boolean active);
-
-    @Query("SELECT g, u.nickname FROM Game g INNER JOIN g.lobby l INNER JOIN l.users u WHERE u.nickname=?1 AND g.active=false ORDER BY g.id DESC")
-    public List<Object []> findGamePLayedByNickname(String nickname);
-
-    @Query("SELECT COUNT(g) FROM Game g INNER JOIN g.lobby l INNER JOIN l.users u WHERE u.nickname=?1")
-    public Integer findTotalGamesPlayedByNickname(String nickname);
-
-    @Query("SELECT COUNT(game) FROM Game game INNER JOIN game.winner winner WHERE winner.nickname=?1")
-    Long findVictoriesByNickname(String nickname);
-    
     @Query("SELECT winner, COUNT(game) FROM Game game INNER JOIN game.winner winner GROUP BY winner ORDER BY COUNT(game) DESC")
     List<Object []> findVictories();
 
+    @Query("SELECT game FROM Game game INNER JOIN game.lobby lobby WHERE lobby IN ?1 AND game.active=?2 ORDER BY game.id DESC")
+    public Optional<List<Game>> findGameByLobbyAndActive(List<Lobby> lobbies, Boolean active);
+
+    @Query("SELECT COUNT(game) FROM Game game INNER JOIN game.winner winner WHERE winner.nickname=?1")
+    Long findVictoriesByNickname(String nickname);
+
     @Query("SELECT COUNT(game) FROM Game game INNER JOIN game.winner winner WHERE winner.nickname=?1 AND game.tieBreak=TRUE")
-    Long findTieBreaksByNickname(String nickname);
-    
-    @Query("SELECT COUNT(g) FROM Game g GROUP BY TO_CHAR(g.creationDate, 'YYYY-MM-DD')")
+    public Long findTieBreaksByNickname(String nickname);
+
+    @Query("SELECT COUNT(game) FROM Game game GROUP BY TO_CHAR(game.creationDate, 'YYYY-MM-DD')")
     public List<Integer> findTotalGamesPlayedByDay();
 
-    @Query("SELECT COUNT(DISTINCT u) FROM Game g INNER JOIN g.lobby l INNER JOIN l.users u")
-    public Integer findTotalPlayersDistinct();
+    @Query("SELECT COUNT(game) FROM Game game INNER JOIN game.lobby lobby WHERE lobby IN ?1")
+    public Integer findTotalGamesPlayedByUserLobbies(List<Lobby> lobbies);
 
-    @Query("SELECT COUNT(u) FROM Game g INNER JOIN g.lobby l INNER JOIN l.users u")
-    public Integer findTotalPlayers();
+    @Query("SELECT lobby FROM Game game INNER JOIN game.lobby lobby GROUP BY TO_CHAR(game.creationDate, 'YYYY-MM-DD')")
+    public List<List<Lobby>> findLobbiesByDay();
 
-    @Query("SELECT COUNT(u) FROM Game g INNER JOIN g.lobby l INNER JOIN l.users u GROUP BY g")
-    public List<Integer> findTotalPlayersByGame();
+    @Query("SELECT lobby FROM Game game INNER JOIN game.lobby lobby")
+    public List<Lobby> findLobbies();
 
-    @Query("SELECT COUNT(DISTINCT u) FROM Game g INNER JOIN g.lobby l INNER JOIN l.users u GROUP BY TO_CHAR(g.creationDate, 'YYYY-MM-DD')")
-    public List<Integer> findTotalPlayersByDay();
-
+    @Query("SELECT game FROM Game game WHERE game.active=?1")
+    public List<Game> findGameActive(Boolean active);
 }

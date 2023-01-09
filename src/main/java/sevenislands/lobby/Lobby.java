@@ -26,20 +26,6 @@ public class Lobby extends BaseEntity {
   @Column(name = "active", unique = false, nullable = false)
   private boolean active;
 
-  @ManyToMany(cascade = CascadeType.PERSIST)
-  private List<User> users;
-
-  public List<User> getPlayerInternal() {
-    if (this.users == null) {
-      this.users = new ArrayList<>();
-    }
-    return this.users;
-  }
-
-  public void addPlayer(User user) {
-    getPlayerInternal().add(user);
-  }
-
    /**
      * Crea un código aleatorio para la lobby.
      * @return String
