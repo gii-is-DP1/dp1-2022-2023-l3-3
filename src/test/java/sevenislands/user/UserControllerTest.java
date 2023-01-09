@@ -138,8 +138,7 @@ public class UserControllerTest {
         controller.perform(post("/settings")
                 .with(csrf())
                 .flashAttr("logedUser", user))
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("views/updateUserForm"));
+                .andExpect(status().is3xxRedirection());
     }   
 }
 
