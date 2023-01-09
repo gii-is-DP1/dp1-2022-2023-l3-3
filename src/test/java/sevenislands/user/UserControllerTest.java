@@ -12,6 +12,10 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
+
+import java.util.HashMap;
+import java.util.Map;
+
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
 
@@ -120,26 +124,105 @@ public class UserControllerTest {
 
     @WithMockUser(value = "spring")
     @Test
-    public void testProcessUpdateplayerForm_whenFormHasErrors_thenReturnUpdateUserFormView() throws Exception {
+    public void testProcessUpdateplayerForm_whenFormHasErrors_thenReturnUpdateUserFormView_Email() throws Exception {
         // Arrange
         User user = new User();
         user.setNickname("nickname");
         user.setPassword("password");
         user.setEmail("invalid-email");
+        user.setId(2);
+
+
+        given(userService.updateUser(any(), any(), any())).willThrow(new IllegalArgumentException("PUBLIC.USER(EMAIL)"));
+
+        Map<String, Object> atr = new HashMap<>();
+        atr.put("user", user);
+        atr.put("logedUser", userController);
+
+        controller.perform(post("/settings")
+                .with(csrf())
+                .flashAttrs(atr))
+               
+                .andExpect(status().isOk())
+                .andExpect(view().name("views/updateUserForm"));
+    }   
+
+    @WithMockUser(value = "spring")
+    @Test
+    public void testProcessUpdateplayerForm_whenFormHasErrors_thenReturnUpdateUserFormView_Nickname() throws Exception {
+        // Arrange
+        User user = new User();
+        user.setNickname("nickname-notValid");
+        user.setPassword("password");
+        user.setEmail("invalid-email");
+        user.setId(2);
 
         User logedUser = new User();
         logedUser.setId(1);
         logedUser.setPassword("password");
 
-        when(userService.checkUser(any(), any())).thenThrow(new IllegalArgumentException());
-        given(userService.save(any())).willThrow(new IllegalArgumentException());
+        given(userService.updateUser(any(), any(), any())).willThrow(new IllegalArgumentException("PUBLIC.USER(NICKNAME)"));
 
+        Map<String, Object> atr = new HashMap<>();
+        atr.put("user", user);
+        atr.put("logedUser", userController);
+
+        controller.perform(post("/settings")
+                .with(csrf())
+                .flashAttrs(atr))
+               
+                .andExpect(status().isOk())
+                .andExpect(view().name("views/updateUserForm"));
+    }   
+
+    @WithMockUser(value = "spring")
+    @Test
+    public void testProcessUpdateplayerForm_whenFormHasErrors_thenReturnUpdateUserFormView_Other() throws Exception {
+        // Arrange
+        User user = new User();
+        user.setNickname("nickname-notValid");
+        user.setPassword("password");
+        user.setEmail("invalid-email");
+        user.setId(2);
+
+        given(userService.updateUser(any(), any(), any())).willThrow(new IllegalArgumentException("Other"));
+
+        Map<String, Object> atr = new HashMap<>();
+        atr.put("user", user);
+        atr.put("logedUser", userController);
         // Act and Assert
         controller.perform(post("/settings")
                 .with(csrf())
-                .flashAttr("logedUser", user))
-                .andExpect(status().is3xxRedirection())
+                .flashAttrs(atr))
+               
+                .andExpect(status().isOk())
                 .andExpect(view().name("views/updateUserForm"));
-    }   
+    }  
+    
+    @WithMockUser(value = "spring")
+    @Test
+public void testProcessUpdateplayerForm_whenFormIsValid_thenRedirectToHome() throws Exception {
+    // Arrange
+    User user = new User();
+    user.setNickname("nickname");
+    user.setPassword("password");
+    user.setEmail("valid@email.com");
+    user.setId(2);
+
+    Map<String, Object> atr = new HashMap<>();
+        atr.put("user", user);
+        atr.put("logedUser", userController);
+
+    given(userService.updateUser(any(), any(), any())).willReturn(user);
+
+    controller.perform(post("/settings")
+            .flashAttrs(atr)
+            .with(csrf())
+    )
+            .andExpect(status().is3xxRedirection())
+            .andExpect(view().name("redirect:/home"));
+}
+
+    
 }
 
