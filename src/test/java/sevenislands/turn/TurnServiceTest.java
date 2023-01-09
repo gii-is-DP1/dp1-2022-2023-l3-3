@@ -485,8 +485,18 @@ public class TurnServiceTest {
         lobby1.setUsers(List.of(user1));
         game = turnService.checkUserGame(user1);
         assertNotNull(game.orElse(null));
-        
-        
+    }
+
+    @Test
+    public void addCardToUserTest(){
+        assertNull(turnService.addCardToUser(1, user1));
+        turn2.setUser(user1);
+        when(gameRepository.findGameByNicknameAndActive(any(), any())).thenReturn(Optional.of(List.of(game1)));
+        when(islandRepository.findCardOfIsland(any(), any())).thenReturn(island);
+        when(turnRepository.findTurnByNickname(user1.getNickname())).thenReturn(Optional.of(turnList.stream().filter(t-> t.getUser().getNickname().equals(user1.getNickname())).collect(Collectors.toList())));
+        when(cardRepository.findById(any())).thenReturn(Optional.of(card1));
+        Turn turn = turnService.addCardToUser(1, user1);
+        assertEquals(3, turn.getCards().size());
     }
 
 

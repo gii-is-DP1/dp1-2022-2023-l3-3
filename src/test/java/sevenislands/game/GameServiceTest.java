@@ -106,7 +106,7 @@ public class GameServiceTest {
     }
 
     @Test
-    public void GameCountTest(){
+    public void gameCountTest(){
         gameService = new GameService(roundService, gameRepository);
         when(gameRepository.count()).thenReturn(Long.valueOf(gameList.size())); 
         assertEquals(gameList.size(), gameService.gameCount());
