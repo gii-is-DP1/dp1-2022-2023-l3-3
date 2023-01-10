@@ -1,9 +1,11 @@
 package sevenislands.achievement;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.StreamSupport;
 
 
@@ -68,8 +70,8 @@ public class AchievementService {
 	 * @throws DataAccessException
 	 */
     @Transactional
-	public void saveAchievement(Achievement achievement) throws DataAccessException {
-		achievementRepository.save(achievement);
+	public Achievement saveAchievement(Achievement achievement) throws DataAccessException {
+		return achievementRepository.save(achievement);
 	}
 	
 	/**
@@ -89,14 +91,14 @@ public class AchievementService {
 	}
 
 	@Transactional
-    public void updateAchievement(Achievement NewAchievement,String id) {
+    public Achievement updateAchievement(Achievement NewAchievement, Integer id) {
     
 	try {
 		Achievement oldAchievement=achievementRepository.findById(Integer.valueOf(id)).get();
 		oldAchievement.setName(NewAchievement.getName());
 		oldAchievement.setAchievementType(NewAchievement.getAchievementType());
 		oldAchievement.setThreshold(NewAchievement.getThreshold());
-		saveAchievement(oldAchievement);
+		return saveAchievement(oldAchievement);
 	} catch (Exception e) {
 		throw e;
 	}
@@ -110,8 +112,10 @@ public class AchievementService {
 	}
 
 	@Transactional
-	public void calculateAchievements(User logedUser) throws NotExistLobbyException {
+	public List<Boolean> calculateAchievements(User logedUser) throws NotExistLobbyException {
 		Optional<Game> game = gameService.findGameByUser(logedUser);
+		List<Boolean> result = new ArrayList<Boolean>();
+		IntStream.range(0, 4).forEach(i -> result.add(false));
 		if(game.isPresent()) {
 			List<User> users = lobbyUserService.findUsersByLobbyAndMode(game.get().getLobby(), Mode.PLAYER);
 			for(User user: users) {
@@ -123,21 +127,25 @@ public class AchievementService {
 				for(Achievement achievement: getAll()) {
 					if(achievement.getAchievementType().equals(AchievementType.Punctuation) && totalPoints >= achievement.getThreshold()) {
 						registerService.save(achievement, user);
+						result.set(0, true);
 					} else if(achievement.getAchievementType().equals(AchievementType.Victories) && totalVictories >= achievement.getThreshold()) {
 						registerService.save(achievement, user);
+						result.set(1, true);
 					} else if(achievement.getAchievementType().equals(AchievementType.TieBreaker) && totalTieBreaks >= achievement.getThreshold()) {
 						registerService.save(achievement, user);
+						result.set(2, true);
 					} else if(achievement.getAchievementType().equals(AchievementType.Games) && totalGames >= achievement.getThreshold()) {
 						registerService.save(achievement, user);
+						result.set(3, true);
 					}
 				}
 			}
-
 		}
+		return result;
 	}
 
 	@Transactional
-	public void addAchievement(Achievement achievement){
+	public Achievement addAchievement(Achievement achievement){
 		try {
 			if(achievement.getAchievementType().equals(AchievementType.Games)){
 				achievement.setDescription("Juega mas de LIMIT partidas");
@@ -152,7 +160,7 @@ public class AchievementService {
 				achievement.setDescription("Gana mas de LIMIT partidas");
 				achievement.setBadgeImage("logroVictories.png");
 			}
-			saveAchievement(achievement);
+			return saveAchievement(achievement);
 		} catch (Exception e) {
 			throw e;
 		}

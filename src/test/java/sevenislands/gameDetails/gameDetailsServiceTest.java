@@ -3,14 +3,12 @@ package sevenislands.gameDetails;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,8 +16,6 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import sevenislands.achievement.AchievementRepository;
-import sevenislands.achievement.AchievementService;
 import sevenislands.card.Card;
 import sevenislands.card.CardRepository;
 import sevenislands.card.CardService;
@@ -115,7 +111,6 @@ public class gameDetailsServiceTest {
 
         user1 = userService.createUser(1, "userFalse1", "userFalse1@gmail.com");
         user2 = userService.createUser(2, "userFalse2", "userFalse2@gmail.com");
-        List<User> users = List.of(user1, user2);
         lobby1 = new Lobby();
         lobby1.setId(1);
         lobby1.generatorCode();
