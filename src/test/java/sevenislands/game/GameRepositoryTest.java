@@ -43,13 +43,13 @@ public class GameRepositoryTest {
 
     @BeforeEach
     public void config(){
-        userService = new UserService(null, null, null, null, userRepository, null);
+        userService = new UserService(null, null, null, userRepository, null, null);
         IntStream.range(0, 3).forEach(i -> {
             userRepository.save(userService.createUser(10000+i, "playerTest"+i, "EmailTest"+i+"@gmail.com"));
         });
         Lobby lobby = new Lobby();
         users = userRepository.findAll().stream().filter(u -> u.getNickname().contains("Test")).limit(3).collect(Collectors.toList());
-        lobby.setUsers(users);
+        //lobby.setUsers(users);
         lobby.setActive(true);
         lobby.generatorCode();
         lobbyRepository.save(lobby);

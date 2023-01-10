@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import sevenislands.card.CardRepository;
+import sevenislands.game.Game;
 import sevenislands.game.GameRepository;
 import sevenislands.game.island.IslandRepository;
 import sevenislands.game.round.Round;
@@ -91,7 +92,9 @@ public class RoundRepositoryTest {
 
     @Test
     public void TestFindRoundByGameId(){
-        List<Round> round=roundRepository.findRoundByGameId(1);
+        Game game=new Game();
+        game.setId(1);
+        List<Round> round=roundRepository.findRoundByGame(game);
 
         assertNotNull(round);
         assertEquals(1, round.size());
