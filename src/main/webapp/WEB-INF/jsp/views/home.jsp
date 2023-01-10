@@ -163,6 +163,14 @@
 		</div>
 		<div class="body">
 			<img id="name" src="/resources/images/grafics/letras_7_islas.png">
+			<div>
+				<c:forEach items="${invitations}" var="invitation">
+                    <img src="/resources/images/avatars/${invitation.sender.avatar}" height="25" width="25">
+                    <c:out value="${invitation.sender.nickname}"/>
+					<c:out value="${invitation.mode}"/>
+					<a href="/lobby/accept/${invitation.id}">Aceptar</a>
+                </c:forEach>
+			</div>
 			<div class="menu">
 				<sec:authorize access="hasAuthority('player')">
 					<a class="btn btn-default" href='<spring:url value="/lobby/create" htmlEscape="true"/>'>Crear Partida</a>

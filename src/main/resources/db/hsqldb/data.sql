@@ -13,6 +13,9 @@ INSERT INTO user(nickname,password,enabled,first_name,last_name,email,creation_d
 INSERT INTO user(nickname,password,enabled,first_name,last_name,email,creation_date,type,birth_date,avatar) VALUES ('player4','$2a$10$Yurjw7YseLzZq/JOixdY/eRmBrOIzHHNooczuuMwtC42R8vRoKVPC','TRUE','Player FN','Player LN','player4@sevenislands.com','2022-10-29','player','2022-10-29','playerAvatar.png');
 INSERT INTO user(nickname,password,enabled,first_name,last_name,email,creation_date,type,birth_date,avatar) VALUES ('player5','$2a$10$Yurjw7YseLzZq/JOixdY/eRmBrOIzHHNooczuuMwtC42R8vRoKVPC','TRUE','Player FN','Player LN','player5@sevenislands.com','2022-10-29','player','2022-10-29','playerAvatar.png');
 
+-- FRIENDS --
+INSERT INTO friend(user1_id, user2_id, status) VALUES (7,8, 'ACCEPTED');
+
 -- LOBBY --
 INSERT INTO lobby(code,active) VALUES('aD5f8Lio','FALSE');
 INSERT INTO lobby(code,active) VALUES('a10f8Lio','FALSE');

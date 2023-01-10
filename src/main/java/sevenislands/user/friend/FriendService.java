@@ -2,6 +2,7 @@ package sevenislands.user.friend;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -80,5 +81,12 @@ public class FriendService {
     @Transactional
     public Optional<Friend> findFriendById(Integer id) {
         return friendRepository.findById(id);
+    }
+
+    @Transactional
+    public List<User> findUserFriends(User user, Status status) {
+        List<Friend> friends = friendRepository.findFriends(user, status);
+        List<User> users = friends.stream().map(friend -> friend.getUser1().equals(user)? friend.getUser2() : friend.getUser1()).collect(Collectors.toList());
+        return users;
     }
 }

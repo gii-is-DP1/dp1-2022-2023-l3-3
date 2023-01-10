@@ -55,10 +55,10 @@ public class LobbyUserService {
     }
 
     @Transactional
-    public void joinLobby(String code, User user) throws NotExistLobbyException {
+    public void joinLobby(String code, User user, Mode mode) throws NotExistLobbyException {
         code = code.trim();
         Lobby lobby = lobbyService.findLobbyByCode(code);
-        save(user, lobby, Mode.PLAYER);
+        save(user, lobby, mode);
     }
 
     @Transactional

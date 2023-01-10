@@ -21,11 +21,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import sevenislands.card.Card;
 import sevenislands.enums.Mode;
+import sevenislands.enums.Status;
 import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.GameService;
 import sevenislands.lobby.lobbyUser.LobbyUserService;
 import sevenislands.user.User;
 import sevenislands.user.UserService;
+import sevenislands.user.friend.Friend;
+import sevenislands.user.friend.FriendService;
+import sevenislands.user.invitation.Invitation;
+import sevenislands.user.invitation.InvitationService;
 
 @Controller
 public class LobbyController {
@@ -36,13 +41,19 @@ public class LobbyController {
 	private final GameService gameService;
 	private final UserService userService;
 	private final LobbyUserService lobbyUserService;
+	private final FriendService friendService;
+	private final InvitationService invitationService;
 
 	@Autowired
-	public LobbyController(UserService userService, GameService gameService, LobbyService lobbyService, LobbyUserService lobbyUserService) {
+	public LobbyController(UserService userService, GameService gameService, 
+	LobbyService lobbyService, LobbyUserService lobbyUserService, FriendService friendService,
+	InvitationService invitationService) {
 		this.lobbyService = lobbyService;
 		this.gameService = gameService;
 		this.userService = userService;
 		this.lobbyUserService = lobbyUserService;
+		this.friendService = friendService;
+		this.invitationService = invitationService;
 	}
 
 	@GetMapping("/lobby")
@@ -62,6 +73,9 @@ public class LobbyController {
 
 			List<User> players = lobbyUserService.findUsersByLobbyAndMode(lobby, Mode.PLAYER);
 			User host = players.get(0);
+			List<User> friends = friendService.findUserFriends(logedUser, Status.ACCEPTED);
+
+			model.put("friends", friends);
 			model.put("num_players", players.size());
 			model.put("lobby", lobby);
 			model.put("host", host);
@@ -97,7 +111,7 @@ public class LobbyController {
 	public String validateJoin(ModelMap model, @ModelAttribute("code") String code, @ModelAttribute("logedUser") User logedUser) throws NotExistLobbyException {
 		List<String> errors = gameService.checkLobbyErrors(code);
 		if(errors.isEmpty()) {
-			lobbyUserService.joinLobby(code, logedUser);
+			lobbyUserService.joinLobby(code, logedUser, Mode.PLAYER);
 			return "redirect:/lobby";
 		} 
 		model.put("errors", errors);
@@ -122,5 +136,14 @@ public class LobbyController {
 			return "redirect:/home";
 		}
 		
+	}
+
+	@GetMapping("/lobby/accept/{idInvitationReceiver}")
+	public String acceptInvitation(@ModelAttribute("logedUser") User logedUser, @PathVariable("idInvitationReceiver") Integer id) throws Exception {
+		Optional<Invitation> invitation = invitationService.findInvitationById(id);
+		if(!invitation.isPresent()) return "redirect:/home";
+		Lobby lobby = invitation.get().getLobby();
+		lobbyUserService.joinLobby(lobby.getCode(), logedUser, invitation.get().getMode());
+		return "redirect:/lobby";
 	}
 }
