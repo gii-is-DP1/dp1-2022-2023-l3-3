@@ -131,11 +131,6 @@ public class LobbyUserService {
 
     @Transactional
     public List<User> findUsersByLobbyAndMode(Lobby lobby, Mode mode) {
-        Optional<List<User>> users = lobbyUserRepository.findUsersByLobbyAndMode(lobby, mode);
-        if(users.isPresent()) {
-            return users.get();
-        } else {
-            return new ArrayList<>();
-        }
+        return lobbyUserRepository.findUsersByLobbyAndMode(lobby, mode);
     }
 }

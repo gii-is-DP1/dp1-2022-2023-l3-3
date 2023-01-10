@@ -42,5 +42,5 @@ public interface LobbyUserRepository extends CrudRepository<LobbyUser, Integer>{
     public Optional<Lobby> findLobbyByUserAndActive(User user, Boolean active);
 
     @Query("SELECT lobbyUser.user FROM LobbyUser lobbyUser WHERE lobbyUser.lobby = ?1 AND lobbyUser.mode = ?2")
-    public Optional<List<User>> findUsersByLobbyAndMode(Lobby lobby, Mode mode);
+    public List<User> findUsersByLobbyAndMode(Lobby lobby, Mode mode);
 }
