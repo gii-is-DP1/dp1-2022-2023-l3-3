@@ -41,7 +41,7 @@
           
             <sevenislands:inputField label="Nombre" name="name" required="required"/>
             <sevenislands:selectField label="Tipo" name="achievementType" names="${tipoLogro}" required="required"/>
-            <sevenislands:inputField label="Limite" name="threshold" required="required"/>
+            <sevenislands:inputField type="number" label="Limite" name="threshold" required="required" />
           
     </div>
         <div class="form-group">

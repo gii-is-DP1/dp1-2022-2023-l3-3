@@ -29,7 +29,7 @@
       <div class="form-group has-feedback">
         <sevenislands:inputField label="Nombre" name="name" required="required" />
         <sevenislands:selectField label="tipo" name="achievementType" names="${tipoLogro}" required="required"/>
-        <sevenislands:inputField label="Limite" name="threshold"  required="required"/>
+        <sevenislands:inputField type="number" label="Limite" name="threshold"  required="required"/>
       </div>
 
       <div class="pull-right">
