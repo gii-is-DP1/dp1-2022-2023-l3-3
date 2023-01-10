@@ -30,4 +30,7 @@ public interface UserRepository extends CrudRepository<User, Integer> {
 
     @Query("SELECT DISTINCT user.userType FROM User user")
     public List<UserType> findAuthorities();
+
+    @Query("SELECT user FROM User user WHERE user.nickname LIKE %:nickname% AND user.userType = 'player' AND user.nickname != :logedUser")
+    public List<User> findByNicknameContaining(String logedUser, String nickname);
 }

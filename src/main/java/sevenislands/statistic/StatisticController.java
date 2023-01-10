@@ -36,6 +36,7 @@ public class StatisticController {
     public String showStatistics(ModelMap model) {
         model.put("total_games", gameService.gameCount());
         model.put("total_time", gameService.findTotalTimePlayed());
+        model.put("total_players", gameService.findTotalPlayersDistinct());
         model.put("total_points", gameDetailsService.findTotalPunctuation());
         model.put("total_turns", turnService.turnCount());
         model.put("average_games", gameService.findAverageGamesPlayed());
@@ -44,6 +45,9 @@ public class StatisticController {
         model.put("average_time", gameService.findAverageTimePlayed());
         model.put("max_time", gameService.findMaxTimePlayed());
         model.put("min_time", gameService.findMinTimePlayed());
+        model.put("average_players", gameService.findAveragePlayers());
+        model.put("max_players", gameService.findMaxPlayers());
+        model.put("min_players", gameService.findMinPlayers());
         model.put("average_points", gameDetailsService.findAveragePunctuation());
         model.put("max_points", gameDetailsService.findMaxPunctuation());
         model.put("min_points", gameDetailsService.findMinPunctuation());
@@ -57,6 +61,7 @@ public class StatisticController {
     public String showDailyStatistics(ModelMap model) {
         model.put("total_games", gameService.gameCount());
         model.put("total_time", gameService.findTotalTimePlayed());
+        model.put("total_players", gameService.findTotalPlayersDistinct());
         model.put("total_points", gameDetailsService.findTotalPunctuation());
         model.put("total_turns", turnService.turnCount());
         model.put("average_games", gameService.findAverageGamesPlayed());
@@ -65,6 +70,9 @@ public class StatisticController {
         model.put("average_time_day", gameService.findDailyAverageTimePlayed());
         model.put("max_time_day", gameService.findMaxTimePlayedADay());
         model.put("min_time_day", gameService.findMinTimePlayedADay());
+        model.put("average_players_day", gameService.findDailyAveragePlayers());
+        model.put("max_players_day", gameService.findMaxPlayersADay());
+        model.put("min_players_day", gameService.findMinPlayersADay());
         model.put("average_points_day", gameDetailsService.findDailyAveragePunctuation());
         model.put("max_points_day", gameDetailsService.findMaxPunctuationADay());
         model.put("min_points_day", gameDetailsService.findMinPunctuationADay());

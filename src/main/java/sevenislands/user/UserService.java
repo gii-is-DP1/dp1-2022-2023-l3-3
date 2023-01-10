@@ -243,7 +243,6 @@ public class UserService {
 				throw new IllegalArgumentException("Email no válido, formato no válido"); 
 			}
 			user.setPassword(passwordEncoder.encode(password));
-			
 			user.setCreationDate(new Date(System.currentTimeMillis()));
 			user.setEnabled(true);
 			
@@ -310,4 +309,20 @@ public class UserService {
 		SecurityContextHolder.getContext().setAuthentication(authentication);
 		authToken.setDetails(new WebAuthenticationDetails(request));
     }
+
+	@Transactional
+	public List<User> searchUserByNickname(String logedUser,String nickname){
+		return userRepository.findByNicknameContaining(logedUser, nickname);
+	}
+
+	@Transactional
+	public User getCurrentUser() {
+		User logedUser = null;
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if(auth!=null && auth.isAuthenticated() && !auth.getAuthorities().toString().contains("[ROLE_ANONYMOUS]")) {
+            Optional<User> user = findUserByNickname(auth.getName());
+            if(user.isPresent()) logedUser = user.get();
+        }
+		return logedUser;
+	}
 }

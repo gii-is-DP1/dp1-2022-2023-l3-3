@@ -66,8 +66,10 @@ body {
             <div class="content">
                 <img id="gif" src="/resources/images/grafics/palmera.gif" width="256" height="256">
                 <div class="error_text">
+                    <center>
                     <h1 class="error_text">HA OCURRIDO UN ERROR</h1>
                     <h1 class="error_text"> ${exception}</h1>
+                    </center>
                 </div>
             </div>
         </div>

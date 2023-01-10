@@ -96,7 +96,7 @@ public class TurnService {
     }
 
     @Transactional
-    public void initTurn(User logedUser, Round round, List<User> userList, List<Card> cards) {
+    public Turn initTurn(User logedUser, Round round, List<User> userList, List<Card> cards) {
         Turn turn = new Turn();
         Integer nextUser = (userList.indexOf(logedUser) + 1) % userList.size();
         turn.setStartTime(LocalDateTime.now());
@@ -113,6 +113,7 @@ public class TurnService {
             treasureList.addAll(cards);
         turn.setCards(treasureList);
         save(turn);
+        return turn;
     }
 
 
@@ -125,32 +126,44 @@ public class TurnService {
     }
 
     @Transactional
-    public void assignTurn(User logedUser, Optional<Game> game, List<User> userList, List<Round> roundList) {
+    public Turn assignTurn(User logedUser, Optional<Game> game, List<User> userList, List<Round> roundList) {
         Round round = new Round();
+        Turn turn = null;
         round.setGame(game.get());
         if (roundService.findRoundsByGameId(game.get().getId()).isEmpty()) {
             dealtreasures(logedUser, game, userList, roundList);
             Integer prevUser = userList.indexOf(logedUser) == 0 ? userList.size() - 1 : userList.indexOf(logedUser) - 1; 
             roundService.save(round);
-            initTurn(userList.get(prevUser), round, userList, null);
+            turn = initTurn(userList.get(prevUser), round, userList, null);
         } else if (findByRoundId(roundList.get(roundList.size() - 1).getId()).size() >= userList.size()) {
             roundService.save(round);
             
-            initTurn(logedUser, round, userList, null);
-            
+            turn = initTurn(logedUser, round, userList, null);
         }
+        return turn;
     }
 
     @Transactional
-    public void dealtreasures(User logedUser, Optional<Game> game, List<User> userList, List<Round> roundList) {
+    public List<Island> dealtreasures(User logedUser, Optional<Game> game, List<User> userList, List<Round> roundList) {
         Round round = new Round();
         cardService.initGameCards(game.get());
         List<Card> treasureList = new ArrayList<>();
+        round = initRound(round, game, treasureList);
+        repartirCartaJugadoresIniciales(userList, logedUser, round, treasureList, game);
+        return asignarCartasIslas(game);
+        
+    }
+
+    public Round initRound(Round round, Optional<Game> game, List<Card> treasureList){
         round.setGame(game.get());
+        return roundService.save(round);
+    }
+
+    public List<Turn> repartirCartaJugadoresIniciales(List<User> userList, User logedUser, Round round, List<Card> treasureList, Optional<Game> game){
+        List<Turn> turnList = new ArrayList<>();
         treasureList.add(cardService.findCardByGameAndTreasure(game.get().getId(), Tipo.Doblon));
         treasureList.add(cardService.findCardByGameAndTreasure(game.get().getId(), Tipo.Doblon));
         treasureList.add(cardService.findCardByGameAndTreasure(game.get().getId(), Tipo.Doblon));
-        roundService.save(round);
         for (Integer i = 0; i < userList.size(); i++) {
             User user = userList.get((userList.indexOf(logedUser) + i) % userList.size());
             Turn turn = new Turn();
@@ -161,8 +174,13 @@ public class TurnService {
             Card doblones = cardService.findCardByGameAndTreasure(game.get().getId(), Tipo.Doblon);
             doblones.setMultiplicity(doblones.getMultiplicity() - 3);
             cardService.save(doblones);
-            save(turn);
+            turnList.add(save(turn));
         }
+        return turnList;
+    }
+
+    public List<Island> asignarCartasIslas(Optional<Game> game){
+        List<Island> islandList = new ArrayList<>();
         for (Integer i = 0; i < 6; i++) {
             Island island = new Island();
             island.setNum(i + 1);
@@ -181,11 +199,16 @@ public class TurnService {
             selectedCard.setMultiplicity(selectedCard.getMultiplicity() - 1);
             cardService.save(selectedCard);
             islandService.save(island);
+            islandList.add(island);
         }
+        return islandList;
     }
 
+    
+
     @Transactional
-    public void refreshDesk(Integer idIsla,User logedUser, Optional<Game> game){
+    public Island refreshDesk(Integer idIsla,User logedUser, Optional<Game> game){
+        Island islandRes;
         List<Card> allCards = cardService.findAllCardsByGameId(game.get().getId());
         List<Integer> cardList = new ArrayList<>();
         for (Card c : allCards) {
@@ -204,22 +227,26 @@ public class TurnService {
             selectedCard.setMultiplicity(selectedCard.getMultiplicity() - 1);
             cardService.save(selectedCard);
             islandService.save(island);
+            islandRes = island;
         }else {
             Island island=islandList.get(idIsla-1);
             island.setNum(0);
             islandService.save(island);
+            islandRes = island;
         }
+        return islandRes;
     }
 
     @Transactional
-    public void checkUserGame(User logedUser) throws NotExistLobbyException {
+    public Optional<Game> checkUserGame(User logedUser) throws NotExistLobbyException {
+        Optional<Game> game = null;
         try {
             if (gameService.findGameByNicknameAndActive(logedUser.getNickname(), true).isPresent()) {
 
                 // TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que
                 // existe
                 Lobby lobby = lobbyService.findLobbyByPlayerId(logedUser.getId());
-                Optional<Game> game = gameService.findGameByNicknameAndActive(logedUser.getNickname(), true);
+                game = gameService.findGameByNicknameAndActive(logedUser.getNickname(), true);
                 List<User> userList = lobby.getPlayerInternal();
                 List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
                         .collect(Collectors.toList());
@@ -236,6 +263,7 @@ public class TurnService {
                     gameService.save(game.get());
                 }
             }
+            return game;
         } catch (NotExistLobbyException e) {
             throw e;
         }
@@ -282,8 +310,9 @@ public class TurnService {
     }
 
     @Transactional
-    public void AnadirCarta(Integer id,String nickname){
+    public Turn addCarta(Integer id,String nickname){
         Optional<List<Turn>> turnList = turnRepository.findTurnByNickname(nickname);
+        Turn turn = null;
         if(turnList.isPresent()) {
             Turn lastPlayerTurn = turnList.get().get(0);
             List<Card> cartasLastTurn=lastPlayerTurn.getCards();
@@ -293,12 +322,15 @@ public class TurnService {
             cartasLastTurn.add(card);
             lastPlayerTurn.setCards(cartasLastTurn);
             turnRepository.save(lastPlayerTurn);
+            turn = lastPlayerTurn;
         }
+        return turn;
     }
 
     @Transactional
-    public void DeleteCard(Integer id,String nickname){
+    public Turn deleteCard(Integer id,String nickname){
         Optional<List<Turn>> turnList = turnRepository.findTurnByNickname(nickname);
+        Turn turn = null;
         if(turnList.isPresent()) {
             Turn lastPlayerTurn = turnList.get().get(0);
             List<Card> cartasLastTurn=lastPlayerTurn.getCards();
@@ -311,12 +343,15 @@ public class TurnService {
             }
             lastPlayerTurn.setCards(cartasLastTurn);
             turnRepository.save(lastPlayerTurn);
+            turn = lastPlayerTurn;
         }
+        return turn;
     }
 
     @Transactional
-    public void addCardToUser(Integer id, User user){
+    public Turn addCardToUser(Integer id, User user){
         Optional<List<Turn>> turnList = turnRepository.findTurnByNickname(user.getNickname());
+        Turn turn = null;
         if(turnList.isPresent()) {
             Turn lastPlayerTurn = turnList.get().get(0);
             List<Card> cartasLastTurn=lastPlayerTurn.getCards();
@@ -324,13 +359,15 @@ public class TurnService {
             cartasLastTurn.add(card);
             lastPlayerTurn.setCards(cartasLastTurn);
             turnRepository.save(lastPlayerTurn);
+            turn = lastPlayerTurn;
         }
+        return turn;
     }
 
     @Transactional
-    public boolean endGame(Game game){
+    public Boolean endGame(Game game){
         List<Island> islandList = islandService.findIslandsByGameId(game.getId());
-        boolean res=true;
+        Boolean res=true;
         for(Card i: cardService.findAllCardsByGameId(game.getId())){
             if(!(i.getMultiplicity().equals(0))){
                 res=false;

@@ -50,4 +50,16 @@ public interface GameRepository extends CrudRepository<Game, Integer> {
 
     @Query("SELECT g FROM Game g INNER JOIN g.lobby l INNER JOIN l.users u WHERE u.nickname=?1 GROUP BY TO_CHAR(g.creationDate, 'YYYY-MM-DD')")
     public List<Game> findGamesPlayedByNicknamePerDay(String nickname);
+    @Query("SELECT COUNT(DISTINCT u) FROM Game g INNER JOIN g.lobby l INNER JOIN l.users u")
+    public Integer findTotalPlayersDistinct();
+
+    @Query("SELECT COUNT(u) FROM Game g INNER JOIN g.lobby l INNER JOIN l.users u")
+    public Integer findTotalPlayers();
+
+    @Query("SELECT COUNT(u) FROM Game g INNER JOIN g.lobby l INNER JOIN l.users u GROUP BY g")
+    public List<Integer> findTotalPlayersByGame();
+
+    @Query("SELECT COUNT(DISTINCT u) FROM Game g INNER JOIN g.lobby l INNER JOIN l.users u GROUP BY TO_CHAR(g.creationDate, 'YYYY-MM-DD')")
+    public List<Integer> findTotalPlayersByDay();
+
 }

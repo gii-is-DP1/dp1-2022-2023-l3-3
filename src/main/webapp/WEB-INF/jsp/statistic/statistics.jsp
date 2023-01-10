@@ -27,11 +27,18 @@
                 <td><c:out value="${min_games}"/></td>
             </tr>
             <tr>
-                <th>Tiempo Total Jugado</th>
+                <th>Duración de las Partidas</th>
                 <td><c:out value="${total_time}"/> min</td>
                 <td><c:out value="${average_time}"/> min</td>
                 <td><c:out value="${max_time}"/> min</td>
                 <td><c:out value="${min_time}"/> min</td>
+            </tr>
+            <tr>
+                <th>Nº de Jugadores por Partida</th>
+                <td><c:out value="${total_players}"/></td>
+                <td><c:out value="${average_players}"/></td>
+                <td><c:out value="${max_players}"/></td>
+                <td><c:out value="${min_players}"/></td>
             </tr>
             <tr>
                 <th>Puntos Totales</th>

@@ -44,8 +44,8 @@ public class IslandService {
     }
 
     @Transactional
-    public void save(Island island) {
-        islandRepository.save(island);
+    public Island save(Island island) {
+        return islandRepository.save(island);
     }
 
     @Transactional

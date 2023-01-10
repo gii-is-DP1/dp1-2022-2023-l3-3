@@ -106,16 +106,23 @@
 <sevenislands:home pageName="home">
 	<body class="content">
 		<div class="header">
-			<div class="titulo-menu">
-				<div><img class="img_home" src="/resources/images/grafics/estadisticas.png">Estadísticas</div>
-				<div class="desplegable">
-					<a href="/ranking/points">Ranking Puntos</a>
-					<a href="/ranking/victories">Ranking Victorias</a>
-					<a href="/statistics">Estadísticas Globales</a>
-					<sec:authorize access="hasAuthority('player')">
-						<a href="/myStatistics">Mis Estadísticas</a>
-					</sec:authorize>
-				</div>
+			<sec:authorize access="hasAuthority('player')">
+				<a href="/friends">Amigos</a>
+			</sec:authorize>
+			<div class="estadisticas">
+				<ul class="menu-horizontal">
+					<img class="img_grafica" src="/resources/images/grafics/estadisticas.png">
+					<li><strong>Estadísticas</strong>
+						<ul class="menu-vertical">
+							<li><a href="/ranking/points">Ranking Puntos</a></li>
+							<li><a href="/ranking/victories">Ranking Victorias</a></li>
+							<li><a href="/statistics">Estadísticas Globales</a></li>
+							<sec:authorize access="hasAuthority('player')">
+								<li><a href="/myStatistics">Mis Estadísticas</a></li>
+							</sec:authorize>
+						</ul>
+					</li>
+				</ul>
 			</div>
 			<div class="titulo-menu">
 				<div><img class="img_home" src="/resources/images/grafics/trofeoIcono.png">Logros</div>
@@ -149,7 +156,6 @@
 					<a class="btn btn-default" href='<spring:url value="/game/InProgress" htmlEscape="true"/>'>Partidas en curso</a>
 				</sec:authorize>
 		
-				<br/>
 				<a class="btn btn-default" href='<spring:url value="/custom-logout" htmlEscape="true"/>'>Cerrar Sesión</a>
 			</div>
 			<img id="pirata" src="/resources/images/grafics/pirataLoroAnimado.gif">

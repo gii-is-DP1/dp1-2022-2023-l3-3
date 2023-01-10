@@ -65,9 +65,9 @@ public class GameDetailsService {
     }
 
     @Transactional
-    public void calculateDetails(User logedUser) {
+    public List<GameDetails> calculateDetails(User logedUser) {
         Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
-
+        List<GameDetails> gameDetailsRes = new ArrayList<>();
         if(game.isPresent()) {
             List<Integer> pointsList = List.of(1,3,7,13,21,30,40,50,60);
             List<Object []> details = new ArrayList<>();
@@ -120,9 +120,11 @@ public class GameDetailsService {
                 game.get().setTieBreak(tieBreak);
                 game.get().setWinner(winner);
                 save(gameDetails);
+                gameDetailsRes.add(gameDetails);
                 gameService.save(game.get());
             }
         }
+        return gameDetailsRes;
     }
 
     @Transactional

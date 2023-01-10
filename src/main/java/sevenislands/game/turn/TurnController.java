@@ -23,6 +23,8 @@ import sevenislands.game.Game;
 import sevenislands.game.GameService;
 import sevenislands.game.island.Island;
 import sevenislands.game.island.IslandService;
+import sevenislands.game.message.Message;
+import sevenislands.game.message.MessageService;
 import sevenislands.game.round.Round;
 import sevenislands.game.round.RoundService;
 import sevenislands.lobby.Lobby;
@@ -35,6 +37,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -51,10 +54,12 @@ public class TurnController {
     private final GameService gameService;
     private final IslandService islandService;
     private final CardService cardService;
+    private final MessageService messageService;
 
     @Autowired
     public TurnController(GameService gameService, LobbyService lobbyService, RoundService roundService,
-            TurnService turnService, IslandService islandService, UserService userService, CardService cardService) {
+            TurnService turnService, IslandService islandService, UserService userService, CardService cardService,
+            MessageService messageService) {
         this.turnService = turnService;
         this.userService = userService;
         this.roundService = roundService;
@@ -62,17 +67,18 @@ public class TurnController {
         this.gameService = gameService;
         this.islandService = islandService;
         this.cardService = cardService;
+        this.messageService = messageService;
     }
 
     @GetMapping("/turn")
     public String gameTurn(ModelMap model, @ModelAttribute("logedUser") User logedUser, HttpServletRequest request,
-            HttpServletResponse response) throws ServletException, NotExistLobbyException, Exception {
+            HttpServletResponse response, @ModelAttribute("message") String message) throws ServletException, NotExistLobbyException, Exception {
         if (userService.checkUserNoExists(request)) return "redirect:/";
         if(turnService.endGame(gameService.findGameByNickname(logedUser.getNickname()).get())) return "redirect:/endGame";
         if (!lobbyService.checkUserLobby(logedUser) && !gameService.checkUserGame(logedUser)) return "redirect:/home";
         if(!gameService.checkUserGame(logedUser)) return "redirect:/home";
         if(lobbyService.checkLobbyNoAllPlayers(logedUser)) return "redirect:/home";
-        response.addHeader("Refresh", "1");
+        response.addHeader("Refresh", "10");
         
         Optional<Game> game = gameService.findGameByNicknameAndActive(logedUser.getNickname(), true);
         List<Island> islandList = islandService.findIslandsByGameId(game.get().getId());
@@ -103,7 +109,24 @@ public class TurnController {
         HttpSession session = request.getSession();
         Map<Card,Integer> selectedCards = (Map<Card,Integer>) session.getAttribute("selectedCards");
         model.put("selectedCards",selectedCards);
+        model.put("gameMessages", messageService.getMessages(game.get()));
+        model.put("sentMessage", new Message());
         return VIEWS_GAME;
+    }
+
+    @PostMapping("/turn")
+    public String sendMessage(@ModelAttribute("logedUser") User logedUser, @ModelAttribute("sentMessage") Message message,
+            HttpServletRequest request) throws ServletException {
+        if (userService.checkUserNoExists(request)) return "redirect:/";
+        if (!lobbyService.checkUserLobby(logedUser) && !gameService.checkUserGame(logedUser)) return "redirect:/home";
+        if(!gameService.checkUserGame(logedUser)) return "redirect:/home";
+        if (message != null) {
+            Optional<Game> game = gameService.findGameByNicknameAndActive(logedUser.getNickname(), true);
+            if(game.isPresent()) {
+                messageService.saveMessage(logedUser, message.getMessage(), game.get());
+            }
+        }
+        return "redirect:/turn";
     }
 
     @GetMapping("/turn/endTurn")
@@ -187,7 +210,7 @@ public class TurnController {
     @GetMapping("/turn/chooseIsland/{IdIsland}")
     public String chooseIsland(ModelMap model,@PathVariable("IdIsland") Integer id, @ModelAttribute("logedUser") User logedUser, HttpServletRequest request){
         Optional<Game> game=gameService.findGameByNicknameAndActive(logedUser.getNickname(), true);
-        turnService.AnadirCarta(id,logedUser.getNickname());
+        turnService.addCarta(id,logedUser.getNickname());
         turnService.refreshDesk(id, logedUser, game);
         HttpSession session = request.getSession();
         Map<Card,Integer> selectedCards = new TreeMap<Card,Integer>();
@@ -197,7 +220,7 @@ public class TurnController {
 
     @RequestMapping(value="/turn/selectCard/{idCard}",method = RequestMethod.GET)
     public String selectCard(@PathVariable("idCard") Integer id, @ModelAttribute("logedUser") User logedUser, HttpServletRequest request) {
-        turnService.DeleteCard(id, logedUser.getNickname());
+        turnService.deleteCard(id, logedUser.getNickname());
         turnService.changeCard(id, logedUser, 0, request);
         return "redirect:/turn";
     }

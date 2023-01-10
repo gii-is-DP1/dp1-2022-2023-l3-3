@@ -1,15 +1,11 @@
 package sevenislands.user;
 
 import java.util.Date;
-import java.util.Set;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.OneToMany;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
@@ -21,14 +17,13 @@ import org.springframework.format.annotation.DateTimeFormat;
 
 import sevenislands.configuration.AuditableEntity;
 import sevenislands.enums.UserType;
-import sevenislands.game.turn.Turn;
 import lombok.Getter;
 import lombok.Setter;
 
+@Audited
 @Getter
 @Setter
 @Entity
-@Audited
 public class User extends AuditableEntity {
 	
 	@Column(name = "nickname", unique = true, nullable = false, length = 30)
