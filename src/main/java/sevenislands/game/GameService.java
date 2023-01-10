@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-
+import java.util.stream.Collectors;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -188,6 +188,46 @@ public class GameService {
     }
 
     @Transactional
+    public Double findAverageVictoriesPerGameByNickname(String nickname) {
+        Long totalVictories = gameRepository.findVictoriesByNickname(nickname);
+        Integer totalGames = gameRepository.findTotalGamesPlayedByNickname(nickname);
+        Double averageVictories = 0.;
+        if(totalVictories != null && totalGames != null) averageVictories = (double) totalVictories / totalGames;
+        return averageVictories;
+    }
+
+    @Transactional
+    public Integer findMaxVictoriesPerDayByNickname(String nickname) {
+        List<Game> wonGames = gameRepository.findWonGamesByNickname(nickname);
+        Integer maxWonGamesPerDay = 0;
+        if(!wonGames.isEmpty()) {
+            Map<LocalDate, List<Game>> wonGamesByDay = wonGames.stream()
+            .collect(Collectors.groupingBy(g -> g.getCreationDate().toLocalDate()));
+
+            maxWonGamesPerDay = wonGamesByDay.values().stream()
+            .map(wonGamesList -> wonGamesList.size())
+            .reduce(0, Integer::max);
+        }
+        return maxWonGamesPerDay;
+    }
+
+    @Transactional
+    public Integer findMinVictoriesPerDayByNickname(String nickname) {
+        List<Game> wonGames = gameRepository.findWonGamesByNickname(nickname);
+        Integer minWonGamesPerDay = 0;
+        if(!wonGames.isEmpty()) {
+            Map<LocalDate, List<Game>> wonGamesByDay = wonGames.stream()
+            .collect(Collectors.groupingBy(g -> g.getCreationDate().toLocalDate()));
+
+            minWonGamesPerDay = wonGamesByDay.values().stream()
+            .map(wonGamesList -> wonGamesList.size())
+            .min(Integer::compareTo)
+            .get();
+        }
+        return minWonGamesPerDay;
+    }
+
+    @Transactional
     public List<Object []> findVictories() {
         return gameRepository.findVictories();
     }
@@ -276,5 +316,60 @@ public class GameService {
         return findTotalTimePlayedByGame().stream().min(Comparator.naturalOrder()).get().toMinutes();
     }
     
+    @Transactional
+    public Double findAverageGamePlayedByNicknamePerDay(String nickname) {
+        List<Integer> gamesPerDay = gameRepository.findNGamesPlayedByNicknamePerDay(nickname);
+        Integer total = gamesPerDay.stream().reduce(0, (a,b) -> a + b);
+        return (double) total / gamesPerDay.size();
+    }
 
+    @Transactional
+    public Integer findMaxGamePlayedByNicknamePerDay(String nickname) {
+        List<Integer> gamesPerDay = gameRepository.findNGamesPlayedByNicknamePerDay(nickname);
+        Integer maxPlayed = gamesPerDay.stream().max(Integer::compareTo).get();
+        return maxPlayed;
+    }
+
+    @Transactional
+    public Integer findMinGamePlayedByNicknamePerDay(String nickname) {
+        List<Integer> gamesPerDay = gameRepository.findNGamesPlayedByNicknamePerDay(nickname);
+        Integer minPlayed = gamesPerDay.stream().min(Integer::compareTo).get();
+        return minPlayed;
+    }
+
+    @Transactional
+    public Double findAverageTimePlayedByNicknamePerDay(String nickname) {
+        Long totalTime = findTotalTimePlayedByNickname(nickname);
+        List<Integer> gamesPerDay = gameRepository.findNGamesPlayedByNicknamePerDay(nickname);
+        Integer totalDays = gamesPerDay.size();
+        return (double) totalTime / totalDays;
+    }
+
+    @Transactional
+    public Double findMaxTimePlayedByNickname(String nickname) {
+        Optional<List<Game>> games = gameRepository.findGameByNickname(nickname);
+        Long maxTime = 0L;
+        if(games.isPresent()) {
+            maxTime = games.get().stream()
+            .map(g -> Duration.between(g.getCreationDate(), g.getEndingDate()))
+            .map(d -> d.toMinutes())
+            .max(Long::compareTo)
+            .get();
+        }
+        return (double) maxTime;
+    }
+
+    @Transactional
+    public Double findMinTimePlayedByNickname(String nickname) {
+        Optional<List<Game>> games = gameRepository.findGameByNickname(nickname);
+        Long minTime = 0L;
+        if(games.isPresent()) {
+            minTime = games.get().stream()
+            .map(g -> Duration.between(g.getCreationDate(), g.getEndingDate()))
+            .map(d -> d.toMinutes())
+            .min(Long::compareTo)
+            .get();
+        }
+        return (double) minTime;
+    }
 }

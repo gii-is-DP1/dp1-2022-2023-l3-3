@@ -22,30 +22,44 @@
 			<tr>
                 <th>Nº de Partidas Jugadas</th>
                 <td><c:out value="${total_games_player}"/></td>
-                <td><c:out value="${}"/></td>
-                <td><c:out value="${}"/></td>
-                <td><c:out value="${}"/></td>
+                <td><c:out value="${average_games_player}"/>/día</td>
+                <td><c:out value="${max_games_player}"/></td>
+                <td><c:out value="${min_games_player}"/></td>
             </tr>
             <tr>
-                <th>Tiempo Total Jugado</th>
+                <th>Tiempo Jugado</th>
                 <td><c:out value="${total_time_player}"/> min</td>
-                <td><c:out value="${}"/></td>
-                <td><c:out value="${}"/></td>
-                <td><c:out value="${}"/></td>
+                <td><c:out value="${average_time_player}"/> min/día</td>
+                <td><c:out value="${max_time_player}"/> min</td>
+                <td><c:out value="${min_time_player}"/> min</td>
             </tr>
             <tr>
-                <th>Puntos Totales</th>
-                <td><c:out value="${total_points_player}"/></td>
-                <td><c:out value="${}"/></td>
-                <td><c:out value="${}"/></td>
-                <td><c:out value="${}"/></td>
+                <th>Victorias</th>
+                <td><c:out value="${total_victories_player}"/></td>
+                <td><c:out value="${average_victoriesByGame_player}"/> /partida</td>
+                <td><c:out value="${max_victories_player}"/> /día</td>
+                <td><c:out value="${min_victories_player}"/> /día</td>
             </tr>
             <tr>
-                <th>Turnos Totales</th>
+                <th>Puntos Obtenidos</th>
+                <td><c:out value="${total_points_player}"/> pts</td>
+                <td><c:out value="${average_points_player}"/> pts/partida</td>
+                <td><c:out value="${max_points_player}"/> pts</td>
+                <td><c:out value="${min_points_player}"/> pts</td>
+            </tr>
+            <tr>
+                <th>Turnos Realizados</th>
                 <td><c:out value="${total_turns_player}"/></td>
-                <td><c:out value="${}"/></td>
-                <td><c:out value="${}"/></td>
-                <td><c:out value="${}"/></td>
+                <td><c:out value="${average_turns_player}"/> /partida</td>
+                <td><c:out value="${max_turns_player}"/></td>
+                <td><c:out value="${min_turns_player}"/></td>
+            </tr>
+            <tr>
+                <th>Nº jugadores en partidas</th>
+                <td><c:out value="${'---'}"/></td>
+                <td><c:out value="${average_playersByGame_player}"/> /partida</td>
+                <td><c:out value="${max_playersByGame_player}"/></td>
+                <td><c:out value="${min_playersByGame_player}"/></td>
             </tr>
 		</table>
     </body>
