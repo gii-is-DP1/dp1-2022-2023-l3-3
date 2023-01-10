@@ -262,8 +262,6 @@ public class TurnService {
                     map.put(card, 1);
                 }
             }
-            
-            
         }
         return map;
     }

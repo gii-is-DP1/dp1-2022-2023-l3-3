@@ -71,7 +71,8 @@ public class GameDetailsService {
     }
 
     @Transactional
-    public void calculateDetails(User logedUser) throws NotExistLobbyException {
+    public List<GameDetails> calculateDetails(User logedUser) throws NotExistLobbyException {
+        List<GameDetails> gameDetailsList = new ArrayList<>();
         Optional<Game> game = gameService.findGameByUser(logedUser);
 
         if(game.isPresent()) {
@@ -115,9 +116,9 @@ public class GameDetailsService {
                     winnerDoblon = doblons;
                     tieBreak = true;
                 }
-
                 details.add(new Object[] {user, userPoints});
             }
+
             for(Object[] detail : details) {
                 GameDetails gameDetails = new GameDetails();
                 gameDetails.setGame(game.get());
@@ -127,8 +128,10 @@ public class GameDetailsService {
                 game.get().setWinner(winner);
                 save(gameDetails);
                 gameService.save(game.get());
+                gameDetailsList.add(gameDetails);
             }
         }
+        return gameDetailsList;
     }
 
     @Transactional

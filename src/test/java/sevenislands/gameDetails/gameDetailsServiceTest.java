@@ -23,7 +23,9 @@ import sevenislands.achievement.AchievementService;
 import sevenislands.card.Card;
 import sevenislands.card.CardRepository;
 import sevenislands.card.CardService;
+import sevenislands.enums.Mode;
 import sevenislands.enums.Tipo;
+import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.Game;
 import sevenislands.game.GameRepository;
 import sevenislands.game.GameService;
@@ -38,6 +40,9 @@ import sevenislands.game.turn.TurnService;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyRepository;
 import sevenislands.lobby.LobbyService;
+import sevenislands.lobby.lobbyUser.LobbyUser;
+import sevenislands.lobby.lobbyUser.LobbyUserRepository;
+import sevenislands.lobby.lobbyUser.LobbyUserService;
 import sevenislands.user.User;
 import sevenislands.user.UserRepository;
 import sevenislands.user.UserService;
@@ -61,7 +66,8 @@ public class gameDetailsServiceTest {
     GameRepository gameRepository;
     @Mock
     GameDetailsRepository gameDetailsRepository;
-
+    @Mock
+    LobbyUserRepository lobbyUserRepository;
 
     GameService gameService;
     GameDetailsService gameDetailsService;
@@ -71,6 +77,7 @@ public class gameDetailsServiceTest {
     IslandService islandService;
     CardService cardService;
     LobbyService lobbyService;
+    LobbyUserService lobbyUserService;
 
     User user1;
     User user2;
@@ -88,30 +95,40 @@ public class gameDetailsServiceTest {
     Turn turn1;
     Turn turn2;
 
-
     Round round1;
     Round round2;
+
+    LobbyUser lobbyUser1;
+    LobbyUser lobbyUser2;
 
     @BeforeEach
     public void config(){
         roundService = new RoundService(roundRepository);
-        lobbyService = new LobbyService(lobbyRepository, gameService);
-        gameService = new GameService(roundService, gameRepository);
+        lobbyService = new LobbyService(lobbyRepository);
+        lobbyUserService = new LobbyUserService(lobbyUserRepository, lobbyService);
+        gameService = new GameService(roundService, gameRepository, lobbyUserService, lobbyService);
         cardService = new CardService(cardRepository);
         islandService = new IslandService(islandRepository);
-        userService = new UserService(null, lobbyService, null, null, userRepository, gameService);
-        turnService = new TurnService(turnRepository, gameService, roundService, lobbyService, islandService, cardService);
-        gameDetailsService = new GameDetailsService(gameDetailsRepository, gameService, turnService);
+        userService = new UserService(null, null, null, userRepository, gameService, lobbyUserService);
+        turnService = new TurnService(turnRepository, gameService, roundService, islandService, cardService, lobbyUserService);
+        gameDetailsService = new GameDetailsService(gameDetailsRepository, gameService, turnService, lobbyUserService);
 
         user1 = userService.createUser(1, "userFalse1", "userFalse1@gmail.com");
         user2 = userService.createUser(2, "userFalse2", "userFalse2@gmail.com");
-
+        List<User> users = List.of(user1, user2);
         lobby1 = new Lobby();
         lobby1.setId(1);
         lobby1.generatorCode();
         lobby1.setActive(true);
-        lobby1.addPlayer(user1);
-        lobby1.addPlayer(user2);
+        
+        lobbyUser1 = new LobbyUser();
+        lobbyUser1.setLobby(lobby1);
+        lobbyUser1.setUser(user1);
+        lobbyUser1.setMode(Mode.PLAYER);
+        lobbyUser2 = new LobbyUser();
+        lobbyUser2.setLobby(lobby1);
+        lobbyUser2.setUser(user2);
+        lobbyUser2.setMode(Mode.PLAYER);
 
         game1 = new Game();
         game1.setId(1);
@@ -146,7 +163,7 @@ public class gameDetailsServiceTest {
         round2.setId(2);
         round1.setGame(game1);
         round2.setGame(game1);
-
+        
         turn1 = new Turn();
         turn2 = new Turn();
      
@@ -164,15 +181,16 @@ public class gameDetailsServiceTest {
         
         turnList.add(turn1);
         turnList.add(turn2);
-
-
     }
 
     @Test
-    public void calculateDetailsTest(){
-        when(turnRepository.findTurnByNickname(user1.getNickname())).thenReturn(Optional.of(turnList.stream().filter(t-> t.getUser().getNickname().equals(user1.getNickname())).collect(Collectors.toList())));
-        when(turnRepository.findTurnByNickname(user2.getNickname())).thenReturn(Optional.of(turnList.stream().filter(t-> t.getUser().getNickname().equals(user2.getNickname())).collect(Collectors.toList())));
-        when(gameRepository.findGameByNickname(any())).thenReturn(Optional.of(List.of(game1)));
+    public void calculateDetailsTest() throws NotExistLobbyException {
+        when(lobbyUserRepository.findByUser(user1)).thenReturn(Optional.of(List.of(lobbyUser1)));
+        when(gameRepository.findGameByLobby(lobby1)).thenReturn(Optional.of(game1));
+        when(lobbyUserRepository.findUsersByLobbyAndMode(lobby1, Mode.PLAYER)).thenReturn(List.of(user1, user2));
+        when(turnRepository.findTurnByNickname(user1.getNickname())).thenReturn(Optional.of(List.of(turnList.get(0))));
+        when(turnRepository.findTurnByNickname(user2.getNickname())).thenReturn(Optional.of(List.of(turnList.get(1))));
+        
         List<GameDetails> gameDetails = gameDetailsService.calculateDetails(user1);
         assertNotNull(gameDetails);
         assertEquals(user1.getNickname(), gameDetails.get(0).getUser().getNickname());
@@ -181,5 +199,4 @@ public class gameDetailsServiceTest {
         assertNotNull(gameDetails);
         assertTrue(gameDetails.get(0).getPunctuation()==2);
     }
-
 }

@@ -37,5 +37,4 @@ public interface GameDetailsRepository extends CrudRepository<GameDetails, Integ
 
     @Query("SELECT SUM(gd.punctuation) FROM GameDetails gd INNER JOIN gd.game g GROUP BY TO_CHAR(g.creationDate, 'YYYY-MM-DD')")
     List<Integer> findSumPunctuationsByDay();
-    
 }
