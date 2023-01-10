@@ -1,6 +1,5 @@
 package sevenislands.game;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -69,14 +68,14 @@ public class GameController {
         if(gameService.checkUserGameWithRounds(logedUser)) return VIEWS_TURN;
         response.addHeader("Refresh", "5");
         try {
-        Lobby lobby = lobbyUserService.findLobbyByUser(logedUser);
-        if(gameService.findGameByUserAndActive(logedUser, true).isEmpty()) {
-            gameService.initGame(lobby);
-            lobbyService.disableLobby(lobby);
-        }
-        return VIEWS_GAME_ASIGN_TURN;
+            Lobby lobby = lobbyUserService.findLobbyByUser(logedUser);
+            if(gameService.findGameByUserAndActive(logedUser, true).isEmpty()) {
+                gameService.initGame(lobby);
+                lobbyService.disableLobby(lobby);
+            }
+            return VIEWS_GAME_ASIGN_TURN;
        } catch (Exception e) {
-        return VIEWS_HOME;
+            return VIEWS_HOME;
        }
     }
 

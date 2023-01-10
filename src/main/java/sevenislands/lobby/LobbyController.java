@@ -20,6 +20,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import sevenislands.card.Card;
+import sevenislands.enums.Mode;
 import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.GameService;
 import sevenislands.lobby.lobbyUser.LobbyUserService;
@@ -59,7 +60,7 @@ public class LobbyController {
 			Map<Card,Integer> selectedCards = new TreeMap<Card,Integer>();
 			session.setAttribute("selectedCards", selectedCards);
 
-			List<User> players = lobbyUserService.findUsersByLobby(lobby);
+			List<User> players = lobbyUserService.findUsersByLobbyAndMode(lobby, Mode.PLAYER);
 			User host = players.get(0);
 			model.put("num_players", players.size());
 			model.put("lobby", lobby);

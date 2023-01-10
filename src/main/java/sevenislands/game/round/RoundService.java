@@ -9,6 +9,8 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import sevenislands.game.Game;
+
 @Service
 public class RoundService {
 
@@ -30,8 +32,8 @@ public class RoundService {
     }
 
     @Transactional(readOnly = true)
-    public List<Round> findRoundsByGameId(int id) throws DataAccessException {
-        return roundRepository.findRoundByGameId(id).stream().collect(Collectors.toList());
+    public List<Round> findRoundsByGame(Game game) throws DataAccessException {
+        return roundRepository.findRoundByGame(game).stream().collect(Collectors.toList());
     }
 
     @Transactional
@@ -40,8 +42,8 @@ public class RoundService {
     }
 
     @Transactional
-    public Boolean checkRoundByGameId(Integer gameId) {
-        return roundRepository.findRoundByGameId(gameId).size()>0;
+    public Boolean checkRoundByGame(Game game) {
+        return roundRepository.findRoundByGame(game).size()>0;
     }
 
 }

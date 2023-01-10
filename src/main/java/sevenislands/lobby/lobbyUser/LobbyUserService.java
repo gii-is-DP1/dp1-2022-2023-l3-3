@@ -29,12 +29,13 @@ public class LobbyUserService {
 
     @Transactional
     public List<User> findUsersByLobby(Lobby lobby) {
-        return lobbyUserRepository.findUsersByLobbyId(lobby);
+        return lobbyUserRepository.findUsersByLobby(lobby);
     }
 
     @Transactional
-    public LobbyUser findByLobbyAndUser(Lobby lobby, User user) {
+    public Optional<LobbyUser> findByLobbyAndUser(Lobby lobby, User user) {
         return lobbyUserRepository.findByLobbyAndUser(lobby, user);
+
     }
 
     @Transactional
@@ -70,6 +71,16 @@ public class LobbyUserService {
     }
 
     @Transactional
+    public List<Lobby> findLobbiesByUserAndMode(User user, Mode mode) {
+        Optional<List<LobbyUser>> lobbyList = lobbyUserRepository.findByUserAndMode(user, mode);
+        if(lobbyList.isPresent()) {
+            return lobbyList.get().stream().map(LobbyUser::getLobby).collect(Collectors.toList());
+        } else {
+            return new ArrayList<>();
+        }
+    }
+
+    @Transactional
     public List<Lobby> findLobbiesByUser(User user) {
         Optional<List<LobbyUser>> lobbyList = lobbyUserRepository.findByUser(user);
         if(lobbyList.isPresent()) {
@@ -80,23 +91,23 @@ public class LobbyUserService {
     }
 
     @Transactional
-    public Integer findTotalPlayers() {
-        return lobbyUserRepository.findTotalUsers();
+    public Integer findTotalPlayersByMode(Mode mode) {
+        return lobbyUserRepository.findTotalUsersByMode(mode);
     }
 
     @Transactional
-    public Integer findTotalPlayersDistinct() {
-        return lobbyUserRepository.findTotalUsersDistinct();
+    public Integer findTotalPlayersDistinctByMode(Mode mode) {
+        return lobbyUserRepository.findTotalUsersDistinct(mode);
     }
 
     @Transactional
-    public Integer findTotalPlayersByDay(List<Lobby> lobbyList) {
-        return lobbyUserRepository.findTotalPlayersByDay(lobbyList);
+    public Integer findTotalPlayersByDayAndMode(List<Lobby> lobbyList, Mode mode) {
+        return lobbyUserRepository.findTotalPlayersByDayAndMode(lobbyList, mode);
     }
 
     @Transactional
-    public List<Integer> findTotalPlayersByLobby(List<Lobby> lobbyList) {
-        return lobbyUserRepository.findTotalPlayersByLobby(lobbyList);
+    public Optional<List<Integer>> findTotalPlayersByLobbyAndMode(List<Lobby> lobbyList, Mode mode) {
+        return lobbyUserRepository.findTotalPlayersByLobbyAndMode(lobbyList, mode);
     }
 
         /**
@@ -117,5 +128,14 @@ public class LobbyUserService {
         Lobby lobby = lobbyService.createLobbyEntity();
         save(user, lobby, Mode.PLAYER);
     }
-    
+
+    @Transactional
+    public List<User> findUsersByLobbyAndMode(Lobby lobby, Mode mode) {
+        Optional<List<User>> users = lobbyUserRepository.findUsersByLobbyAndMode(lobby, mode);
+        if(users.isPresent()) {
+            return users.get();
+        } else {
+            return new ArrayList<>();
+        }
+    }
 }

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import sevenislands.enums.AchievementType;
+import sevenislands.enums.Mode;
 import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.Game;
 import sevenislands.game.GameService;
@@ -111,31 +112,15 @@ public class AchievementService {
 	@Transactional
 	public void calculateAchievements(User logedUser) throws NotExistLobbyException {
 		Optional<Game> game = gameService.findGameByUser(logedUser);
-		System.out.println("1==================================");
-		System.out.println(game.get().getLobby().getId());
 		if(game.isPresent()) {
-			System.out.println("2==================================");
-			List<User> users = lobbyUserService.findUsersByLobby(game.get().getLobby());
-			System.out.println("3==================================");
-			System.out.println(users);
+			List<User> users = lobbyUserService.findUsersByLobbyAndMode(game.get().getLobby(), Mode.PLAYER);
 			for(User user: users) {
-				System.out.println("4==================================");
-				System.out.println(user.getNickname());
 				Long totalPoints = gameDetailsService.findPunctuationByNickname(user.getNickname());
 				Long totalVictories = gameService.findVictoriesByNickname(user.getNickname());
 				Long totalTieBreaks = gameService.findTieBreaksByNickname(user.getNickname());
 				Long totalGames = gameDetailsService.findGamesByUser(user);
-				System.out.println("5a==================================");
-				System.out.println(totalPoints);
-				System.out.println(totalVictories);
-				System.out.println(totalTieBreaks);
-				System.out.println(totalGames);
-				System.out.println("5b==================================");
+
 				for(Achievement achievement: getAll()) {
-					System.out.println(achievement.getAchievementType().equals(AchievementType.Games));
-					System.out.println(totalGames);
-					System.out.println(achievement.getThreshold());
-					System.out.println(totalGames >= achievement.getThreshold());
 					if(achievement.getAchievementType().equals(AchievementType.Punctuation) && totalPoints >= achievement.getThreshold()) {
 						registerService.save(achievement, user);
 					} else if(achievement.getAchievementType().equals(AchievementType.Victories) && totalVictories >= achievement.getThreshold()) {
@@ -143,7 +128,6 @@ public class AchievementService {
 					} else if(achievement.getAchievementType().equals(AchievementType.TieBreaker) && totalTieBreaks >= achievement.getThreshold()) {
 						registerService.save(achievement, user);
 					} else if(achievement.getAchievementType().equals(AchievementType.Games) && totalGames >= achievement.getThreshold()) {
-						System.out.println("6==================================");
 						registerService.save(achievement, user);
 					}
 				}

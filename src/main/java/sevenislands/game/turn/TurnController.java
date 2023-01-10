@@ -17,6 +17,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import sevenislands.card.Card;
+import sevenislands.enums.Mode;
 import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.Game;
 import sevenislands.game.GameService;
@@ -81,13 +82,13 @@ public class TurnController {
         
         Optional<Game> game = gameService.findGameByUserAndActive(logedUser, true);
         List<Island> islandList = islandService.findIslandsByGameId(game.get().getId());
-        List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
+        List<Round> roundList = roundService.findRoundsByGame(game.get()).stream()
                 .collect(Collectors.toList());
         Round round = roundList.get(roundList.size() - 1);
-        List<Turn> turnList = turnService.findByRoundId(round.getId());
+        List<Turn> turnList = turnService.findByRound(round);
         Turn lastTurn = turnList.get(turnList.size() - 1);
         Lobby lobby = lobbyUserService.findLobbyByUser(logedUser);
-        List<User> userList = lobbyUserService.findUsersByLobby(lobby);
+        List<User> userList = lobbyUserService.findUsersByLobbyAndMode(lobby, Mode.PLAYER);
         Map<Card, Integer> playerCardsMap = turnService.findPlayerCardsLastTurn(logedUser.getNickname());
         List<Island> islasToChose=turnService.islandToChoose(lastTurn,logedUser.getNickname(),islandList, request);
         model.put("player", logedUser);
@@ -137,13 +138,13 @@ public class TurnController {
 
         try {
             Optional<Game> game = gameService.findGameByUserAndActive(logedUser, true);
-            List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
+            List<Round> roundList = roundService.findRoundsByGame(game.get()).stream()
                     .collect(Collectors.toList());
             Round round = roundList.get(roundList.size() - 1);
-            List<Turn> turnList = turnService.findByRoundId(round.getId());
+            List<Turn> turnList = turnService.findByRound(round);
             Turn lastTurn = turnList.get(turnList.size() - 1);
             Lobby lobby = lobbyUserService.findLobbyByUser(logedUser);
-            List<User> userList = lobbyUserService.findUsersByLobby(lobby);
+            List<User> userList = lobbyUserService.findUsersByLobbyAndMode(lobby, Mode.PLAYER);
 
             if (logedUser.getId() == lastTurn.getUser().getId()) {
                 HttpSession session = request.getSession();
@@ -174,10 +175,10 @@ public class TurnController {
         if(!gameService.checkUserGame(logedUser)) return "redirect:/home";
 
         Optional<Game> game = gameService.findGameByUserAndActive(logedUser, true);
-        List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
+        List<Round> roundList = roundService.findRoundsByGame(game.get()).stream()
                 .collect(Collectors.toList());
         Round round = roundList.get(roundList.size() - 1);
-        List<Turn> turnList = turnService.findByRoundId(round.getId());
+        List<Turn> turnList = turnService.findByRound(round);
         Turn lastTurn = turnList.get(turnList.size() - 1);
         turnService.dice(lastTurn);
         return "redirect:/turn";
@@ -187,6 +188,7 @@ public class TurnController {
     public String gameAsignTurn(@ModelAttribute("logedUser") User logedUser, HttpServletRequest request)
             throws ServletException, NotExistLobbyException {
         if (userService.checkUserNoExists(request)) return "redirect:/";
+        if(gameService.checkUserViewer(logedUser)) return "redirect:/game";
         if (!lobbyUserService.checkUserLobby(logedUser) && !gameService.checkUserGame(logedUser)) return "redirect:/home";
         if(!gameService.checkUserGame(logedUser)) return "redirect:/home";
 
@@ -194,8 +196,8 @@ public class TurnController {
             Optional<Game> game = gameService.findGameByUserAndActive(logedUser, true);
             if (game.isPresent()) {
                 Lobby lobby = lobbyUserService.findLobbyByUser(logedUser);
-                List<User> userList = lobbyUserService.findUsersByLobby(lobby);
-                List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
+                List<User> userList = lobbyUserService.findUsersByLobbyAndMode(lobby, Mode.PLAYER);
+                List<Round> roundList = roundService.findRoundsByGame(game.get()).stream()
                         .collect(Collectors.toList());   
                 turnService.assignTurn(logedUser, game, userList, roundList);
                 return "redirect:/turn";

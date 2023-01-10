@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import sevenislands.card.Card;
+import sevenislands.enums.Mode;
 import sevenislands.enums.Tipo;
 import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.Game;
@@ -86,7 +87,7 @@ public class GameDetailsService {
             Integer winnerPoints = -1;
             Integer winnerDoblon = -1;
 
-            for(User user : lobbyUserService.findUsersByLobby(game.get().getLobby())) {
+            for(User user : lobbyUserService.findUsersByLobbyAndMode(game.get().getLobby(), Mode.PLAYER)) {
                 doblons = 0;
                 userPoints = 0;
                 Map<Card, Integer> cards = turnService.findPlayerCardsLastTurn(user.getNickname());

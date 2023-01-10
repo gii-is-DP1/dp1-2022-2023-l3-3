@@ -169,8 +169,10 @@ public class UserService {
 			}
 			try{
 				Lobby lobby = lobbyUserService.findLobbyByUser(userDeleted.get());
-				LobbyUser lobbyUser = lobbyUserService.findByLobbyAndUser(lobby, userDeleted.get());
-				lobbyUserService.deleteLobbyUser(lobbyUser);
+				Optional<LobbyUser> lobbyUser = lobbyUserService.findByLobbyAndUser(lobby, userDeleted.get());
+				if(lobbyUser.isPresent()) {
+					lobbyUserService.deleteLobbyUser(lobbyUser.get());
+				}
 				deleteUserById(id);
 				return true;
 		}catch(NotExistLobbyException e){

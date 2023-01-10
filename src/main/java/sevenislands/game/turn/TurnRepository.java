@@ -8,11 +8,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import sevenislands.game.round.Round;
+
 @Repository
 public interface TurnRepository extends CrudRepository<Turn, Integer> {
 
-    @Query("SELECT turn FROM Turn turn WHERE turn.round.id=?1")
-    public List<Turn> findByRoundId(Integer id) throws DataAccessException;
+    @Query("SELECT turn FROM Turn turn WHERE turn.round=?1")
+    public List<Turn> findByRound(Round round) throws DataAccessException;
 
     public List<Turn> findAll();
 

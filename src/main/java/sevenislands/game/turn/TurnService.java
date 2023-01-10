@@ -69,8 +69,8 @@ public class TurnService {
 
 
     @Transactional(readOnly = true)
-    public List<Turn> findByRoundId(Integer id) throws DataAccessException {
-        return turnRepository.findByRoundId(id);
+    public List<Turn> findByRound(Round round) throws DataAccessException {
+        return turnRepository.findByRound(round);
     }
     @Transactional
     public List<Island> islandToChoose(Turn turn,String nickName, List<Island> islandList, HttpServletRequest request){
@@ -128,16 +128,14 @@ public class TurnService {
     public void assignTurn(User logedUser, Optional<Game> game, List<User> userList, List<Round> roundList) {
         Round round = new Round();
         round.setGame(game.get());
-        if (roundService.findRoundsByGameId(game.get().getId()).isEmpty()) {
+        if (roundService.findRoundsByGame(game.get()).isEmpty()) {
             dealtreasures(logedUser, game, userList, roundList);
             Integer prevUser = userList.indexOf(logedUser) == 0 ? userList.size() - 1 : userList.indexOf(logedUser) - 1; 
             roundService.save(round);
             initTurn(userList.get(prevUser), round, userList, null);
-        } else if (findByRoundId(roundList.get(roundList.size() - 1).getId()).size() >= userList.size()) {
+        } else if (findByRound(roundList.get(roundList.size() - 1)).size() >= userList.size()) {
             roundService.save(round);
-            
             initTurn(logedUser, round, userList, null);
-            
         }
     }
 
@@ -220,11 +218,11 @@ public class TurnService {
                 // existe
                 Lobby lobby = lobbyUserService.findLobbyByUser(logedUser);
                 List<User> userList = lobbyUserService.findUsersByLobby(lobby);
-                List<Round> roundList = roundService.findRoundsByGameId(game.get().getId()).stream()
+                List<Round> roundList = roundService.findRoundsByGame(game.get()).stream()
                         .collect(Collectors.toList());
                 if (roundList.size() != 0) {
                     Round lastRound = roundList.get(roundList.size() - 1);
-                    List<Turn> turnList = findByRoundId(lastRound.getId());
+                    List<Turn> turnList = findByRound(lastRound);
                     Turn lastTurn = turnList.get(turnList.size() - 1);
                     if (lastTurn.getUser().getId() == logedUser.getId() && userList.size() > 1) {
                         initTurn(logedUser, lastRound, userList, null);

@@ -6,6 +6,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import sevenislands.enums.Mode;
 import sevenislands.game.GameService;
 import sevenislands.game.turn.TurnService;
 import sevenislands.gameDetails.GameDetailsService;
@@ -37,7 +38,7 @@ public class StatisticController {
     public String showStatistics(ModelMap model) {
         model.put("total_games", gameService.gameCount());
         model.put("total_time", gameService.findTotalTimePlayed());
-        model.put("total_players", lobbyUserService.findTotalPlayersDistinct());
+        model.put("total_players", lobbyUserService.findTotalPlayersDistinctByMode(Mode.PLAYER));
         model.put("total_points", gameDetailsService.findTotalPunctuation());
         model.put("total_turns", turnService.turnCount());
         model.put("average_games", gameService.findAverageGamesPlayed());
@@ -47,14 +48,19 @@ public class StatisticController {
         model.put("max_time", gameService.findMaxTimePlayed());
         model.put("min_time", gameService.findMinTimePlayed());
         model.put("average_players", gameService.findAveragePlayers());
+        System.out.println("¿==================================");
         model.put("max_players", gameService.findMaxPlayers());
+        System.out.println("?==================================");
         model.put("min_players", gameService.findMinPlayers());
+        System.out.println("2b==================================");
         model.put("average_points", gameDetailsService.findAveragePunctuation());
+        System.out.println("3==================================");
         model.put("max_points", gameDetailsService.findMaxPunctuation());
         model.put("min_points", gameDetailsService.findMinPunctuation());
         model.put("average_turns", turnService.findAverageTurns());
         model.put("max_turns", turnService.findMaxTurns());
         model.put("min_turns", turnService.findMinTurns());
+        System.out.println("4==================================");
         return VIEWS_STATISTICS;
     }
 
@@ -62,7 +68,7 @@ public class StatisticController {
     public String showDailyStatistics(ModelMap model) {
         model.put("total_games", gameService.gameCount());
         model.put("total_time", gameService.findTotalTimePlayed());
-        model.put("total_players", lobbyUserService.findTotalPlayersDistinct());
+        model.put("total_players", lobbyUserService.findTotalPlayersDistinctByMode(Mode.PLAYER));
         model.put("total_points", gameDetailsService.findTotalPunctuation());
         model.put("total_turns", turnService.turnCount());
         model.put("average_games", gameService.findAverageGamesPlayed());

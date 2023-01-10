@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import sevenislands.enums.Mode;
 import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.round.RoundService;
 import sevenislands.lobby.Lobby;
@@ -64,7 +65,6 @@ public class GameService {
         game.setLobby(lobby);
         game.setActive(true);
         gameRepository.save(game);
-        
         return game;
     }
     
@@ -73,15 +73,15 @@ public class GameService {
          gameRepository.save(game);
     }
 
-    @Transactional
-    public Optional<List<Game>> findGamesByUserAndActive(User user, Boolean active) {
-        List<Lobby> lobbies = lobbyUserService.findLobbiesByUser(user);
-        Optional<List<Game>> gameList = gameRepository.findGameByLobbyAndActive(lobbies, active);
-        if(gameList.isPresent()) {
-             return gameList;
-        }
-        return Optional.empty();
-    }
+    // @Transactional
+    // public Optional<List<Game>> findGamesByUserAndActive(User user, Boolean active) {
+    //     List<Lobby> lobbies = lobbyUserService.findLobbiesByUser(user);
+    //     Optional<List<Game>> gameList = gameRepository.findGameByLobbyAndActive(lobbies, active);
+    //     if(gameList.isPresent()) {
+    //          return gameList;
+    //     }
+    //     return Optional.empty();
+    // }
 
     @Transactional
     public Optional<Game> findGameByUserAndActive(User user, Boolean active) {
@@ -105,7 +105,7 @@ public class GameService {
     @Transactional
     public List<Object []> findGamePLayedByUser(User user) {
         List<Object []> result = new ArrayList<>();
-        List<Lobby> lobbies = lobbyUserService.findLobbiesByUser(user);
+        List<Lobby> lobbies = lobbyUserService.findLobbiesByUserAndMode(user, Mode.PLAYER);
         List<Game> games = gameRepository.findGameActive(false).stream().filter(
             game -> lobbies.contains(game.getLobby())
         ).collect(Collectors.toList());
@@ -124,7 +124,7 @@ public class GameService {
     @Transactional
     public List<Object []> findGameAndHostPLayedByUser(User user) {
         List<Object []> result = new ArrayList<>();
-        List<Lobby> lobbies = lobbyUserService.findLobbiesByUser(user);
+        List<Lobby> lobbies = lobbyUserService.findLobbiesByUserAndMode(user, Mode.PLAYER);
         List<Game> games = gameRepository.findGameActive(false).stream().filter(
             game -> lobbies.contains(game.getLobby())
         ).collect(Collectors.toList());
@@ -144,7 +144,7 @@ public class GameService {
     @Transactional
     public Boolean checkUserGameWithRounds(User logedUser) {
         Optional<Game> game = findGameByUserAndActive(logedUser, true);
-        return game.isPresent() && roundService.checkRoundByGameId(game.get().getId());
+        return game.isPresent() && roundService.checkRoundByGame(game.get());
      }
 
     @Transactional
@@ -175,7 +175,7 @@ public class GameService {
 
     @Transactional
     public Integer findTotalGamesPlayedByUser(User user) {
-        List<Lobby> lobbies = lobbyUserService.findLobbiesByUser(user);
+        List<Lobby> lobbies = lobbyUserService.findLobbiesByUserAndMode(user, Mode.PLAYER);
         return gameRepository.findTotalGamesPlayedByUserLobbies(lobbies);
     }
 
@@ -196,7 +196,7 @@ public class GameService {
 
     @Transactional
     public Long findTotalTimePlayedByUser(User user) {
-        List<Lobby> lobbies = lobbyUserService.findLobbiesByUser(user);
+        List<Lobby> lobbies = lobbyUserService.findLobbiesByUserAndMode(user, Mode.PLAYER);
         Optional<List<Game>> games = gameRepository.findGamesByLobbies(lobbies);
         Duration played = Duration.ZERO;
         if(games.isPresent()){
@@ -347,39 +347,47 @@ public class GameService {
 
     @Transactional
     public Double findAveragePlayers() {
-        Double average = (double) lobbyUserService.findTotalPlayers() / gameCount();
+        Double average = (double) lobbyUserService.findTotalPlayersByMode(Mode.PLAYER) / gameCount();
         return Math.round(average * 100.0) / 100.0; 
     }
 
     @Transactional
     public Integer findMaxPlayers() {
         List<Lobby> lobbies = gameRepository.findLobbies();
-        return lobbyUserService.findTotalPlayersByLobby(lobbies).stream().max(Comparator.naturalOrder()).get();
+        Optional<List<Integer>> totalPlayers = lobbyUserService.findTotalPlayersByLobbyAndMode(lobbies, Mode.PLAYER);
+        if(totalPlayers.isPresent()) {
+            return totalPlayers.get().stream().max(Comparator.naturalOrder()).get();
+        }
+        return 0;
     }
 
     @Transactional
     public Integer findMinPlayers() {
         List<Lobby> lobbies = gameRepository.findLobbies();
-        return lobbyUserService.findTotalPlayersByLobby(lobbies).stream().min(Comparator.naturalOrder()).get();
+        Optional<List<Integer>> totalPlayers = lobbyUserService.findTotalPlayersByLobbyAndMode(lobbies, Mode.PLAYER);
+        if(totalPlayers.isPresent()) {
+            return totalPlayers.get().stream().min(Comparator.naturalOrder()).get();
+        }
+        return 0;
     }
 
     @Transactional
     public Double findDailyAveragePlayers() {
-        Double average = (double) lobbyUserService.findTotalPlayers() / findTotalGamesPlayedByDay().size();
+        Double average = (double) lobbyUserService.findTotalPlayersByMode(Mode.PLAYER) / findTotalGamesPlayedByDay().size();
         return Math.round(average * 100.0) / 100.0; 
     }
 
     @Transactional
     public Integer findMaxPlayersADay() {
         List<List<Lobby>> lobbies = gameRepository.findLobbiesByDay();
-        List<Integer> playersByDay = lobbies.stream().map(lobbyList -> lobbyUserService.findTotalPlayersByDay(lobbyList)).collect(Collectors.toList());
+        List<Integer> playersByDay = lobbies.stream().map(lobbyList -> lobbyUserService.findTotalPlayersByDayAndMode(lobbyList, Mode.PLAYER)).collect(Collectors.toList());
         return playersByDay.stream().max(Comparator.naturalOrder()).get();
     }
 
     @Transactional
     public Integer findMinPlayersADay() {
         List<List<Lobby>> lobbies = gameRepository.findLobbiesByDay();
-        List<Integer> playersByDay = lobbies.stream().map(lobbyList -> lobbyUserService.findTotalPlayersByDay(lobbyList)).collect(Collectors.toList());
+        List<Integer> playersByDay = lobbies.stream().map(lobbyList -> lobbyUserService.findTotalPlayersByDayAndMode(lobbyList, Mode.PLAYER)).collect(Collectors.toList());
         return playersByDay.stream().min(Comparator.naturalOrder()).get();
     }
     
@@ -389,11 +397,14 @@ public class GameService {
         Optional<Game> game = findGameByLobby(lobby);
 		if(lobby.isActive() || (game.isPresent() && game.get().isActive())) {
             List<User> users = lobbyUserService.findUsersByLobby(lobby);
-		if (users.size() == minPlayers) {
-			lobby.setActive(false);
-		}
-        lobbyUserService.deleteLobbyUser(lobbyUserService.findByLobbyAndUser(lobby, user));
-		lobby = lobbyService.save(lobby);
+            if (users.size() == minPlayers) {
+                lobby.setActive(false);
+            }
+            Optional<LobbyUser> lobbyUser = lobbyUserService.findByLobbyAndUser(lobby, user);
+            if(lobbyUser.isPresent()) {
+                lobbyUserService.deleteLobbyUser(lobbyUser.get());
+                lobby = lobbyService.save(lobby);
+            }
         } 
         return lobby;
     }
@@ -418,13 +429,13 @@ public class GameService {
     public Boolean checkLobbyNoAllPlayers(User logedUser) throws Exception {
         try {
             Integer userNumber = null;
-        Lobby lobby = lobbyUserService.findLobbyByUser(logedUser);
-        Boolean res;
-        userNumber = lobbyUserService.findUsersByLobby(lobby).size();
+            Lobby lobby = lobbyUserService.findLobbyByUser(logedUser);
+            Boolean res;
+            userNumber = lobbyUserService.findUsersByLobbyAndMode(lobby, Mode.PLAYER).size();
 		if (userNumber != null && userNumber > minPlayers && userNumber <= maxPlayers) {
             res = false;
 		} else {res= true;}
-        return res;
+            return res;
         } catch (Exception e) {
             throw e;
         }
@@ -441,15 +452,34 @@ public class GameService {
                     leaveLobby(logedUser);
                     res = false;
                 } else {
-                    LobbyUser lobbyUser = lobbyUserService.findByLobbyAndUser(lobbyLogedUser, ejectedUser);
-                    lobbyUserService.deleteLobbyUser(lobbyUser);
-                    res = true;
+                    Optional<LobbyUser> lobbyUser = lobbyUserService.findByLobbyAndUser(lobbyLogedUser, ejectedUser);
+                    if(lobbyUser.isPresent()) {
+                        lobbyUserService.deleteLobbyUser(lobbyUser.get());
+                        res = true;
+                    } else res = false;
                 }
             } else res = true;
                 return res;
         } catch (Exception e) {
             throw e;
         }
+    }
+
+    @Transactional
+    public Boolean checkUserViewer(User logedUser) {
+        try {
+            Lobby lobby = lobbyUserService.findLobbyByUser(logedUser);
+            Optional<Game> game = gameRepository.findGameByLobby(lobby);
+            Optional<LobbyUser> lobbyUser = lobbyUserService.findByLobbyAndUser(lobby, logedUser);
+            if(lobbyUser.isPresent() && game.isPresent() && game.get().isActive()) {
+                return lobbyUser.get().getMode().equals(Mode.VIEWER);
+            }
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
+        
+        
     }
 
 }
