@@ -10,11 +10,14 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import sevenislands.game.Game;
+import sevenislands.game.GameRepository;
+import sevenislands.game.GameService;
 import sevenislands.game.round.Round;
 import sevenislands.game.round.RoundRepository;
 import sevenislands.game.round.RoundService;
@@ -25,9 +28,8 @@ public class RoundServiceTest {
 
     @Autowired
     private RoundRepository roundRepository;
-
-   
-
+    @Autowired
+    private GameRepository gameRepository;
 
     @Test
     public void TestFindAllRounds(){
@@ -48,7 +50,8 @@ public class RoundServiceTest {
     @Test
     public void TestFindRoundsByGameId(){
         RoundService roundService=new RoundService(roundRepository);
-        Collection<Round> rondas=roundService.findRoundsByGameId(1);
+        Game game = gameRepository.findById(1).get();
+        Collection<Round> rondas=roundService.findRoundsByGame(game);
         assertNotNull(rondas.stream().collect(Collectors.toList()));
     }
 
@@ -70,7 +73,8 @@ public class RoundServiceTest {
     @Test
     public void TestCheckNoRoundByGameId(){
         RoundService roundService=new RoundService(roundRepository);
-        Boolean gameWithoutRound=roundService.checkRoundByGameId(1);
+        Game game = gameRepository.findById(1).get();
+        Boolean gameWithoutRound=roundService.checkRoundByGame(game);
         assertNotNull(gameWithoutRound);
         assertTrue(gameWithoutRound);
 
