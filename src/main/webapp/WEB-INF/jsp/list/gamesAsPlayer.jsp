@@ -46,6 +46,7 @@
 				<th>Creation_date</th>
 				<th>Ending_date</th>
 				<th>Creador</th>
+				<th>Ganador</th>
 			</tr>
 			<c:forEach items="${games}" var="game">
 				<tr>
@@ -53,6 +54,7 @@
 					<td><c:out value="${game.creationDate}"/></td>
 					<td><c:out value="${game.endingDate}"/></td>	
 					<td><c:out value="${game.lobby.users[0].nickname}"></c:out></td>
+					<td><c:out value="${game.winner.nickname}"></c:out></td>
 				</tr>
 			</c:forEach>
 		</table>

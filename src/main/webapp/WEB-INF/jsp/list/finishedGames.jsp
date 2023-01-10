@@ -46,6 +46,7 @@
 				<th>Ending_date</th>
 				<th>Creador</th>
 				<th>Participantes</th>
+				<th>Ganador</th>
 			</tr>
 			<c:forEach items="${games}" var="game">
 				<tr>
@@ -54,6 +55,7 @@
 					<td><c:out value="${game.getFirst().endingDate}"/></td>	
 					<td><c:out value="${game.getFirst().lobby.users[0].nickname}"></c:out></td>
 					<td><c:out value="${fn:join(game.getSecond(), ', ')}"/></td>
+					<td><c:out value="${game.getFirst().winner.nickname}"></c:out></td>
 				</tr>
 			</c:forEach>
 		</table>
