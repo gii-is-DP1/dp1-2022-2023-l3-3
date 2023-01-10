@@ -9,6 +9,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
+import sevenislands.game.round.Round;
 import sevenislands.game.turn.Turn;
 import sevenislands.game.turn.TurnRepository;
 
@@ -20,8 +21,10 @@ public class TurnRepositoryTest {
 
     @Test
     public void initialData(){
+        Round round=new Round();
+        round.setId(1);
         List<Turn> turnos = turnRepository.findAll();
-        List<Turn> turnosRoundId  = turnRepository.findByRoundId(1);
+        List<Turn> turnosRoundId  = turnRepository.findByRound(round);
         assertNotNull(turnos);
         assertNotNull(turnosRoundId);
         assertNotNull(turnRepository.findById(98765));

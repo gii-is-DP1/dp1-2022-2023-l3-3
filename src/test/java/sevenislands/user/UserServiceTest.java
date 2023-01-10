@@ -29,6 +29,8 @@ import sevenislands.enums.UserType;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyRepository;
 import sevenislands.lobby.LobbyService;
+import sevenislands.lobby.lobbyUser.LobbyUser;
+import sevenislands.lobby.lobbyUser.LobbyUserRepository;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -44,6 +46,8 @@ public class UserServiceTest {
     UserRepository mock;
     @Mock
     LobbyRepository lobbyRepository;
+    @Mock
+    LobbyUserRepository lobbyUserRepository;
 
     User user;
     UserService userService;
@@ -55,7 +59,7 @@ public class UserServiceTest {
     @BeforeEach
     public void config() {
         userService = new UserService(null, null,
-         null, passwordEncoder, mock, null);
+        passwordEncoder, mock, null, null);
         user = userService.createUser(1, "prueba", "prueba@sevenislands.com");
         
         usersRepo.add(user);
@@ -84,7 +88,8 @@ public class UserServiceTest {
     @Test
     public void findByIdTest(){
         user = userService.createUser(1, "prueba", "prueba@sevenislands.com");
-        UserService userService = new UserService(null, null,null,passwordEncoder, mock, null);
+        UserService userService = new UserService(null, null,
+        passwordEncoder, mock, null, null);
         when(mock.findById(1)).thenReturn(Optional.of(user));
         assertEquals(user, userService.findUserById(1).get());
         assertEquals(null, userService.findUserById(2).orElse(null));
@@ -94,7 +99,8 @@ public class UserServiceTest {
     @Test
     public void findByEmailTest(){
         user = userService.createUser(1, "prueba", "prueba@sevenislands.com");
-        UserService userService = new UserService(null, null,null,null, mock, null);
+        UserService userService = new UserService(null, null,
+        passwordEncoder, mock, null, null);
         when(mock.findByEmail("prueba@sevenislands.com")).thenReturn(Optional.of(user));
         assertEquals(user, userService.findUserByEmail("prueba@sevenislands.com"));
         assertEquals(null, userService.findUserByEmail("pruebaMal@sevenislands.com"));
@@ -104,7 +110,8 @@ public class UserServiceTest {
     @Test
     public void findAllTest(){
         user = userService.createUser(1, "prueba", "prueba@sevenislands.com");
-        UserService userService = new UserService(null, null,null,null, mock, null);
+        UserService userService = new UserService(null, null,
+        passwordEncoder, mock, null, null);
         when(mock.findAll()).thenReturn(usersRepo);
         assertEquals(usersRepo, userService.findAll());
     }
@@ -112,7 +119,8 @@ public class UserServiceTest {
     @Test
     public void checkersTest(){
         user = userService.createUser(1, "prueba", "prueba@sevenislands.com");
-        userService = new UserService(null, null,null,null, mock, null);
+        userService = new UserService(null, null,
+        passwordEncoder, mock, null, null);
         when(mock.checkUserEmail("prueba@sevenislands.com")).thenReturn(true);
         when(mock.checkUserEmail("pruebaFalso@sevenislands.com")).thenReturn(false);
 
@@ -124,7 +132,8 @@ public class UserServiceTest {
     @Test
     public void updateTest(){
         User oldUser = user.copy();
-        userService = new UserService(null, null,null,passwordEncoder, mock, null);
+        userService = new UserService(null, null,
+        passwordEncoder, mock, null, null);
         user.setPassword("short");
         assertThrows(IllegalArgumentException.class, ()-> userService.updateUser(user, user.getId().toString(), 0));
         user.setPassword("ehrbvuhwerbvuherbv");
@@ -151,7 +160,8 @@ public class UserServiceTest {
     public void addUserTest(){
         user = userService.createUser(1, "prueba", "prueba@sevenislands.com");
         user.setPassword("corta");
-        userService = new UserService(null, null,null,null, mock, null);
+        userService = new UserService(null, null,
+        passwordEncoder, mock, null, null);
         assertThrows(IllegalArgumentException.class, ()-> userService.addUser(user, false, null, null));
         user.setPassword("vbhcrbfhvbrhvbrhttvt");
         user.setEmail("notValidEmail");
@@ -159,7 +169,8 @@ public class UserServiceTest {
         user.setEmail("validEmail@gmail.com");
         assertThrows(Exception.class, ()-> userService.addUser(user, false, null, null));
 
-        userService = new UserService(null, null,null,passwordEncoder, mock, null);
+        userService = new UserService(null, null,
+        passwordEncoder, mock, null, null);
         when(passwordEncoder.encode(any())).thenReturn("jvnipfbvrbkef");
         when(mock.save(any())).thenReturn(user);
         User esperado = userService.addUser(user, true, null, null);
@@ -174,17 +185,19 @@ public class UserServiceTest {
     public void deleteUserTest() {
         user = userService.createUser(1, "prueba", "prueba@sevenislands.com");
         User user2 = userService.createUser(2, "prueba2", "prueba2@sevenislands.com");
-        lobbyService = new LobbyService(lobbyRepository, null);
-        userService = new UserService(null, lobbyService,sessionRegistry,passwordEncoder, mock, null);
+        lobbyService = new LobbyService(lobbyRepository);
+        userService = new UserService(null, null,
+        passwordEncoder, mock, null, null);
         Lobby lobby = new Lobby();
-        lobby.addPlayer(user);
-        lobby.addPlayer(user2);
         lobby.generatorCode();
         lobby.setActive(true);
+        LobbyUser lobbyUser=new LobbyUser();
+        lobbyUser.setUser(user);
+        lobbyUser.setUser(user2);
         assertFalse(userService.deleteUser(2, user));
-        when(mock.findById(any())).thenReturn(Optional.of(user2));
+        when(mock.findById(any())).thenReturn(Optional.of(user));
         assertTrue(userService.deleteUser(2, user));
-        when(lobbyRepository.findByPlayerId(any())).thenReturn(Optional.of(List.of(lobby)));
+        when(lobbyUserRepository.findById(any())).thenReturn(Optional.of(lobbyUser));
         when(mock.findById(any())).thenReturn(Optional.of(user2));
         assertTrue(userService.deleteUser(2, user));
 
@@ -192,7 +205,8 @@ public class UserServiceTest {
   
     @Test
     public void enableUserTest(){
-        userService = new UserService(null, lobbyService,sessionRegistry,passwordEncoder, mock, null);
+        userService = new UserService(null, null,
+        passwordEncoder, mock, null, null);
         user = userService.createUser(1, "prueba", "prueba@sevenislands.com");
         User user2 = userService.createUser(2, "prueba2", "prueba2@sevenislands.com");
         assertTrue(userService.enableUser(2, user2));
@@ -205,7 +219,8 @@ public class UserServiceTest {
 
     @Test
     public void findAllUserTest(){
-        userService = new UserService(null, lobbyService,sessionRegistry,passwordEncoder, mock, null);
+        userService =new UserService(null, null,
+        passwordEncoder, mock, null, null);
         User user2 = userService.createUser(2, "prueba2", "prueba2@sevenislands.com");
         User user3 = userService.createUser(3, "prueba3", "prueba3@sevenislands.com");
         User user4 = userService.createUser(4, "prueba4", "prueba4@sevenislands.com");

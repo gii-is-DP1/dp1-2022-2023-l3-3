@@ -91,15 +91,16 @@ public class AchievementServiceTest {
     @BeforeEach
     public void config(){
         roundService = new RoundService(roundRepository);
-        lobbyService = new LobbyService(lobbyRepository, gameService);
-        gameService = new GameService(roundService, gameRepository);
+        lobbyService = new LobbyService(lobbyRepository);
+        gameService = new GameService(roundService, gameRepository,null,lobbyService);
         cardService = new CardService(cardRepository);
         islandService = new IslandService(islandRepository);
-        userService = new UserService(null, lobbyService, null, null, userRepository, gameService);
-        turnService = new TurnService(turnRepository, gameService, roundService, lobbyService, islandService, cardService);
-        gameDetailsService = new GameDetailsService(gameDetailsRepository, gameService, turnService);
+        userService = new UserService(null, null,
+        null,userRepository, null, null);
+        turnService = new TurnService(turnRepository, gameService, roundService, islandService, cardService,null);
+        gameDetailsService = new GameDetailsService(gameDetailsRepository, gameService, turnService,null);
         registerService = new RegisterService(registerRepository);
-        achievementService = new AchievementService(achievementRepository, gameService, gameDetailsService, registerService);
+        achievementService = new AchievementService(achievementRepository, gameService, gameDetailsService, registerService,null);
         
         
         achievement = new Achievement();

@@ -1,11 +1,11 @@
 package sevenislands.user;
 
-import static org.junit.Assert.assertEquals;
+
 import static org.mockito.Mockito.mock;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
+
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -23,7 +23,7 @@ import java.util.Optional;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 
 
-import javax.servlet.ServletException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -40,16 +40,15 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.context.annotation.FilterType;
-import org.springframework.dao.DataAccessException;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
-import org.springframework.ui.ModelMap;
+
 import org.springframework.validation.BindingResult;
 
 import sevenislands.configuration.SecurityConfiguration;
-import sevenislands.enums.Tipo;
+
 import sevenislands.enums.UserType;
-import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.GameService;
 import sevenislands.game.turn.TurnService;
 import sevenislands.gameDetails.GameDetailsService;

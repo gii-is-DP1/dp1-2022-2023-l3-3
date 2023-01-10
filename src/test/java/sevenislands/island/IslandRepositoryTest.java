@@ -45,6 +45,7 @@ public class IslandRepositoryTest {
     @BeforeEach
     public void config(){
         userService = new UserService(null, null, null, userRepository, null, null);
+        userService = new UserService(null, null, null, userRepository, null, null);
         Lobby lobby = new Lobby();
         IntStream.range(0, 3).forEach(i -> {
             userRepository.save(userService.createUser(10000+i, "playerTest"+i, "EmailTest"+i+"@gmail.com"));
