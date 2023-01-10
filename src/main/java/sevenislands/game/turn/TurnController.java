@@ -28,7 +28,6 @@ import sevenislands.game.message.MessageService;
 import sevenislands.game.round.Round;
 import sevenislands.game.round.RoundService;
 import sevenislands.lobby.Lobby;
-import sevenislands.lobby.LobbyService;
 import sevenislands.lobby.lobbyUser.LobbyUserService;
 import sevenislands.user.User;
 import sevenislands.user.UserService;
@@ -50,20 +49,18 @@ public class TurnController {
     private final TurnService turnService;
     private final UserService userService;
     private final RoundService roundService;
-    private final LobbyService lobbyService;
     private final GameService gameService;
     private final IslandService islandService;
     private final MessageService messageService;
     private final LobbyUserService lobbyUserService;
 
     @Autowired
-    public TurnController(GameService gameService, LobbyService lobbyService, RoundService roundService,
+    public TurnController(GameService gameService, RoundService roundService,
             TurnService turnService, IslandService islandService, UserService userService,
             MessageService messageService, LobbyUserService lobbyUserService) {
         this.turnService = turnService;
         this.userService = userService;
         this.roundService = roundService;
-        this.lobbyService = lobbyService;
         this.gameService = gameService;
         this.islandService = islandService;
         this.messageService = messageService;

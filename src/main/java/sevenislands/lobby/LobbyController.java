@@ -27,7 +27,6 @@ import sevenislands.game.GameService;
 import sevenislands.lobby.lobbyUser.LobbyUserService;
 import sevenislands.user.User;
 import sevenislands.user.UserService;
-import sevenislands.user.friend.Friend;
 import sevenislands.user.friend.FriendService;
 import sevenislands.user.invitation.Invitation;
 import sevenislands.user.invitation.InvitationService;
@@ -37,7 +36,6 @@ public class LobbyController {
 
 	private static final String VIEWS_LOBBY = "game/lobby";
 
-	private final LobbyService lobbyService;
 	private final GameService gameService;
 	private final UserService userService;
 	private final LobbyUserService lobbyUserService;
@@ -46,9 +44,8 @@ public class LobbyController {
 
 	@Autowired
 	public LobbyController(UserService userService, GameService gameService, 
-	LobbyService lobbyService, LobbyUserService lobbyUserService, FriendService friendService,
+	LobbyUserService lobbyUserService, FriendService friendService,
 	InvitationService invitationService) {
-		this.lobbyService = lobbyService;
 		this.gameService = gameService;
 		this.userService = userService;
 		this.lobbyUserService = lobbyUserService;
@@ -74,7 +71,8 @@ public class LobbyController {
 			List<User> players = lobbyUserService.findUsersByLobbyAndMode(lobby, Mode.PLAYER);
 			User host = players.get(0);
 			List<User> friends = friendService.findUserFriends(logedUser, Status.ACCEPTED);
-
+			friends.removeAll(players);
+			
 			model.put("friends", friends);
 			model.put("num_players", players.size());
 			model.put("lobby", lobby);
@@ -92,6 +90,7 @@ public class LobbyController {
 	public String createLobby(HttpServletRequest request, @ModelAttribute("logedUser") User logedUser) throws ServletException, NotExistLobbyException {
 		if(lobbyUserService.checkUserLobby(logedUser)) return "redirect:/home";
 		if(gameService.checkUserGame(logedUser)) return "redirect:/home";
+		invitationService.deleteInvitationsByLobbyAndUser(lobbyUserService.findLobbyByUser(logedUser), logedUser);
 		lobbyUserService.createLobby(logedUser);
 		return "redirect:/lobby";
 	}
@@ -111,6 +110,7 @@ public class LobbyController {
 	public String validateJoin(ModelMap model, @ModelAttribute("code") String code, @ModelAttribute("logedUser") User logedUser) throws NotExistLobbyException {
 		List<String> errors = gameService.checkLobbyErrors(code);
 		if(errors.isEmpty()) {
+			invitationService.deleteInvitationsByLobbyAndUser(lobbyUserService.findLobbyByUser(logedUser), logedUser);
 			lobbyUserService.joinLobby(code, logedUser, Mode.PLAYER);
 			return "redirect:/lobby";
 		} 
@@ -143,6 +143,7 @@ public class LobbyController {
 		Optional<Invitation> invitation = invitationService.findInvitationById(id);
 		if(!invitation.isPresent()) return "redirect:/home";
 		Lobby lobby = invitation.get().getLobby();
+		invitationService.deleteInvitationsByLobbyAndUser(invitation.get().getLobby(), logedUser);
 		lobbyUserService.joinLobby(lobby.getCode(), logedUser, invitation.get().getMode());
 		return "redirect:/lobby";
 	}

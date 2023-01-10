@@ -8,16 +8,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import sevenislands.exceptions.NotExistLobbyException;
-import sevenislands.user.User;
 
 
 @Service
 public class LobbyService {
     
     private LobbyRepository lobbyRepository;
-
-    private final Integer minPlayers = 1;
-    private final Integer maxPlayers = 4;
 
     @Autowired
     public LobbyService(LobbyRepository lobbyRepository) {

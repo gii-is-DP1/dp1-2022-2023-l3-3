@@ -81,6 +81,17 @@ public class LobbyUserService {
     }
 
     @Transactional
+    public Lobby findLobbyByUserAndMode(User user, Mode mode) throws NotExistLobbyException {
+        Optional<List<LobbyUser>> lobbyList = lobbyUserRepository.findByUserAndMode(user, mode);
+        if(lobbyList.isPresent()) {
+            Lobby lobby = lobbyList.get().get(0).getLobby();
+            return lobby;
+        } else {
+            throw new NotExistLobbyException();
+        }
+    }
+
+    @Transactional
     public List<Lobby> findLobbiesByUser(User user) {
         Optional<List<LobbyUser>> lobbyList = lobbyUserRepository.findByUser(user);
         if(lobbyList.isPresent()) {

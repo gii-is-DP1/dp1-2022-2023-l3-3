@@ -30,7 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class GameService {
 
-    
     private GameRepository gameRepository;
     private RoundService roundService;
     private final LobbyUserService lobbyUserService;
@@ -188,6 +187,16 @@ public class GameService {
     public Optional<Game> findGameByUser(User user) throws NotExistLobbyException {
         try {
             Lobby lobby = lobbyUserService.findLobbyByUser(user);
+            return gameRepository.findGameByLobby(lobby);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
+    @Transactional
+    public Optional<Game> findGameByUserAndMode(User user, Mode mode) throws NotExistLobbyException {
+        try {
+            Lobby lobby = lobbyUserService.findLobbyByUserAndMode(user, mode);
             return gameRepository.findGameByLobby(lobby);
         } catch (Exception e) {
             return Optional.empty();

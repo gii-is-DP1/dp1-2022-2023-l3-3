@@ -27,7 +27,6 @@ import sevenislands.enums.UserType;
 import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.GameService;
 import sevenislands.lobby.Lobby;
-import sevenislands.lobby.LobbyService;
 import sevenislands.lobby.lobbyUser.LobbyUser;
 import sevenislands.lobby.lobbyUser.LobbyUserService;
 
@@ -37,18 +36,16 @@ public class UserService {
 	private UserRepository userRepository;
 	private PasswordEncoder passwordEncoder;
 	private SessionRegistry sessionRegistry;
-	private LobbyService lobbyService;
 	private AuthenticationManager authenticationManager;
 	private GameService gameService;
 	private LobbyUserService lobbyUserService;
 
 	@Autowired
-	public UserService(AuthenticationManager authenticationManager, LobbyService lobbyService, SessionRegistry sessionRegistry, 
+	public UserService(AuthenticationManager authenticationManager, SessionRegistry sessionRegistry, 
 	PasswordEncoder passwordEncoder, UserRepository userRepository, GameService gameService, LobbyUserService lobbyUserService) {
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.sessionRegistry = sessionRegistry;
-		this.lobbyService = lobbyService;
 		this.authenticationManager = authenticationManager;
 		this.gameService = gameService;
 		this.lobbyUserService = lobbyUserService;
@@ -220,21 +217,21 @@ public class UserService {
 	 * @throws Exception
      */
 	@Transactional
-    public Boolean checkUser(HttpServletRequest request, User logedUser) throws NotExistLobbyException, ServletException {
+    public Boolean checkUser(HttpServletRequest request, User logedUser) throws ServletException {
 		Boolean res = true;
 		try {
-		if(logedUser!=null && logedUser.isEnabled()) {
-			gameService.leaveLobby(logedUser);
-			res = false;
-        } else {
-            request.getSession().invalidate();
-            request.logout();
-            res = true;
-        }
-		return res;
+			if(logedUser!=null && logedUser.isEnabled()) {
+				gameService.leaveLobby(logedUser);
+				res = false;
+			} else {
+				request.getSession().invalidate();
+				request.logout();
+				res = true;
+			}
+			return res;
 	   } catch (Exception e) {
-		res = false;
-		return res;
+			res = false;
+			return res;
 	   }
     }
 

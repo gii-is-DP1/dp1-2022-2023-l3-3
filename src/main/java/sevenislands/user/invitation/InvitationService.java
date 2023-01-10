@@ -4,13 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import sevenislands.enums.Mode;
 import sevenislands.lobby.Lobby;
-import sevenislands.lobby.LobbyService;
 import sevenislands.lobby.lobbyUser.LobbyUserService;
 import sevenislands.user.User;
 import sevenislands.user.UserService;
@@ -88,5 +90,26 @@ public class InvitationService {
     @Transactional
     public Optional<Invitation> findInvitationById(Integer id) {
         return invitationRepository.findById(id);
+    }
+
+    @Transactional
+    public Boolean checkUser(HttpServletRequest request, User user) throws ServletException {
+        try {
+            Lobby lobby = lobbyUserService.findLobbyByUser(user);
+            Boolean result = userService.checkUser(request, user);
+            deleteInvitationsByLobbyAndUser(lobby, user);
+            return result;
+        } catch (Exception e) {
+            return false;
+        }
+        
+    }
+
+    @Transactional
+    public void deleteInvitationsByLobbyAndUser(Lobby lobby, User user) {
+        Optional<List<Invitation>> invitation = invitationRepository.findInvitationsByLobbyAndUser(lobby, user);
+        if(invitation.isPresent()) {
+            invitationRepository.deleteAll(invitation.get());
+        }
     }
 }
