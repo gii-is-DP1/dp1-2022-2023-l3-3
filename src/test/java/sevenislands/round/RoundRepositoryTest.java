@@ -7,7 +7,6 @@ import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -15,14 +14,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
-import sevenislands.card.Card;
-import sevenislands.card.CardRepository;
 import sevenislands.enums.Mode;
-import sevenislands.enums.Tipo;
 import sevenislands.game.Game;
 import sevenislands.game.GameRepository;
-import sevenislands.game.island.Island;
-import sevenislands.game.island.IslandRepository;
 import sevenislands.game.round.Round;
 import sevenislands.game.round.RoundRepository;
 import sevenislands.lobby.Lobby;
@@ -75,7 +69,6 @@ public class RoundRepositoryTest {
             round.setGame(game);
             roundRepository.save(round);
         } catch (Exception e) {
-            int i = 0;
            System.out.println(e);
         }
     }
