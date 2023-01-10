@@ -37,8 +37,8 @@ public class RoundService {
     }
 
     @Transactional
-    public void save(Round round) {
-        roundRepository.save(round);
+    public Round save(Round round) {
+        return roundRepository.save(round);
     }
 
     @Transactional

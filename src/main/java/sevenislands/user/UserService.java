@@ -71,7 +71,7 @@ public class UserService {
 
 	@Transactional
 	public User save(User user) throws IllegalArgumentException {
-		return userRepository.save(user);		
+		return userRepository.save(user);
 	}
 
 	@Transactional(readOnly = true)
