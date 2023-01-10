@@ -446,11 +446,54 @@ public class TurnService {
 
     @Transactional
     public Integer findMaxTurns() {
-        return turnRepository.findTotalTurns().stream().max(Comparator.naturalOrder()).get();
+        return turnRepository.findTotalTurnsByGame().stream().max(Comparator.naturalOrder()).get();
     }
 
     @Transactional
     public Integer findMinTurns() {
-        return turnRepository.findTotalTurns().stream().min(Comparator.naturalOrder()).get();
+        return turnRepository.findTotalTurnsByGame().stream().min(Comparator.naturalOrder()).get();
+    }
+
+    @Transactional
+    public Double findAverageTurnsByNickname(String nickname) {
+        Optional<List<Turn>> allTurns = turnRepository.findTurnByNickname(nickname);
+        Double averageTurns = 0.;
+        if(allTurns.isPresent()) {
+            Integer totalTurns = allTurns.get().size();
+            Integer totalGames = gameService.findTotalGamesPlayedByNickname(nickname);
+            averageTurns = (double) totalTurns/totalGames;
+        }
+        return averageTurns;
+    }
+
+    @Transactional
+    public Integer findMaxTurnsInGameByNickname(String nickname) {
+        Optional<List<Turn>> allTurns = turnRepository.findTurnByNickname(nickname);
+        Integer maxTurns = 0;
+        if(allTurns.isPresent()) {
+            Map<Integer, List<Turn>> turnsByGame = allTurns.get().stream()
+            .collect(Collectors.groupingBy(g -> g.getRound().getGame().getId()));
+            
+            maxTurns = turnsByGame.values().stream()
+            .map(turnsList -> turnsList.size())
+            .reduce(0, Integer::max);
+        }
+        return maxTurns;
+    }
+
+    @Transactional
+    public Integer findMinTurnsInGameByNickname(String nickname) {
+        Optional<List<Turn>> allTurns = turnRepository.findTurnByNickname(nickname);
+        Integer minTurns = 0;
+        if(allTurns.isPresent()) {
+            Map<Integer, List<Turn>> turnsByGame = allTurns.get().stream()
+            .collect(Collectors.groupingBy(g -> g.getRound().getGame().getId()));
+            
+            minTurns = turnsByGame.values().stream()
+            .map(turnsList -> turnsList.size())
+            .min(Integer::compareTo)
+            .get();
+        }
+        return minTurns;
     }
 }

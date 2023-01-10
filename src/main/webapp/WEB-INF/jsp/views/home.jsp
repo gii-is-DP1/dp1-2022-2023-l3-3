@@ -8,18 +8,15 @@
 .content {
 	background: url(resources/images/grafics/fondo1920x1080.jpg);
 }
-
 #name {
 	width: 700;
 	height: 200;
 }
-
 #manual {
 	padding: 10px;
 	margin-right: 0;
 	align-self: flex-end;
 }
-
 #pirata {
 	position: absolute;
 	right: 0;
@@ -28,7 +25,6 @@
 	width: 40%;
 	z-index: -1;
 }
-
 .header {
 	padding-right: 10px;
 	width: 100%;
@@ -38,7 +34,6 @@
 	justify-content: end;
 	align-items: center;
 }
-
 .body {
 	width: 100%;
 	height: 95%;
@@ -48,7 +43,6 @@
 	align-items: center;
 	justify-content: space-between;
 }
-
 .menu {
 	display: flex;
 	flex-direction: column;
@@ -56,48 +50,39 @@
 	justify-content: space-between;
 	padding: 10px;
 }
-
 .btn {
 	margin: 10px;
 }
-
 .img_home {
 	height: 25px;
 	width: 25px;
 }
-
 .img_grafica {
 	height: 20px;
 	width: 20px;
 }
-
 .logros {
 	margin-top: 14px;
 	margin-right: 10px;
 }
-
 .estadisticas {
 	margin-top: 12px;
 	margin-right: -30px;
 }
-
 .menu-horizontal {
 	list-style: none;
 	display: flex;
 	justify-content: space-around;
 }
-
 .menu-horizontal>li>a {
 	display: block;
 	padding: 15px 20px;
 	color: rgb(0, 0, 0);
 	text-decoration: none;
 }
-
 .menu-horizontal>li:hover {
 	background-color: #5FA134
 }
-
 .menu-vertical {
 	position: absolute;
 	display: none;
@@ -105,15 +90,12 @@
 	width: 140px;
 	background-color: rgba(0, 0, 0, .5);
 }
-
 .menu-horizontal li:hover .menu-vertical {
 	display: block;
 }
-
 .menu-vertical li:hover {
 	background-color: black;
 }
-
 .menu-vertical li a {
 	display: block;
 	color: white;

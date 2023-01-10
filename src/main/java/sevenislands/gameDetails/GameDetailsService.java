@@ -169,4 +169,24 @@ public class GameDetailsService {
         return gameDetailsRepository.findSumPunctuations().stream().min(Comparator.naturalOrder()).get();
     }
 
+    @Transactional
+    public Double findAveragePunctuationByNickname(String nickname) {
+        Long totalPunctuation = findPunctuationByNickname(nickname);
+        Integer totalGames = gameService.findTotalGamesPlayedByNickname(nickname);
+        return (double) totalPunctuation / totalGames;
+    }
+
+    @Transactional
+    public Integer findMaxPunctuationByNickname(String nickname) {
+        List<Integer> allPunctuations = gameDetailsRepository.findAllPunctuationsByNickname(nickname);
+        Integer maxPoints = allPunctuations.size() > 0 ? allPunctuations.stream().max(Integer::compareTo).get() : 0;
+        return maxPoints;
+    }
+
+    @Transactional
+    public Integer findMinPunctuationByNickname(String nickname) {
+        List<Integer> allPunctuations = gameDetailsRepository.findAllPunctuationsByNickname(nickname);
+        Integer minPoints = allPunctuations.size() > 0 ? allPunctuations.stream().min(Integer::compareTo).get() : 0;
+        return minPoints;
+    }
 }

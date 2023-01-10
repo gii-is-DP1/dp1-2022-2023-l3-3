@@ -85,7 +85,7 @@ public class RoundRepositoryTest {
 
         assertNotNull(round);
         assertFalse(round.isEmpty());
-        assertEquals(1, round.size());
+        assertEquals(15, round.size());
     }
 
 
@@ -94,6 +94,6 @@ public class RoundRepositoryTest {
         List<Round> round=roundRepository.findRoundByGameId(1);
 
         assertNotNull(round);
-        assertEquals(1, round.size());
+        assertEquals(15, round.size());
     }
 }

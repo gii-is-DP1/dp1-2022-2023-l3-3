@@ -63,7 +63,7 @@ public class RoundServiceTest {
         ronda.setGame(game);
         roundService.save(ronda);
         assertNotNull(ronda);
-        assertTrue(ronda.getId().equals(2));
+        assertTrue(ronda.getId().equals(16));
     }
 
 
