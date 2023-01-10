@@ -15,7 +15,7 @@ public interface GameRepository extends CrudRepository<Game, Integer> {
 
     public List<Game> findAll();
     @Query("SELECT game FROM Game game WHERE game.lobby.id=?1")
-    public Optional<Game> findGameByLobbyId(Integer code);
+    public Optional<Game> findGameByLobbyId(Integer id);
 
     @Query("SELECT game FROM Game game WHERE game.lobby=?1")
     public Optional<Game> findGameByLobby(Lobby lobby);
