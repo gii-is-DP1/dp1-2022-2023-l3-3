@@ -132,7 +132,7 @@ public class UserController {
     @GetMapping("/controlPanel/delete/{idUserDeleted}")
 	public String deleteUser(@ModelAttribute("logedUser") User logedUser, @PathVariable("idUserDeleted") Integer id){
 		try {
-			if(userService.deleteUser(id, logedUser) || logedUser.getUserType().equals("admin")) return "redirect:/controlPanel?valor="+metodosReutilizables.DeletePaginaControlPanel(id,tamanoPaginacion);
+			if(userService.deleteUser(id, logedUser) || logedUser.getUserType().equals("admin")) return "redirect:/controlPanel?valor="+metodosReutilizables.deletePaginaControlPanel(id,tamanoPaginacion);
 			else return "redirect:/";
 		} catch (Exception e) {
 			return "redirect:/";
@@ -150,7 +150,7 @@ public class UserController {
 	 */
 	@GetMapping("/controlPanel/enable/{idUserEdited}")
 	public String enableUser(@ModelAttribute("logedUser") User logedUser, @PathVariable("idUserEdited") Integer id){
-		if(userService.enableUser(id, logedUser)) return "redirect:/controlPanel?valor="+metodosReutilizables.EditPaginaControlPanel(id,tamanoPaginacion);
+		if(userService.enableUser(id, logedUser)) return "redirect:/controlPanel?valor="+metodosReutilizables.editPaginaControlPanel(id,tamanoPaginacion);
 		return "redirect:/";
 	}
 
