@@ -12,10 +12,15 @@ import static org.mockito.Mockito.when;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import sevenislands.card.Card;
 import sevenislands.card.CardRepository;
@@ -28,7 +33,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
+import org.springframework.dao.DataAccessException;
+import org.springframework.transaction.annotation.Transactional;
 
 import sevenislands.game.Game;
 import sevenislands.game.GameRepository;
@@ -71,6 +77,11 @@ public class TurnServiceTest {
     LobbyRepository lobbyRepository;
     @Mock 
     LobbyUserRepository lobbyUserRepository;
+    @Mock
+    private HttpServletRequest request;
+
+    @Mock
+    private HttpSession session;
 
     UserService userService;
     TurnService turnService;
@@ -263,13 +274,17 @@ public class TurnServiceTest {
         assertNotNull(turno);
     }
 
-    // @Test
-    // public void getTurnByRoundIdTest(){
-    //     when(turnRepository.findByRoundId(any())).thenReturn(turnList.stream().filter(t-> t.getRound().getId().equals(1)).collect(Collectors.toList()));
-    //     List<Turn> turnos = turnService.findByRoundId(1);
-    //     assertEquals(1, turnos.size());;
-    //     assertEquals(turn1, turnos.get(0));
-    // }
+    @Test
+    public void testFindByRound() throws DataAccessException {
+        
+        Round round = new Round();
+        List<Turn> expectedTurns = Arrays.asList(new Turn(), new Turn());
+        when(turnRepository.findByRound(round)).thenReturn(expectedTurns);
+        
+        List<Turn> resultTurns = turnService.findByRound(round);
+       
+        assertEquals(expectedTurns, resultTurns);
+    }
 
     @Test
     public void getTurnByNicknameTest(){
@@ -419,16 +434,36 @@ public class TurnServiceTest {
         assertEquals(1, turnService.findTotalTurnsByNickname(user1.getNickname()));
     }
 
-    /*@Test
-    public void chooseIslandTest(){
-        when(turnRepository.findTurnByNickname(user1.getNickname())).thenReturn(Optional.of(turnList.stream().filter(t-> t.getUser().getNickname().equals(user1.getNickname())).collect(Collectors.toList())));
-        List<Island> islasDisponibles = List.of(island, island2);
-        List<Island> opIslands = turnService.islandToChoose(turn1, user1.getNickname(), islasDisponibles);
-        assertEquals(0, opIslands.size());
-        turn1.setDice(1);
-        opIslands = turnService.islandToChoose(turn1, user1.getNickname(), islasDisponibles);
-        assertEquals(2, opIslands.size());
-    }*/
+    @Test
+    @Transactional
+    public void testIslandToChoose() {
+        // Arrange
+        Turn turn = new Turn();
+        turn.setDice(3);
+        Map<Card, Integer> selectedCards = new HashMap<>();
+        Island island1 = new Island();
+        island1.setId(1);
+        
+        Island island2 = new Island();
+        island2.setId(2);
+       
+        Island island3 = new Island();
+        island3.setId(3);
+        
+        Island island4 = new Island();
+        island4.setId(4);
+        
+        List<Island> islandList = Arrays.asList(island1, island2, island3, island4);
+        when(request.getSession()).thenReturn(session);
+        when(session.getAttribute(any())).thenReturn(selectedCards);
+        List<Island> expected = Arrays.asList(island3);
+
+        // Act
+        List<Island> islands = turnService.islandToChoose(turn, "nickname", islandList, request);
+
+        // Assert
+        assertEquals(expected, islands);
+    }
 
     // @Test
     // public void initTurnTest(){
