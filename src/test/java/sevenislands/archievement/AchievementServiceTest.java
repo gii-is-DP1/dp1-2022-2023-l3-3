@@ -201,9 +201,7 @@ public class AchievementServiceTest {
 
     @Test
     public void calculateAchievementTest() throws NotExistLobbyException{
-        //lobbyUserService.findLobbyByUser(user)
         when(gameRepository.findGameByLobby(any())).thenReturn(Optional.of(game1));
-
         when(lobbyUserRepository.findByUser(any())).thenReturn(Optional.of(List.of(lobbyUser1)));
         when(lobbyUserRepository.findUsersByLobbyAndMode(any(), any())).thenReturn(List.of(user1, user2));
         when(gameDetailsRepository.findPunctuationByNickname(any())).thenReturn(400L);

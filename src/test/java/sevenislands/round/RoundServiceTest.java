@@ -70,7 +70,7 @@ public class RoundServiceTest {
     @Test
     public void TestFindAllRounds(){
         Iterable<Round> round=roundService.findAllRounds();
-        List<Round>rondas=new ArrayList<>();
+        List<Round>rondas = new ArrayList<>();
         round.iterator().forEachRemaining(rondas::add);
         assertNotNull(rondas);
     }
@@ -90,11 +90,9 @@ public class RoundServiceTest {
 
     @Test
     public void TestCheckNoRoundByGameId(){
-        when( roundRepository.findRoundByGame(game)).thenReturn(List.of(round));
+        when(roundRepository.findRoundByGame(game)).thenReturn(List.of(round));
         Boolean gameWithoutRound = roundService.checkRoundByGame(game);
         assertNotNull(gameWithoutRound);
         assertTrue(gameWithoutRound);
-
     }
-
 }

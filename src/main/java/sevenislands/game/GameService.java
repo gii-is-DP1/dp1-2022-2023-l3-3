@@ -102,7 +102,7 @@ public class GameService {
     }
 
     @Transactional
-    public List<Object []> findGamePLayedByUser(User user) {
+    public List<Object []> findGamePlayedByUser(User user) {
         List<Object []> result = new ArrayList<>();
         List<Lobby> lobbies = lobbyUserService.findLobbiesByUserAndMode(user, Mode.PLAYER);
         List<Game> games = gameRepository.findGameActive(false).stream().filter(
