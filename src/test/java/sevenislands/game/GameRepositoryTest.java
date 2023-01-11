@@ -113,7 +113,7 @@ public class GameRepositoryTest {
 
 @Test
 public void findGameByLobbyAndActive() {
-    //Arrange
+    
     Lobby lobby1 = new Lobby();
     lobby1.setCode("password1");
     entityManager.persist(lobby1);
@@ -135,10 +135,10 @@ public void findGameByLobbyAndActive() {
 
         List<Lobby> lobbies = Arrays.asList(lobby1, lobby2);
 
-        //Act
+        
         Optional<List<Game>> actualGames = gameRepository.findGameByLobbyAndActive(lobbies, true);
 
-        //Assert
+        
         assertTrue(actualGames.isPresent());
         List<Game> games = actualGames.get();
         assertEquals(2, games.size());
@@ -147,7 +147,7 @@ public void findGameByLobbyAndActive() {
     }
     @Test
     public void findVictoriesByNicknameTest() {
-        // Prepare test data
+        
         Date date1=new Date(2015,2,3);
         Date date2=new Date(2015,2,5);
         User user1 = new User();
@@ -192,18 +192,18 @@ public void findGameByLobbyAndActive() {
         entityManager.persist(game3);
         entityManager.flush();
 
-        // Call the method to test
+        
         Long victories1 = gameRepository.findVictoriesByNickname("Antonio");
         Long victories2 = gameRepository.findVictoriesByNickname("Alejandro");
 
-        // Assert the result
+       
         assertTrue(victories1==2);
         assertTrue(victories2==1);
     }
 
     @Test
     public void findTieBreaksByNicknameTest() {
-        // Prepare test data
+        
         Date date1=new Date(2015,2,3);
         Date date2=new Date(2015,2,5);
         User user1 = new User();

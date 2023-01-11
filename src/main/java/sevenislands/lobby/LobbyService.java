@@ -57,6 +57,7 @@ public class LobbyService {
         }
     }
 
+    @Transactional
     public Lobby createLobbyEntity() {
 		Lobby lobby = new Lobby();
 		lobby.generatorCode();
