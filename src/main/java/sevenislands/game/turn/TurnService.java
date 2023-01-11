@@ -191,7 +191,7 @@ public class TurnService {
             islandService.save(island);
         }
     }
-//########################################
+
     @Transactional
     public Island refreshDesk(Integer idIsland, User logedUser, Optional<Game> game){
         List<Card> allCards = cardService.findAllCardsByGameId(game.get().getId());
@@ -220,9 +220,9 @@ public class TurnService {
             return island;
         }
     }
-//########################################
+
     @Transactional
-    public void checkUserGame(User logedUser) throws NotExistLobbyException {
+    public Optional<Game> checkUserGame(User logedUser) throws NotExistLobbyException {
         try {
             Optional<Game> game = gameService.findGameByUserAndActive(logedUser, true);
             if (game.isPresent()) {
@@ -245,6 +245,7 @@ public class TurnService {
                     gameService.save(game.get());
                 }
             }
+            return game;
         } catch (NotExistLobbyException e) {
             throw e;
         }
@@ -289,7 +290,7 @@ public class TurnService {
     }
 //########################################
     @Transactional
-    public void addCard(Integer id, User user){
+    public Turn addCard(Integer id, User user){
         Optional<List<Turn>> turnList = turnRepository.findTurnByNickname(user.getNickname());
         if(turnList.isPresent()) {
             Turn lastPlayerTurn = turnList.get().get(0);
@@ -300,11 +301,13 @@ public class TurnService {
             cartasLastTurn.add(card);
             lastPlayerTurn.setCards(cartasLastTurn);
             turnRepository.save(lastPlayerTurn);
+            return lastPlayerTurn;
         }
+        return null;
     }
 
     @Transactional
-    public void deleteCard(Integer id,String nickname){
+    public Turn deleteCard(Integer id,String nickname){
         Optional<List<Turn>> turnList = turnRepository.findTurnByNickname(nickname);
         if(turnList.isPresent()) {
             Turn lastPlayerTurn = turnList.get().get(0);
@@ -318,7 +321,9 @@ public class TurnService {
             }
             lastPlayerTurn.setCards(cartasLastTurn);
             turnRepository.save(lastPlayerTurn);
+            return lastPlayerTurn;
         }
+        return null;
     }
 
     @Transactional
