@@ -218,11 +218,12 @@ public class GameService {
         Duration played = Duration.ZERO;
         for(Game g : games) {
             LocalDateTime creationDate = g.getCreationDate();
-            LocalDateTime endingDate = g.getEndingDate();
-            Duration diference = Duration.between(creationDate,endingDate);
-            played = played.plus(diference);
+            if(g.getEndingDate()!=null) {
+                LocalDateTime endingDate = g.getEndingDate();
+                Duration diference = Duration.between(creationDate,endingDate);
+                played = played.plus(diference);
+            }
         }
-
         return played.toMinutes();   
     }
 
@@ -278,17 +279,19 @@ public class GameService {
     public Map<LocalDate, Duration> findGamesDurationsByDate() {
         Map<LocalDate, Duration> durationsByDate = new HashMap<>();
         List<Game> games = findAll();
-        for(Game g : games) {
-            LocalDateTime creationDate = g.getCreationDate();
-            LocalDateTime endingDate = g.getEndingDate();
-            LocalDate date = creationDate.toLocalDate();
-            Duration diference = Duration.between(creationDate,endingDate);
-            if(durationsByDate.containsKey(date)) {
-                Duration updatedDuration = durationsByDate.get(date).plus(diference);
-                durationsByDate.put(date, updatedDuration);
-            }
-            else {
-                durationsByDate.put(date, diference);
+        for(Game game : games) {
+            if(game.getEndingDate()!=null) {
+                LocalDateTime creationDate = game.getCreationDate();
+                LocalDateTime endingDate = game.getEndingDate();
+                LocalDate date = creationDate.toLocalDate();
+                Duration diference = Duration.between(creationDate,endingDate);
+                if(durationsByDate.containsKey(date)) {
+                    Duration updatedDuration = durationsByDate.get(date).plus(diference);
+                    durationsByDate.put(date, updatedDuration);
+                }
+                else {
+                    durationsByDate.put(date, diference);
+                }
             }
         }
         return durationsByDate;
@@ -331,8 +334,10 @@ public class GameService {
         for(Game g : games) {
             LocalDateTime creationDate = g.getCreationDate();
             LocalDateTime endingDate = g.getEndingDate();
-            Duration diference = Duration.between(creationDate,endingDate);
-            times.add(diference);
+            if(endingDate!=null) {
+                Duration diference = Duration.between(creationDate,endingDate);
+                times.add(diference);
+            }
         }
         return times;
     }
@@ -434,7 +439,7 @@ public class GameService {
             Lobby lobby = lobbyUserService.findLobbyByUser(logedUser);
             Boolean res;
             userNumber = lobbyUserService.findUsersByLobbyAndMode(lobby, Mode.PLAYER).size();
-		if (userNumber != null && userNumber > minPlayers && userNumber <= maxPlayers) {
+		if (userNumber > minPlayers && userNumber <= maxPlayers) {
             res = false;
 		} else {res= true;}
             return res;

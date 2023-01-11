@@ -39,8 +39,14 @@ public class LobbyUserService {
     }
 
     @Transactional
-    public void deleteLobbyUser(LobbyUser lobbyUser) {
-        lobbyUserRepository.delete(lobbyUser);
+    public Boolean deleteLobbyUser(LobbyUser lobbyUser) {
+        try {
+            lobbyUserRepository.delete(lobbyUser);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+
     }
 
     @Transactional

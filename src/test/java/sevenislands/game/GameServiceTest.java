@@ -5,13 +5,19 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.contains;
 import static org.mockito.Mockito.when;
 
+import java.time.Duration;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.Random;
 
@@ -312,7 +318,9 @@ public class GameServiceTest {
         when(gameRepository.findGameByLobby(any())).thenReturn(Optional.of(game1));
         assertTrue(gameService.checkUserGame(user1));
         game1.setActive(false);
-        when(gameRepository.findGameByLobby(any())).thenReturn(Optional.empty());
+        when(gameRepository.findGameByLobby(any())).thenReturn(Optional.of(game1));
+        assertFalse(gameService.checkUserGame(user1));
+        when(lobbyUserRepository.findByUser(any())).thenReturn(Optional.empty());
         assertFalse(gameService.checkUserGame(user1));
     }
 
@@ -324,47 +332,281 @@ public class GameServiceTest {
         assertEquals(list, gameService.findVictories());
     }
 
-    // @Test
-    // public void checkNickNameANDGameIdTest(){
-    //     Integer id = gameList.get(0).getId();
-    //     when(gameRepository.findGameByNicknameAndActive(userList.get(0).getNickname(),true)).thenReturn(Optional.of(gameList));
-    //     when(roundRepository.findRoundByGameId(id)).thenReturn(roundList.stream().filter(r -> r.getGame().getId().equals(id)).collect(Collectors.toList()));
-    //     assertNotNull(gameService.checkUserGameWithRounds(userList.get(0)));
-    // }
+    @Test
+    public void findDailyAverageTimePlayedTest() {
+        when(gameRepository.findAll()).thenReturn(List.of(game1));
+        when(gameRepository.findTotalGamesPlayedByDay()).thenReturn(List.of(gameList.size()));
+        assertNotEquals(0, gameService.findDailyAverageTimePlayed());
+    }
 
-    // @Test
-    // public void checkGameActiveTest(){
-    //     when(gameRepository.findGameActive(true).stream()
-    //     .map(r -> (Game)r[0]).collect(Collectors.toList())).thenReturn(gameList.stream().filter(g->g.isActive()).collect(Collectors.toList()));
+    @Test
+    public void findGamesDurationsByDateTest() {
+        when(gameRepository.findAll()).thenReturn(List.of(game1));
+        LocalDateTime creationDate = game1.getCreationDate();
+        LocalDateTime endingDate = game1.getEndingDate();
+        LocalDate date = creationDate.toLocalDate();
+        Duration diference = Duration.between(creationDate,endingDate);
+        Map<LocalDate, Duration> durationsByDate = Map.of(date ,diference);
+        assertEquals(durationsByDate, gameService.findGamesDurationsByDate());
+        Game game = game1;
+        game.setId(999999999);
+        when(gameRepository.findAll()).thenReturn(List.of(game1, game));
+        Map<LocalDate, Duration> durationsByDate2 = Map.of(date ,diference.plus(diference));
+        assertEquals(durationsByDate2, gameService.findGamesDurationsByDate());
+    }
+
+    @Test
+    public void findMaxTimePlayedADayTest() {
+        when(gameRepository.findAll()).thenReturn(List.of(game1));
+        LocalDateTime creationDate = game1.getCreationDate();
+        LocalDateTime endingDate = game1.getEndingDate();
+        Duration diference = Duration.between(creationDate,endingDate);
+        assertEquals(diference.toMinutes(), gameService.findMaxTimePlayedADay());
+        Game game = new Game();
+        game.setCreationDate(creationDate);
+        when(gameRepository.findAll()).thenReturn(List.of(game));
+        assertNull(gameService.findMaxTimePlayedADay());
+    }
+
+    @Test
+    public void findMinTimePlayedADayTest() {
+        when(gameRepository.findAll()).thenReturn(List.of(game1));
+        LocalDateTime creationDate = game1.getCreationDate();
+        LocalDateTime endingDate = game1.getEndingDate();
+        Duration diference = Duration.between(creationDate,endingDate);
+        assertEquals(diference.toMinutes(), gameService.findMinTimePlayedADay());
+        Game game = new Game();
+        game.setCreationDate(creationDate);
+        when(gameRepository.findAll()).thenReturn(List.of(game));
+        assertNull(gameService.findMinTimePlayedADay());
+    }
+
+    @Test
+    public void findAverageTimePlayedTest() {
+        when(gameRepository.findAll()).thenReturn(List.of(game1, gameList.get(1)));
+        when(gameRepository.count()).thenReturn(Long.valueOf(gameList.size()));
+        assertNotEquals(0, gameService.findAverageTimePlayed());
+    }
+
+    @Test
+    public void findTotalTimePlayedByGameTest() {
+        when(gameRepository.findAll()).thenReturn(List.of(game1, gameList.get(1)));
+        LocalDateTime creationDate = game1.getCreationDate();
+        LocalDateTime endingDate = game1.getEndingDate();
+        Duration diference = Duration.between(creationDate,endingDate);
+        assertEquals(diference, gameService.findTotalTimePlayedByGame().get(0));
+    }
+
+    @Test
+    public void findMaxTimePlayedTest() {
+        Game game = game1;
+        game.setId(999999999);
+        LocalDateTime now = LocalDateTime.now();
+        game1.setEndingDate(LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), now.getHour(),1, now.getSecond()) );
+        when(gameRepository.findAll()).thenReturn(List.of(game1, game));
+        LocalDateTime creationDate = game1.getCreationDate();
+        LocalDateTime endingDate = game1.getEndingDate();
+        Duration diference = Duration.between(creationDate,endingDate);
+        assertEquals(diference.toMinutes(), gameService.findMaxTimePlayed());
+    }
+
+    @Test
+    public void findMinTimePlayedTest() {
+        Game game = game1;
+        game.setId(999999999);
+        LocalDateTime now = LocalDateTime.now();
+        game1.setEndingDate(LocalDateTime.of(now.getYear(), now.getMonth(), now.getDayOfMonth(), now.getHour(),1, now.getSecond()) );
+        when(gameRepository.findAll()).thenReturn(List.of(game1, game));
+        LocalDateTime creationDate = game.getCreationDate();
+        LocalDateTime endingDate = game.getEndingDate();
+        Duration diference = Duration.between(creationDate,endingDate);
+        assertEquals(diference.toMinutes(), gameService.findMinTimePlayed());
+    }
+
+    @Test
+    public void findAveragePlayersTest() {
+        when(gameRepository.count()).thenReturn(Long.valueOf(gameList.size()));
+        when(lobbyUserRepository.findTotalUsersByMode(any())).thenReturn(userList.size());
+        assertEquals(userList.size()/gameList.size(), gameService.findAveragePlayers());
+    }
+
+    @Test
+    public void findMaxPlayersTest() {
+        when(gameRepository.findLobbies()).thenReturn(List.of(lobby1, lobby2));
+        when(lobbyUserRepository.findTotalPlayersByLobbyAndMode(any(), any())).thenReturn(Optional.of(List.of(3,2)));
+        assertEquals(3, gameService.findMaxPlayers());
+        when(lobbyUserRepository.findTotalPlayersByLobbyAndMode(any(), any())).thenReturn(Optional.empty());
+        assertEquals(0, gameService.findMaxPlayers());
+    }
+
+    @Test
+    public void findMinPlayersTest() {
+        when(gameRepository.findLobbies()).thenReturn(List.of(lobby1, lobby2));
+        when(lobbyUserRepository.findTotalPlayersByLobbyAndMode(any(), any())).thenReturn(Optional.of(List.of(3,2)));
+        assertEquals(2, gameService.findMinPlayers());
+        when(lobbyUserRepository.findTotalPlayersByLobbyAndMode(any(), any())).thenReturn(Optional.empty());
+        assertEquals(0, gameService.findMinPlayers());
+    }
+
+    @Test
+    public void findDailyAveragePlayersTest() {
+        when(lobbyUserRepository.findTotalUsersByMode(any())).thenReturn(4);
+        when(gameRepository.findTotalGamesPlayedByDay()).thenReturn(List.of(2));
+        assertEquals(4, gameService.findDailyAveragePlayers());
+    }
+
+    @Test
+    public void findMaxPlayersADayTest() {
+        when(gameRepository.findLobbiesByDay()).thenReturn(List.of(lobbyList));
+        when(lobbyUserRepository.findTotalPlayersByDayAndMode(any(), any())).thenReturn(2);
+        assertEquals(2, gameService.findMaxPlayersADay());
+    }
+
+    @Test
+    public void findMinPlayersADayTest() {
+        when(gameRepository.findLobbiesByDay()).thenReturn(List.of(lobbyList));
+        when(lobbyUserRepository.findTotalPlayersByDayAndMode(any(), any())).thenReturn(1);
+        assertEquals(1, gameService.findMinPlayersADay());
+    }
+
+    @Test
+    public void leaveLobbyTest() throws NotExistLobbyException {
+        //Lobby activo, juego presente y activo (todo)
+        when(lobbyUserRepository.findByUser(any())).thenReturn(Optional.of(List.of(lobbyUser1)));
+        when(gameRepository.findGameByLobby(any())).thenReturn(Optional.of(game1));
+        when(lobbyUserRepository.findUsersByLobby(any())).thenReturn(List.of(user1, user2));
+        when(lobbyUserRepository.findByLobbyAndUser(any(), any())).thenReturn(Optional.of(lobbyUser1));
+        when(lobbyRepository.save(any())).thenReturn(lobby1);
+        assertEquals(lobby1, gameService.leaveLobby(user1));
         
-    //     assertEquals(2, gameService.findGameActive(true).size());
-    //     gameList.get(1).setActive(false);
-    //     when(gameRepository.findGameActive(false).stream()
-    //     .map(r -> (Game)r[0]).collect(Collectors.toList())).thenReturn(gameList.stream().filter(g->g.isActive()==false).collect(Collectors.toList()));
+        //lobbyUser no está presente
+        when(lobbyUserRepository.findByLobbyAndUser(any(), any())).thenReturn(Optional.empty());
+        assertEquals(lobby1, gameService.leaveLobby(user1));
+        
+        //El numero de jugadores es el mínimo
+        when(lobbyUserRepository.findUsersByLobby(any())).thenReturn(List.of(user1));
+        assertEquals(false, gameService.leaveLobby(user1).isActive());
+        
+        //El lobby no está presente
+        when(lobbyUserRepository.findByUser(any())).thenReturn(Optional.empty());
+        assertThrows(NotExistLobbyException.class, ()->gameService.leaveLobby(user1));
 
-    //     assertEquals(1, gameService.findGameActive(false).size());
-    // }
-    
-    // @Test
-    // public void findTotalTimePlayedTest(){
-    //     assertTrue(gameService.findTotalTimePlayed()==0);
-    //     when(gameRepository.findAll()).thenReturn((List.of(game1)));
-    //     assertTrue(gameService.findTotalTimePlayed()>0);
-    // }
+        //Lobby activo, juego presente y no activo
+        Game gameFalse = game1;
+        gameFalse.setActive(false);
+        when(lobbyUserRepository.findByUser(any())).thenReturn(Optional.of(List.of(lobbyUser1)));
+        when(gameRepository.findGameByLobby(any())).thenReturn(Optional.of(gameFalse));
+        assertEquals(lobby1, gameService.leaveLobby(user1));
+        
+        //Lobby activo, juego no presente y no activo
+        when(lobbyUserRepository.findByUser(any())).thenReturn(Optional.of(List.of(lobbyUser1)));
+        when(gameRepository.findGameByLobby(any())).thenReturn(Optional.empty());
+        assertEquals(lobby1, gameService.leaveLobby(user1));
+        
+        //Lobby no activo, juego presente y activo
+        Lobby lobbyFalse = lobby1;
+        lobbyFalse.setActive(false);
+        LobbyUser lobbyUserFalse = lobbyUser1;
+        lobbyUserFalse.setLobby(lobbyFalse);
+        when(lobbyUserRepository.findByUser(any())).thenReturn(Optional.of(List.of(lobbyUserFalse)));
+        when(gameRepository.findGameByLobby(any())).thenReturn(Optional.of(game1));
+        assertEquals(lobby1, gameService.leaveLobby(user1));
 
-    // @Test
-    // public void findGamesByNicknameAndActiveTest(){
-    //     assertFalse(gameService.findGamesByNicknameAndActive(user1.getNickname(), true).isPresent());
-    //     when(gameRepository.findGameByNicknameAndActive(any(), any())).thenReturn(Optional.of(List.of(game1)));
-    //     assertFalse(gameService.findGamesByNicknameAndActive(user1.getNickname(), true).orElse(null).isEmpty());
-    // }
+        //Lobby no activo, juego presente y no activo
+        when(lobbyUserRepository.findByUser(any())).thenReturn(Optional.of(List.of(lobbyUserFalse)));
+        when(gameRepository.findGameByLobby(any())).thenReturn(Optional.of(gameFalse));
+        assertEquals(lobby1, gameService.leaveLobby(user1));
 
-    // @Test
-    // public void findTotalGamesPlayedByNicknameTest(){
-    //     when(gameRepository.findTotalGamesPlayedByNickname(any())).thenReturn(gameList.size());
-    //     assertFalse(gameService.findTotalGamesPlayedByNickname(user1.getNickname())==0);
-    // }
+        //Lobby no activo, juego no presente y no activo
+        when(lobbyUserRepository.findByUser(any())).thenReturn(Optional.of(List.of(lobbyUserFalse)));
+        when(gameRepository.findGameByLobby(any())).thenReturn(Optional.empty());
+        assertEquals(lobby1, gameService.leaveLobby(user1));
+    }
 
+    @Test
+    public void checkLobbyErrorsTest() throws NotExistLobbyException {
+        when(lobbyRepository.findByCode(any())).thenReturn(Optional.empty());
+        assertTrue(gameService.checkLobbyErrors("1234").contains("El código no pertenece a ninguna lobby"));
+        
+        Lobby lobbyFalse = lobby1;
+        lobbyFalse.setActive(false);
+        when(lobbyUserRepository.findUsersByLobby(any())).thenReturn(List.of(user1, user2));
+        when(lobbyRepository.findByCode(any())).thenReturn(Optional.of(lobbyFalse));
+        assertTrue(gameService.checkLobbyErrors("1234").contains("La partida ya ha empezado o ha finalizado"));
 
+        when(lobbyUserRepository.findUsersByLobby(any())).thenReturn(List.of(user1, user2, user3, user4));
+        assertTrue(gameService.checkLobbyErrors("1234").contains("La lobby está llena"));
+        lobby1.setActive(true);
+        when(lobbyRepository.findByCode(any())).thenReturn(Optional.of(lobby1));
+        when(lobbyUserRepository.findUsersByLobby(any())).thenReturn(List.of(user1, user2, user3));
+        assertEquals(0, gameService.checkLobbyErrors("1234").size());
+    }
+
+    @Test
+    public void checkLobbyNoAllPlayersTest() throws Exception {
+        when(lobbyUserRepository.findByUser(any())).thenReturn(Optional.empty());
+        assertThrows(NotExistLobbyException.class, ()->gameService.checkLobbyNoAllPlayers(user1));
+
+        when(lobbyUserRepository.findByUser(any())).thenReturn(Optional.of(List.of(lobbyUser1)));
+        when(lobbyUserRepository.findUsersByLobbyAndMode(any(), any())).thenReturn(List.of(user1));
+        assertTrue(gameService.checkLobbyNoAllPlayers(user1));
+
+        User user5 = new User();
+        when(lobbyUserRepository.findUsersByLobbyAndMode(any(), any())).thenReturn(List.of(user1, user2, user3, user4, user5));
+        assertTrue(gameService.checkLobbyNoAllPlayers(user1));
+
+        when(lobbyUserRepository.findUsersByLobbyAndMode(any(), any())).thenReturn(List.of(user1, user2));
+        assertFalse(gameService.checkLobbyNoAllPlayers(user1));
+    }
+
+    @Test
+    public void ejectPlayerTest() throws Exception {
+        when(lobbyUserRepository.findByUser(any())).thenReturn(Optional.empty());
+        assertThrows(Exception.class, ()->gameService.ejectPlayer(user1, user3));
+
+        when(lobbyUserRepository.findByUser(any())).thenReturn(Optional.of(List.of(lobbyUser1)));
+        when(lobbyUserRepository.findByUser(user3)).thenReturn(Optional.of(List.of(lobbyUser3)));
+        assertTrue(gameService.ejectPlayer(user1, user3));
+        
+        when(lobbyUserRepository.findByUser(any())).thenReturn(Optional.of(List.of(lobbyUser1)));
+        when(gameRepository.findGameByLobby(any())).thenReturn(Optional.of(game1));
+        when(lobbyUserRepository.findUsersByLobby(any())).thenReturn(List.of(user1, user2));
+        when(lobbyUserRepository.findByLobbyAndUser(any(), any())).thenReturn(Optional.of(lobbyUser1));
+        when(lobbyService.save(any())).thenReturn(lobby1);
+        assertFalse(gameService.ejectPlayer(user1, user1));
+
+        assertTrue(gameService.ejectPlayer(user1, user2));
+
+        when(lobbyUserRepository.findByLobbyAndUser(any(), any())).thenReturn(Optional.empty());
+        assertFalse(gameService.ejectPlayer(user1, user2));
+    }
+
+    @Test
+    public void checkUserViewerTest() {
+        when(lobbyUserRepository.findByUser(any())).thenReturn(Optional.empty());
+        assertFalse(gameService.checkUserViewer(user1));
+
+        when(lobbyUserRepository.findByUser(any())).thenReturn(Optional.of(List.of(lobbyUser1)));
+        when(gameRepository.findGameByLobby(any())).thenReturn(Optional.of(game1));
+        when(lobbyUserRepository.findByLobbyAndUser(any(), any())).thenReturn(Optional.empty());
+        assertFalse(gameService.checkUserViewer(user1));
+
+        Game gameFalse = new Game();
+        gameFalse.setActive(false);
+        when(gameRepository.findGameByLobby(any())).thenReturn(Optional.of(gameFalse));
+        when(lobbyUserRepository.findByLobbyAndUser(any(), any())).thenReturn(Optional.of(lobbyUser1));
+        assertFalse(gameService.checkUserViewer(user1));
+
+        when(gameRepository.findGameByLobby(any())).thenReturn(Optional.empty());
+        assertFalse(gameService.checkUserViewer(user1));
+
+        when(gameRepository.findGameByLobby(any())).thenReturn(Optional.of(game1));
+        assertFalse(gameService.checkUserViewer(user1));
+
+        LobbyUser lobbyUserViewer = lobbyUser1;
+        lobbyUserViewer.setMode(Mode.VIEWER);
+        when(lobbyUserRepository.findByLobbyAndUser(any(), any())).thenReturn(Optional.of(lobbyUserViewer));
+        assertTrue(gameService.checkUserViewer(user1));
+    }
 
 }
