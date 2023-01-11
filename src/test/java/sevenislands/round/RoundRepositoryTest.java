@@ -86,7 +86,7 @@ public class RoundRepositoryTest {
     public void TestFindRoundByGameId(){
         Game game=new Game();
         game.setId(1);
-        List<Round> round=roundRepository.findRoundByGame(game);
+        List<Round> round=roundRepository.findRoundsByGame(game);
 
         assertNotNull(round);
         assertFalse(round.isEmpty());

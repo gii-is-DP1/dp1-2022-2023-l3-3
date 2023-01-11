@@ -208,7 +208,7 @@ public class TurnController {
     @GetMapping("/turn/chooseIsland/{IdIsland}")
     public String chooseIsland(ModelMap model,@PathVariable("IdIsland") Integer id, @ModelAttribute("logedUser") User logedUser, HttpServletRequest request){
         Optional<Game> game=gameService.findGameByUserAndActive(logedUser, true);
-        turnService.AnadirCarta(id, logedUser);
+        turnService.addCard(id, logedUser);
         turnService.refreshDesk(id, logedUser, game);
         HttpSession session = request.getSession();
         Map<Card,Integer> selectedCards = new TreeMap<Card,Integer>();
@@ -218,7 +218,7 @@ public class TurnController {
 
     @RequestMapping(value="/turn/selectCard/{idCard}",method = RequestMethod.GET)
     public String selectCard(@PathVariable("idCard") Integer id, @ModelAttribute("logedUser") User logedUser, HttpServletRequest request) {
-        turnService.DeleteCard(id, logedUser.getNickname());
+        turnService.deleteCard(id, logedUser.getNickname());
         turnService.changeCard(id, logedUser, 0, request);
         return "redirect:/turn";
     }

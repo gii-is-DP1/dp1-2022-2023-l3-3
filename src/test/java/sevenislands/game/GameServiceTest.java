@@ -217,10 +217,10 @@ public class GameServiceTest {
     public void checkUserGameWithRounds() {
         when(lobbyUserRepository.findByUser(any())).thenReturn(Optional.of(List.of(lobbyUser1)));
         when(gameRepository.findGameByLobbyAndActive(any(), any())).thenReturn(Optional.of(List.of(gameList.get(0))));
-        when(roundRepository.findRoundByGame(any())).thenReturn(List.of(round1));
+        when(roundRepository.findRoundsByGame(any())).thenReturn(List.of(round1));
         assertTrue(gameService.checkUserGameWithRounds(user1));
 
-        when(roundRepository.findRoundByGame(any())).thenReturn(new ArrayList<>());
+        when(roundRepository.findRoundsByGame(any())).thenReturn(new ArrayList<>());
         assertFalse(gameService.checkUserGameWithRounds(user1));
 
         lobbyUser1 = new LobbyUser();

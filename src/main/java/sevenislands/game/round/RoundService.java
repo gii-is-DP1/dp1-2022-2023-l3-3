@@ -33,7 +33,7 @@ public class RoundService {
 
     @Transactional(readOnly = true)
     public List<Round> findRoundsByGame(Game game) throws DataAccessException {
-        return roundRepository.findRoundByGame(game).stream().collect(Collectors.toList());
+        return roundRepository.findRoundsByGame(game).stream().collect(Collectors.toList());
     }
 
     @Transactional
@@ -43,7 +43,7 @@ public class RoundService {
 
     @Transactional
     public Boolean checkRoundByGame(Game game) {
-        return roundRepository.findRoundByGame(game).size()>0;
+        return roundRepository.findRoundsByGame(game).size()>0;
     }
 
 }

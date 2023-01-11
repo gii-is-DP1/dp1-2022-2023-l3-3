@@ -90,7 +90,7 @@ public class RoundServiceTest {
 
     @Test
     public void TestCheckNoRoundByGameId(){
-        when(roundRepository.findRoundByGame(game)).thenReturn(List.of(round));
+        when(roundRepository.findRoundsByGame(game)).thenReturn(List.of(round));
         Boolean gameWithoutRound = roundService.checkRoundByGame(game);
         assertNotNull(gameWithoutRound);
         assertTrue(gameWithoutRound);

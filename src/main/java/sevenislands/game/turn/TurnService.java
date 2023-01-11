@@ -65,14 +65,12 @@ public class TurnService {
         return turnRepository.findById(id);
     }
 
-   
-
-
     @Transactional(readOnly = true)
     public List<Turn> findByRound(Round round) throws DataAccessException {
         return turnRepository.findByRound(round);
     }
-    @Transactional
+
+    @Transactional 
     public List<Island> islandToChoose(Turn turn,String nickName, List<Island> islandList, HttpServletRequest request){
         List<Island> islands=new ArrayList<>();
         HttpSession session = request.getSession();
@@ -96,7 +94,7 @@ public class TurnService {
     }
 
     @Transactional
-    public void initTurn(User logedUser, Round round, List<User> userList, List<Card> cards) {
+    public Turn initTurn(User logedUser, Round round, List<User> userList, List<Card> cards) {
         Turn turn = new Turn();
         Integer nextUser = (userList.indexOf(logedUser) + 1) % userList.size();
         turn.setStartTime(LocalDateTime.now());
@@ -113,8 +111,8 @@ public class TurnService {
             treasureList.addAll(cards);
         turn.setCards(treasureList);
         save(turn);
+        return turn;
     }
-
 
     @Transactional
     public Turn dice(Turn turn) {
@@ -125,30 +123,38 @@ public class TurnService {
     }
 
     @Transactional
-    public void assignTurn(User logedUser, Optional<Game> game, List<User> userList, List<Round> roundList) {
+    public Turn assignTurn(User logedUser, Optional<Game> game, List<User> userList, List<Round> roundList) {
         Round round = new Round();
         round.setGame(game.get());
         if (roundService.findRoundsByGame(game.get()).isEmpty()) {
             dealtreasures(logedUser, game, userList, roundList);
             Integer prevUser = userList.indexOf(logedUser) == 0 ? userList.size() - 1 : userList.indexOf(logedUser) - 1; 
             roundService.save(round);
-            initTurn(userList.get(prevUser), round, userList, null);
+            return initTurn(userList.get(prevUser), round, userList, null);
         } else if (findByRound(roundList.get(roundList.size() - 1)).size() >= userList.size()) {
             roundService.save(round);
-            initTurn(logedUser, round, userList, null);
+            return initTurn(logedUser, round, userList, null);
+        } else {
+            return null;
         }
     }
-
+    
     @Transactional
     public void dealtreasures(User logedUser, Optional<Game> game, List<User> userList, List<Round> roundList) {
         Round round = new Round();
         cardService.initGameCards(game.get());
-        List<Card> treasureList = new ArrayList<>();
         round.setGame(game.get());
-        treasureList.add(cardService.findCardByGameAndTreasure(game.get().getId(), Tipo.Doblon));
-        treasureList.add(cardService.findCardByGameAndTreasure(game.get().getId(), Tipo.Doblon));
-        treasureList.add(cardService.findCardByGameAndTreasure(game.get().getId(), Tipo.Doblon));
         roundService.save(round);
+        dealDoblons(logedUser, userList, round, game);
+        dealIslands(game);
+    }
+
+    @Transactional
+    public void dealDoblons(User logedUser, List<User> userList, Round round, Optional<Game> game) {
+        List<Card> treasureList = new ArrayList<>();
+        treasureList.add(cardService.findCardByGameAndTreasure(game.get().getId(), Tipo.Doblon));
+        treasureList.add(cardService.findCardByGameAndTreasure(game.get().getId(), Tipo.Doblon));
+        treasureList.add(cardService.findCardByGameAndTreasure(game.get().getId(), Tipo.Doblon));
         for (Integer i = 0; i < userList.size(); i++) {
             User user = userList.get((userList.indexOf(logedUser) + i) % userList.size());
             Turn turn = new Turn();
@@ -156,11 +162,15 @@ public class TurnService {
             turn.setStartTime(LocalDateTime.now());
             turn.setUser(user);
             turn.setCards(treasureList);
-            Card doblones = cardService.findCardByGameAndTreasure(game.get().getId(), Tipo.Doblon);
-            doblones.setMultiplicity(doblones.getMultiplicity() - 3);
-            cardService.save(doblones);
+            Card doblons = cardService.findCardByGameAndTreasure(game.get().getId(), Tipo.Doblon);
+            doblons.setMultiplicity(doblons.getMultiplicity() - 3);
+            cardService.save(doblons);
             save(turn);
         }
+    }
+
+    @Transactional
+    public void dealIslands(Optional<Game> game) {
         for (Integer i = 0; i < 6; i++) {
             Island island = new Island();
             island.setNum(i + 1);
@@ -181,9 +191,9 @@ public class TurnService {
             islandService.save(island);
         }
     }
-
+//########################################
     @Transactional
-    public void refreshDesk(Integer idIsla,User logedUser, Optional<Game> game){
+    public Island refreshDesk(Integer idIsland, User logedUser, Optional<Game> game){
         List<Card> allCards = cardService.findAllCardsByGameId(game.get().getId());
         List<Integer> cardList = new ArrayList<>();
         for (Card c : allCards) {
@@ -197,18 +207,20 @@ public class TurnService {
             Random randomGenerator = new Random();
             Integer randomCardNumber = randomGenerator.nextInt(cardList.size());
             Card selectedCard = allCards.get(cardList.get(randomCardNumber));
-            Island island=islandList.get(idIsla-1);
+            Island island=islandList.get(idIsland-1);
             island.setCard(selectedCard);
             selectedCard.setMultiplicity(selectedCard.getMultiplicity() - 1);
             cardService.save(selectedCard);
             islandService.save(island);
+            return island;
         }else {
-            Island island=islandList.get(idIsla-1);
+            Island island=islandList.get(idIsland-1);
             island.setNum(0);
             islandService.save(island);
+            return island;
         }
     }
-
+//########################################
     @Transactional
     public void checkUserGame(User logedUser) throws NotExistLobbyException {
         try {
@@ -275,9 +287,9 @@ public class TurnService {
         }
         return new ArrayList<Card>();
     }
-
+//########################################
     @Transactional
-    public void AnadirCarta(Integer id, User user){
+    public void addCard(Integer id, User user){
         Optional<List<Turn>> turnList = turnRepository.findTurnByNickname(user.getNickname());
         if(turnList.isPresent()) {
             Turn lastPlayerTurn = turnList.get().get(0);
@@ -292,7 +304,7 @@ public class TurnService {
     }
 
     @Transactional
-    public void DeleteCard(Integer id,String nickname){
+    public void deleteCard(Integer id,String nickname){
         Optional<List<Turn>> turnList = turnRepository.findTurnByNickname(nickname);
         if(turnList.isPresent()) {
             Turn lastPlayerTurn = turnList.get().get(0);
@@ -343,12 +355,12 @@ public class TurnService {
     public Integer findTotalTurnsByNickname(String nickname) {
         return turnRepository.findTotalTurnsByNickname(nickname);
     }
-
+//########################################
     @Transactional
     public Integer turnCount() {
         return (int) turnRepository.count();
     }
-
+//########################################
     @Transactional
     public void changeCard(Integer id, User logedUser, Integer mode, HttpServletRequest request) {
         Card card = cardService.findCardById(id);
@@ -379,34 +391,34 @@ public class TurnService {
                 } else selectedCards.put(card, 1);
         }
     }
-
+//########################################
     @Transactional
     public Double findDailyAverageTurns() {
         Double average = (double) turnCount() / turnRepository.findTotalTurnsByDay().size();
         return Math.round(average * 100.0) / 100.0;
     }
-
+//########################################
     @Transactional
     public Integer findMaxTurnsADay() {
         return turnRepository.findTotalTurnsByDay().stream().max(Comparator.naturalOrder()).get();
     }
-
+//########################################
     @Transactional
     public Integer findMinTurnsADay() {
         return turnRepository.findTotalTurnsByDay().stream().min(Comparator.naturalOrder()).get();
     }
-
+//########################################
     @Transactional
     public Double findAverageTurns() {
         Double average = (double) turnCount() / gameService.gameCount();
         return Math.round(average * 100.0) / 100.0;
     }
-
+//########################################
     @Transactional
     public Integer findMaxTurns() {
         return turnRepository.findTotalTurns().stream().max(Comparator.naturalOrder()).get();
     }
-
+//########################################
     @Transactional
     public Integer findMinTurns() {
         return turnRepository.findTotalTurns().stream().min(Comparator.naturalOrder()).get();

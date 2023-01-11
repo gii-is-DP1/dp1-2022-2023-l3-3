@@ -16,5 +16,5 @@ public interface RoundRepository extends CrudRepository<Round, Integer> {
     public List<Round> findAll();
     
     @Query("SELECT round FROM Round round WHERE round.game=?1")
-    public List<Round> findRoundByGame(Game game) throws DataAccessException;
+    public List<Round> findRoundsByGame(Game game) throws DataAccessException;
 }
