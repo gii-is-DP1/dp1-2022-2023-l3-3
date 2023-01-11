@@ -43,7 +43,7 @@ import sevenislands.user.UserRepository;
 import sevenislands.user.UserService;
 
 @ExtendWith(MockitoExtension.class)
-public class gameDetailsServiceTest {
+public class GameDetailsServiceTest {
     
     @Mock
     TurnRepository turnRepository;
