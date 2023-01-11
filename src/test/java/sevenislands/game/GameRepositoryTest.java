@@ -1,5 +1,6 @@
 package sevenislands.game;
 
+import static org.junit.Assert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -8,6 +9,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -19,6 +21,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import sevenislands.lobby.Lobby;
+import sevenislands.user.User;
 
 @ExtendWith(SpringExtension.class)
 @DataJpaTest
@@ -121,7 +124,7 @@ public void testFindGamesByLobbies() {
 
 
 @Test
-public void findGameByLobbyAndActive_returnsGamesByLobbyAndActive() {
+public void findGameByLobbyAndActive() {
     //Arrange
     Lobby lobby1 = new Lobby();
     lobby1.setCode("password1");
@@ -154,6 +157,282 @@ public void findGameByLobbyAndActive_returnsGamesByLobbyAndActive() {
     assertEquals(2, games.size());
     assertEquals(game1, games.get(1));
     assertEquals(game2, games.get(0));
+    }
+    @Test
+    public void findVictoriesByNicknameTest() {
+        // Prepare test data
+        Date date1=new Date(2015,2,3);
+        Date date2=new Date(2015,2,5);
+        User user1 = new User();
+        user1.setAvatar("default1");
+        user1.setBirthDate(date1);
+        user1.setNickname("Antonio");
+        user1.setEmail("Antonio@");
+        user1.setCreationDate(date1);
+        user1.setFirstName("Antonio");
+        user1.setLastName("Antonio");
+        user1.setPassword("Antonio");
+        entityManager.persist(user1);
+        entityManager.flush();
+
+        User user2 = new User();
+        user2.setBirthDate(date2);
+        user2.setAvatar("default2");
+        user2.setCreationDate(date2);
+        user2.setNickname("Alejandro");
+        user2.setEmail("Alejandro@");
+        user2.setFirstName("Alejandro");
+        user2.setLastName("Alejandro");
+        user2.setPassword("Alejandro");
+        entityManager.persist(user2);
+        entityManager.flush();
+
+        Game game1 = new Game();
+        game1.setCreationDate(LocalDateTime.now());
+        game1.setWinner(user1);
+        entityManager.persist(game1);
+        entityManager.flush();
+
+        Game game2 = new Game();
+        game2.setCreationDate(LocalDateTime.now());
+        game2.setWinner(user1);
+        entityManager.persist(game2);
+        entityManager.flush();
+
+        Game game3 = new Game();
+        game3.setCreationDate(LocalDateTime.now());
+        game3.setWinner(user2);
+        entityManager.persist(game3);
+        entityManager.flush();
+
+        // Call the method to test
+        Long victories1 = gameRepository.findVictoriesByNickname("Antonio");
+        Long victories2 = gameRepository.findVictoriesByNickname("Alejandro");
+
+        // Assert the result
+        assertTrue(victories1==2);
+        assertTrue(victories2==1);
+    }
+
+    @Test
+    public void findTieBreaksByNicknameTest() {
+        // Prepare test data
+        Date date1=new Date(2015,2,3);
+        Date date2=new Date(2015,2,5);
+        User user1 = new User();
+        user1.setAvatar("default1");
+        user1.setBirthDate(date1);
+        user1.setNickname("Antonio");
+        user1.setEmail("Antonio@");
+        user1.setCreationDate(date1);
+        user1.setFirstName("Antonio");
+        user1.setLastName("Antonio");
+        user1.setPassword("Antonio");
+        entityManager.persist(user1);
+        entityManager.flush();
+
+        User user2 = new User();
+        user2.setBirthDate(date2);
+        user2.setAvatar("default2");
+        user2.setCreationDate(date2);
+        user2.setNickname("Alejandro");
+        user2.setEmail("Alejandro@");
+        user2.setFirstName("Alejandro");
+        user2.setLastName("Alejandro");
+        user2.setPassword("Alejandro");
+        entityManager.persist(user2);
+        entityManager.flush();
+
+
+        Game game1 = new Game();
+        game1.setWinner(user1);
+        game1.setCreationDate(LocalDateTime.now());
+        game1.setTieBreak(true);
+        entityManager.persist(game1);
+        entityManager.flush();
+
+        Game game2 = new Game();
+        game2.setCreationDate(LocalDateTime.now());
+        game2.setWinner(user1);
+        game2.setTieBreak(false);
+        entityManager.persist(game2);
+        entityManager.flush();
+
+        Game game3 = new Game();
+        game3.setCreationDate(LocalDateTime.now());
+        game3.setWinner(user2);
+        game3.setTieBreak(true);
+        entityManager.persist(game3);
+        entityManager.flush();
+
+        
+        Long victories1 = gameRepository.findTieBreaksByNickname("Antonio");
+        Long victories2 = gameRepository.findTieBreaksByNickname("Alejandro");
+
+     
+        assertTrue(victories1==1);
+        assertTrue(victories2==1);
+    }
+
+    @Test
+    public void findTotalGamesPlayedByDayTest() {
+       
+        LocalDateTime date1 = LocalDateTime.of(2022, 2, 1, 2, 2);
+        Game game1 = new Game();
+        game1.setCreationDate(date1);
+        entityManager.persist(game1);
+        entityManager.flush();
+
+        LocalDateTime date2 = LocalDateTime.of(2022, 2, 2, 2, 2);
+        Game game2 = new Game();
+        game2.setCreationDate(date2);
+        entityManager.persist(game2);
+        entityManager.flush();
+
+        
+
+        
+        List<Integer> gamesPlayedByDay = gameRepository.findTotalGamesPlayedByDay();
+
+       
+        assertTrue(gamesPlayedByDay.size()>0);
+    }
+
+    @Test
+    public void findTotalGamesPlayedByUserLobbiesTest() {
+        
+        Lobby lobby1 = new Lobby();
+        lobby1.setCode("password1");
+        entityManager.persist(lobby1);
+        entityManager.flush();
+        
+        Lobby lobby2 = new Lobby();
+        lobby2.setCode("password2");
+        entityManager.persist(lobby2);
+        entityManager.flush();
+        
+        Game game1 = new Game();
+        game1.setLobby(lobby1);
+        game1.setCreationDate(LocalDateTime.now());
+        entityManager.persist(game1);
+        entityManager.flush();
+
+        Game game2 = new Game();
+        game2.setLobby(lobby1);
+        game2.setCreationDate(LocalDateTime.now());
+        entityManager.persist(game2);
+        entityManager.flush();
+
+        Game game3 = new Game();
+        game3.setLobby(lobby2);
+        game3.setCreationDate(LocalDateTime.now());
+        entityManager.persist(game3);
+        entityManager.flush();
+
+        List<Lobby> lobbies = Arrays.asList(lobby1, lobby2);
+        
+        
+        Integer gamesPlayed = gameRepository.findTotalGamesPlayedByUserLobbies(lobbies);
+
+       
+        assertTrue(gamesPlayed==3);
+    }
+    @Test
+    public void findLobbiesByDayTest() {
+        
+        LocalDateTime today = LocalDateTime.now();
+        LocalDateTime yesterday = today.minusDays(1L);
+        
+        Lobby lobby1 = new Lobby();
+        lobby1.setCode("password1");
+        entityManager.persist(lobby1);
+        entityManager.flush();
+        
+        Lobby lobby2 = new Lobby();
+        lobby2.setCode("password2");
+        entityManager.persist(lobby2);
+        entityManager.flush();
+
+        Game game1 = new Game();
+        game1.setLobby(lobby1);
+        game1.setCreationDate(yesterday);
+        entityManager.persist(game1);
+        entityManager.flush();
+
+        Game game2 = new Game();
+        game2.setLobby(lobby2);
+        game2.setCreationDate(today);
+        entityManager.persist(game2);
+        entityManager.flush();
+
+        
+        List<List<Lobby>> lobbiesByDay = gameRepository.findLobbiesByDay();
+        
+        
+        assertTrue(lobbiesByDay.size()==4);
+        assertTrue(lobbiesByDay.get(2).get(0).getCode()=="password1");
+        assertTrue(lobbiesByDay.get(3).get(0).getCode()=="password2");
+    }
+
+
+    @Test
+    public void findLobbiesTest() {
+        
+        Lobby lobby1 = new Lobby();
+        lobby1.setCode("password1");
+        entityManager.persist(lobby1);
+        entityManager.flush();
+        
+        Lobby lobby2 = new Lobby();
+        lobby2.setCode("password2");
+        entityManager.persist(lobby2);
+        entityManager.flush();
+        
+        Game game1 = new Game();
+        game1.setLobby(lobby1);
+        game1.setCreationDate(LocalDateTime.now());
+        entityManager.persist(game1);
+        entityManager.flush();
+
+        Game game2 = new Game();
+        game2.setLobby(lobby2);
+        game2.setCreationDate(LocalDateTime.now());
+        entityManager.persist(game2);
+        entityManager.flush();
+
+        
+        List<Lobby> lobbies = gameRepository.findLobbies();
+
+        
+        assertTrue(lobbies.size()==4);
+        assertTrue(lobbies.get(2).getCode()=="password1");
+        assertTrue(lobbies.get(3).getCode()=="password2");
+    }
+
+    @Test
+    public void findGameActiveTest() {
+        
+        Game game1 = new Game();
+        game1.setCreationDate(LocalDateTime.now());
+        game1.setActive(true);
+        entityManager.persist(game1);
+        entityManager.flush();
+
+        Game game2 = new Game();
+        game2.setCreationDate(LocalDateTime.now());
+        game2.setActive(false);
+        entityManager.persist(game2);
+        entityManager.flush();
+
+        
+        List<Game> activeGames = gameRepository.findGameActive(true);
+        List<Game> inactiveGames = gameRepository.findGameActive(false);
+
+        
+        assertTrue(activeGames.size()==1);
+        assertTrue(inactiveGames.size()==3);
+        assertTrue(activeGames.get(0).isActive());
+        assertFalse(inactiveGames.get(0).isActive());
     }
 }
 
