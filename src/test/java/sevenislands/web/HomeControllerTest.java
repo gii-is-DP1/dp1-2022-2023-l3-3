@@ -59,8 +59,6 @@ class HomeControllerTest {
     @MockBean
     private InvitationService invitationService;
 
-    //
-
     @MockBean
     private LobbyUserService lobbyUserService;
 
