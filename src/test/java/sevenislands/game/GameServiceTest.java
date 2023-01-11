@@ -2,7 +2,9 @@ package sevenislands.game;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -12,12 +14,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.Random;
-import java.util.stream.Collectors;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.util.Pair;
@@ -73,7 +73,7 @@ public class GameServiceTest {
     User user3;
     User user4;
 
-    Round round;
+    Round round1;
     Round round2;
 
     LobbyUser lobbyUser1;
@@ -124,13 +124,13 @@ public class GameServiceTest {
         lobbyList.forEach(lobby -> gameList.add(gameService.initGame(lobby)));
         gameList.forEach(game -> game.setId(new Random().nextInt(100)));
 
-        round = new Round();
-        round.setGame(gameList.get(0));
-        round.setId(1);
+        round1 = new Round();
+        round1.setGame(gameList.get(0));
+        round1.setId(1);
         round2 = new Round();
         round2.setId(2);
         round2.setGame(gameList.get(1));
-        roundList.add(round);
+        roundList.add(round1);
         roundList.add(round2);
 
         game1 = new Game();
@@ -171,16 +171,16 @@ public class GameServiceTest {
     }
 
     @Test
-    public void findGameByNickname() throws NotExistLobbyException {
+    public void findGameByUserTest() throws NotExistLobbyException {
         when(lobbyUserRepository.findByUser(any())).thenReturn(Optional.of(List.of(lobbyUser1)));
         when(gameRepository.findGameByLobby(any())).thenReturn(Optional.of(gameList.get(0)));
-        assertEquals(Optional.of(gameList.get(0)), gameService.findGameByNickname(user1));
+        assertEquals(Optional.of(gameList.get(0)), gameService.findGameByUser(user1));
 
         when(gameRepository.findGameByLobby(any())).thenReturn(Optional.empty());
-        assertEquals(Optional.empty(), gameService.findGameByNickname(user1));
+        assertEquals(Optional.empty(), gameService.findGameByUser(user1));
         
         when(lobbyUserRepository.findByUser(any())).thenReturn(Optional.empty());
-        assertEquals(Optional.empty(), gameService.findGameByNickname(user1));
+        assertEquals(Optional.empty(), gameService.findGameByUser(user1));
     }
 
     @Test
@@ -190,10 +190,138 @@ public class GameServiceTest {
         when(lobbyUserRepository.findByUserAndMode(any(), any())).thenReturn(Optional.of(List.of(lobbyUser1)));
         when(lobbyUserRepository.findUsersByLobby(any())).thenReturn(List.of(user1));
         when(gameRepository.findGameActive(false)).thenReturn(List.of(game));
-        //when(gameRepository.findGameByLobbyAndActive(any(), any())).thenReturn(Optional.of(List.of(gameList.get(0))));
         Object [] object = (Object []) gameService.findGamePlayedByUser(user1).get(0);
         Pair<Game, String> result = Pair.of((Game) object[0], (String) object[1]);
         assertEquals(Pair.of(game, user1.getNickname()), result);
+    }
+
+    @Test
+    public void findGameAndHostPLayedByUserTest() {
+        Game game = gameList.get(0);
+        game.setActive(false);
+        when(lobbyUserRepository.findByUserAndMode(any(), any())).thenReturn(Optional.of(List.of(lobbyUser1)));
+        when(lobbyUserRepository.findUsersByLobby(any())).thenReturn(List.of(user1));
+        when(gameRepository.findGameActive(false)).thenReturn(List.of(game));
+        Object [] object = (Object []) gameService.findGameAndHostPLayedByUser(user1).get(0);
+        Pair<Game, User> result = Pair.of((Game) object[0], (User) object[1]);
+        assertEquals(Pair.of(game, user1), result);
+    }
+
+    @Test
+    public void checkUserGameWithRounds() {
+        when(lobbyUserRepository.findByUser(any())).thenReturn(Optional.of(List.of(lobbyUser1)));
+        when(gameRepository.findGameByLobbyAndActive(any(), any())).thenReturn(Optional.of(List.of(gameList.get(0))));
+        when(roundRepository.findRoundByGame(any())).thenReturn(List.of(round1));
+        assertTrue(gameService.checkUserGameWithRounds(user1));
+
+        when(roundRepository.findRoundByGame(any())).thenReturn(new ArrayList<>());
+        assertFalse(gameService.checkUserGameWithRounds(user1));
+
+        lobbyUser1 = new LobbyUser();
+        when(lobbyUserRepository.findByUser(any())).thenReturn(Optional.empty());
+        when(gameRepository.findGameByLobbyAndActive(any(), any())).thenReturn(Optional.empty());
+        assertFalse(gameService.checkUserGameWithRounds(user1));
+    }
+
+    @Test
+    public void findGameActiveTest() {
+        when(gameRepository.findGameActive(any())).thenReturn(List.of(game1));
+        when(lobbyUserRepository.findUsersByLobby(lobby1)).thenReturn(List.of(user1, user2));
+        Object [] object = (Object []) gameService.findGameActive(true).get(0);
+        Pair<Game, String> result = Pair.of((Game) object[0], (String) object[1]);
+        assertEquals(Pair.of(game1, user1.getNickname()), result);
+    }
+
+    @Test
+    public void endGameTest(){
+        when(lobbyUserRepository.findByUser(any())).thenReturn(Optional.of(List.of(lobbyUser1)));
+        when(gameRepository.findGameByLobbyAndActive(any(), any())).thenReturn(Optional.of(List.of(game1)));
+        game1.setActive(false);
+        when(gameRepository.save(any())).thenReturn(game1);
+        assertFalse(gameService.endGame(user1).isActive());
+        when(gameRepository.findGameByLobbyAndActive(any(), any())).thenReturn(Optional.empty());
+        assertNull(gameService.endGame(user1));
+    }
+
+    @Test
+    public void findTotalGamesPlayedByUserTest() {
+        when(lobbyUserRepository.findByUserAndMode(any(), any())).thenReturn(Optional.of(List.of(lobbyUser1)));
+        when(gameRepository.findTotalGamesPlayedByUserLobbies(any())).thenReturn(1);
+        assertEquals(1, gameService.findTotalGamesPlayedByUser(user1));
+    }
+
+    @Test
+    public void findGameByLobbyTest() {
+        when(gameRepository.findGameByLobby(lobby1)).thenReturn(Optional.of(game1));
+        assertEquals(Optional.of(game1), gameService.findGameByLobby(lobby1));
+    }
+
+    @Test
+    public void findGameByUserAndModeTest() throws NotExistLobbyException {
+        when(lobbyUserRepository.findByUserAndMode(user1, Mode.PLAYER)).thenReturn(Optional.of(List.of(lobbyUser1)));
+        when(gameRepository.findGameByLobby(lobby1)).thenReturn(Optional.of(game1));
+        assertEquals(Optional.of(game1), gameService.findGameByUserAndMode(user1, Mode.PLAYER));
+        when(lobbyUserRepository.findByUserAndMode(user1, Mode.PLAYER)).thenReturn(Optional.empty());
+        assertEquals(Optional.empty(), gameService.findGameByUserAndMode(user1, Mode.PLAYER));
+    }
+
+    @Test
+    public void findTotalTimePlayedByUserTest() {
+        when(lobbyUserRepository.findByUserAndMode(any(), any())).thenReturn(Optional.of(List.of(lobbyUser1)));
+        when(gameRepository.findGamesByLobbies(any())).thenReturn(Optional.of(List.of(game1)));
+
+        assertNotEquals(0, gameService.findTotalTimePlayedByUser(user1));
+        when(gameRepository.findGamesByLobbies(any())).thenReturn(Optional.empty());
+        assertEquals(0, gameService.findTotalTimePlayedByUser(user1));
+    }
+
+    @Test
+    public void findTotalTimePlayedTest() {
+        when(gameRepository.findAll()).thenReturn(List.of(game1));
+        assertNotEquals(0, gameService.findTotalTimePlayed());
+    }
+
+    @Test
+    public void findTotalGamesPlayedByDayTest() {
+        when(gameRepository.findTotalGamesPlayedByDay()).thenReturn(List.of(gameList.size()));
+        assertNotEquals(2, gameService.findTotalGamesPlayedByDay());
+    }
+
+    @Test
+    public void findAverageGamesPlayedTest() {
+        when(gameRepository.count()).thenReturn(2L);
+        when(gameRepository.findTotalGamesPlayedByDay()).thenReturn(List.of(gameList.size()));
+        assertEquals(2, gameService.findAverageGamesPlayed());
+    }
+
+    @Test
+    public void findMaxGamesPlayedADayTest() {
+        when(gameRepository.findTotalGamesPlayedByDay()).thenReturn(List.of(gameList.size(), 1));
+        assertEquals(2, gameService.findMaxGamesPlayedADay());
+    }
+
+    @Test
+    public void findMinGamesPlayedADayTest() {
+        when(gameRepository.findTotalGamesPlayedByDay()).thenReturn(List.of(gameList.size(), 1));
+        assertEquals(1, gameService.findMinGamesPlayedADay());
+    }
+
+    @Test
+    public void checkUserGameTest() throws NotExistLobbyException{
+        when(lobbyUserRepository.findByUser(any())).thenReturn(Optional.of(List.of(lobbyUser1)));
+        when(gameRepository.findGameByLobby(any())).thenReturn(Optional.of(game1));
+        assertTrue(gameService.checkUserGame(user1));
+        game1.setActive(false);
+        when(gameRepository.findGameByLobby(any())).thenReturn(Optional.empty());
+        assertFalse(gameService.checkUserGame(user1));
+    }
+
+    @Test
+    public void findVictoriesTest() {
+        List<Object []> list = new ArrayList<>();
+        list.add(new Object [] {user1.getNickname(), 1});
+        when(gameRepository.findVictories()).thenReturn(list);
+        assertEquals(list, gameService.findVictories());
     }
 
     // @Test
@@ -222,20 +350,6 @@ public class GameServiceTest {
     //     assertTrue(gameService.findTotalTimePlayed()==0);
     //     when(gameRepository.findAll()).thenReturn((List.of(game1)));
     //     assertTrue(gameService.findTotalTimePlayed()>0);
-    // }
-
-    // @Test
-    // public void endGameTest(){
-    //     when(gameRepository.findGameByNicknameAndActive(any(), any())).thenReturn(Optional.of(List.of(game1)));
-    //     assertFalse(gameService.endGame(user1).orElse(null).isActive());
-    // }
-
-    // @Test
-    // public void checkUserGameTest(){
-    //     when(gameRepository.findGameByNickname(any())).thenReturn(Optional.of(List.of(game1)));
-    //     assertTrue(gameService.checkUserGame(user1));
-    //     game1.setActive(false);
-    //     assertFalse(gameService.checkUserGame(user1));
     // }
 
     // @Test

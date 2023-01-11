@@ -87,16 +87,8 @@ public class GameService {
         List<Lobby> lobbies = lobbyUserService.findLobbiesByUser(user);
         Optional<List<Game>> gameList = gameRepository.findGameByLobbyAndActive(lobbies, active);
         if(gameList.isPresent()) {
-            return Optional.of(gameList.get().get(0));
-        }
-        return Optional.empty();
-    }
-
-    @Transactional
-    public Optional<Game> findGameByNickname(User user) throws NotExistLobbyException {
-        Optional<Game> games = findGameByUser(user);
-        if(games.isPresent()) {
-            return Optional.of(games.get());
+            Optional<Game> result = Optional.of(gameList.get().get(0));
+            return result;
         }
         return Optional.empty();
     }
@@ -163,13 +155,14 @@ public class GameService {
     }
 
     @Transactional
-    public void endGame(User logedUser) {
+    public Game endGame(User logedUser) {
         Optional<Game> game = findGameByUserAndActive(logedUser, true);
         if(game.isPresent()) {
             game.get().setActive(false);
             game.get().setEndingDate(LocalDateTime.now());
-            gameRepository.save(game.get());
+            return gameRepository.save(game.get());
         }
+        return null;
     }
 
     @Transactional
