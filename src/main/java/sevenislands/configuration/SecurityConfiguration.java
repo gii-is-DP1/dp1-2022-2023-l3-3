@@ -22,6 +22,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Configuration
 @EnableJpaAuditing
 @EnableWebSecurity
+@EnableJpaAuditing
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
@@ -62,6 +63,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 				.antMatchers("/h2-console/**").hasAnyAuthority("admin")
 				.antMatchers("/ranking/**").hasAnyAuthority("player", "admin")
 				.antMatchers("/friends/**").hasAnyAuthority("player")
+				.antMatchers("/invite/**").hasAnyAuthority("player")
 				.anyRequest().denyAll()
 				.and()
 				.formLogin()

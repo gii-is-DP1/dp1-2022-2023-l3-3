@@ -6,10 +6,11 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import sevenislands.enums.Mode;
 import sevenislands.game.GameService;
 import sevenislands.game.turn.TurnService;
 import sevenislands.gameDetails.GameDetailsService;
-import sevenislands.lobby.LobbyService;
+import sevenislands.lobby.lobbyUser.LobbyUserService;
 import sevenislands.user.User;
 
 @Controller
@@ -22,21 +23,22 @@ public class StatisticController {
     private final GameService gameService;
     private final TurnService turnService;
     private final GameDetailsService gameDetailsService;
-    private final LobbyService lobbyService;
+    private final LobbyUserService lobbyUserService;
 
     @Autowired
-    public StatisticController(GameService gameService, TurnService turnService, GameDetailsService gameDetailsService, LobbyService lobbyService) {
+    public StatisticController(GameService gameService, TurnService turnService, 
+    GameDetailsService gameDetailsService, LobbyUserService lobbyUserService) {
         this.gameService = gameService;
         this.turnService = turnService;
         this.gameDetailsService = gameDetailsService;
-        this.lobbyService = lobbyService;
+        this.lobbyUserService = lobbyUserService;
     }
 
     @GetMapping("/statistics")
     public String showStatistics(ModelMap model) {
         model.put("total_games", gameService.gameCount());
         model.put("total_time", gameService.findTotalTimePlayed());
-        model.put("total_players", gameService.findTotalPlayersDistinct());
+        model.put("total_players", lobbyUserService.findTotalPlayersDistinctByMode(Mode.PLAYER));
         model.put("total_points", gameDetailsService.findTotalPunctuation());
         model.put("total_turns", turnService.turnCount());
         model.put("average_games", gameService.findAverageGamesPlayed());
@@ -61,7 +63,7 @@ public class StatisticController {
     public String showDailyStatistics(ModelMap model) {
         model.put("total_games", gameService.gameCount());
         model.put("total_time", gameService.findTotalTimePlayed());
-        model.put("total_players", gameService.findTotalPlayersDistinct());
+        model.put("total_players", lobbyUserService.findTotalPlayersDistinctByMode(Mode.PLAYER));
         model.put("total_points", gameDetailsService.findTotalPunctuation());
         model.put("total_turns", turnService.turnCount());
         model.put("average_games", gameService.findAverageGamesPlayed());

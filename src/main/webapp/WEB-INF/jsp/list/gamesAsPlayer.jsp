@@ -50,11 +50,10 @@
 			</tr>
 			<c:forEach items="${games}" var="game">
 				<tr>
-					<td><c:out value="${game.id}"/></td>
-					<td><c:out value="${game.creationDate}"/></td>
-					<td><c:out value="${game.endingDate}"/></td>	
-					<td><c:out value="${game.lobby.users[0].nickname}"></c:out></td>
-					<td><c:out value="${game.winner.nickname}"></c:out></td>
+					<td><c:out value="${game.getFirst().id}"/></td>
+					<td><c:out value="${game.getFirst().creationDate}"/></td>
+					<td><c:out value="${game.getFirst().endingDate}"/></td>	
+					<td><c:out value="${game.getSecond().nickname}"></c:out></td>
 				</tr>
 			</c:forEach>
 		</table>

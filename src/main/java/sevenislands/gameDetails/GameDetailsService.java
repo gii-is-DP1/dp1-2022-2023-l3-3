@@ -2,19 +2,26 @@ package sevenislands.gameDetails;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import sevenislands.card.Card;
+import sevenislands.enums.Mode;
 import sevenislands.enums.Tipo;
+import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.Game;
 import sevenislands.game.GameService;
 import sevenislands.game.turn.TurnService;
+import sevenislands.lobby.lobbyUser.LobbyUserService;
 import sevenislands.user.User;
 
 @Service
@@ -24,12 +31,15 @@ public class GameDetailsService {
 
     private GameService gameService;
     private TurnService turnService;
+    private final LobbyUserService lobbyUserService;
 
     @Autowired
-    public GameDetailsService(GameDetailsRepository gameDetailsRepository, GameService gameService, TurnService turnService) {
+    public GameDetailsService(GameDetailsRepository gameDetailsRepository, GameService gameService, TurnService turnService,
+            LobbyUserService lobbyUserService) {
         this.gameDetailsRepository = gameDetailsRepository;
         this.gameService = gameService;
         this.turnService = turnService;
+        this.lobbyUserService = lobbyUserService;
     }
 
     @Transactional
@@ -65,9 +75,10 @@ public class GameDetailsService {
     }
 
     @Transactional
-    public List<GameDetails> calculateDetails(User logedUser) {
-        Optional<Game> game = gameService.findGameByNickname(logedUser.getNickname());
-        List<GameDetails> gameDetailsRes = new ArrayList<>();
+    public List<GameDetails> calculateDetails(User logedUser) throws NotExistLobbyException {
+        List<GameDetails> gameDetailsList = new ArrayList<>();
+        Optional<Game> game = gameService.findGameByUser(logedUser);
+
         if(game.isPresent()) {
             List<Integer> pointsList = List.of(1,3,7,13,21,30,40,50,60);
             List<Object []> details = new ArrayList<>();
@@ -81,17 +92,22 @@ public class GameDetailsService {
             Integer winnerPoints = -1;
             Integer winnerDoblon = -1;
 
-            for(User user : game.get().getLobby().getUsers()) {
+            for(User user : lobbyUserService.findUsersByLobbyAndMode(game.get().getLobby(), Mode.PLAYER)) {
+
                 doblons = 0;
                 userPoints = 0;
                 Map<Card, Integer> cards = turnService.findPlayerCardsLastTurn(user.getNickname());
+
                 Card doblon = cards.keySet().stream().filter(card -> card.getTipo() == Tipo.Doblon).findFirst().orElse(null);
                 if(doblon != null) {
                     doblons = cards.get(doblon);
                     cards.remove(doblon);
                 }
                 userPoints += doblons;
-                List<Card> listKeys = new ArrayList<>(cards.keySet());
+                Map<Card, Integer> orderedCards = cards.entrySet().stream().sorted(Map.Entry.comparingByValue()).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+
+                List<Card> listKeys = new ArrayList<>(orderedCards.keySet());
+
                 for(Card card : listKeys) {
                     Integer multiplicity = cards.get(card);
                     cards.replaceAll((key,value) -> value - multiplicity);
@@ -109,9 +125,9 @@ public class GameDetailsService {
                     winnerDoblon = doblons;
                     tieBreak = true;
                 }
-
                 details.add(new Object[] {user, userPoints});
             }
+
             for(Object[] detail : details) {
                 GameDetails gameDetails = new GameDetails();
                 gameDetails.setGame(game.get());
@@ -122,14 +138,28 @@ public class GameDetailsService {
                 save(gameDetails);
                 gameDetailsRes.add(gameDetails);
                 gameService.save(game.get());
+                gameDetailsList.add(gameDetails);
+            }
+        }
+        return gameDetailsList;
+    }
+
+    @Transactional
+    public void recoverSelectedCards(User user, Map<Card,Integer> cardsList, HttpServletRequest request) {
+        if(cardsList != null) {
+            for(Card card : cardsList.keySet()) {
+                for(int i = 0; i < cardsList.get(card); i++) {
+                    turnService.addCardToUser(card.getId(), user);
+                    turnService.changeCard(card.getId(), user, 1, request);
+                }
             }
         }
         return gameDetailsRes;
     }
 
     @Transactional
-    public Long findGamesByNickname(String nickname) {
-        return gameDetailsRepository.findAllByNickname(nickname);
+    public Long findGamesByUser(User user) {
+        return gameDetailsRepository.findAllByUser(user);
     }
 
     @Transactional

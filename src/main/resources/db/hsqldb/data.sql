@@ -13,14 +13,18 @@ INSERT INTO user(nickname,password,enabled,first_name,last_name,email,creation_d
 INSERT INTO user(nickname,password,enabled,first_name,last_name,email,creation_date,type,birth_date,avatar) VALUES ('player4','$2a$10$Yurjw7YseLzZq/JOixdY/eRmBrOIzHHNooczuuMwtC42R8vRoKVPC','TRUE','Player FN','Player LN','player4@sevenislands.com','2022-10-29','player','2022-10-29','playerAvatar.png');
 INSERT INTO user(nickname,password,enabled,first_name,last_name,email,creation_date,type,birth_date,avatar) VALUES ('player5','$2a$10$Yurjw7YseLzZq/JOixdY/eRmBrOIzHHNooczuuMwtC42R8vRoKVPC','TRUE','Player FN','Player LN','player5@sevenislands.com','2022-10-29','player','2022-10-29','playerAvatar.png');
 
+-- FRIENDS --
+INSERT INTO friend(user1_id, user2_id, status) VALUES (7,8, 'ACCEPTED');
+
 -- LOBBY --
 INSERT INTO lobby(active,code) VALUES('FALSE','ZgC[pLc>');
 
 -- LOBBY JUGADORES -- 
-INSERT INTO lobby_users(lobby_id,users_id) VALUES (1,7);
-INSERT INTO lobby_users(lobby_id,users_id) VALUES (1,8);
-INSERT INTO lobby_users(lobby_id,users_id) VALUES (1,9);
-INSERT INTO lobby_users(lobby_id,users_id) VALUES (1,10);
+INSERT INTO lobby_user(lobby_id, user_id, mode) VALUES (1,7, 'PLAYER');
+INSERT INTO lobby_user(lobby_id, user_id, mode) VALUES (1,8, 'PLAYER');
+INSERT INTO lobby_user(lobby_id, user_id, mode) VALUES (1,9, 'PLAYER');
+INSERT INTO lobby_user(lobby_id, user_id, mode) VALUES (2,10, 'PLAYER');
+INSERT INTO lobby_user(lobby_id, user_id, mode) VALUES (2,7, 'PLAYER');
 
 -- JUEGOS -- 
 INSERT INTO game(active,creation_date,ending_date,tie_break,lobby_id,winner_id) VALUES('FALSE','2023-01-06 12:59:40.241642','2023-01-06 13:03:28.611833','FALSE',1,8);
@@ -712,9 +716,9 @@ INSERT INTO details(punctuation, game_id, user_id) VALUES(39,1,10);
 
 
 -- LOGROS --
-INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Inicio', 'Juega LIMIT partida', 'Victories', 1, 'logroJugarGames.png');
+INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Inicio', 'Gana LIMIT partida', 'Victories', 1, 'logroJugarGames.png');
 INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Veterano', 'Juega mas de LIMIT partidas', 'Games', 50, 'logroJugarGames.png');
-INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Veterano', 'Juega mas de LIMIT partidas', 'Games', 2, 'logroJugarGames.png');
+INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Veterano', 'Juega mas de LIMIT partidas', 'Games', 1, 'logroJugarGames.png');
 -- INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Poco a poco', 'Gana <LIMITE> partida', 'Victories', 1, '/resources/images/grafics/logroVictoria.png');
 -- INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Imparable', 'Gana un total de <LIMITE> partidas', 'Victories', 20, '/resources/images/grafics/logroVictoria.png');
 -- INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Valioso', 'Consigue el set de tesoros distintos mas grande (<LIMITE>)', 'Punctuation', 9, '/resources/images/grafics/logroPuntuacion.png');

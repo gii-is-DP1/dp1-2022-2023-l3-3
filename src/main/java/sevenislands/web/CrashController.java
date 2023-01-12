@@ -11,25 +11,26 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.GameService;
-import sevenislands.lobby.LobbyService;
+import sevenislands.lobby.lobbyUser.LobbyUserService;
 import sevenislands.user.User;
 
 @Controller
 public class CrashController implements ErrorController{
 
-	private final LobbyService lobbyService;
 	private final GameService gameService;
+	private final LobbyUserService lobbyUserService;
 
 	@Autowired
-	public CrashController(LobbyService lobbyService, GameService gameService) {
-		this.lobbyService = lobbyService;
+	public CrashController(GameService gameService, LobbyUserService lobbyUserService) {
 		this.gameService = gameService;
+		this.lobbyUserService = lobbyUserService;
 	}
 
 	@GetMapping("/error")
-	public String triggerException(ModelMap model, HttpServletRequest request, @ModelAttribute("logedUser") User logedUser) {
-		model.put("lobby", lobbyService.checkUserLobby(logedUser));
+	public String triggerException(ModelMap model, HttpServletRequest request, @ModelAttribute("logedUser") User logedUser) throws NotExistLobbyException {
+		model.put("lobby", lobbyUserService.checkUserLobby(logedUser));
 		model.put("game", gameService.checkUserGame(logedUser));
 
 		Object status = request.getAttribute(RequestDispatcher.ERROR_STATUS_CODE);

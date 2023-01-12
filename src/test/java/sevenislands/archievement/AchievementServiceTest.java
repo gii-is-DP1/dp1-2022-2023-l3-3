@@ -21,6 +21,8 @@ import sevenislands.achievement.AchievementService;
 import sevenislands.card.CardRepository;
 import sevenislands.card.CardService;
 import sevenislands.enums.AchievementType;
+import sevenislands.enums.Mode;
+import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.Game;
 import sevenislands.game.GameRepository;
 import sevenislands.game.GameService;
@@ -35,6 +37,9 @@ import sevenislands.gameDetails.GameDetailsService;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyRepository;
 import sevenislands.lobby.LobbyService;
+import sevenislands.lobby.lobbyUser.LobbyUser;
+import sevenislands.lobby.lobbyUser.LobbyUserRepository;
+import sevenislands.lobby.lobbyUser.LobbyUserService;
 import sevenislands.register.RegisterRepository;
 import sevenislands.register.RegisterService;
 import sevenislands.user.User;
@@ -64,6 +69,8 @@ public class AchievementServiceTest {
     GameDetailsRepository gameDetailsRepository;
     @Mock
     RegisterRepository registerRepository;
+    @Mock
+    LobbyUserRepository lobbyUserRepository;
 
     AchievementService achievementService;
     GameService gameService;
@@ -75,6 +82,7 @@ public class AchievementServiceTest {
     IslandService islandService;
     CardService cardService;
     LobbyService lobbyService;
+    LobbyUserService lobbyUserService;
 
     Achievement achievement;
     Achievement achievement2;
@@ -88,19 +96,23 @@ public class AchievementServiceTest {
 
     Lobby lobby1;
 
+    LobbyUser lobbyUser1;
+    LobbyUser lobbyUser2;
+
     @BeforeEach
     public void config(){
         roundService = new RoundService(roundRepository);
-        lobbyService = new LobbyService(lobbyRepository, gameService);
-        gameService = new GameService(roundService, gameRepository);
+        lobbyService = new LobbyService(lobbyRepository);
+        lobbyUserService = new LobbyUserService(lobbyUserRepository, lobbyService);
+        gameService = new GameService(roundService, gameRepository, lobbyUserService, lobbyService);
         cardService = new CardService(cardRepository);
         islandService = new IslandService(islandRepository);
-        userService = new UserService(null, lobbyService, null, null, userRepository, gameService);
-        turnService = new TurnService(turnRepository, gameService, roundService, lobbyService, islandService, cardService);
-        gameDetailsService = new GameDetailsService(gameDetailsRepository, gameService, turnService);
+        userService = new UserService(null, null,
+        null,userRepository, gameService, lobbyUserService);
+        turnService = new TurnService(turnRepository, gameService, roundService, islandService, cardService, lobbyUserService);
+        gameDetailsService = new GameDetailsService(gameDetailsRepository, gameService, turnService, lobbyUserService);
         registerService = new RegisterService(registerRepository);
-        achievementService = new AchievementService(achievementRepository, gameService, gameDetailsService, registerService);
-        
+        achievementService = new AchievementService(achievementRepository, gameService, gameDetailsService, registerService, lobbyUserService);
         
         achievement = new Achievement();
         achievement.setId(1);
@@ -138,8 +150,14 @@ public class AchievementServiceTest {
         lobby1.setId(1);
         lobby1.generatorCode();
         lobby1.setActive(true);
-        lobby1.addPlayer(user1);
-        lobby1.addPlayer(user2);
+        lobbyUser1 = new LobbyUser();
+        lobbyUser1.setLobby(lobby1);
+        lobbyUser1.setUser(user1);
+        lobbyUser1.setMode(Mode.PLAYER);
+        lobbyUser2 = new LobbyUser();
+        lobbyUser2.setLobby(lobby1);
+        lobbyUser2.setUser(user2);
+        lobbyUser2.setMode(Mode.PLAYER);
 
         game1 = new Game();
         game1.setId(1);
@@ -182,23 +200,28 @@ public class AchievementServiceTest {
     }
 
     @Test
-    public void calculateAchievementTest(){
-        when(gameRepository.findGameByNickname(any())).thenReturn(Optional.of(List.of(game1)));
+    public void calculateAchievementTest() throws NotExistLobbyException{
+        when(gameRepository.findGameByLobby(any())).thenReturn(Optional.of(game1));
+        when(lobbyUserRepository.findByUser(any())).thenReturn(Optional.of(List.of(lobbyUser1)));
+        when(lobbyUserRepository.findUsersByLobbyAndMode(any(), any())).thenReturn(List.of(user1, user2));
         when(gameDetailsRepository.findPunctuationByNickname(any())).thenReturn(400L);
         when(gameRepository.findVictoriesByNickname(any())).thenReturn(50L);
         when(gameRepository.findTieBreaksByNickname(any())).thenReturn(7L);
-        when(gameDetailsRepository.findAllByNickname(any())).thenReturn(200L);
-        when(achievementRepository.findAll()).thenReturn(List.of(achievement,achievement2,achievement3,achievement4));
+        when(gameDetailsRepository.findAllByUser(any())).thenReturn(200L);
+        when(achievementRepository.findAll()).thenReturn(List.of(achievement, achievement2, achievement3, achievement4));
         assertEquals(List.of(true,true,true, true), achievementService.calculateAchievements(user1));
     }
 
     @Test
     public void addchievementTest(){
+        when(achievementRepository.save(achievement)).thenReturn((achievement));
+        when(achievementRepository.save(achievement2)).thenReturn((achievement2));
+        when(achievementRepository.save(achievement3)).thenReturn((achievement3));
+        when(achievementRepository.save(achievement4)).thenReturn((achievement4));
         assertEquals("logroJugarGames.png", achievementService.addAchievement(achievement).getBadgeImage());
         assertEquals("logroJugarGames.png", achievementService.addAchievement(achievement2).getBadgeImage());
         assertEquals("logroTieBreaker.png", achievementService.addAchievement(achievement3).getBadgeImage());
         assertEquals("logroVictories.png", achievementService.addAchievement(achievement4).getBadgeImage());
-       
     }
 
     

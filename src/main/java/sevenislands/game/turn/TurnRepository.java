@@ -8,11 +8,14 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 
+import sevenislands.game.Game;
+import sevenislands.game.round.Round;
+
 @Repository
 public interface TurnRepository extends CrudRepository<Turn, Integer> {
 
-    @Query("SELECT turn FROM Turn turn WHERE turn.round.id=?1")
-    public List<Turn> findByRoundId(Integer id) throws DataAccessException;
+    @Query("SELECT turn FROM Turn turn WHERE turn.round=?1")
+    public List<Turn> findByRound(Round round) throws DataAccessException;
 
     public List<Turn> findAll();
 
@@ -27,5 +30,8 @@ public interface TurnRepository extends CrudRepository<Turn, Integer> {
     public List<Integer> findTotalTurnsByGame();
 
     @Query("SELECT COUNT(t) FROM Turn t GROUP BY TO_CHAR(t.startTime, 'YYYY-MM-DD')")
-    public List<Integer> findTotalTurnsByDay();    
+    public List<Integer> findTotalTurnsByDay();
+    
+    @Query("SELECT turn FROM Turn turn INNER JOIN turn.round round INNER JOIN round.game game WHERE game=?1")
+    public List<Turn> findAllByGame(Game game);
 }

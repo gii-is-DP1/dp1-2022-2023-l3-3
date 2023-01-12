@@ -27,7 +27,8 @@ import sevenislands.enums.UserType;
 import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.GameService;
 import sevenislands.lobby.Lobby;
-import sevenislands.lobby.LobbyService;
+import sevenislands.lobby.lobbyUser.LobbyUser;
+import sevenislands.lobby.lobbyUser.LobbyUserService;
 
 @Service
 public class UserService {
@@ -35,18 +36,19 @@ public class UserService {
 	private UserRepository userRepository;
 	private PasswordEncoder passwordEncoder;
 	private SessionRegistry sessionRegistry;
-	private LobbyService lobbyService;
 	private AuthenticationManager authenticationManager;
 	private GameService gameService;
+	private LobbyUserService lobbyUserService;
 
 	@Autowired
-	public UserService(AuthenticationManager authenticationManager, LobbyService lobbyService, SessionRegistry sessionRegistry, PasswordEncoder passwordEncoder, UserRepository userRepository, GameService gameService) {
+	public UserService(AuthenticationManager authenticationManager, SessionRegistry sessionRegistry, 
+	PasswordEncoder passwordEncoder, UserRepository userRepository, GameService gameService, LobbyUserService lobbyUserService) {
 		this.userRepository = userRepository;
 		this.passwordEncoder = passwordEncoder;
 		this.sessionRegistry = sessionRegistry;
-		this.lobbyService = lobbyService;
 		this.authenticationManager = authenticationManager;
 		this.gameService = gameService;
+		this.lobbyUserService = lobbyUserService;
 	}
 	//que es esta funcion
 	public User createUser(Integer id, String nickname,String email) {
@@ -69,7 +71,7 @@ public class UserService {
 
 	@Transactional
 	public User save(User user) throws IllegalArgumentException {
-		return userRepository.save(user);		
+		return userRepository.save(user);
 	}
 
 	@Transactional(readOnly = true)
@@ -163,11 +165,11 @@ public class UserService {
 				info.expireNow(); //Termina la sesión
 			}
 			try{
-				Lobby lobby = lobbyService.findLobbyByPlayerId(id);
-				List<User> userList = lobby.getPlayerInternal();
-				userList.remove(userDeleted.get());
-				lobby.setUsers(userList);
-				lobbyService.save(lobby);
+				Lobby lobby = lobbyUserService.findLobbyByUser(userDeleted.get());
+				Optional<LobbyUser> lobbyUser = lobbyUserService.findByLobbyAndUser(lobby, userDeleted.get());
+				if(lobbyUser.isPresent()) {
+					lobbyUserService.deleteLobbyUser(lobbyUser.get());
+				}
 				deleteUserById(id);
 				return true;
 		}catch(NotExistLobbyException e){
@@ -215,21 +217,21 @@ public class UserService {
 	 * @throws Exception
      */
 	@Transactional
-    public Boolean checkUser(HttpServletRequest request, User logedUser) throws NotExistLobbyException, ServletException {
+    public Boolean checkUser(HttpServletRequest request, User logedUser) throws ServletException {
 		Boolean res = true;
 		try {
-		if(logedUser!=null && logedUser.isEnabled()) {
-			lobbyService.leaveLobby(logedUser);
-			res = false;
-        } else {
-            request.getSession().invalidate();
-            request.logout();
-            res = true;
-        }
-		return res;
+			if(logedUser!=null && logedUser.isEnabled()) {
+				gameService.leaveLobby(logedUser);
+				res = false;
+			} else {
+				request.getSession().invalidate();
+				request.logout();
+				res = true;
+			}
+			return res;
 	   } catch (Exception e) {
-		res = false;
-		return res;
+			res = false;
+			return res;
 	   }
     }
 
@@ -253,9 +255,9 @@ public class UserService {
 			} else if(user.getUserType().equals(UserType.admin)){
 				user.setAvatar("adminAvatar.png");
 			}
-			
+			User userSaved = save(user);
 			if(!isAdmin) loginUser(user, password, request);
-			return save(user);
+			return userSaved;
 		} catch (Exception e) {
 			throw e;
 		}

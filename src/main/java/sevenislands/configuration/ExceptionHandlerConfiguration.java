@@ -1,13 +1,7 @@
 package sevenislands.configuration;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ModelAttribute;
-
-import sevenislands.game.GameService;
-import sevenislands.lobby.LobbyService;
-import sevenislands.user.User;
 
 import javax.servlet.http.HttpServletRequest;
 
