@@ -29,29 +29,32 @@ public class FriendService {
     }
 
     @Transactional
-    public void acceptFriend(Integer id, User logedUser) {
+    public Optional<Friend> acceptFriend(Integer id, User logedUser) {
         Optional<Friend> friend = friendRepository.findById(id);
         if(friend.isPresent() && requestExists(logedUser, friend.get().getUser1())) {
             friend.get().setStatus(Status.ACCEPTED);
             friendRepository.save(friend.get());
         }
+        return friend;
     }
 
     @Transactional
-    public void rejectFriend(Integer id, User logedUser) {
+    public Optional<Friend> rejectFriend(Integer id, User logedUser) {
         Optional<Friend> friend = friendRepository.findById(id);
         if(friend.isPresent() && requestExists(logedUser, friend.get().getUser1())) {
             friend.get().setStatus(Status.REJECTED);
             friendRepository.save(friend.get());
         }
+        return friend;
     }
 
     @Transactional
-    public void deleteFriend(Integer id, User logedUser) {
+    public  Optional<Friend> deleteFriend(Integer id, User logedUser) {
         Optional<Friend> friend = friendRepository.findById(id);
         if(friend.isPresent() && (requestExists(logedUser, friend.get().getUser1()) || requestExists(logedUser, friend.get().getUser2()))) {
             friendRepository.delete(friend.get());
         }
+        return friend;
     }
 
     @Transactional
