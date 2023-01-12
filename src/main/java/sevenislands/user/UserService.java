@@ -256,9 +256,9 @@ public class UserService {
 			} else if(user.getUserType().equals(UserType.admin)){
 				user.setAvatar("adminAvatar.png");
 			}
-			
+			User userSaved = save(user);
 			if(!isAdmin) loginUser(user, password, request);
-			return save(user);
+			return userSaved;
 		} catch (Exception e) {
 			throw e;
 		}
