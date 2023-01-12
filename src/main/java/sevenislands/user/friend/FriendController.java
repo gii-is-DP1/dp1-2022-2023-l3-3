@@ -3,6 +3,10 @@ package sevenislands.user.friend;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -29,30 +33,33 @@ public class FriendController {
     }
 
     @GetMapping("/friends")
-    public String getFriends(ModelMap model, @ModelAttribute("logedUser") User logedUser) {
+    public String getFriends(HttpServletRequest request, ModelMap model, @ModelAttribute("logedUser") User logedUser) {
+        HttpSession session = request.getSession();
+        List<Friend> friends = friendService.findFriends(logedUser, Status.ACCEPTED);
+        List<User> friendsList = friends.stream().map(friend -> friend.getUser1() == logedUser? friend.getUser2() : friend.getUser1()).collect(Collectors.toList());
+        List<User> usersList = (List<User>) session.getAttribute("usersList");
+        if (usersList != null) usersList.removeAll(friendsList);   
+        
         model.put("logedUser", logedUser);
         model.put("searchedUser", new User());
-        model.put("searchResults", new ArrayList<>());
-        model.put("friends", friendService.findFriends(logedUser, Status.ACCEPTED));
+        model.put("searchResults", usersList);
+        model.put("friends", friends);
         model.put("sentRequests", friendService.findFriendsFrom(logedUser, Status.PENDING));
         model.put("rejected", friendService.findFriendsTo(logedUser, Status.REJECTED));
         model.put("receivedRequests", friendService.findFriendsTo(logedUser, Status.PENDING));
         return "friend/friendsPage";
     }
 
-    @PostMapping("/friends")
-    public String searchUser(ModelMap model, @ModelAttribute("searchedUser") User searchedUser) {
+    @GetMapping("/friends/search")
+    public String searchUser(HttpServletRequest request, ModelMap model, @ModelAttribute("searchedUser") User searchedUser) {
         User logedUser = userService.getCurrentUser();
 
         List<User> usersList = userService.searchUserByNickname(logedUser.getNickname(), searchedUser.getNickname());
-        model.put("logedUser", logedUser);
-        model.put("searchedUser", new User());
-        model.put("searchResults", usersList);
-        model.put("friends", friendService.findFriends(logedUser, Status.ACCEPTED));
-        model.put("sentRequests", friendService.findFriendsFrom(logedUser, Status.PENDING));
-        model.put("rejected", friendService.findFriendsTo(logedUser, Status.REJECTED));
-        model.put("receivedRequests", friendService.findFriendsTo(logedUser, Status.PENDING));
-        return "friend/friendsPage";
+
+        HttpSession session = request.getSession();
+        session.setAttribute("usersList", usersList);
+
+        return "redirect:/friends";
     }
 
     @GetMapping("/friends/add/{idUserSend}")
