@@ -6,7 +6,6 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
-import java.util.stream.Collector;
 import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
@@ -102,7 +101,6 @@ public class GameDetailsService {
                 Card doblon = cards.keySet().stream().filter(card -> card.getTipo() == Tipo.Doblon).findFirst().orElse(null);
                 if(doblon != null) {
                     doblons = cards.get(doblon);
-                    System.out.println("Doblon: " + doblons);
                     cards.remove(doblon);
                 }
                 userPoints += doblons;

@@ -2,20 +2,17 @@ package sevenislands.game;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 
 import sevenislands.achievement.AchievementService;
-import sevenislands.card.Card;
 import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.turn.TurnService;
 import sevenislands.gameDetails.GameDetailsService;

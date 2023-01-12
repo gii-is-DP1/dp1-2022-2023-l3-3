@@ -292,7 +292,7 @@ a:hover {
                     action="/friends/search" 
                     modelAttribute="searchedUser" 
                     class="form-horizontal">
-                        <form:input id="search-bar" path="nickname" maxlength="20" required="true" placeholder="Buscar..."/>
+                        <form:input id="search-bar" path="nickname" maxlength="20" required="true" placeholder="Buscar..." autocomplete="off"/>
                     </form:form>
                     <div class="content-box" id="results-box">
                         <c:forEach items="${searchResults}" var="user">

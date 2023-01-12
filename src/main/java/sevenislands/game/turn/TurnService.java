@@ -74,8 +74,10 @@ public class TurnService {
     public List<Island> islandToChoose(Turn turn,String nickName, List<Island> islandList, HttpServletRequest request){
         List<Island> islands=new ArrayList<>();
         HttpSession session = request.getSession();
+
         Map<Card, Integer> selectedCards = (Map<Card,Integer>) session.getAttribute("selectedCards");
         Integer numSelectedCards = selectedCards.values().stream().mapToInt(x->x).sum();
+
         if(turn.getDice()!=null){
             Integer selectedIsland1=turn.getDice()-numSelectedCards;
             Integer selectedIsland2=turn.getDice()+numSelectedCards;

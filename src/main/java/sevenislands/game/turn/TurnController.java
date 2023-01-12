@@ -74,7 +74,6 @@ public class TurnController {
     public String gameTurn(ModelMap model, @ModelAttribute("logedUser") User logedUser, HttpServletRequest request,
             HttpServletResponse response, @ModelAttribute("message") String message) throws ServletException, NotExistLobbyException, Exception {
         if (userService.checkUserNoExists(request)) return "redirect:/";
-
         HttpSession session = request.getSession();
         Map<Card,Integer> selectedCards = (Map<Card,Integer>) session.getAttribute("selectedCards");
         if(turnService.endGame(gameService.findGameByUser(logedUser).get())) {
@@ -97,6 +96,7 @@ public class TurnController {
         List<User> userList = lobbyUserService.findUsersByLobbyAndMode(lobby, Mode.PLAYER);
         Map<Card, Integer> playerCardsMap = turnService.findPlayerCardsLastTurn(logedUser.getNickname());
         List<Island> islasToChose=turnService.islandToChoose(lastTurn,logedUser.getNickname(),islandList, request);
+
         model.put("player", logedUser);
         model.put("player_turn", lastTurn.getUser());
         model.put("dice", lastTurn.getDice());
@@ -116,6 +116,7 @@ public class TurnController {
         model.put("selectedCards",selectedCards);
         model.put("gameMessages", messageService.getMessages(game.get()));
         model.put("sentMessage", new Message());
+
         return VIEWS_GAME;
     }
 

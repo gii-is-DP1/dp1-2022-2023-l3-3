@@ -110,13 +110,9 @@ public class InvitationService {
 
     @Transactional
     public void deleteInvitationsByLobbyAndUser(Lobby lobby, User user) {
-        System.out.println("a===================================");
         Optional<List<Invitation>> invitation = invitationRepository.findInvitationsByLobbyAndUser(lobby, user);
-        System.out.println("b===================================");
         if(invitation.isPresent()) {
-            System.out.println("c===================================");
             invitationRepository.deleteAll(invitation.get());
-            System.out.println("d===================================");
         }
     }
 }
