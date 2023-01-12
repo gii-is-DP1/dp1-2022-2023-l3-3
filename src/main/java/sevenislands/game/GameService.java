@@ -528,6 +528,8 @@ public class GameService {
         } catch (Exception e) {
             return false;
         }
+    }
+    
     @Transactional
     public Double findAverageGamePlayedByNicknamePerDay(String nickname) {
         List<Integer> gamesPerDay = gameRepository.findNGamesPlayedByNicknamePerDay(nickname);

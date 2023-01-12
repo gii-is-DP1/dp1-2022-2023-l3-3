@@ -97,16 +97,5 @@ public class LobbyService {
         return maxPlayers;
     }
 
-    @Transactional
-    public Integer findMinPlayersInGameById(Integer userId) {
-        Optional<List<Lobby>> allUserLobbies = lobbyRepository.findByPlayerId(userId);
-        Integer minPlayers = 0;
-        if(allUserLobbies.isPresent()) {
-            minPlayers = allUserLobbies.get().stream()
-            .map(lobby -> lobby.getUsers().size())
-            .min(Integer::compareTo)
-            .get();
-        }
-        return minPlayers;
-    }
+    
 }

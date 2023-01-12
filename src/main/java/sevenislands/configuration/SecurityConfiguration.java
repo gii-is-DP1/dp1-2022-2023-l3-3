@@ -20,7 +20,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
-@EnableJpaAuditing
 @EnableWebSecurity
 @EnableJpaAuditing
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {

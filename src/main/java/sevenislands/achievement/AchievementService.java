@@ -73,10 +73,7 @@ public class AchievementService {
     @Transactional
 	public Achievement saveAchievement(Achievement achievement) throws DataAccessException {
 		return achievementRepository.save(achievement);
-	public Achievement saveAchievement(Achievement achievement) throws DataAccessException {
-		return achievementRepository.save(achievement);
 	}
-	
 	/**
 	 * Encuentra todos lo logros de un mismo tipo.
 	 * @param achievementType

@@ -1,5 +1,6 @@
 package sevenislands.lobby;
 
+import java.util.List;
 import java.util.Random;
 
 import javax.persistence.Column;
