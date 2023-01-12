@@ -79,8 +79,7 @@ public class TurnController {
         
         Optional<Game> game = gameService.findGameByUserAndActive(logedUser, true);
         List<Island> islandList = islandService.findIslandsByGameId(game.get().getId());
-        List<Round> roundList = roundService.findRoundsByGame(game.get()).stream()
-                .collect(Collectors.toList());
+        List<Round> roundList = roundService.findRoundsByGame(game.get());
         Round round = roundList.get(roundList.size() - 1);
         List<Turn> turnList = turnService.findByRound(round);
         Turn lastTurn = turnList.get(turnList.size() - 1);
