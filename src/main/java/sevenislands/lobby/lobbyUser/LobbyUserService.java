@@ -123,7 +123,7 @@ public class LobbyUserService {
     }
 
     @Transactional
-    public Optional<List<Integer>> findTotalPlayersByLobbyAndMode(List<Lobby> lobbyList, Mode mode) {
+    public Optional<List<Long>> findTotalPlayersByLobbyAndMode(List<Lobby> lobbyList, Mode mode) {
         return lobbyUserRepository.findTotalPlayersByLobbyAndMode(lobbyList, mode);
     }
 

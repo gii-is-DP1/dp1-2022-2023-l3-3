@@ -177,8 +177,8 @@
 					<a class="btn btn-default" href='<spring:url value="/join" htmlEscape="true"/>'>Unirse a Partida</a>
 					<c:if test="${hasPlayed}">
 						<a class="btn btn-default" href='<spring:url value="/endGame" htmlEscape="true"/>'>Resultados anteriores</a>
+						<a class="btn btn-default" href='<spring:url value="/game/gamesAsPlayer" htmlEscape="true"/>'>Partidas jugadas</a>
 					</c:if>
-					<a class="btn btn-default" href='<spring:url value="/game/gamesAsPlayer" htmlEscape="true"/>'>Partidas jugadas</a>
 				</sec:authorize>
 		
 				<sec:authorize access="hasAuthority('admin')">
@@ -187,8 +187,6 @@
 					<a class="btn btn-default" href='<spring:url value="/game/finished" htmlEscape="true"/>'>Partidas finalizadas</a>
 					<a class="btn btn-default" href='<spring:url value="/game/InProgress" htmlEscape="true"/>'>Partidas en curso</a>
 				</sec:authorize>
-		
-				<br/>
 				<a class="btn btn-default" href='<spring:url value="/custom-logout" htmlEscape="true"/>'>Cerrar Sesión</a>
 			</div>
 			<img id="pirata" src="/resources/images/grafics/pirataLoroAnimado.gif">

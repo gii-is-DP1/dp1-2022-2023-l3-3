@@ -106,12 +106,12 @@ public class LobbyController {
 		}
 	}
 
-	@GetMapping("/join/code")
+	@PostMapping("/join")
 	public String validateJoin(ModelMap model, @ModelAttribute("code") String code, @ModelAttribute("logedUser") User logedUser) throws NotExistLobbyException {
 		List<String> errors = gameService.checkLobbyErrors(code);
 		if(errors.isEmpty()) {
-			invitationService.deleteInvitationsByLobbyAndUser(lobbyUserService.findLobbyByUser(logedUser), logedUser);
 			lobbyUserService.joinLobby(code, logedUser, Mode.PLAYER);
+			invitationService.deleteInvitationsByLobbyAndUser(lobbyUserService.findLobbyByUser(logedUser), logedUser);
 			return "redirect:/lobby";
 		} 
 		model.put("errors", errors);

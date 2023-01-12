@@ -48,8 +48,8 @@ public class GameService {
     }
 
     @Transactional
-    public Integer gameCount() {
-        return (int) gameRepository.count();
+    public Long gameCount() {
+        return gameRepository.count();
     }
 
     @Transactional
@@ -359,23 +359,24 @@ public class GameService {
     }
 
     @Transactional
-    public Integer findMaxPlayers() {
+    public Long findMaxPlayers() {
         List<Lobby> lobbies = gameRepository.findLobbies();
-        Optional<List<Integer>> totalPlayers = lobbyUserService.findTotalPlayersByLobbyAndMode(lobbies, Mode.PLAYER);
+        Optional<List<Long>> totalPlayers = lobbyUserService.findTotalPlayersByLobbyAndMode(lobbies, Mode.PLAYER);
         if(totalPlayers.isPresent()) {
-            return totalPlayers.get().stream().max(Comparator.naturalOrder()).get();
+            Long maxPlayers = totalPlayers.get().stream().max(Comparator.naturalOrder()).get();
+            return maxPlayers;
         }
-        return 0;
+        return 0L;
     }
 
     @Transactional
-    public Integer findMinPlayers() {
+    public Long findMinPlayers() {
         List<Lobby> lobbies = gameRepository.findLobbies();
-        Optional<List<Integer>> totalPlayers = lobbyUserService.findTotalPlayersByLobbyAndMode(lobbies, Mode.PLAYER);
+        Optional<List<Long>> totalPlayers = lobbyUserService.findTotalPlayersByLobbyAndMode(lobbies, Mode.PLAYER);
         if(totalPlayers.isPresent()) {
             return totalPlayers.get().stream().min(Comparator.naturalOrder()).get();
         }
-        return 0;
+        return 0L;
     }
 
     @Transactional

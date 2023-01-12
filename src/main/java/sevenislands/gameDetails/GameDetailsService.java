@@ -2,9 +2,14 @@ package sevenislands.gameDetails;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -89,16 +94,22 @@ public class GameDetailsService {
             Integer winnerDoblon = -1;
 
             for(User user : lobbyUserService.findUsersByLobbyAndMode(game.get().getLobby(), Mode.PLAYER)) {
+
                 doblons = 0;
                 userPoints = 0;
                 Map<Card, Integer> cards = turnService.findPlayerCardsLastTurn(user.getNickname());
+
                 Card doblon = cards.keySet().stream().filter(card -> card.getTipo() == Tipo.Doblon).findFirst().orElse(null);
                 if(doblon != null) {
                     doblons = cards.get(doblon);
+                    System.out.println("Doblon: " + doblons);
                     cards.remove(doblon);
                 }
                 userPoints += doblons;
-                List<Card> listKeys = new ArrayList<>(cards.keySet());
+                Map<Card, Integer> orderedCards = cards.entrySet().stream().sorted(Map.Entry.comparingByValue()).collect(Collectors.toMap(Map.Entry::getKey, Map.Entry::getValue, (e1, e2) -> e1, LinkedHashMap::new));
+
+                List<Card> listKeys = new ArrayList<>(orderedCards.keySet());
+
                 for(Card card : listKeys) {
                     Integer multiplicity = cards.get(card);
                     cards.replaceAll((key,value) -> value - multiplicity);
@@ -132,6 +143,18 @@ public class GameDetailsService {
             }
         }
         return gameDetailsList;
+    }
+
+    @Transactional
+    public void recoverSelectedCards(User user, Map<Card,Integer> cardsList, HttpServletRequest request) {
+        if(cardsList != null) {
+            for(Card card : cardsList.keySet()) {
+                for(int i = 0; i < cardsList.get(card); i++) {
+                    turnService.addCardToUser(card.getId(), user);
+                    turnService.changeCard(card.getId(), user, 1, request);
+                }
+            }
+        }
     }
 
     @Transactional

@@ -356,7 +356,9 @@ body {
                             <c:choose>
                                 <c:when test="${chat.sender==player}">
                                     <div id="my-chat-message">
-                                        <p class="chat-text" id="my-message">${chat.message}</p>
+                                        <p class="chat-text" id="my-message">
+                                            <c:out value="${chat.message}"/>
+                                        </p>
                                         <img id="player-img" src="/resources/images/avatars/${chat.sender.avatar}">
                                     </div>
                                 </c:when>
@@ -365,7 +367,9 @@ body {
                                         <img id="player-img" src="/resources/images/avatars/${chat.sender.avatar}">
                                         <div id="message">
                                             <p class="chat-text" id="sender">${chat.sender.nickname}:&nbsp;</p>
-                                            <p class="chat-text" > ${chat.message}</p>
+                                            <p class="chat-text">
+                                                <c:out value="${chat.message}"/>
+                                            </p>
                                         </div>
                                     </div>
                                 </c:otherwise>
@@ -373,7 +377,7 @@ body {
                         </c:forEach>
                     </div>
                     <form:form modelAttribute="sentMessage" id="chat-form">
-                        <form:input id="message-bar" path="message" maxlength="32" required="true" placeholder="Mensaje..."/>
+                        <form:input id="message-bar" path="message" maxlength="32" required="true" placeholder="Mensaje..." autocomplete="off"/>
                     </form:form>
                 </div>
             </div>

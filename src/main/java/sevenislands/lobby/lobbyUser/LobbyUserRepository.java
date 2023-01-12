@@ -36,7 +36,7 @@ public interface LobbyUserRepository extends CrudRepository<LobbyUser, Integer>{
     public Integer findTotalPlayersByDayAndMode(List<Lobby> lobbies, Mode mode);
 
     @Query("SELECT COUNT(lobbyUser) FROM LobbyUser lobbyUser INNER JOIN lobbyUser.lobby lobby WHERE lobby IN ?1 AND lobbyUser.mode=?2 GROUP BY lobby")
-    public Optional<List<Integer>> findTotalPlayersByLobbyAndMode(List<Lobby> lobbies, Mode mode);
+    public Optional<List<Long>> findTotalPlayersByLobbyAndMode(List<Lobby> lobbies, Mode mode);
 
     @Query("SELECT lobby FROM LobbyUser lobbyUser INNER JOIN lobbyUser.lobby lobby INNER JOIN lobbyUser.user user WHERE user=?1 AND lobby.active=?2")
     public Optional<Lobby> findLobbyByUserAndActive(User user, Boolean active);

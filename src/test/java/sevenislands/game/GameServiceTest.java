@@ -433,7 +433,7 @@ public class GameServiceTest {
     @Test
     public void findMaxPlayersTest() {
         when(gameRepository.findLobbies()).thenReturn(List.of(lobby1, lobby2));
-        when(lobbyUserRepository.findTotalPlayersByLobbyAndMode(any(), any())).thenReturn(Optional.of(List.of(3,2)));
+        when(lobbyUserRepository.findTotalPlayersByLobbyAndMode(any(), any())).thenReturn(Optional.of(List.of(3L,2L)));
         assertEquals(3, gameService.findMaxPlayers());
         when(lobbyUserRepository.findTotalPlayersByLobbyAndMode(any(), any())).thenReturn(Optional.empty());
         assertEquals(0, gameService.findMaxPlayers());
@@ -442,7 +442,7 @@ public class GameServiceTest {
     @Test
     public void findMinPlayersTest() {
         when(gameRepository.findLobbies()).thenReturn(List.of(lobby1, lobby2));
-        when(lobbyUserRepository.findTotalPlayersByLobbyAndMode(any(), any())).thenReturn(Optional.of(List.of(3,2)));
+        when(lobbyUserRepository.findTotalPlayersByLobbyAndMode(any(), any())).thenReturn(Optional.of(List.of(3L,2L)));
         assertEquals(2, gameService.findMinPlayers());
         when(lobbyUserRepository.findTotalPlayersByLobbyAndMode(any(), any())).thenReturn(Optional.empty());
         assertEquals(0, gameService.findMinPlayers());
