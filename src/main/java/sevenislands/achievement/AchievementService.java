@@ -146,23 +146,40 @@ public class AchievementService {
 
 	@Transactional
 	public Achievement addAchievement(Achievement achievement){
-		try {
-			if(achievement.getAchievementType().equals(AchievementType.Games)){
-				achievement.setDescription("Juega mas de LIMIT partidas");
-				achievement.setBadgeImage("logroJugarGames.png");
-			}else if(achievement.getAchievementType().equals(AchievementType.Punctuation)){
-				achievement.setDescription("Consigue LIMIT puntos");
-				achievement.setBadgeImage("logroJugarGames.png");
-			}else if(achievement.getAchievementType().equals(AchievementType.TieBreaker)){
-				achievement.setDescription("Desempata LIMIT partidas");
-				achievement.setBadgeImage("logroTieBreaker.png");
-			}else if(achievement.getAchievementType().equals(AchievementType.Victories)){
-				achievement.setDescription("Gana mas de LIMIT partidas");
-				achievement.setBadgeImage("logroVictories.png");
-			}
-			return saveAchievement(achievement);
-		} catch (Exception e) {
-			throw e;
+		if(achievement.getAchievementType().equals(AchievementType.Games)){
+			achievement.setDescription("Juega mas de LIMIT partidas");
+			achievement.setBadgeImage("logroJugarGames.png");
+		}else if(achievement.getAchievementType().equals(AchievementType.Punctuation)){
+			achievement.setDescription("Consigue LIMIT puntos");
+			achievement.setBadgeImage("logroJugarGames.png");
+		}else if(achievement.getAchievementType().equals(AchievementType.TieBreaker)){
+			achievement.setDescription("Desempata LIMIT partidas");
+			achievement.setBadgeImage("logroTieBreaker.png");
+		}else if(achievement.getAchievementType().equals(AchievementType.Victories)){
+			achievement.setDescription("Gana mas de LIMIT partidas");
+			achievement.setBadgeImage("logroVictories.png");
 		}
+		return saveAchievement(achievement);
+	}
+
+	@Transactional
+	public List<String> checkAchievementErrors(Achievement achievement){
+		List<String> errors = new ArrayList<String>();
+		try {
+			Integer.parseInt(achievement.getThreshold().toString());
+			if(achievement.getThreshold() == null || achievement.getThreshold() <= 0) {
+				errors.add("El límite debe ser un número positivo");
+			}
+			if(achievement.getAchievementType() == null) {
+				errors.add("El tipo de logro no puede estar vacío");
+			}
+			if(achievement.getName() == null || achievement.getName().isEmpty()) {
+				errors.add("El nombre no puede estar vacío");
+			}
+		} catch (Exception e) {
+			errors = List.of("El límite debe ser un número");
+		}
+
+		return errors;
 	}
 }
