@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -26,6 +27,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import sevenislands.achievement.AchievementService;
 import sevenislands.configuration.SecurityConfiguration;
+import sevenislands.enums.UserType;
 import sevenislands.game.Game;
 import sevenislands.game.GameController;
 import sevenislands.game.GameService;
@@ -58,6 +60,20 @@ public class StatisticControllerTest {
     private TurnService turnService;
     @MockBean
     private AchievementService achievementService;
+
+    User userController;
+
+
+    @BeforeEach
+    public void config(){
+        userController = new User();
+        userController.setId(1);
+        userController.setNickname("user1");
+        userController.setPassword("newPassword");
+        userController.setEmail("user1@email.com");
+        userController.setUserType(UserType.admin);
+        userController.setEnabled(true);
+    }
 
 
     @WithMockUser(value = "spring")
@@ -111,6 +127,21 @@ public class StatisticControllerTest {
         mockMvc.perform(get("/dailyStatistics"))
         .andExpect(status().isOk())
         .andExpect(view().name(VIEWS_DAILY_STATISTICS));
+
+    }
+
+    @WithMockUser(value = "spring")
+    @Test
+    public void myStadisticTest() throws Exception {
+        
+        given(gameService.findTotalGamesPlayedByNickname(any())).willReturn(0);
+        given(gameService.findTotalTimePlayedByNickname(any())).willReturn(0L);
+        given(gameDetailsService.findPunctuationByNickname(any())).willReturn(0L);
+        given(turnService.findTotalTurnsByNickname(any())).willReturn(0);   
+
+        mockMvc.perform(get("/myStatistics").flashAttr("logedUser", userController))
+        .andExpect(status().isOk())
+        .andExpect(view().name(VIEWS_MY_STATISTICS));
 
     }
 
