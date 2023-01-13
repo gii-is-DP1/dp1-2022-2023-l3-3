@@ -261,7 +261,9 @@ a:hover {
                 </a>
             </div>
             <div id="menu">
-                <a href="/friends">Amigos</a>
+                <sec:authorize access="hasAuthority('player')">
+                    <a href="/friends">Amigos</a>
+                </sec:authorize>
                 <a href="/ranking/points">Ranking Puntos</a>
                 <a href="/ranking/victories">Ranking Victorias</a>
                 <a href="/statistics">Estadísticas Globales</a>
