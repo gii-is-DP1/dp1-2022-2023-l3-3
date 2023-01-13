@@ -33,7 +33,7 @@
                 <td><c:out value="${min_time_day}"/> min</td>
             </tr>
             <tr>
-                <th>Nº de Jugadores Diario</th>
+                <th>Nº de Jugadores Partidas Diarias</th>
                 <td><c:out value="${total_players}"/></td>
                 <td><c:out value="${average_players_day}"/></td>
                 <td><c:out value="${max_players_day}"/></td>

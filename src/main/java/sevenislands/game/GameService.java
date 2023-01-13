@@ -421,6 +421,7 @@ public class GameService {
         }
         return 0L;
     }
+    
 
     @Transactional
     public Double findDailyAveragePlayers() {
