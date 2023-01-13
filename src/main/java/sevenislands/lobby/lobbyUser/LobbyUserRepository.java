@@ -20,8 +20,8 @@ public interface LobbyUserRepository extends CrudRepository<LobbyUser, Integer>{
     @Query("SELECT lobbyUser FROM LobbyUser lobbyUser WHERE lobbyUser.lobby = ?1 AND lobbyUser.user = ?2")
     public Optional<LobbyUser> findByLobbyAndUser(Lobby lobby, User user);
 
-    @Query("SELECT lobbyUser FROM LobbyUser lobbyUser WHERE lobbyUser.user = ?1 AND lobbyUser.mode=?2 ORDER BY lobbyUser.id DESC")
-    public Optional<List<LobbyUser>> findByUserAndMode(User user, Mode mode);
+    @Query("SELECT lobbyUser FROM LobbyUser lobbyUser WHERE lobbyUser.user.nickname = ?1 AND lobbyUser.mode=?2 ORDER BY lobbyUser.id DESC")
+    public Optional<List<LobbyUser>> findByUserAndMode(String nickname, Mode mode);
 
     @Query("SELECT lobbyUser FROM LobbyUser lobbyUser WHERE lobbyUser.user = ?1 ORDER BY lobbyUser.id DESC")
     public Optional<List<LobbyUser>> findByUser(User user);

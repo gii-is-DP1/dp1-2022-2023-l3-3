@@ -41,10 +41,10 @@
             </tr>
             <tr>
                 <th>Puntos Totales</th>
-                <td><c:out value="${total_points}"/></td>
-                <td><c:out value="${average_points_day}"/></td>
-                <td><c:out value="${max_points_day}"/></td>
-                <td><c:out value="${min_points_day}"/></td>
+                <td><c:out value="${total_points}"/> pts</td>
+                <td><c:out value="${average_points_day}"/> pts</td>
+                <td><c:out value="${max_points_day}"/> pts</td>
+                <td><c:out value="${min_points_day}"/> pts</td>
             </tr>
             <tr>
                 <th>Turnos Totales</th>

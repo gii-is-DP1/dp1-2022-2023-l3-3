@@ -168,7 +168,7 @@ public class GameDetailsService {
     @Transactional
     public Double findDailyAveragePunctuation() {
         Double average = (double) findTotalPunctuation() / gameService.findTotalGamesPlayedByDay().size();
-        return Math.round(average * 100.0) / 100.0;
+        return Math.round(average * 100.0) / 100.0d;
     }
 
     @Transactional
@@ -184,7 +184,7 @@ public class GameDetailsService {
     @Transactional
     public Double findAveragePunctuation() {
         Double average = (double) findTotalPunctuation() / gameService.gameCount();
-        return Math.round(average * 100.0) / 100.0;
+        return Math.round(average * 100.0) / 100.0d;
     }
 
     @Transactional
@@ -201,7 +201,8 @@ public class GameDetailsService {
     public Double findAveragePunctuationByUser(User user) {
         Long totalPunctuation = findPunctuationByNickname(user.getNickname());
         Integer totalGames = gameService.findTotalGamesPlayedByUser(user);
-        return (double) totalPunctuation / totalGames;
+        Double result=(double) totalPunctuation / totalGames;
+        return Math.round(result*100)/100d;
     }
 
     @Transactional
