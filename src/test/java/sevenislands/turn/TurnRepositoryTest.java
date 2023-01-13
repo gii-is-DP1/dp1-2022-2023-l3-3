@@ -31,7 +31,6 @@ public class TurnRepositoryTest {
 
     @Test
     public void initialData(){
-        userService = new UserService(null, null, null, userRepository, null, null);
         Round round=new Round();
         round.setId(1);
         List<Turn> turnos = turnRepository.findAll();
@@ -43,7 +42,9 @@ public class TurnRepositoryTest {
 
     @Test
     public void TestFindTurnByUser(){
-        Optional<List<Turn>> turns = turnRepository.findTurnByUser(userService.findUserByNickname("player3").get());
+        userService = new UserService(null, null, null, userRepository, null, null);
+        User user = userService.findUserByNickname("player3").get();
+        Optional<List<Turn>> turns = turnRepository.findTurnByUser(user);
         assertNotNull(turns.get());
     }  
 
