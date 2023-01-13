@@ -99,32 +99,6 @@ public class LobbyController {
 		lobbyUserService.createLobby(logedUser);
 		return "redirect:/lobby";
 	}
-
-	@GetMapping("/join")
-	public String join(HttpServletRequest request, ModelMap model, @ModelAttribute("logedUser") User logedUser) throws Exception {
-		try {
-			if(userService.checkUser(request, logedUser)) return "redirect:/";
-		model.put("code", new Lobby());
-		return "views/join";
-		} catch (Exception e) {
-			return "redirect:/home"; 
-		}
-	}
-
-	@PostMapping("/join")
-	public String validateJoin(ModelMap model, @ModelAttribute("code") String code, @ModelAttribute("logedUser") User logedUser) throws NotExistLobbyException {
-		List<String> errors = gameService.checkLobbyErrors(code);
-		if(errors.isEmpty()) {
-			lobbyUserService.joinLobby(code, logedUser, Mode.PLAYER);
-			invitationService.deleteInvitationsByLobbyAndUser(lobbyUserService.findLobbyByUser(logedUser), logedUser);
-			return "redirect:/lobby";
-		} 
-		model.put("errors", errors);
-		Lobby lobby2 = new Lobby();
-		lobby2.setCode(code);
-		model.put("code", lobby2);
-		return "views/join";
-	}
 	
 	@GetMapping("/lobby/delete/{idEjectedUser}")
 	public String ejectPlayer(@ModelAttribute("logedUser") User logedUser, @PathVariable("idEjectedUser") Integer id) throws Exception {
