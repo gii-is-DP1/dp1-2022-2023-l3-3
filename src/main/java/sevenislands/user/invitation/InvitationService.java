@@ -46,12 +46,12 @@ public class InvitationService {
                     invitation.setSender(logedUser);
                     invitation.setReceiver(userInvited.get());
                     invitation.setLobby(lobby);
-                    invitationRepository.save(invitation);
+                    invitation = invitationRepository.save(invitation);
                 } else {
                     Optional<Invitation> invitationFound = findInvitation(logedUser, userInvited.get());
                     if(invitationFound.isPresent()) {
                         invitationFound.get().setMode(mode);
-                        invitationRepository.save(invitationFound.get());
+                        invitation = invitationRepository.save(invitationFound.get());
                     }
                 }
             }
@@ -82,10 +82,8 @@ public class InvitationService {
     @Transactional
     public List<Invitation> findInvitationsByReceiver(User receiver) {
         Optional<List<Invitation>> invitations = invitationRepository.findByReceiver(receiver);
-        if(invitations.isPresent()) {
-            return invitations.get();
-        }
-        return new ArrayList<>();
+return invitations.orElse(new ArrayList<Invitation>());
+
     }
 
     @Transactional
@@ -109,10 +107,11 @@ public class InvitationService {
     }
 
     @Transactional
-    public void deleteInvitationsByLobbyAndUser(Lobby lobby, User user) {
+    public Boolean deleteInvitationsByLobbyAndUser(Lobby lobby, User user) {
         Optional<List<Invitation>> invitation = invitationRepository.findInvitationsByLobbyAndUser(lobby, user);
         if(invitation.isPresent()) {
             invitationRepository.deleteAll(invitation.get());
         }
+        return invitation.isPresent();
     }
 }
