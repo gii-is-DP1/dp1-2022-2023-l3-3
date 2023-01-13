@@ -608,5 +608,4 @@ public class GameServiceTest {
         when(lobbyUserRepository.findByLobbyAndUser(any(), any())).thenReturn(Optional.of(lobbyUserViewer));
         assertTrue(gameService.checkUserViewer(user1));
     }
-
 }

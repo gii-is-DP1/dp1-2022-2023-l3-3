@@ -287,7 +287,11 @@ a:hover {
             <div id="section3">
                 <div id="search" class="two-rows first-row">
                     <h1>Enviar solicitud</h1>
-                    <form:form modelAttribute="searchedUser" class="form-horizontal">
+                    <form:form 
+                    method="GET"
+                    action="/friends/search" 
+                    modelAttribute="searchedUser" 
+                    class="form-horizontal">
                         <form:input id="search-bar" path="nickname" maxlength="20" required="true" placeholder="Buscar..."/>
                     </form:form>
                     <div class="content-box" id="results-box">

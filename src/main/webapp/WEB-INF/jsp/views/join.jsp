@@ -29,7 +29,12 @@
 <sevenislands:layout3 pageName="join">
     <a class="btn btn-default" href='<spring:url value="/home" htmlEscape="true"/>'>Volver</a>
     <h2><br/>Unirse a una Partida</h2>
-    <form:form modelAttribute="code" class="form-horizontal" id="validate-code">
+    <form:form 
+    method="GET"
+    action="/join/code" 
+    modelAttribute="code" 
+    class="form-horizontal" 
+    id="validate-code">
         <br/>
         <div class="form-group has-feedback">
             <sevenislands:inputField label="Código" name="code" required="required"/>
