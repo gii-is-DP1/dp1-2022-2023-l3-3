@@ -13,8 +13,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -44,8 +47,9 @@ import org.springframework.data.domain.PageImpl;
 
 import org.springframework.validation.BindingResult;
 
+import sevenislands.achievement.Achievement;
 import sevenislands.configuration.SecurityConfiguration;
-
+import sevenislands.enums.AchievementType;
 import sevenislands.enums.UserType;
 import sevenislands.game.GameService;
 import sevenislands.game.turn.TurnService;
@@ -87,6 +91,8 @@ public class UserControllerTest {
 	private TurnService turnService;
 
     private User userController;
+    private Achievement achievement;
+
 
     private static final String VIEWS_PLAYER_UPDATE_FORM = "views/updateUserForm";
 
@@ -99,6 +105,14 @@ public class UserControllerTest {
         userController.setEmail("user1@email.com");
         userController.setUserType(UserType.admin);
         userController.setEnabled(true);
+
+        achievement = new Achievement();
+        achievement.setId(1);
+        achievement.setThreshold(100);
+        achievement.setBadgeImage("null");
+        achievement.setDescription("null");
+        achievement.setName("Name");
+        achievement.setAchievementType(AchievementType.Games);
     }
 
     @WithMockUser(value = "spring")
@@ -647,6 +661,38 @@ public class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("admin/editUser"));
     }  
+
+    @WithMockUser(value = "spring")
+    @Test
+    public void detailsUserNoPresentTest() throws Exception {
+        
+        given(userService.findUserById(any())).willReturn(Optional.empty());
+
+        controller.perform(get("/controlPanel/details/{idUserDetailed}", userController.getId()).with(csrf())
+        )
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name( "redirect:/controlPanel/?valor=0"));
+    }
+
+
+    @WithMockUser(value = "spring")
+    @Test
+    public void detailsUserTest() throws Exception {
+        List<Object[]> listRes = new ArrayList<>();
+        Object[] data = {achievement, Date.from(Instant.now())};
+        listRes.add(data);
+        given(userService.findUserById(any())).willReturn(Optional.of(userController));
+        given(gameService.findTotalGamesPlayedByUser(any())).willReturn(0);
+        given(gameService.findTotalTimePlayedByUser(any())).willReturn(0L);
+        given(gameDetailsService.findPunctuationByNickname(any())).willReturn(0L);
+        given(turnService.findTotalTurnsByNickname(any())).willReturn(0);
+        given(registerService.findRegistersByNickname(any())).willReturn(listRes);
+
+        controller.perform(get("/controlPanel/details/{idUserDetailed}", userController.getId()).with(csrf())
+        )
+                .andExpect(status().isOk())
+                .andExpect(view().name( "admin/detailsUser"));
+    }
     
 }
 
