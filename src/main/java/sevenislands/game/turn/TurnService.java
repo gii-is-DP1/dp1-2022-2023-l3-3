@@ -227,8 +227,6 @@ public class TurnService {
         try {
             Optional<Game> game = gameService.findGameByUserAndActive(logedUser, true);
             if (game.isPresent()) {
-                // TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que
-                // existe
                 Lobby lobby = lobbyUserService.findLobbyByUser(logedUser);
                 List<User> userList = lobbyUserService.findUsersByLobby(lobby);
                 List<Round> roundList = roundService.findRoundsByGame(game.get()).stream()
