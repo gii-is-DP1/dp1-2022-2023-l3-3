@@ -119,9 +119,9 @@ public class FirendControllerTest {
 
         given(userService.getCurrentUser()).willReturn(userController);
         given(userService.searchUserByNickname(any(), any())).willReturn(new ArrayList<>());
-        mockMvc.perform(post("/friends").flashAttr("searchedUser", userController).with(csrf()))
-        .andExpect(status().isOk())
-        .andExpect(view().name(VIEWS_FRIENDS_PAGE));
+        mockMvc.perform(get( "/friends/search").flashAttr("searchedUser", userController).with(csrf()))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(view().name(VIEWS_FRIENDS));
 
     }
 
