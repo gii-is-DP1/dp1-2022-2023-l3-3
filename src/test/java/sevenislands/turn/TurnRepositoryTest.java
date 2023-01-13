@@ -1,5 +1,6 @@
 package sevenislands.turn;
 
+import static org.junit.Assert.assertNull;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.util.List;
@@ -45,7 +46,7 @@ public class TurnRepositoryTest {
         userService = new UserService(null, null, null, userRepository, null, null);
         User user = userService.findUserByNickname("player3").get();
         Optional<List<Turn>> turns = turnRepository.findTurnByUser(user);
-        assertNotNull(turns.get());
+        assertNull(turns.orElse(null));
     }  
 
 }

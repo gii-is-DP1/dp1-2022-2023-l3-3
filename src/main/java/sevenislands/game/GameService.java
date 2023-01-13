@@ -8,9 +8,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.naming.spi.DirStateFactory.Result;
-
-import java.util.stream.Collectors;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -75,16 +72,6 @@ public class GameService {
     public void save(Game game) {
          gameRepository.save(game);
     }
-
-    // @Transactional
-    // public Optional<List<Game>> findGamesByUserAndActive(User user, Boolean active) {
-    //     List<Lobby> lobbies = lobbyUserService.findLobbiesByUser(user);
-    //     Optional<List<Game>> gameList = gameRepository.findGameByLobbyAndActive(lobbies, active);
-    //     if(gameList.isPresent()) {
-    //          return gameList;
-    //     }
-    //     return Optional.empty();
-    // }
 
     @Transactional
     public Optional<Game> findGameByUserAndActive(User user, Boolean active) {

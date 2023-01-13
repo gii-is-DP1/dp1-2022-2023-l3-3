@@ -156,7 +156,9 @@ public class TurnController {
             if (logedUser.getId() == lastTurn.getUser().getId()) {
                 HttpSession session = request.getSession();
                 Map<Card,Integer> selectedCards = new TreeMap<>();
-                selectedCards = (Map<Card,Integer>) session.getAttribute("selectedCards");
+                if(session.getAttribute("selectedCards") != null){
+                    selectedCards = (Map<Card,Integer>) session.getAttribute("selectedCards");
+                }
                 for(Card card : selectedCards.keySet()){
                     for(int i=0;i<selectedCards.get(card);i++) {
                         turnService.addCardToUser(card.getId(), logedUser);

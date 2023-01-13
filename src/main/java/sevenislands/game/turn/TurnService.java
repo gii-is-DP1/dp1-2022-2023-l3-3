@@ -53,13 +53,11 @@ public class TurnService {
         this.lobbyUserService = lobbyUserService;
     }
 
-    // No se usa en ningún lado
     @Transactional(readOnly = true)
     public List<Turn> findAllTurns() throws DataAccessException {
         return turnRepository.findAll();
     }
 
-    // No se usa en ningún lado
     @Transactional(readOnly = true)
     public Optional<Turn> findTurnById(int id) throws DataAccessException {
         return turnRepository.findById(id);
@@ -128,7 +126,6 @@ public class TurnService {
         Round round = new Round();
         round.setGame(game.get());
         if (roundService.findRoundsByGame(game.get()).isEmpty()) {
-            System.out.println(userList.toString());
             dealtreasures(logedUser, game, userList, roundList);
             Integer prevUser = userList.indexOf(logedUser) == 0 ? userList.size() - 1 : userList.indexOf(logedUser) - 1; 
             roundService.save(round);
@@ -158,9 +155,7 @@ public class TurnService {
         treasureList.add(cardService.findCardByGameAndTreasure(game.get().getId(), Tipo.Doblon));
         treasureList.add(cardService.findCardByGameAndTreasure(game.get().getId(), Tipo.Doblon));
         for (Integer i = 0; i < userList.size(); i++) {
-            System.out.println(userList.toString());
             User user = userList.get((userList.indexOf(logedUser) + i) % userList.size());
-            System.out.println(user.getNickname() + " " + user.toString());
             Turn turn = new Turn();
             turn.setRound(round);
             turn.setStartTime(LocalDateTime.now());
@@ -235,8 +230,6 @@ public class TurnService {
         try {
             Optional<Game> game = gameService.findGameByUserAndActive(logedUser, true);
             if (game.isPresent()) {
-                // TODO: Poner el Lobby como Optional<Lobby> y realizar la comprobación de que
-                // existe
                 Lobby lobby = lobbyUserService.findLobbyByUser(logedUser);
                 List<User> userList = lobbyUserService.findUsersByLobby(lobby);
                 List<Round> roundList = roundService.findRoundsByGame(game.get()).stream()
@@ -297,7 +290,7 @@ public class TurnService {
         }
         return new ArrayList<Card>();
     }
-//########################################
+
     @Transactional
     public Turn addCard(Integer id, User user){
         Optional<List<Turn>> turnList = turnRepository.findTurnByUser(user);
@@ -372,12 +365,12 @@ public class TurnService {
     public Integer findTotalTurnsByUser(User user) {
         return turnRepository.findTotalTurnsByUser(user);
     }
-//########################################
+
     @Transactional
     public Integer turnCount() {
         return (int) turnRepository.count();
     }
-//########################################
+
     @Transactional
     public void changeCard(Integer id, User logedUser, Integer mode, HttpServletRequest request) {
         Card card = cardService.findCardById(id);
@@ -408,34 +401,34 @@ public class TurnService {
                 } else selectedCards.put(card, 1);
         }
     }
-//########################################
+
     @Transactional
     public Double findDailyAverageTurns() {
         Double average = (double) turnCount() / turnRepository.findTotalTurnsByDay().size();
         return Math.round(average * 100.0) / 100.0d;
     }
-//########################################
+
     @Transactional
     public Integer findMaxTurnsADay() {
         return turnRepository.findTotalTurnsByDay().stream().max(Comparator.naturalOrder()).orElse(0);
     }
-//########################################
+
     @Transactional
     public Integer findMinTurnsADay() {
         return turnRepository.findTotalTurnsByDay().stream().min(Comparator.naturalOrder()).orElse(0);
     }
-//########################################
+
     @Transactional
     public Double findAverageTurns() {
         Double average = (double) turnCount() / gameService.gameCount();
         return Math.round(average * 100.0) / 100.0d;
     }
-//########################################
+
     @Transactional
     public Integer findMaxTurns() {
         return turnRepository.findTotalTurnsByGame().stream().max(Comparator.naturalOrder()).orElse(0);
     }
-//########################################
+
     @Transactional
     public Integer findMinTurns() {
         return turnRepository.findTotalTurnsByGame().stream().min(Comparator.naturalOrder()).orElse(0);

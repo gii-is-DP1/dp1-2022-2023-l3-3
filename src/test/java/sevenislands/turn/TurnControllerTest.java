@@ -7,6 +7,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.FilterType;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.core.session.SessionRegistry;
@@ -36,10 +37,14 @@ import java.util.Optional;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import sevenislands.card.Card;
 import sevenislands.configuration.SecurityConfiguration;
+import sevenislands.enums.Tipo;
 import sevenislands.enums.UserType;
+import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.Game;
 import sevenislands.game.GameService;
+import sevenislands.game.island.Island;
 import sevenislands.game.island.IslandService;
 import sevenislands.game.message.MessageService;
 import sevenislands.game.round.Round;
@@ -64,6 +69,13 @@ public class TurnControllerTest {
     private List<Round> rondas;
     private Round round;
     private Turn turno;
+    private Lobby lobby;
+    private List<Lobby> lobbies;
+    private List<User> users;
+    private Card card;
+    private Island island;
+    private List<Island> islandsList;
+
 
     @Autowired
 	private MockMvc mockMvc;
@@ -104,6 +116,7 @@ public class TurnControllerTest {
     private static final String VIEWS_GAME = "game/game";
     private final String VIEWS_REDIRECT_TURN = "redirect:/turn";
     private final String VIEWS_REDIRECT_ENDGAME = "redirect:/endGame";
+    private final String VIEWS_REDIRECT_NEW_ROUND = "redirect:/turn/newRound";
 
 
     @BeforeEach
@@ -140,6 +153,23 @@ public class TurnControllerTest {
 
         rondas = new ArrayList<>();
         rondas.add(round);
+
+        lobby = new Lobby();
+        lobby.setId(1);
+        lobby.generatorCode();
+        lobby.setActive(true);
+
+        lobbies = new ArrayList<>();
+        lobbies.add(lobby);
+
+        users = new ArrayList<>();
+        users.add(userController);
+
+        card = new Card();
+        card.setId(1);
+        card.setMultiplicity(3);
+        card.setTipo(Tipo.Caliz);
+        card.setGame(game);
         
     }
 
@@ -268,6 +298,149 @@ public class TurnControllerTest {
         mockMvc.perform(get("/turn").flashAttrs(atr))
         .andExpect(status().isOk())
         .andExpect(view().name(VIEWS_GAME));
+
+    }
+
+    @WithMockUser(value = "spring")
+    @Test
+    public void gameEndTurnCheckNoUserTest() throws Exception {
+
+        Map<String, Object> atr = new HashMap<>();
+        atr.put("logedUser", userController);
+        atr.put("message", "");
+
+        given(userService.checkUserNoExists(any())).willReturn(true);
+        
+        
+        mockMvc.perform(get("/turn/endTurn").flashAttrs(atr))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(view().name(VIEWS_REDIRECT));
+
+    }
+
+    @WithMockUser(value = "spring")
+    @Test
+    public void gameEndTurnCheckUserLobbyTest() throws Exception {
+
+        Map<String, Object> atr = new HashMap<>();
+        atr.put("logedUser", userController);
+        atr.put("message", "");
+
+        given(userService.checkUserNoExists(any())).willReturn(false);
+        given(gameService.checkUserGame(any())).willReturn(false);
+        given(lobbyUserService.checkUserLobby(any())).willReturn(false);
+       
+        
+        mockMvc.perform(get("/turn/endTurn").flashAttrs(atr))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(view().name(VIEWS_REDIRECT_HOME));
+
+    }
+
+    @WithMockUser(value = "spring")
+    @Test
+    public void gameEndTurnCheckUserGameTest() throws Exception {
+
+        Map<String, Object> atr = new HashMap<>();
+        atr.put("logedUser", userController);
+        atr.put("message", "");
+
+        given(userService.checkUserNoExists(any())).willReturn(false);
+        given(gameService.checkUserGame(any())).willReturn(false);
+        given(lobbyUserService.checkUserLobby(any())).willReturn(true);
+       
+        
+        mockMvc.perform(get("/turn/endTurn").flashAttrs(atr))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(view().name(VIEWS_REDIRECT_HOME));
+
+    }
+
+    @WithMockUser(value = "spring")
+    @Test
+    public void gameEndTurnTurnSizeGreaterTest() throws Exception {
+
+        Map<String, Object> atr = new HashMap<>();
+        atr.put("logedUser", userController);
+        atr.put("message", "");
+
+        Map<Card, Integer> cardsMap = new HashMap<>();
+        request.setAttribute("selectedCards", cardsMap);
+        given(userService.checkUserNoExists(any())).willReturn(false);
+        given(gameService.checkUserGame(any())).willReturn(true);
+        given(lobbyUserService.checkUserLobby(any())).willReturn(true);
+        given(gameService.findGameByUserAndActive(any(), any())).willReturn(Optional.of(game));
+        given(roundService.findRoundsByGame(any())).willReturn(rondas);
+        given(turnService.findByRound(any())).willReturn(turnos);
+        given(lobbyUserService.findLobbyByUser(any())).willReturn(lobby);
+        given(lobbyUserService.findUsersByLobbyAndMode(any(), any())).willReturn(users);
+        given(request.getSession()).willReturn(session);
+        session.setAttribute("selectedCards", cardsMap);
+        given(session.getAttribute("selectedCards")).willReturn(cardsMap);
+        when(session.getAttribute("selectedCards")).thenReturn(cardsMap);
+       
+        
+        mockMvc.perform(get("/turn/endTurn").flashAttrs(atr))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(view().name(VIEWS_REDIRECT_NEW_ROUND));
+
+    }
+
+    @WithMockUser(value = "spring")
+    @Test
+    public void gameEndTurnTurnSizeLowerTest() throws Exception {
+
+        Map<String, Object> atr = new HashMap<>();
+        atr.put("logedUser", userController);
+        atr.put("message", "");
+
+        Map<Card, Integer> cardsMap = new HashMap<>();
+        request.setAttribute("selectedCards", cardsMap);
+        given(userService.checkUserNoExists(any())).willReturn(false);
+        given(gameService.checkUserGame(any())).willReturn(true);
+        given(lobbyUserService.checkUserLobby(any())).willReturn(true);
+        given(gameService.findGameByUserAndActive(any(), any())).willReturn(Optional.of(game));
+        given(roundService.findRoundsByGame(any())).willReturn(rondas);
+        given(turnService.findByRound(any())).willReturn(turnos);
+        given(lobbyUserService.findLobbyByUser(any())).willReturn(lobby);
+        given(lobbyUserService.findUsersByLobbyAndMode(any(), any())).willReturn(users);
+        given(request.getSession()).willReturn(session);
+        session.setAttribute("selectedCards", cardsMap);
+        given(session.getAttribute("selectedCards")).willReturn(cardsMap);
+        when(session.getAttribute("selectedCards")).thenReturn(cardsMap);
+       users.add(userController);
+        
+        mockMvc.perform(get("/turn/endTurn").flashAttrs(atr))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(view().name(VIEWS_REDIRECT_TURN));
+
+    }
+
+    @WithMockUser(value = "spring")
+    @Test
+    public void gameEndTurnExceptionTest() throws Exception {
+
+        Map<String, Object> atr = new HashMap<>();
+        atr.put("logedUser", userController);
+        atr.put("message", "");
+
+        Map<Card, Integer> cardsMap = new HashMap<>();
+        request.setAttribute("selectedCards", cardsMap);
+        given(userService.checkUserNoExists(any())).willReturn(false);
+        given(gameService.checkUserGame(any())).willReturn(true);
+        given(lobbyUserService.checkUserLobby(any())).willReturn(true);
+        given(gameService.findGameByUserAndActive(any(), any())).willReturn(Optional.of(game));
+        given(roundService.findRoundsByGame(any())).willReturn(rondas);
+        given(turnService.findByRound(any())).willReturn(turnos);
+        given(lobbyUserService.findLobbyByUser(any())).willThrow(new NotExistLobbyException());
+        given(lobbyUserService.findUsersByLobbyAndMode(any(), any())).willReturn(users);
+        given(request.getSession()).willReturn(session);
+        
+       
+        
+        mockMvc.perform(get("/turn/endTurn").flashAttrs(atr))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(view().name(VIEWS_REDIRECT_HOME));
 
     }
     

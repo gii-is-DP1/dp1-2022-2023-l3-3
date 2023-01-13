@@ -50,7 +50,7 @@ public class UserService {
 		this.gameService = gameService;
 		this.lobbyUserService = lobbyUserService;
 	}
-	//que es esta funcion
+
 	public User createUser(Integer id, String nickname,String email) {
         User userCreate;
         userCreate = new User();

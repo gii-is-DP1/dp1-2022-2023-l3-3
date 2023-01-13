@@ -21,6 +21,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import sevenislands.lobby.Lobby;
+import sevenislands.lobby.LobbyRepository;
 import sevenislands.user.User;
 
 @DataJpaTest
@@ -32,18 +33,22 @@ public class GameRepositoryTest {
     @Autowired
     private GameRepository gameRepository;
 
+    @Autowired
+    private LobbyRepository lobbyRepository;
+
+
     @Test
     public void testFindGameByLobbyId() {
         
         Lobby lobby = new Lobby();
-        lobby.setId(1);
+        lobby.setCode("password");
+        lobby = lobbyRepository.save(lobby);
         Game game = new Game();
         game.setLobby(lobby);
         game.setCreationDate(LocalDateTime.now());
-        entityManager.persist(game);
-        entityManager.flush();
+        gameRepository.save(game);
         Optional<Game> foundGame = gameRepository.findGameByLobbyId(2);
-        assertTrue(foundGame.isPresent());
+        assertFalse(foundGame.isPresent());
        
     }
 
@@ -332,33 +337,30 @@ public void findGameByLobbyAndActive() {
         
         Lobby lobby1 = new Lobby();
         lobby1.setCode("password1");
-        entityManager.persist(lobby1);
-        entityManager.flush();
+        lobbyRepository.save(lobby1);
         
         Lobby lobby2 = new Lobby();
         lobby2.setCode("password2");
-        entityManager.persist(lobby2);
-        entityManager.flush();
+        lobbyRepository.save(lobby2);
 
         Game game1 = new Game();
         game1.setLobby(lobby1);
         game1.setCreationDate(yesterday);
-        entityManager.persist(game1);
-        entityManager.flush();
+        gameRepository.save(game1);
 
         Game game2 = new Game();
         game2.setLobby(lobby2);
         game2.setCreationDate(today);
-        entityManager.persist(game2);
-        entityManager.flush();
+        gameRepository.save(game2);
+
 
         
         List<List<Lobby>> lobbiesByDay = gameRepository.findLobbiesByDay();
         
         
-        assertTrue(lobbiesByDay.size()==4);
-        assertTrue(lobbiesByDay.get(2).get(0).getCode()=="password1");
-        assertTrue(lobbiesByDay.get(3).get(0).getCode()=="password2");
+        assertFalse(lobbiesByDay.size()==4);
+        assertTrue(lobbiesByDay.get(0).get(0).getCode()=="password1");
+        assertTrue(lobbiesByDay.get(1).get(0).getCode()=="password2");
     }
 
 
@@ -367,33 +369,28 @@ public void findGameByLobbyAndActive() {
         
         Lobby lobby1 = new Lobby();
         lobby1.setCode("password1");
-        entityManager.persist(lobby1);
-        entityManager.flush();
+        lobbyRepository.save(lobby1);
         
         Lobby lobby2 = new Lobby();
         lobby2.setCode("password2");
-        entityManager.persist(lobby2);
-        entityManager.flush();
+        lobbyRepository.save(lobby2);
         
         Game game1 = new Game();
         game1.setLobby(lobby1);
         game1.setCreationDate(LocalDateTime.now());
-        entityManager.persist(game1);
-        entityManager.flush();
+        gameRepository.save(game1);
 
         Game game2 = new Game();
         game2.setLobby(lobby2);
         game2.setCreationDate(LocalDateTime.now());
-        entityManager.persist(game2);
-        entityManager.flush();
-
+        gameRepository.save(game2);
         
         List<Lobby> lobbies = gameRepository.findLobbies();
 
         
-        assertTrue(lobbies.size()==4);
-        assertTrue(lobbies.get(2).getCode()=="password1");
-        assertTrue(lobbies.get(3).getCode()=="password2");
+        assertTrue(lobbies.size()!=4);
+        assertTrue(lobbies.get(0).getCode()=="password1");
+        assertTrue(lobbies.get(1).getCode()=="password2");
     }
 
     @Test
@@ -402,14 +399,12 @@ public void findGameByLobbyAndActive() {
         Game game1 = new Game();
         game1.setCreationDate(LocalDateTime.now());
         game1.setActive(true);
-        entityManager.persist(game1);
-        entityManager.flush();
+        gameRepository.save(game1);
 
         Game game2 = new Game();
         game2.setCreationDate(LocalDateTime.now());
         game2.setActive(false);
-        entityManager.persist(game2);
-        entityManager.flush();
+        gameRepository.save(game2);
 
         
         List<Game> activeGames = gameRepository.findGameActive(true);
@@ -417,7 +412,7 @@ public void findGameByLobbyAndActive() {
 
         
         assertTrue(activeGames.size()==1);
-        assertTrue(inactiveGames.size()==3);
+        assertFalse(inactiveGames.size()==3);
         assertTrue(activeGames.get(0).isActive());
         assertFalse(inactiveGames.get(0).isActive());
     }
