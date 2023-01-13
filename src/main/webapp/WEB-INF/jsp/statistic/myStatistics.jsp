@@ -5,28 +5,62 @@
 <%@ taglib prefix="sevenislands" tagdir="/WEB-INF/tags" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 
-<style>
-.caja{
-    padding: 15px;
-    border-left: 6px solid #5FA134;
-    background:#F5F5F5;
-    border-top-left-radius: 10px;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 50px;
-    
-}
-</style>
 <sevenislands:layout3 pageName="myStatistics">
     <body style="background: url(resources/images/grafics/fondo1920x1080.jpg)">
         <a class="btn btn-default" href='<spring:url value="/home" htmlEscape="true"/>'>Volver</a>
         <h2><br>Mis Estadísticas</h2>
         <h3>Nombre de Usuario: <c:out value="${user.nickname}"/></h3><br>
 
-        <div class="caja">
-            <h3>Número de Partidas Jugadas: <c:out value="${total_games_player}"/></h3>
-            <h3>Tiempo Total Jugado: <c:out value="${total_time_player}"/> min</h3>
-            <h3>Puntos Totales: <c:out value="${total_points_player}"/></h3>
-            <h3>Turnos Totales: <c:out value="${total_turns_player}"/></h3>
-        </div>
+        <table class="table table-striped">
+			<tr>
+                <th>Nombre</th>
+				<th>Total</th>
+				<th>Promedio</th>
+				<th>Máximo</th>
+                <th>Mínimo</th>
+			</tr>
+			<tr>
+                <th>Nº de Partidas Jugadas</th>
+                <td><c:out value="${total_games_player}"/></td>
+                <td><c:out value="${average_games_player}"/>/día</td>
+                <td><c:out value="${max_games_player}"/> /dia</td>
+                <td><c:out value="${min_games_player}"/> /dia</td>
+            </tr>
+            <tr>
+                <th>Tiempo Jugado</th>
+                <td><c:out value="${total_time_player}"/> min</td>
+                <td><c:out value="${average_time_player}"/> min/día</td>
+                <td><c:out value="${max_time_player}"/> min</td>
+                <td><c:out value="${min_time_player}"/> min</td>
+            </tr>
+            <tr>
+                <th>Victorias</th>
+                <td><c:out value="${total_victories_player}"/></td>
+                <td><c:out value="${average_victoriesByGame_player}"/> /partida</td>
+                <td><c:out value="${max_victories_player}"/> /día</td>
+                <td><c:out value="${min_victories_player}"/> /día</td>
+            </tr>
+            <tr>
+                <th>Puntos Obtenidos</th>
+                <td><c:out value="${total_points_player}"/> pts</td>
+                <td><c:out value="${average_points_player}"/> pts/partida</td>
+                <td><c:out value="${max_points_player}"/> pts</td>
+                <td><c:out value="${min_points_player}"/> pts</td>
+            </tr>
+            <tr>
+                <th>Turnos Realizados</th>
+                <td><c:out value="${total_turns_player}"/></td>
+                <td><c:out value="${average_turns_player}"/> /partida</td>
+                <td><c:out value="${max_turns_player}"/></td>
+                <td><c:out value="${min_turns_player}"/></td>
+            </tr>
+            <tr>
+                <th>Nº jugadores en partidas</th>
+                <td><c:out value="${total_playersByGame_player}"/></td>
+                <td><c:out value="${average_playersByGame_player}"/> /partida</td>
+                <td><c:out value="${max_playersByGame_player}"/></td>
+                <td><c:out value="${min_playersByGame_player}"/></td>
+            </tr>
+		</table>
     </body>
 </sevenislands:layout3>

@@ -1,5 +1,6 @@
 package sevenislands.game;
 
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -145,6 +146,7 @@ public class GameController {
     public String listGamesAsPlayer(ModelMap model, @ModelAttribute("logedUser") User logedUser) {
         List<Object []> games = gameService.findGameAndHostPLayedByUser(logedUser);
         List<Pair<Game, User>> gamesResult = games.stream().map(r -> Pair.of((Game)r[0], (User)r[1])).collect(Collectors.toList());
+        gamesResult.sort((g1, g2) -> g2.getFirst().getId().compareTo(g1.getFirst().getId()));
         model.put("games", gamesResult);
         return VIEWS_GAMES_AS_PLAYER;
     }

@@ -96,7 +96,7 @@ public class GameDetailsService {
 
                 doblons = 0;
                 userPoints = 0;
-                Map<Card, Integer> cards = turnService.findPlayerCardsLastTurn(user.getNickname());
+                Map<Card, Integer> cards = turnService.findPlayerCardsLastTurn(user);
 
                 Card doblon = cards.keySet().stream().filter(card -> card.getTipo() == Tipo.Doblon).findFirst().orElse(null);
                 if(doblon != null) {
@@ -162,39 +162,69 @@ public class GameDetailsService {
 
     @Transactional
     public Integer findTotalPunctuation() {
-        return gameDetailsRepository.findTotalPunctuation();
+        Integer result=0;
+        if(gameDetailsRepository.findTotalPunctuation()!=null){
+            result=gameDetailsRepository.findTotalPunctuation();
+        }
+        return result;
     }
 
     @Transactional
     public Double findDailyAveragePunctuation() {
-        Double average = (double) findTotalPunctuation() / gameService.findTotalGamesPlayedByDay().size();
-        return Math.round(average * 100.0) / 100.0;
+        Double average=0.0;
+        if(findTotalPunctuation()!=null){    
+            average = (double) findTotalPunctuation() / gameService.findTotalGamesPlayedByDay().size();
+        }
+        
+        return Math.round(average * 100.0) / 100.0d;
     }
 
     @Transactional
     public Integer findMaxPunctuationADay() {
-        return gameDetailsRepository.findSumPunctuationsByDay().stream().max(Comparator.naturalOrder()).get();
+        return gameDetailsRepository.findSumPunctuationsByDay().stream().max(Comparator.naturalOrder()).orElse(0);
     }
 
     @Transactional
     public Integer findMinPunctuationADay() {
-        return gameDetailsRepository.findSumPunctuationsByDay().stream().min(Comparator.naturalOrder()).get();
+        return gameDetailsRepository.findSumPunctuationsByDay().stream().min(Comparator.naturalOrder()).orElse(0);
     }
 
     @Transactional
     public Double findAveragePunctuation() {
-        Double average = (double) findTotalPunctuation() / gameService.gameCount();
-        return Math.round(average * 100.0) / 100.0;
+        Double average=0.0;
+        if(gameService.gameCount()!=0)average = (double) findTotalPunctuation() / gameService.gameCount();        
+        return Math.round(average * 100.0) / 100.0d;
     }
 
     @Transactional
     public Integer findMaxPunctuation() {
-        return gameDetailsRepository.findSumPunctuations().stream().max(Comparator.naturalOrder()).get();
+        return gameDetailsRepository.findSumPunctuations().stream().max(Comparator.naturalOrder()).orElse(0);
     }
 
     @Transactional
     public Integer findMinPunctuation() {
-        return gameDetailsRepository.findSumPunctuations().stream().min(Comparator.naturalOrder()).get();
+        return gameDetailsRepository.findSumPunctuations().stream().min(Comparator.naturalOrder()).orElse(0);
     }
 
+    @Transactional
+    public Double findAveragePunctuationByUser(User user) {
+        Long totalPunctuation = findPunctuationByNickname(user.getNickname());
+        Integer totalGames = gameService.findTotalGamesPlayedByUser(user);
+        Double result=(double) totalPunctuation / totalGames;
+        return Math.round(result*100)/100d;
+    }
+
+    @Transactional
+    public Integer findMaxPunctuationByNickname(String nickname) {
+        List<Integer> allPunctuations = gameDetailsRepository.findAllPunctuationsByNickname(nickname);
+        Integer maxPoints = allPunctuations.size() > 0 ? allPunctuations.stream().max(Integer::compareTo).get() : 0;
+        return maxPoints;
+    }
+
+    @Transactional
+    public Integer findMinPunctuationByNickname(String nickname) {
+        List<Integer> allPunctuations = gameDetailsRepository.findAllPunctuationsByNickname(nickname);
+        Integer minPoints = allPunctuations.size() > 0 ? allPunctuations.stream().min(Integer::compareTo).get() : 0;
+        return minPoints;
+    }
 }

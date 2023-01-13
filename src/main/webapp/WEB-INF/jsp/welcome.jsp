@@ -9,7 +9,15 @@
 <style>
 .content {
 	background: url(resources/images/grafics/fondo1920x1080.jpg);
+	overflow: hidden;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }
+
+.content::-webkit-scrollbar {
+  display: none;
+}
+
 .body {
 	width: 100%;
 	height: 95%;
@@ -24,12 +32,17 @@
 	margin-right: 0;
 	align-self: flex-end;
 }
+
 .menu {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 	justify-content: space-between;
 	padding: 10px;
+
+}
+.btn {
+	margin: 10px;
 }
 </style>
 
@@ -40,11 +53,11 @@
             <div class="menu">
                 <img src="/resources/images/grafics/letras_7_islas.png" width="700" height="200">
                 <img src="/resources/images/grafics/palmera.gif" width="256" height="256">
-                <br/>
+                
                 <a class="btn btn-default" href='<spring:url value="/login" htmlEscape="true"/>'>Iniciar sesión</a>
-                <br/>
+                
                 <a class="btn btn-default" href='<spring:url value="/signup" htmlEscape="true"/>'>Registrarse</a>
-                <br/>
+                
                 <button class="btn btn-primary" data-toggle="modal" data-target="#instructionManual">
 					Perfiles de Usuario
 				</button>

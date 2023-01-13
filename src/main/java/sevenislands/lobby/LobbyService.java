@@ -69,5 +69,5 @@ public class LobbyService {
     public Lobby disableLobby(Lobby lobby) {
         lobby.setActive(false);
         return lobbyRepository.save(lobby);
-    } 
+    }
 }

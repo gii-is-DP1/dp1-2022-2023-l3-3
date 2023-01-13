@@ -87,10 +87,32 @@ public class StatisticController {
     @GetMapping("/myStatistics")
     public String showMyStatistics(ModelMap model, @ModelAttribute("logedUser") User logedUser) {
         model.put("user", logedUser);
+        
         model.put("total_games_player", gameService.findTotalGamesPlayedByUser(logedUser));
+        model.put("average_games_player", gameService.findAverageGamePlayedByUserPerDay(logedUser));
+        model.put("max_games_player", gameService.findMaxGamePlayedByUserPerDay(logedUser));
+        model.put("min_games_player", gameService.findMinGamePlayedByUserPerDay(logedUser));
         model.put("total_time_player", gameService.findTotalTimePlayedByUser(logedUser));
+        model.put("average_time_player", gameService.findAverageTimePlayedByUserPerDay(logedUser));
+        model.put("max_time_player", gameService.findMaxTimePlayedByUser(logedUser));
+        model.put("min_time_player", gameService.findMinTimePlayedByUser(logedUser));
         model.put("total_points_player", gameDetailsService.findPunctuationByNickname(logedUser.getNickname()));
-        model.put("total_turns_player", turnService.findTotalTurnsByNickname(logedUser.getNickname()));
+        model.put("average_points_player", gameDetailsService.findAveragePunctuationByUser(logedUser));
+        model.put("max_points_player", gameDetailsService.findMaxPunctuationByNickname(logedUser.getNickname()));
+        model.put("min_points_player", gameDetailsService.findMinPunctuationByNickname(logedUser.getNickname()));
+        model.put("total_turns_player", turnService.findTotalTurnsByUser(logedUser));
+        model.put("average_turns_player", turnService.findAverageTurnsByUser(logedUser));
+        model.put("max_turns_player", turnService.findMaxTurnsInGameByUser(logedUser));
+        model.put("min_turns_player", turnService.findMinTurnsInGameByUser(logedUser));
+        model.put("total_playersByGame_player", gameService.findGameAndPlayerByUser(logedUser).size());
+        model.put("average_playersByGame_player", lobbyUserService.findAveragePlayersInGameByUser(logedUser));
+        model.put("max_playersByGame_player", lobbyUserService.findMaxPlayersInGameByUser(logedUser));
+        model.put("min_playersByGame_player", lobbyUserService.findMinPlayersInGameByUser(logedUser));
+        model.put("total_victories_player", gameService.findVictoriesByNickname(logedUser.getNickname()));
+        model.put("average_victoriesByGame_player", gameService.findAverageVictoriesPerGameByUser(logedUser));
+        model.put("max_victories_player", gameService.findMaxVictoriesPerDayByNickname(logedUser.getNickname()));
+        model.put("min_victories_player", gameService.findMinVictoriesPerDayByNickname(logedUser.getNickname()));
+        
         return VIEWS_MY_STATISTICS;
     }
 

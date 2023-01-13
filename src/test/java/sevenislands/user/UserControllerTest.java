@@ -685,7 +685,7 @@ public class UserControllerTest {
         given(gameService.findTotalGamesPlayedByUser(any())).willReturn(0);
         given(gameService.findTotalTimePlayedByUser(any())).willReturn(0L);
         given(gameDetailsService.findPunctuationByNickname(any())).willReturn(0L);
-        given(turnService.findTotalTurnsByNickname(any())).willReturn(0);
+        given(turnService.findTotalTurnsByUser(any())).willReturn(0);
         given(registerService.findRegistersByNickname(any())).willReturn(listRes);
 
         controller.perform(get("/controlPanel/details/{idUserDetailed}", userController.getId()).with(csrf())

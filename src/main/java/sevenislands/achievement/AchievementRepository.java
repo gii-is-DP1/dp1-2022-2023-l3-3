@@ -11,6 +11,7 @@ import sevenislands.enums.AchievementType;
 @Repository
 public interface AchievementRepository extends CrudRepository<Achievement, Integer>{
 
+    List<Achievement> findAll();
     /**
      * Encuentra todos los logros de un tipo dado.
      * @param achievementType

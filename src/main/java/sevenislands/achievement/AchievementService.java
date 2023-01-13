@@ -1,10 +1,12 @@
 package sevenislands.achievement;
 
 import java.util.ArrayList;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.IntStream;
 import java.util.stream.StreamSupport;
 
@@ -42,7 +44,6 @@ public class AchievementService {
 		this.registerService = registerService;
 		this.lobbyUserService = lobbyUserService;
 	}		
-
 	/**
 	 * Encuentra todos los logros de la base de datos.
 	 * @return
@@ -73,31 +74,43 @@ public class AchievementService {
 	public Achievement saveAchievement(Achievement achievement) throws DataAccessException {
 		return achievementRepository.save(achievement);
 	}
-	
 	/**
 	 * Encuentra todos lo logros de un mismo tipo.
 	 * @param achievementType
 	 * @return
 	 */
-    @Transactional
-    public Collection<Achievement> getAchievementByType(AchievementType achievementType) {
+    @Transactional(readOnly = true)
+    public List<Achievement> getAchievementByType(AchievementType achievementType) {
         return achievementRepository.findByType(achievementType);
     }
 
 
-	@Transactional
+	@Transactional(readOnly = true)
 	public List<Achievement> findAll(){
-		return StreamSupport.stream(achievementRepository.findAll().spliterator(), false).collect(Collectors.toList());
+		return achievementRepository.findAll();
 	}
 
 	@Transactional
-    public Achievement updateAchievement(Achievement NewAchievement, Integer id) {
+    public Achievement updateAchievement(Achievement newAchievement,Integer id) {
     
 	try {
-		Achievement oldAchievement=achievementRepository.findById(Integer.valueOf(id)).get();
-		oldAchievement.setName(NewAchievement.getName());
-		oldAchievement.setAchievementType(NewAchievement.getAchievementType());
-		oldAchievement.setThreshold(NewAchievement.getThreshold());
+		Achievement oldAchievement=achievementRepository.findById(id).get();
+		if(newAchievement.getAchievementType().equals(AchievementType.Games)){
+			oldAchievement.setDescription("Juega mas de LIMIT partidas");
+			oldAchievement.setBadgeImage("logroJugarGames.png");
+		}else if(newAchievement.getAchievementType().equals(AchievementType.Punctuation)){
+			oldAchievement.setDescription("Consigue LIMIT puntos");
+			oldAchievement.setBadgeImage("logroJugarGames.png");
+		}else if(newAchievement.getAchievementType().equals(AchievementType.TieBreaker)){
+			oldAchievement.setDescription("Desempata LIMIT partidas");
+			oldAchievement.setBadgeImage("logroTieBreaker.png");
+		}else if(newAchievement.getAchievementType().equals(AchievementType.Victories)){
+			oldAchievement.setDescription("Gana mas de LIMIT partidas");
+			oldAchievement.setBadgeImage("logroVictories.png");
+		}
+		oldAchievement.setName(newAchievement.getName());
+		oldAchievement.setAchievementType(newAchievement.getAchievementType());
+		oldAchievement.setThreshold(newAchievement.getThreshold());
 		return saveAchievement(oldAchievement);
 	} catch (Exception e) {
 		throw e;
@@ -124,7 +137,7 @@ public class AchievementService {
 				Long totalTieBreaks = gameService.findTieBreaksByNickname(user.getNickname());
 				Long totalGames = gameDetailsService.findGamesByUser(user);
 
-				for(Achievement achievement: getAll()) {
+				for(Achievement achievement: findAll()) {
 					if(achievement.getAchievementType().equals(AchievementType.Punctuation) && totalPoints >= achievement.getThreshold()) {
 						registerService.save(achievement, user);
 						result.set(0, true);

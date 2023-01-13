@@ -23,8 +23,8 @@
                 <th>Nº de Partidas Jugadas</th>
                 <td><c:out value="${total_games}"/></td>
                 <td><c:out value="${average_games}"/></td>
-                <td><c:out value="${max_games}"/></td>
-                <td><c:out value="${min_games}"/></td>
+                <td><c:out value="${max_games}"/>/dia</td>
+                <td><c:out value="${min_games}"/>/dia</td>
             </tr>
             <tr>
                 <th>Duración de las Partidas</th>
@@ -42,10 +42,10 @@
             </tr>
             <tr>
                 <th>Puntos Totales</th>
-                <td><c:out value="${total_points}"/></td>
-                <td><c:out value="${average_points}"/></td>
-                <td><c:out value="${max_points}"/></td>
-                <td><c:out value="${min_points}"/></td>
+                <td><c:out value="${total_points}"/> pts</td>
+                <td><c:out value="${average_points}"/> pts</td>
+                <td><c:out value="${max_points}"/> pts</td>
+                <td><c:out value="${min_points}"/> pts</td>
             </tr>
             <tr>
                 <th>Turnos Totales</th>

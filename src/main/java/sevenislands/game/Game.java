@@ -1,6 +1,7 @@
 package sevenislands.game;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -43,4 +44,12 @@ public class Game extends BaseEntity {
 
 	@Column(name = "tieBreak")
     private boolean tieBreak;
+
+	public String getFormattedCreationDate() {
+		return creationDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+	}
+
+	public String getFormattedEndingDate() {
+		return endingDate.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss"));
+	}
 }

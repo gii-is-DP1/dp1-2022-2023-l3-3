@@ -78,6 +78,8 @@ public class AchievementController {
     @PostMapping("/controlAchievements/edit/{idAchievement}")
     public String processEditAchievementForm(ModelMap model, @PathVariable("idAchievement") Integer id, @Valid Achievement achievement, BindingResult result) {
         List<String> errors = achievementService.checkAchievementErrors(achievement);
+        System.out.println("====================================");
+        System.out.println(achievement.getAchievementType().toString());
         if(!result.hasErrors() && errors.isEmpty()) {
             achievementService.updateAchievement(achievement,id);
 			return "redirect:/controlAchievements";

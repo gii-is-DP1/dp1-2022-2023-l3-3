@@ -90,7 +90,7 @@ public class StatisticControllerTest {
         given(gameService.findAverageGamesPlayed()).willReturn(0.);
         given(gameService.findMaxGamesPlayedADay()).willReturn(0);
         given(gameService.findMinGamesPlayedADay()).willReturn(0);
-        given(gameService.findAverageTimePlayed()).willReturn(0.);
+        given(gameService.findAverageTimePlayed()).willReturn(0L);
         given(gameService.findMaxTimePlayed()).willReturn(0L);
         given(gameService.findMinTimePlayed()).willReturn(0L);
         given(gameDetailsService.findMaxPunctuation()).willReturn(0);
@@ -117,7 +117,7 @@ public class StatisticControllerTest {
         given(gameService.findAverageGamesPlayed()).willReturn(0.);
         given(gameService.findMaxGamesPlayedADay()).willReturn(0);
         given(gameService.findMinGamesPlayedADay()).willReturn(0);
-        given(gameService.findDailyAverageTimePlayed()).willReturn(0.);
+        given(gameService.findDailyAverageTimePlayed()).willReturn(0L);
         given(gameService.findMaxTimePlayedADay()).willReturn(0L);
         given(gameService.findMinTimePlayedADay()).willReturn(0L);
         given(gameDetailsService.findMaxPunctuationADay()).willReturn(0);
@@ -140,7 +140,7 @@ public class StatisticControllerTest {
         given(gameService.findTotalGamesPlayedByUser(any())).willReturn(0);
         given(gameService.findTotalTimePlayedByUser(any())).willReturn(0L);
         given(gameDetailsService.findPunctuationByNickname(any())).willReturn(0L);
-        given(turnService.findTotalTurnsByNickname(any())).willReturn(0);   
+        given(turnService.findTotalTurnsByUser(any())).willReturn(0);   
 
         mockMvc.perform(get("/myStatistics").flashAttr("logedUser", userController))
         .andExpect(status().isOk())

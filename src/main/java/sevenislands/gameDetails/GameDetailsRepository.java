@@ -29,6 +29,9 @@ public interface GameDetailsRepository extends CrudRepository<GameDetails, Integ
     @Query("SELECT COUNT(gd) FROM GameDetails gd INNER JOIN gd.user u WHERE u=?1")
     Long findAllByUser(User user);
 
+    @Query("SELECT gd.punctuation FROM GameDetails gd INNER JOIN gd.user u WHERE u.nickname=?1")
+    List<Integer> findAllPunctuationsByNickname(String nickname);
+
     @Query("SELECT SUM(gd.punctuation) FROM GameDetails gd")
     Integer findTotalPunctuation();
 

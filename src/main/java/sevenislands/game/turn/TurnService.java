@@ -103,7 +103,7 @@ public class TurnService {
         turn.setUser(userList.get(nextUser));
         List<Card> treasureList = new ArrayList<>();
         if (cards == null) {
-            Optional<List<Turn>> turnList = turnRepository.findTurnByNickname(userList.get(nextUser).getNickname());
+            Optional<List<Turn>> turnList = turnRepository.findTurnByUser(userList.get(nextUser));
             if(turnList.isPresent()) {
                 Turn prevTurn = turnList.get().get(0);
                 treasureList.addAll(prevTurn.getCards());
@@ -128,6 +128,7 @@ public class TurnService {
         Round round = new Round();
         round.setGame(game.get());
         if (roundService.findRoundsByGame(game.get()).isEmpty()) {
+            System.out.println(userList.toString());
             dealtreasures(logedUser, game, userList, roundList);
             Integer prevUser = userList.indexOf(logedUser) == 0 ? userList.size() - 1 : userList.indexOf(logedUser) - 1; 
             roundService.save(round);
@@ -141,13 +142,13 @@ public class TurnService {
     }
     
     @Transactional
-    public void dealtreasures(User logedUser, Optional<Game> game, List<User> userList, List<Round> roundList) {
+    public List<Island> dealtreasures(User logedUser, Optional<Game> game, List<User> userList, List<Round> roundList) {
         Round round = new Round();
         cardService.initGameCards(game.get());
         round.setGame(game.get());
         roundService.save(round);
         dealDoblons(logedUser, userList, round, game);
-        dealIslands(game);
+        return dealIslands(game);
     }
 
     @Transactional
@@ -157,7 +158,9 @@ public class TurnService {
         treasureList.add(cardService.findCardByGameAndTreasure(game.get().getId(), Tipo.Doblon));
         treasureList.add(cardService.findCardByGameAndTreasure(game.get().getId(), Tipo.Doblon));
         for (Integer i = 0; i < userList.size(); i++) {
+            System.out.println(userList.toString());
             User user = userList.get((userList.indexOf(logedUser) + i) % userList.size());
+            System.out.println(user.getNickname() + " " + user.toString());
             Turn turn = new Turn();
             turn.setRound(round);
             turn.setStartTime(LocalDateTime.now());
@@ -171,7 +174,8 @@ public class TurnService {
     }
 
     @Transactional
-    public void dealIslands(Optional<Game> game) {
+    public List<Island> dealIslands(Optional<Game> game) {
+        List<Island> islandList = new ArrayList<>();
         for (Integer i = 0; i < 6; i++) {
             Island island = new Island();
             island.setNum(i + 1);
@@ -190,8 +194,12 @@ public class TurnService {
             selectedCard.setMultiplicity(selectedCard.getMultiplicity() - 1);
             cardService.save(selectedCard);
             islandService.save(island);
+            islandList.add(island);
         }
+        return islandList;
     }
+
+    
 
     @Transactional
     public Island refreshDesk(Integer idIsland, User logedUser, Optional<Game> game){
@@ -251,8 +259,8 @@ public class TurnService {
     }
 
     @Transactional
-    public List<Turn> findTurnByNickname(String nickname) {
-        Optional<List<Turn>> turnList = turnRepository.findTurnByNickname(nickname);
+    public List<Turn> findTurnByUser(User user) {
+        Optional<List<Turn>> turnList = turnRepository.findTurnByUser(user);
         if (turnList.isPresent()) {
             return turnList.get();
         } else {
@@ -261,8 +269,8 @@ public class TurnService {
     }
 
     @Transactional
-    public Map<Card, Integer> findPlayerCardsLastTurn(String nickname) {
-        Optional<List<Turn>> turnList = turnRepository.findTurnByNickname(nickname);
+    public Map<Card, Integer> findPlayerCardsLastTurn(User user) {
+        Optional<List<Turn>> turnList = turnRepository.findTurnByUser(user);
         Map<Card, Integer> map = new TreeMap<>();
         if(turnList.isPresent()) {
             Turn lastPlayerTurn = turnList.get().get(0);
@@ -279,8 +287,8 @@ public class TurnService {
     }
 
     @Transactional
-    public List<Card> findPlayerCardsPenultimateTurn(String nickname) {
-        Optional<List<Turn>> turnList = turnRepository.findTurnByNickname(nickname);
+    public List<Card> findPlayerCardsPenultimateTurn(User user) {
+        Optional<List<Turn>> turnList = turnRepository.findTurnByUser(user);
         if(turnList.isPresent()) {
             Turn lastPlayerTurn = turnList.get().get(1);
             return lastPlayerTurn.getCards();
@@ -290,7 +298,7 @@ public class TurnService {
 //########################################
     @Transactional
     public Turn addCard(Integer id, User user){
-        Optional<List<Turn>> turnList = turnRepository.findTurnByNickname(user.getNickname());
+        Optional<List<Turn>> turnList = turnRepository.findTurnByUser(user);
         if(turnList.isPresent()) {
             Turn lastPlayerTurn = turnList.get().get(0);
             List<Card> cartasLastTurn=lastPlayerTurn.getCards();
@@ -306,8 +314,8 @@ public class TurnService {
     }
 
     @Transactional
-    public Turn deleteCard(Integer id,String nickname){
-        Optional<List<Turn>> turnList = turnRepository.findTurnByNickname(nickname);
+    public Turn deleteCard(Integer id, User user){
+        Optional<List<Turn>> turnList = turnRepository.findTurnByUser(user);
         if(turnList.isPresent()) {
             Turn lastPlayerTurn = turnList.get().get(0);
             List<Card> cartasLastTurn=lastPlayerTurn.getCards();
@@ -326,8 +334,9 @@ public class TurnService {
     }
 
     @Transactional
-    public void addCardToUser(Integer id, User user){
-        Optional<List<Turn>> turnList = turnRepository.findTurnByNickname(user.getNickname());
+    public Turn addCardToUser(Integer id, User user){
+        Optional<List<Turn>> turnList = turnRepository.findTurnByUser(user);
+        Turn turn = null;
         if(turnList.isPresent()) {
             Turn lastPlayerTurn = turnList.get().get(0);
             List<Card> cartasLastTurn=lastPlayerTurn.getCards();
@@ -335,13 +344,15 @@ public class TurnService {
             cartasLastTurn.add(card);
             lastPlayerTurn.setCards(cartasLastTurn);
             turnRepository.save(lastPlayerTurn);
+            turn = lastPlayerTurn;
         }
+        return turn;
     }
 
     @Transactional
-    public boolean endGame(Game game){
+    public Boolean endGame(Game game){
         List<Island> islandList = islandService.findIslandsByGameId(game.getId());
-        boolean res=true;
+        Boolean res=true;
         for(Card i: cardService.findAllCardsByGameId(game.getId())){
             if(!(i.getMultiplicity().equals(0))){
                 res=false;
@@ -356,8 +367,8 @@ public class TurnService {
     }
 
     @Transactional
-    public Integer findTotalTurnsByNickname(String nickname) {
-        return turnRepository.findTotalTurnsByNickname(nickname);
+    public Integer findTotalTurnsByUser(User user) {
+        return turnRepository.findTotalTurnsByUser(user);
     }
 //########################################
     @Transactional
@@ -399,32 +410,75 @@ public class TurnService {
     @Transactional
     public Double findDailyAverageTurns() {
         Double average = (double) turnCount() / turnRepository.findTotalTurnsByDay().size();
-        return Math.round(average * 100.0) / 100.0;
+        return Math.round(average * 100.0) / 100.0d;
     }
 //########################################
     @Transactional
     public Integer findMaxTurnsADay() {
-        return turnRepository.findTotalTurnsByDay().stream().max(Comparator.naturalOrder()).get();
+        return turnRepository.findTotalTurnsByDay().stream().max(Comparator.naturalOrder()).orElse(0);
     }
 //########################################
     @Transactional
     public Integer findMinTurnsADay() {
-        return turnRepository.findTotalTurnsByDay().stream().min(Comparator.naturalOrder()).get();
+        return turnRepository.findTotalTurnsByDay().stream().min(Comparator.naturalOrder()).orElse(0);
     }
 //########################################
     @Transactional
     public Double findAverageTurns() {
         Double average = (double) turnCount() / gameService.gameCount();
-        return Math.round(average * 100.0) / 100.0;
+        return Math.round(average * 100.0) / 100.0d;
     }
 //########################################
     @Transactional
     public Integer findMaxTurns() {
-        return turnRepository.findTotalTurns().stream().max(Comparator.naturalOrder()).get();
+        return turnRepository.findTotalTurnsByGame().stream().max(Comparator.naturalOrder()).orElse(0);
     }
 //########################################
     @Transactional
     public Integer findMinTurns() {
-        return turnRepository.findTotalTurns().stream().min(Comparator.naturalOrder()).get();
+        return turnRepository.findTotalTurnsByGame().stream().min(Comparator.naturalOrder()).orElse(0);
+    }
+
+    @Transactional
+    public Double findAverageTurnsByUser(User user) {
+        Optional<List<Turn>> allTurns = turnRepository.findTurnByUser(user);
+        Double averageTurns = 0.;
+        if(allTurns.isPresent()) {
+            Integer totalTurns = allTurns.get().size();
+            Integer totalGames = gameService.findTotalGamesPlayedByUser(user);
+            averageTurns = (double) totalTurns/totalGames;
+        }
+        return Math.round(averageTurns*100)/100d;
+    }
+
+    @Transactional
+    public Integer findMaxTurnsInGameByUser(User user) {
+        Optional<List<Turn>> allTurns = turnRepository.findTurnByUser(user);
+        Integer maxTurns = 0;
+        if(allTurns.isPresent()) {
+            Map<Integer, List<Turn>> turnsByGame = allTurns.get().stream()
+            .collect(Collectors.groupingBy(g -> g.getRound().getGame().getId()));
+            
+            maxTurns = turnsByGame.values().stream()
+            .map(turnsList -> turnsList.size())
+            .reduce(0, Integer::max);
+        }
+        return maxTurns;
+    }
+
+    @Transactional
+    public Integer findMinTurnsInGameByUser(User user) {
+        Optional<List<Turn>> allTurns = turnRepository.findTurnByUser(user);
+        Integer minTurns = 0;
+        if(allTurns.isPresent()) {
+            Map<Integer, List<Turn>> turnsByGame = allTurns.get().stream()
+            .collect(Collectors.groupingBy(g -> g.getRound().getGame().getId()));
+            
+            minTurns = turnsByGame.values().stream()
+            .map(turnsList -> turnsList.size())
+            .min(Integer::compareTo)
+            .get();
+        }
+        return minTurns;
     }
 }

@@ -6,7 +6,7 @@
 <%@ page contentType="text/html; charset=UTF-8" %>
 
 <sevenislands:layout2 pageName="rankingPoints">
-    <body style="background: url(resources/images/grafics/fondo1920x1080.jpg)">
+    <body>
         <a class="btn btn-default" href='<spring:url value="/home" htmlEscape="true"/>'>Volver</a>
         <h2><br>Ranking por puntos</h2>
 

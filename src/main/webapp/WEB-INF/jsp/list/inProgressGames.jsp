@@ -42,14 +42,14 @@
 		<table class="table table-striped">
 			<tr>
 				<th>Id</th>
-				<th>Creation_date</th>
+				<th>Fecha de creación</th>
 				<th>Creador</th>
 				<th>Participantes</th>
 			</tr>
 			<c:forEach items="${games}" var="game">
 				<tr>
 					<td><c:out value="${game.getFirst().id}"/></td>
-					<td><c:out value="${game.getFirst().creationDate}"/></td>
+					<td><c:out value="${game.getFirst().getFormattedCreationDate()}"/></td>
 					<td><c:out value="${game.getSecond()[0]}"></c:out></td>
 					<td><c:out value="${fn:join(game.getSecond(), ', ')}"/></td>
 				</tr>
