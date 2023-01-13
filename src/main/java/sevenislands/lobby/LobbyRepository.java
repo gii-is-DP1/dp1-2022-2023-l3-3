@@ -14,12 +14,4 @@ public interface LobbyRepository extends CrudRepository<Lobby,Integer> {
 
     @Query("SELECT lobby FROM Lobby lobby WHERE lobby.code=?1")
 	public Optional<Lobby> findByCode(String code);
-    
-    @Query("SELECT lobby FROM Lobby lobby INNER JOIN lobby.users user WHERE user.id=?1 ORDER BY lobby.id DESC")
-    public Optional<List<Lobby>> findByPlayerId(Integer userId);
-
-    @Query("SELECT lobby FROM Lobby lobby INNER JOIN lobby.users user WHERE user.id=?2 AND lobby.active=?1")
-    public Optional<List<Lobby>> findLobbyActive(Boolean active,Integer userId);
-
-
 }

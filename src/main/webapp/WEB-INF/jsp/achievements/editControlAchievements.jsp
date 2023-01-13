@@ -12,6 +12,17 @@
     flex-direction: column;
     align-items: center;
   }
+
+  #error {
+    color: black;
+    text-align: center;
+    background-color: rgb(255, 50, 50);
+    border: 2px solid black;
+    font-weight: 700;
+    border-radius: 50px;
+    margin: 3px;
+    width: 50%;
+  }
 </style>
 
 
@@ -36,5 +47,10 @@
         <button class="btn btn-default mr-3" type="submit">Actualizar</button>
       </div>
     </form:form>
+    <div id="for" >
+      <c:forEach items="${errors}" var="error">
+        <p id="error">${error}</p>
+      </c:forEach>
+    </div>
   </jsp:body>
 </sevenislands:layout2>

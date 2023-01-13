@@ -38,7 +38,7 @@ body {
     padding: 10px;
 }
 
-#player_list {
+.player_list {
     padding: 10px;
     margin: 10px;
     height: auto;
@@ -119,7 +119,7 @@ tr:nth-child(odd) {
                         href='<spring:url value="/home" htmlEscape="true"/>'>Abandonar Partida</a>
                 </div>
             </div>
-            <div id="player_list">
+            <div class="player_list">
                 <h2 class="text">Jugadores</h2>
                 <table class="table table-striped">
                     <tr>	
@@ -140,6 +140,15 @@ tr:nth-child(odd) {
                         </tr>
                     </c:forEach>
                 </table>
+            </div>
+            <div class="player_list">
+                <h2 class="text">Jugadores</h2>
+                <c:forEach items="${friends}" var="friend">
+                    <img src="/resources/images/avatars/${friend.avatar}" height="25" width="25">
+                    <c:out value="${friend.nickname}"/>
+                    <a href="/invite/viewer/${friend.id}">Invitar como espectador</a>
+                    <a href="/invite/player/${friend.id}">Invitar como jugador</a>
+                </c:forEach>
             </div>
         </div>
     </body>

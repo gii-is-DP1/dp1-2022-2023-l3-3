@@ -7,14 +7,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Collectors;
 import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import sevenislands.enums.Mode;
+import sevenislands.exceptions.NotExistLobbyException;
 import sevenislands.game.round.RoundService;
 import sevenislands.lobby.Lobby;
+import sevenislands.lobby.LobbyService;
+import sevenislands.lobby.lobbyUser.LobbyUser;
+import sevenislands.lobby.lobbyUser.LobbyUserService;
 import sevenislands.user.User;
 
 import org.springframework.stereotype.Service;
@@ -25,19 +31,26 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 public class GameService {
 
-    
     private GameRepository gameRepository;
     private RoundService roundService;
+    private final LobbyUserService lobbyUserService;
+    private final LobbyService lobbyService;
+
+    private final Integer minPlayers = 1;
+    private final Integer maxPlayers = 4;
 
     @Autowired
-    public GameService(RoundService roundService, GameRepository gameRepository) {
+    public GameService(RoundService roundService, GameRepository gameRepository, LobbyUserService lobbyUserService,
+            LobbyService lobbyService) {
         this.gameRepository = gameRepository;
         this.roundService = roundService;
+        this.lobbyUserService = lobbyUserService;
+        this.lobbyService = lobbyService;
     }
 
     @Transactional
-    public Integer gameCount() {
-        return (int) gameRepository.count();
+    public Long gameCount() {
+        return gameRepository.count();
     }
 
     @Transactional
@@ -52,7 +65,6 @@ public class GameService {
         game.setLobby(lobby);
         game.setActive(true);
         gameRepository.save(game);
-        
         return game;
     }
     
@@ -61,36 +73,57 @@ public class GameService {
          gameRepository.save(game);
     }
 
+    // @Transactional
+    // public Optional<List<Game>> findGamesByUserAndActive(User user, Boolean active) {
+    //     List<Lobby> lobbies = lobbyUserService.findLobbiesByUser(user);
+    //     Optional<List<Game>> gameList = gameRepository.findGameByLobbyAndActive(lobbies, active);
+    //     if(gameList.isPresent()) {
+    //          return gameList;
+    //     }
+    //     return Optional.empty();
+    // }
+
     @Transactional
-    public Optional<List<Game>> findGamesByNicknameAndActive(String nickname, Boolean active) {
-        Optional<List<Game>> gameList = gameRepository.findGameByNicknameAndActive(nickname, active);
+    public Optional<Game> findGameByUserAndActive(User user, Boolean active) {
+        List<Lobby> lobbies = lobbyUserService.findLobbiesByUser(user);
+        Optional<List<Game>> gameList = gameRepository.findGameByLobbyAndActive(lobbies, active);
         if(gameList.isPresent()) {
-            return gameList;
+            Optional<Game> result = Optional.of(gameList.get().get(0));
+            return result;
         }
         return Optional.empty();
     }
 
     @Transactional
-    public Optional<Game> findGameByNicknameAndActive(String nickname, Boolean active) {
-        Optional<List<Game>> gameList = gameRepository.findGameByNicknameAndActive(nickname, active);
-        if(gameList.isPresent()) {
-            return Optional.of(gameList.get().get(0));
-        }
-        return Optional.empty();
+    public List<Object []> findGamePlayedByUser(User user) {
+        List<Object []> result = new ArrayList<>();
+        List<Lobby> lobbies = lobbyUserService.findLobbiesByUserAndMode(user, Mode.PLAYER);
+        List<Game> games = gameRepository.findGameActive(false).stream().filter(
+            game -> lobbies.contains(game.getLobby())
+        ).collect(Collectors.toList());
+        games.stream().forEach(
+            game -> {
+                lobbyUserService.findUsersByLobby(game.getLobby()).stream().forEach(
+                    userLobby -> {
+                        result.add(new Object [] {game, userLobby.getNickname()});
+                    }
+                );
+            }
+        );
+        return result;
     }
 
     @Transactional
-    public Optional<Game> findGameByNickname(String nickname) {
-        Optional<List<Game>> games = gameRepository.findGameByNickname(nickname);
-        if(games.isPresent()) {
-            return Optional.of(games.get().get(0));
-        }
-        return Optional.empty();
-    }
-
-    @Transactional
-    public List<Object []> findGamePLayedByNickname(String nickname) {
-        return gameRepository.findGamePLayedByNickname(nickname);
+    public List<Object []> findGameAndHostPLayedByUser(User user) {
+        List<Object []> result = new ArrayList<>();
+        List<Lobby> lobbies = lobbyUserService.findLobbiesByUserAndMode(user, Mode.PLAYER);
+        List<Game> games = gameRepository.findGameActive(false).stream().filter(
+            game -> lobbies.contains(game.getLobby())
+        ).collect(Collectors.toList());
+        games.stream().forEach(
+            game -> result.add(new Object [] {game, lobbyUserService.findUsersByLobby(game.getLobby()).get(0)})
+        );
+        return result;
     }
 
     /**
@@ -102,34 +135,72 @@ public class GameService {
      */
     @Transactional
     public Boolean checkUserGameWithRounds(User logedUser) {
-        Optional<Game> game = findGameByNicknameAndActive(logedUser.getNickname(), true);
-        return game.isPresent() && roundService.checkRoundByGameId(game.get().getId());
+        Optional<Game> game = findGameByUserAndActive(logedUser, true);
+        return game.isPresent() && roundService.checkRoundByGame(game.get());
      }
 
     @Transactional
     public List<Object []> findGameActive(Boolean active) {
-        return gameRepository.findGameActive(active);
+        List<Object []> result = new ArrayList<>();
+        List<Game> games = gameRepository.findGameActive(active);
+        games.stream().forEach(
+            game -> {
+                lobbyUserService.findUsersByLobby(game.getLobby()).stream().forEach(
+                    user -> {
+                        result.add(new Object [] {game, user.getNickname()});
+                    }
+                );
+            }
+        );
+        return result;
     }
 
     @Transactional
-    public Optional<Game> endGame(User logedUser) {
-        Optional<Game> game = findGameByNicknameAndActive(logedUser.getNickname(), true);
+    public Game endGame(User logedUser) {
+        Optional<Game> game = findGameByUserAndActive(logedUser, true);
         if(game.isPresent()) {
             game.get().setActive(false);
             game.get().setEndingDate(LocalDateTime.now());
-            gameRepository.save(game.get());
+            return gameRepository.save(game.get());
         }
-        return game;
+        return null;
     }
 
     @Transactional
-    public Integer findTotalGamesPlayedByNickname(String nickname) {
-        return gameRepository.findTotalGamesPlayedByNickname(nickname);
+    public Integer findTotalGamesPlayedByUser(User user) {
+        List<Lobby> lobbies = lobbyUserService.findLobbiesByUserAndMode(user, Mode.PLAYER);
+        return gameRepository.findTotalGamesPlayedByUserLobbies(lobbies);
     }
 
     @Transactional
-    public Long findTotalTimePlayedByNickname(String nickname) {
-        Optional<List<Game>> games = gameRepository.findGameByNickname(nickname);
+    public Optional<Game> findGameByLobby(Lobby lobby) {
+        return gameRepository.findGameByLobby(lobby);
+    }
+
+    @Transactional
+    public Optional<Game> findGameByUser(User user) throws NotExistLobbyException {
+        try {
+            Lobby lobby = lobbyUserService.findLobbyByUser(user);
+            return gameRepository.findGameByLobby(lobby);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
+    @Transactional
+    public Optional<Game> findGameByUserAndMode(User user, Mode mode) throws NotExistLobbyException {
+        try {
+            Lobby lobby = lobbyUserService.findLobbyByUserAndMode(user, mode);
+            return gameRepository.findGameByLobby(lobby);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
+    }
+
+    @Transactional
+    public Long findTotalTimePlayedByUser(User user) {
+        List<Lobby> lobbies = lobbyUserService.findLobbiesByUserAndMode(user, Mode.PLAYER);
+        Optional<List<Game>> games = gameRepository.findGamesByLobbies(lobbies);
         Duration played = Duration.ZERO;
         if(games.isPresent()){
             for(Game g : games.get()) {
@@ -148,11 +219,12 @@ public class GameService {
         Duration played = Duration.ZERO;
         for(Game g : games) {
             LocalDateTime creationDate = g.getCreationDate();
-            LocalDateTime endingDate = g.getEndingDate();
-            Duration diference = Duration.between(creationDate,endingDate);
-            played = played.plus(diference);
+            if(g.getEndingDate()!=null) {
+                LocalDateTime endingDate = g.getEndingDate();
+                Duration diference = Duration.between(creationDate,endingDate);
+                played = played.plus(diference);
+            }
         }
-
         return played.toMinutes();   
     }
 
@@ -177,8 +249,8 @@ public class GameService {
         return findTotalGamesPlayedByDay().stream().min(Comparator.naturalOrder()).get();
     }
 
-    public Boolean checkUserGame(User logedUser) {
-        Optional<Game> game = findGameByNickname(logedUser.getNickname());
+    public Boolean checkUserGame(User logedUser) throws NotExistLobbyException {
+        Optional<Game> game = findGameByUser(logedUser);
         if(game.isPresent() && game.get().isActive()) return true;
         return false;
     }
@@ -189,9 +261,9 @@ public class GameService {
     }
 
     @Transactional
-    public Double findAverageVictoriesPerGameByNickname(String nickname) {
-        Long totalVictories = gameRepository.findVictoriesByNickname(nickname);
-        Integer totalGames = gameRepository.findTotalGamesPlayedByNickname(nickname);
+    public Double findAverageVictoriesPerGameByUser(User user) {
+        Long totalVictories = gameRepository.findVictoriesByNickname(user.getNickname());
+        Integer totalGames = findGamePlayedByUser(null).size();
         Double averageVictories = 0.;
         if(totalVictories != null && totalGames != null) averageVictories = (double) totalVictories / totalGames;
         return averageVictories;
@@ -248,17 +320,19 @@ public class GameService {
     public Map<LocalDate, Duration> findGamesDurationsByDate() {
         Map<LocalDate, Duration> durationsByDate = new HashMap<>();
         List<Game> games = findAll();
-        for(Game g : games) {
-            LocalDateTime creationDate = g.getCreationDate();
-            LocalDateTime endingDate = g.getEndingDate();
-            LocalDate date = creationDate.toLocalDate();
-            Duration diference = Duration.between(creationDate,endingDate);
-            if(durationsByDate.containsKey(date)) {
-                Duration updatedDuration = durationsByDate.get(date).plus(diference);
-                durationsByDate.put(date, updatedDuration);
-            }
-            else {
-                durationsByDate.put(date, diference);
+        for(Game game : games) {
+            if(game.getEndingDate()!=null) {
+                LocalDateTime creationDate = game.getCreationDate();
+                LocalDateTime endingDate = game.getEndingDate();
+                LocalDate date = creationDate.toLocalDate();
+                Duration diference = Duration.between(creationDate,endingDate);
+                if(durationsByDate.containsKey(date)) {
+                    Duration updatedDuration = durationsByDate.get(date).plus(diference);
+                    durationsByDate.put(date, updatedDuration);
+                }
+                else {
+                    durationsByDate.put(date, diference);
+                }
             }
         }
         return durationsByDate;
@@ -301,8 +375,10 @@ public class GameService {
         for(Game g : games) {
             LocalDateTime creationDate = g.getCreationDate();
             LocalDateTime endingDate = g.getEndingDate();
-            Duration diference = Duration.between(creationDate,endingDate);
-            times.add(diference);
+            if(endingDate!=null) {
+                Duration diference = Duration.between(creationDate,endingDate);
+                times.add(diference);
+            }
         }
         return times;
     }
@@ -318,74 +394,201 @@ public class GameService {
     }
 
     @Transactional
-    public Integer findTotalPlayersDistinct() {
-        return gameRepository.findTotalPlayersDistinct();
-    }
-
-    @Transactional
     public Double findAveragePlayers() {
-        Double average = (double) gameRepository.findTotalPlayers() / gameCount();
+        Double average = (double) lobbyUserService.findTotalPlayersByMode(Mode.PLAYER) / gameCount();
         return Math.round(average * 100.0) / 100.0; 
     }
 
     @Transactional
-    public Integer findMaxPlayers() {
-        return gameRepository.findTotalPlayersByGame().stream().max(Comparator.naturalOrder()).get();
+    public Long findMaxPlayers() {
+        List<Lobby> lobbies = gameRepository.findLobbies();
+        Optional<List<Long>> totalPlayers = lobbyUserService.findTotalPlayersByLobbyAndMode(lobbies, Mode.PLAYER);
+        if(totalPlayers.isPresent()) {
+            Long maxPlayers = totalPlayers.get().stream().max(Comparator.naturalOrder()).get();
+            return maxPlayers;
+        }
+        return 0L;
     }
 
     @Transactional
-    public Integer findMinPlayers() {
-        return gameRepository.findTotalPlayersByGame().stream().min(Comparator.naturalOrder()).get();
+    public Long findMinPlayers() {
+        List<Lobby> lobbies = gameRepository.findLobbies();
+        Optional<List<Long>> totalPlayers = lobbyUserService.findTotalPlayersByLobbyAndMode(lobbies, Mode.PLAYER);
+        if(totalPlayers.isPresent()) {
+            return totalPlayers.get().stream().min(Comparator.naturalOrder()).get();
+        }
+        return 0L;
     }
 
     @Transactional
     public Double findDailyAveragePlayers() {
-        Double average = (double) gameRepository.findTotalPlayers() / findTotalGamesPlayedByDay().size();
+        Double average = (double) lobbyUserService.findTotalPlayersByMode(Mode.PLAYER) / findTotalGamesPlayedByDay().size();
         return Math.round(average * 100.0) / 100.0; 
     }
 
     @Transactional
     public Integer findMaxPlayersADay() {
-        return gameRepository.findTotalPlayersByDay().stream().max(Comparator.naturalOrder()).get();
+        List<List<Lobby>> lobbies = gameRepository.findLobbiesByDay();
+        List<Integer> playersByDay = lobbies.stream().map(lobbyList -> lobbyUserService.findTotalPlayersByDayAndMode(lobbyList, Mode.PLAYER)).collect(Collectors.toList());
+        return playersByDay.stream().max(Comparator.naturalOrder()).get();
     }
 
     @Transactional
     public Integer findMinPlayersADay() {
-        return gameRepository.findTotalPlayersByDay().stream().min(Comparator.naturalOrder()).get();
+        List<List<Lobby>> lobbies = gameRepository.findLobbiesByDay();
+        List<Integer> playersByDay = lobbies.stream().map(lobbyList -> lobbyUserService.findTotalPlayersByDayAndMode(lobbyList, Mode.PLAYER)).collect(Collectors.toList());
+        return playersByDay.stream().min(Comparator.naturalOrder()).get();
     }
     
     @Transactional
-    public Double findAverageGamePlayedByNicknamePerDay(String nickname) {
-        List<Integer> gamesPerDay = gameRepository.findNGamesPlayedByNicknamePerDay(nickname);
-        Integer total = gamesPerDay.stream().reduce(0, (a,b) -> a + b);
-        return (double) total / gamesPerDay.size();
+    public Lobby leaveLobby(User user) throws NotExistLobbyException {
+        Lobby lobby = lobbyUserService.findLobbyByUser(user);
+        Optional<Game> game = findGameByLobby(lobby);
+		if(lobby.isActive() || (game.isPresent() && game.get().isActive())) {
+            List<User> users = lobbyUserService.findUsersByLobby(lobby);
+            if (users.size() == minPlayers) {
+                lobby.setActive(false);
+            }
+            Optional<LobbyUser> lobbyUser = lobbyUserService.findByLobbyAndUser(lobby, user);
+            if(lobbyUser.isPresent()) {
+                lobbyUserService.deleteLobbyUser(lobbyUser.get());
+                lobby = lobbyService.save(lobby);
+            }
+        } 
+        return lobby;
     }
 
     @Transactional
-    public Integer findMaxGamePlayedByNicknamePerDay(String nickname) {
-        List<Integer> gamesPerDay = gameRepository.findNGamesPlayedByNicknamePerDay(nickname);
-        Integer maxPlayed = gamesPerDay.stream().max(Integer::compareTo).get();
-        return maxPlayed;
+    public List<String> checkLobbyErrors(String code) throws NotExistLobbyException {
+        List<String> errors = new ArrayList<>();
+        try {
+            code = code.trim();
+            Lobby lobby = lobbyService.findLobbyByCode(code);
+            Integer userNumber = lobbyUserService.findUsersByLobby(lobby).size();
+		    if(!lobby.isActive()) errors.add("La partida ya ha empezado o ha finalizado");
+		    if(userNumber == maxPlayers) errors.add("La lobby está llena");
+            return errors;
+        } catch (Exception e) {
+            errors.add("El código no pertenece a ninguna lobby");
+            return errors;
+        }
     }
 
     @Transactional
-    public Integer findMinGamePlayedByNicknamePerDay(String nickname) {
-        List<Integer> gamesPerDay = gameRepository.findNGamesPlayedByNicknamePerDay(nickname);
-        Integer minPlayed = gamesPerDay.stream().min(Integer::compareTo).get();
-        return minPlayed;
+    public Boolean checkLobbyNoAllPlayers(User logedUser) throws Exception {
+        try {
+            Integer userNumber = null;
+            Lobby lobby = lobbyUserService.findLobbyByUser(logedUser);
+            Boolean res;
+            userNumber = lobbyUserService.findUsersByLobbyAndMode(lobby, Mode.PLAYER).size();
+		if (userNumber > minPlayers && userNumber <= maxPlayers) {
+            res = false;
+		} else {res= true;}
+            return res;
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     @Transactional
-    public Double findAverageTimePlayedByNicknamePerDay(String nickname) {
-        Long totalTime = findTotalTimePlayedByNickname(nickname);
-        List<Integer> gamesPerDay = gameRepository.findNGamesPlayedByNicknamePerDay(nickname);
-        Integer totalDays = gamesPerDay.size();
-        return (double) totalTime / totalDays;
+    public Boolean ejectPlayer(User logedUser, User ejectedUser) throws Exception {
+		try {
+            Lobby lobbyEjectedUser = lobbyUserService.findLobbyByUser(ejectedUser);
+            Lobby lobbyLogedUser = lobbyUserService.findLobbyByUser(logedUser);
+            Boolean res;
+            if(lobbyEjectedUser.equals(lobbyLogedUser)) {
+                if (ejectedUser.getNickname().equals(logedUser.getNickname())) {
+                    leaveLobby(logedUser);
+                    res = false;
+                } else {
+                    Optional<LobbyUser> lobbyUser = lobbyUserService.findByLobbyAndUser(lobbyLogedUser, ejectedUser);
+                    if(lobbyUser.isPresent()) {
+                        lobbyUserService.deleteLobbyUser(lobbyUser.get());
+                        res = true;
+                    } else res = false;
+                }
+            } else res = true;
+                return res;
+        } catch (Exception e) {
+            throw e;
+        }
     }
 
     @Transactional
-    public Double findMaxTimePlayedByNickname(String nickname) {
-        Optional<List<Game>> games = gameRepository.findGameByNickname(nickname);
+    public Boolean checkUserViewer(User logedUser) {
+        try {
+            Lobby lobby = lobbyUserService.findLobbyByUser(logedUser);
+            Optional<Game> game = gameRepository.findGameByLobby(lobby);
+            Optional<LobbyUser> lobbyUser = lobbyUserService.findByLobbyAndUser(lobby, logedUser);
+            if(lobbyUser.isPresent() && game.isPresent() && game.get().isActive()) {
+                return lobbyUser.get().getMode().equals(Mode.VIEWER);
+            }
+            return false;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+    
+    @Transactional
+    public Double findAverageGamePlayedByUserPerDay(User user) {
+        Optional<List<Game>> games = findGamesByUser(user);
+        if(games.isPresent()) {
+            List<Integer> gamesPerDay = gameRepository.findNumberGamesByGameListPerDay(games.get());
+            Integer total = gamesPerDay.stream().reduce(0, (a,b) -> a + b);
+            return (double) total / gamesPerDay.size();
+        }
+        return 0.0;
+    }
+
+    @Transactional
+    public Integer findMaxGamePlayedByUserPerDay(User user) {
+        Optional<List<Game>> games = findGamesByUser(user);
+        if(games.isPresent()) {
+            List<Integer> gamesPerDay = gameRepository.findNumberGamesByGameListPerDay(games.get());
+            Integer maxPlayed = gamesPerDay.stream().max(Integer::compareTo).get();
+            return maxPlayed;
+        }
+        return 0;
+    }
+
+    @Transactional
+    public Integer findMinGamePlayedByUserPerDay(User user) {
+        Optional<List<Game>> games = findGamesByUser(user);
+        if(games.isPresent()) {
+            List<Integer> gamesPerDay = gameRepository.findNumberGamesByGameListPerDay(games.get());
+            Integer minPlayed = gamesPerDay.stream().min(Integer::compareTo).get();
+            return minPlayed;
+        }
+        return 0;
+
+    }
+
+    @Transactional
+    public Double findAverageTimePlayedByUserPerDay(User user) {
+        Optional<List<Game>> games = findGamesByUser(user);
+        if(games.isPresent()) {
+            Long totalTime = findTotalTimePlayedByUser(user);
+            List<Integer> gamesPerDay = gameRepository.findNumberGamesByGameListPerDay(games.get());
+            Integer totalDays = gamesPerDay.size();
+            return (double) totalTime / totalDays;
+        }
+        return 0.0;
+    }
+
+    @Transactional
+    public Optional<List<Game>> findGamesByUser(User user) {
+        List<Lobby> lobbies = lobbyUserService.findLobbiesByUserAndMode(user, Mode.PLAYER);
+        List<Game> games = gameRepository.findGameActive(false);
+        if(games.isEmpty()) return Optional.empty();
+        games = games.stream().filter(
+            game -> lobbies.contains(game.getLobby())
+        ).collect(Collectors.toList());
+        return Optional.of(games);
+    }
+
+    @Transactional
+    public Double findMaxTimePlayedByUser(User user) {
+        Optional<List<Game>> games = findGamesByUser(user);
         Long maxTime = 0L;
         if(games.isPresent()) {
             maxTime = games.get().stream()
@@ -398,8 +601,8 @@ public class GameService {
     }
 
     @Transactional
-    public Double findMinTimePlayedByNickname(String nickname) {
-        Optional<List<Game>> games = gameRepository.findGameByNickname(nickname);
+    public Double findMinTimePlayedByUser(User user) {
+        Optional<List<Game>> games = findGamesByUser(user);
         Long minTime = 0L;
         if(games.isPresent()) {
             minTime = games.get().stream()
@@ -410,4 +613,5 @@ public class GameService {
         }
         return (double) minTime;
     }
+
 }

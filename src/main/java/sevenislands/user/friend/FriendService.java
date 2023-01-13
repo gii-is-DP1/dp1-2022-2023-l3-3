@@ -2,6 +2,7 @@ package sevenislands.user.friend;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,29 +29,32 @@ public class FriendService {
     }
 
     @Transactional
-    public void acceptFriend(Integer id, User logedUser) {
+    public Optional<Friend> acceptFriend(Integer id, User logedUser) {
         Optional<Friend> friend = friendRepository.findById(id);
         if(friend.isPresent() && requestExists(logedUser, friend.get().getUser1())) {
             friend.get().setStatus(Status.ACCEPTED);
             friendRepository.save(friend.get());
         }
+        return friend;
     }
 
     @Transactional
-    public void rejectFriend(Integer id, User logedUser) {
+    public Optional<Friend> rejectFriend(Integer id, User logedUser) {
         Optional<Friend> friend = friendRepository.findById(id);
         if(friend.isPresent() && requestExists(logedUser, friend.get().getUser1())) {
             friend.get().setStatus(Status.REJECTED);
             friendRepository.save(friend.get());
         }
+        return friend;
     }
 
     @Transactional
-    public void deleteFriend(Integer id, User logedUser) {
+    public  Optional<Friend> deleteFriend(Integer id, User logedUser) {
         Optional<Friend> friend = friendRepository.findById(id);
         if(friend.isPresent() && (requestExists(logedUser, friend.get().getUser1()) || requestExists(logedUser, friend.get().getUser2()))) {
             friendRepository.delete(friend.get());
         }
+        return friend;
     }
 
     @Transactional
@@ -80,5 +84,12 @@ public class FriendService {
     @Transactional
     public Optional<Friend> findFriendById(Integer id) {
         return friendRepository.findById(id);
+    }
+
+    @Transactional
+    public List<User> findUserFriends(User user, Status status) {
+        List<Friend> friends = friendRepository.findFriends(user, status);
+        List<User> users = friends.stream().map(friend -> friend.getUser1().equals(user)? friend.getUser2() : friend.getUser1()).collect(Collectors.toList());
+        return users;
     }
 }

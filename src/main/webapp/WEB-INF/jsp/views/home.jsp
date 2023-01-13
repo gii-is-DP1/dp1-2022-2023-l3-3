@@ -3,6 +3,7 @@
 <%@ taglib prefix="sevenislands" tagdir="/WEB-INF/tags" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <style>
 .content {
@@ -144,14 +145,22 @@
 		</div>
 		<div class="body">
 			<img id="name" src="/resources/images/grafics/letras_7_islas.png">
+			<div>
+				<c:forEach items="${invitations}" var="invitation">
+                    <img src="/resources/images/avatars/${invitation.sender.avatar}" height="25" width="25">
+                    <c:out value="${invitation.sender.nickname}"/>
+					<c:out value="${invitation.mode}"/>
+					<a href="/lobby/accept/${invitation.id}">Aceptar</a>
+                </c:forEach>
+			</div>
 			<div class="menu">
 				<sec:authorize access="hasAuthority('player')">
 					<a class="btn btn-default" href='<spring:url value="/lobby/create" htmlEscape="true"/>'>Crear Partida</a>
 					<a class="btn btn-default" href='<spring:url value="/join" htmlEscape="true"/>'>Unirse a Partida</a>
 					<c:if test="${hasPlayed}">
 						<a class="btn btn-default" href='<spring:url value="/endGame" htmlEscape="true"/>'>Resultados anteriores</a>
+						<a class="btn btn-default" href='<spring:url value="/game/gamesAsPlayer" htmlEscape="true"/>'>Partidas jugadas</a>
 					</c:if>
-					<a class="btn btn-default" href='<spring:url value="/game/gamesAsPlayer" htmlEscape="true"/>'>Partidas jugadas</a>
 				</sec:authorize>
 		
 				<sec:authorize access="hasAuthority('admin')">
@@ -160,7 +169,6 @@
 					<a class="btn btn-default" href='<spring:url value="/game/finished" htmlEscape="true"/>'>Partidas finalizadas</a>
 					<a class="btn btn-default" href='<spring:url value="/game/InProgress" htmlEscape="true"/>'>Partidas en curso</a>
 				</sec:authorize>
-		
 				<a class="btn btn-default" href='<spring:url value="/custom-logout" htmlEscape="true"/>'>Cerrar Sesión</a>
 			</div>
 			<img id="pirata" src="/resources/images/grafics/pirataLoroAnimado.gif">

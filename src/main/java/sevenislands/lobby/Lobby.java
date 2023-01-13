@@ -1,17 +1,11 @@
 package sevenislands.lobby;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.ManyToMany;
 import sevenislands.model.BaseEntity;
-import sevenislands.user.User;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -25,20 +19,6 @@ public class Lobby extends BaseEntity {
 
   @Column(name = "active", unique = false, nullable = false)
   private boolean active;
-
-  @ManyToMany(cascade = CascadeType.PERSIST)
-  private List<User> users;
-
-  public List<User> getPlayerInternal() {
-    if (this.users == null) {
-      this.users = new ArrayList<>();
-    }
-    return this.users;
-  }
-
-  public void addPlayer(User user) {
-    getPlayerInternal().add(user);
-  }
 
    /**
      * Crea un código aleatorio para la lobby.
