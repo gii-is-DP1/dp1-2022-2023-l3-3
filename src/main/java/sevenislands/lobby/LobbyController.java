@@ -90,8 +90,12 @@ public class LobbyController {
 	@GetMapping("/lobby/create")
 	public String createLobby(HttpServletRequest request, @ModelAttribute("logedUser") User logedUser) throws ServletException, NotExistLobbyException {
 		if(lobbyUserService.checkUserLobby(logedUser)) return "redirect:/home";
-		if(gameService.checkUserGame(logedUser)) return "redirect:/home";
-		invitationService.deleteInvitationsByLobbyAndUser(lobbyUserService.findLobbyByUser(logedUser), logedUser);
+		if(gameService.checkUserGame(logedUser))return "redirect:/home";	
+		try{
+			invitationService.deleteInvitationsByLobbyAndUser(lobbyUserService.findLobbyByUser(logedUser), logedUser);
+		}catch(Exception e){
+			e.getMessage();
+		}
 		lobbyUserService.createLobby(logedUser);
 		return "redirect:/lobby";
 	}
