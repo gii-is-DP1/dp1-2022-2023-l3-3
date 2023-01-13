@@ -106,29 +106,53 @@ public class StatisticController {
     @GetMapping("/myStatistics")
     public String showMyStatistics(ModelMap model, @ModelAttribute("logedUser") User logedUser) {
         model.put("user", logedUser);
+        
         model.put("total_games_player", gameService.findTotalGamesPlayedByUser(logedUser));
+        System.out.println("x=1");
         model.put("average_games_player", gameService.findAverageGamePlayedByUserPerDay(logedUser));
+        System.out.println("x=2");
         model.put("max_games_player", gameService.findMaxGamePlayedByUserPerDay(logedUser));
+        System.out.println("x=3");
         model.put("min_games_player", gameService.findMinGamePlayedByUserPerDay(logedUser));
+        System.out.println("x=4");
         model.put("total_time_player", gameService.findTotalTimePlayedByUser(logedUser));
+        System.out.println("x=5");
         model.put("average_time_player", gameService.findAverageTimePlayedByUserPerDay(logedUser));
+        System.out.println("x=6");
         model.put("max_time_player", gameService.findMaxTimePlayedByUser(logedUser));
+        System.out.println("x=7");
         model.put("min_time_player", gameService.findMinTimePlayedByUser(logedUser));
+        System.out.println("x=8");
         model.put("total_points_player", gameDetailsService.findPunctuationByNickname(logedUser.getNickname()));
+        System.out.println("x=9");
         model.put("average_points_player", gameDetailsService.findAveragePunctuationByUser(logedUser));
+        System.out.println("x=10");
         model.put("max_points_player", gameDetailsService.findMaxPunctuationByNickname(logedUser.getNickname()));
+        System.out.println("x=11");
         model.put("min_points_player", gameDetailsService.findMinPunctuationByNickname(logedUser.getNickname()));
+        System.out.println("x=12");
         model.put("total_turns_player", turnService.findTotalTurnsByUser(logedUser));
+        System.out.println("x=13");
         model.put("average_turns_player", turnService.findAverageTurnsByUser(logedUser));
+        System.out.println("x=14");
         model.put("max_turns_player", turnService.findMaxTurnsInGameByUser(logedUser));
+        System.out.println("x=15");
         model.put("min_turns_player", turnService.findMinTurnsInGameByUser(logedUser));
+        System.out.println("x=16");
         model.put("total_playersByGame_player", gameService.findGameAndPlayerByUser(logedUser).size());
+        System.out.println("x=17");
         model.put("average_playersByGame_player", lobbyUserService.findAveragePlayersInGameByUser(logedUser));
+        System.out.println("x=18");
         model.put("max_playersByGame_player", lobbyUserService.findMaxPlayersInGameByUser(logedUser));
+        System.out.println("x=19");
         model.put("min_playersByGame_player", lobbyUserService.findMinPlayersInGameByUser(logedUser));
+        System.out.println("x=20");
         model.put("total_victories_player", gameService.findVictoriesByNickname(logedUser.getNickname()));
+        System.out.println("x=21");
         model.put("average_victoriesByGame_player", gameService.findAverageVictoriesPerGameByUser(logedUser));
+        System.out.println("x=22");
         model.put("max_victories_player", gameService.findMaxVictoriesPerDayByNickname(logedUser.getNickname()));
+        System.out.println("x=23");
         model.put("min_victories_player", gameService.findMinVictoriesPerDayByNickname(logedUser.getNickname()));
         
         return VIEWS_MY_STATISTICS;

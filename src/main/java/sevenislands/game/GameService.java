@@ -566,7 +566,7 @@ public class GameService {
         Optional<List<Game>> games = findGamesByUser(user);
         if(games.isPresent()) {
             List<Integer> gamesPerDay = gameRepository.findNumberGamesByGameListPerDay(games.get());
-            Integer maxPlayed = gamesPerDay.stream().max(Comparator.naturalOrder()).get();
+            Integer maxPlayed = gamesPerDay.stream().max(Comparator.naturalOrder()).orElse(0);
             return maxPlayed;
         }
         return 0;
@@ -577,7 +577,7 @@ public class GameService {
         Optional<List<Game>> games = findGamesByUser(user);
         if(games.isPresent()) {
             List<Integer> gamesPerDay = gameRepository.findNumberGamesByGameListPerDay(games.get());
-            Integer minPlayed = gamesPerDay.stream().min(Comparator.naturalOrder()).get();
+            Integer minPlayed = gamesPerDay.stream().min(Comparator.naturalOrder()).orElse(0);
             return minPlayed;
         }
         return 0;
@@ -591,7 +591,11 @@ public class GameService {
             Long totalTime = findTotalTimePlayedByUser(user);
             List<Integer> gamesPerDay = gameRepository.findNumberGamesByGameListPerDay(games.get());
             Integer totalDays = gamesPerDay.size();
-            return totalTime/totalDays; 
+            Long result=0L;
+            if(totalDays!=0){
+                result=totalTime/totalDays;
+            }
+            return result; 
         }
         return 0L;
     }
@@ -616,7 +620,7 @@ public class GameService {
             .map(g -> Duration.between(g.getCreationDate(), g.getEndingDate()))
             .map(d -> d.toMinutes())
             .max(Long::compareTo)
-            .get();
+            .orElse(0L);
         }
         
         return maxTime;
@@ -631,7 +635,7 @@ public class GameService {
             .map(g -> Duration.between(g.getCreationDate(), g.getEndingDate()))
             .map(d -> d.toMinutes())
             .min(Long::compareTo)
-            .get();
+            .orElse(0L);
         }
        
         return minTime;
