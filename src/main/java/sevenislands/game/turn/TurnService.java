@@ -83,7 +83,6 @@ public class TurnService {
                 if(selectedIsland1>0) islands.add(islandList.get(selectedIsland1-1));
                 if(selectedIsland2<=islandList.size()) islands.add(islandList.get(selectedIsland2-1));
             } else islands.add(islandList.get(turn.getDice()-1));
-            
         }
         return islands;
     }
