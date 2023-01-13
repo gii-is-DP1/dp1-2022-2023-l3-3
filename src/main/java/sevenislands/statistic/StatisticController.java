@@ -103,6 +103,7 @@ public class StatisticController {
         model.put("average_turns_player", turnService.findAverageTurnsByUser(logedUser));
         model.put("max_turns_player", turnService.findMaxTurnsInGameByUser(logedUser));
         model.put("min_turns_player", turnService.findMinTurnsInGameByUser(logedUser));
+        model.put("total_playersByGame_player", gameService.findGameAndPlayerByUser(logedUser).size());
         model.put("average_playersByGame_player", lobbyUserService.findAveragePlayersInGameByUser(logedUser));
         model.put("max_playersByGame_player", lobbyUserService.findMaxPlayersInGameByUser(logedUser));
         model.put("min_playersByGame_player", lobbyUserService.findMinPlayersInGameByUser(logedUser));

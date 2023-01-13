@@ -412,7 +412,7 @@ public class TurnService {
     @Transactional
     public Double findDailyAverageTurns() {
         Double average = (double) turnCount() / turnRepository.findTotalTurnsByDay().size();
-        return Math.round(average * 100.0) / 100.0;
+        return Math.round(average * 100.0) / 100.0d;
     }
 //########################################
     @Transactional
@@ -428,7 +428,7 @@ public class TurnService {
     @Transactional
     public Double findAverageTurns() {
         Double average = (double) turnCount() / gameService.gameCount();
-        return Math.round(average * 100.0) / 100.0;
+        return Math.round(average * 100.0) / 100.0d;
     }
 //########################################
     @Transactional
@@ -450,7 +450,7 @@ public class TurnService {
             Integer totalGames = gameService.findTotalGamesPlayedByUser(user);
             averageTurns = (double) totalTurns/totalGames;
         }
-        return averageTurns;
+        return Math.round(averageTurns*100)/100d;
     }
 
     @Transactional

@@ -42,8 +42,8 @@
 		<table class="table table-striped">
 			<tr>
 				<th>Id</th>
-				<th>Creation_date</th>
-				<th>Ending_date</th>
+				<th>Fecha de creacion</th>
+				<th>Fecha de finalizacion</th>
 				<th>Creador</th>
 				<th>Participantes</th>
 				<th>Ganador</th>

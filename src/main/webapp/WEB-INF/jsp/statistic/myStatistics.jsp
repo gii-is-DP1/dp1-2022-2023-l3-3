@@ -23,8 +23,8 @@
                 <th>Nº de Partidas Jugadas</th>
                 <td><c:out value="${total_games_player}"/></td>
                 <td><c:out value="${average_games_player}"/>/día</td>
-                <td><c:out value="${max_games_player}"/></td>
-                <td><c:out value="${min_games_player}"/></td>
+                <td><c:out value="${max_games_player}"/> /dia</td>
+                <td><c:out value="${min_games_player}"/> /dia</td>
             </tr>
             <tr>
                 <th>Tiempo Jugado</th>
@@ -56,7 +56,7 @@
             </tr>
             <tr>
                 <th>Nº jugadores en partidas</th>
-                <td><c:out value="${'---'}"/></td>
+                <td><c:out value="${total_playersByGame_player}"/></td>
                 <td><c:out value="${average_playersByGame_player}"/> /partida</td>
                 <td><c:out value="${max_playersByGame_player}"/></td>
                 <td><c:out value="${min_playersByGame_player}"/></td>
