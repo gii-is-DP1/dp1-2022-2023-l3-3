@@ -296,7 +296,6 @@ a:hover {
                     <c:if test="${host==logged_player && num_players>1}">
                         <a class="game-btn" href='<spring:url value="/game" htmlEscape="true"/>'>Empezar Partida</a>
                     </c:if>
-                        <a class="game-btn" id="leave_game" href='<spring:url value="/join" htmlEscape="true"/>'>Unirse a Partida</a>
                     <a class="game-btn" id="leave_game" href='<spring:url value="/home" htmlEscape="true"/>'>Abandonar Partida</a>
                 </div>
             </div>

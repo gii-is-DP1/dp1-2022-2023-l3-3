@@ -157,6 +157,33 @@ body::-webkit-scrollbar {
     margin: 10px 0 10px 0;
 }
 
+#code-bar {
+    height: 100%;
+    width: 100%;
+    background: #ffffff;
+    border: 3px solid black;
+    border-radius: 25px;
+    padding-left: 10px;
+}
+
+#for {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#error {
+    color: black;
+    text-align: center;
+    background-color: rgb(255, 50, 50);
+    border: 3px solid black;
+    font-weight: 700;
+    border-radius: 25px;
+    padding: 0 10px 0 10px;
+    width: 100%;
+    margin: 10px 0 10px 0;
+}
+
 /* SECTION 3 */
 #section3 {
     height: 100%;
@@ -272,9 +299,19 @@ a:hover {
             <div id="section2">
                 <img id="island-logo" src="/resources/images/grafics/letras_7_islas.png">
                 <div id="btn-container">
+                    <div id="for" >
+                        <c:forEach items="${errors}" var="error">
+                          <p id="error">${error}</p>
+                        </c:forEach>
+                    </div>
                     <sec:authorize access="hasAuthority('player')">
+                        <form:form 
+                        method="POST"
+                        modelAttribute="code" 
+                        class="form-horizontal">
+                            <form:input id="code-bar" path="code" maxlength="20" required="true" placeholder="Código de la lobby..." autocomplete="off"/>
+                        </form:form>
                         <a class="game-btn" href='<spring:url value="/lobby/create" htmlEscape="true"/>'>Crear Partida</a>
-                        <a class="game-btn" href='<spring:url value="/join" htmlEscape="true"/>'>Unirse a Partida</a>
                         <c:if test="${hasPlayed}">
                             <a class="game-btn" href='<spring:url value="/endGame" htmlEscape="true"/>'>Resultados anteriores</a>
                             <a class="game-btn" href='<spring:url value="/game/gamesAsPlayer" htmlEscape="true"/>'>Partidas jugadas</a>
