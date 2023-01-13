@@ -417,12 +417,12 @@ public class TurnService {
 //########################################
     @Transactional
     public Integer findMaxTurnsADay() {
-        return turnRepository.findTotalTurnsByDay().stream().max(Comparator.naturalOrder()).get();
+        return turnRepository.findTotalTurnsByDay().stream().max(Comparator.naturalOrder()).orElse(0);
     }
 //########################################
     @Transactional
     public Integer findMinTurnsADay() {
-        return turnRepository.findTotalTurnsByDay().stream().min(Comparator.naturalOrder()).get();
+        return turnRepository.findTotalTurnsByDay().stream().min(Comparator.naturalOrder()).orElse(0);
     }
 //########################################
     @Transactional
@@ -433,12 +433,12 @@ public class TurnService {
 //########################################
     @Transactional
     public Integer findMaxTurns() {
-        return turnRepository.findTotalTurnsByGame().stream().max(Comparator.naturalOrder()).get();
+        return turnRepository.findTotalTurnsByGame().stream().max(Comparator.naturalOrder()).orElse(0);
     }
 //########################################
     @Transactional
     public Integer findMinTurns() {
-        return turnRepository.findTotalTurnsByGame().stream().min(Comparator.naturalOrder()).get();
+        return turnRepository.findTotalTurnsByGame().stream().min(Comparator.naturalOrder()).orElse(0);
     }
 
     @Transactional
