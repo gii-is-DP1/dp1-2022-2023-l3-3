@@ -7,6 +7,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+
+import javax.naming.spi.DirStateFactory.Result;
+
 import java.util.stream.Collectors;
 import java.time.Duration;
 import java.time.LocalDate;
@@ -243,12 +246,12 @@ public class GameService {
 
     @Transactional
     public Integer findMaxGamesPlayedADay() {
-        return findTotalGamesPlayedByDay().stream().max(Comparator.naturalOrder()).get();
+        return findTotalGamesPlayedByDay().stream().max(Comparator.naturalOrder()).orElse(0);
     }
 
     @Transactional
     public Integer findMinGamesPlayedADay() {
-        return findTotalGamesPlayedByDay().stream().min(Comparator.naturalOrder()).get();
+        return findTotalGamesPlayedByDay().stream().min(Comparator.naturalOrder()).orElse(0);
     }
 
     public Boolean checkUserGame(User logedUser) throws NotExistLobbyException {
@@ -316,7 +319,11 @@ public class GameService {
 
     @Transactional
     public Long findDailyAverageTimePlayed() {
-        return findTotalTimePlayed() / findTotalGamesPlayedByDay().size();
+        Long result=0L;
+        if(findTotalGamesPlayedByDay().size()!=0){
+            result=findTotalTimePlayed() / findTotalGamesPlayedByDay().size();
+        }
+        return result;
     }
 
     @Transactional
@@ -367,7 +374,9 @@ public class GameService {
 
     @Transactional
     public Long findAverageTimePlayed() {
-        return findTotalTimePlayed() / gameCount();
+        Long result=0L;
+        if(gameCount()!=0)result= findTotalTimePlayed() / gameCount();
+        return result;
     }
 
     @Transactional
@@ -387,12 +396,20 @@ public class GameService {
 
     @Transactional
     public Long findMaxTimePlayed() {
-        return findTotalTimePlayedByGame().stream().max(Comparator.naturalOrder()).get().toMinutes();
+        long result=0L;
+        if(findTotalTimePlayedByGame().stream().max(Comparator.naturalOrder()).isPresent()){
+            result=findTotalTimePlayedByGame().stream().max(Comparator.naturalOrder()).get().toMinutes();
+        }
+        return result;
     }
 
     @Transactional
     public Long findMinTimePlayed() {
-        return findTotalTimePlayedByGame().stream().min(Comparator.naturalOrder()).get().toMinutes();
+        long result=0L;
+        if(findTotalTimePlayedByGame().stream().min(Comparator.naturalOrder()).isPresent()){
+            result=findTotalTimePlayedByGame().stream().min(Comparator.naturalOrder()).get().toMinutes();
+        }
+        return result;
     }
 
     @Transactional
@@ -433,14 +450,14 @@ public class GameService {
     public Integer findMaxPlayersADay() {
         List<List<Lobby>> lobbies = gameRepository.findLobbiesByDay();
         List<Integer> playersByDay = lobbies.stream().map(lobbyList -> lobbyUserService.findTotalPlayersByDayAndMode(lobbyList, Mode.PLAYER)).collect(Collectors.toList());
-        return playersByDay.stream().max(Comparator.naturalOrder()).get();
+        return playersByDay.stream().max(Comparator.naturalOrder()).orElse(0);
     }
 
     @Transactional
     public Integer findMinPlayersADay() {
         List<List<Lobby>> lobbies = gameRepository.findLobbiesByDay();
         List<Integer> playersByDay = lobbies.stream().map(lobbyList -> lobbyUserService.findTotalPlayersByDayAndMode(lobbyList, Mode.PLAYER)).collect(Collectors.toList());
-        return playersByDay.stream().min(Comparator.naturalOrder()).get();
+        return playersByDay.stream().min(Comparator.naturalOrder()).orElse(0);
     }
     
     @Transactional

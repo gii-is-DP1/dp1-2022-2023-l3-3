@@ -162,39 +162,48 @@ public class GameDetailsService {
 
     @Transactional
     public Integer findTotalPunctuation() {
-        return gameDetailsRepository.findTotalPunctuation();
+        Integer result=0;
+        if(gameDetailsRepository.findTotalPunctuation()!=null){
+            result=gameDetailsRepository.findTotalPunctuation();
+        }
+        return result;
     }
 
     @Transactional
     public Double findDailyAveragePunctuation() {
-        Double average = (double) findTotalPunctuation() / gameService.findTotalGamesPlayedByDay().size();
+        Double average=0.0;
+        if(findTotalPunctuation()!=null){    
+            average = (double) findTotalPunctuation() / gameService.findTotalGamesPlayedByDay().size();
+        }
+        
         return Math.round(average * 100.0) / 100.0d;
     }
 
     @Transactional
     public Integer findMaxPunctuationADay() {
-        return gameDetailsRepository.findSumPunctuationsByDay().stream().max(Comparator.naturalOrder()).get();
+        return gameDetailsRepository.findSumPunctuationsByDay().stream().max(Comparator.naturalOrder()).orElse(0);
     }
 
     @Transactional
     public Integer findMinPunctuationADay() {
-        return gameDetailsRepository.findSumPunctuationsByDay().stream().min(Comparator.naturalOrder()).get();
+        return gameDetailsRepository.findSumPunctuationsByDay().stream().min(Comparator.naturalOrder()).orElse(0);
     }
 
     @Transactional
     public Double findAveragePunctuation() {
-        Double average = (double) findTotalPunctuation() / gameService.gameCount();
+        Double average=0.0;
+        if(gameService.gameCount()!=0)average = (double) findTotalPunctuation() / gameService.gameCount();        
         return Math.round(average * 100.0) / 100.0d;
     }
 
     @Transactional
     public Integer findMaxPunctuation() {
-        return gameDetailsRepository.findSumPunctuations().stream().max(Comparator.naturalOrder()).get();
+        return gameDetailsRepository.findSumPunctuations().stream().max(Comparator.naturalOrder()).orElse(0);
     }
 
     @Transactional
     public Integer findMinPunctuation() {
-        return gameDetailsRepository.findSumPunctuations().stream().min(Comparator.naturalOrder()).get();
+        return gameDetailsRepository.findSumPunctuations().stream().min(Comparator.naturalOrder()).orElse(0);
     }
 
     @Transactional

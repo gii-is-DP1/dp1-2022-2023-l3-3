@@ -62,24 +62,43 @@ public class StatisticController {
     @GetMapping("/dailyStatistics")
     public String showDailyStatistics(ModelMap model) {
         model.put("total_games", gameService.gameCount());
+        System.out.println("=1");
         model.put("total_time", gameService.findTotalTimePlayed());
+        System.out.println("=2");
         model.put("total_players", lobbyUserService.findTotalPlayersDistinctByMode(Mode.PLAYER));
+        System.out.println("=3");
         model.put("total_points", gameDetailsService.findTotalPunctuation());
+        System.out.println("=4");
         model.put("total_turns", turnService.turnCount());
+        System.out.println("=5");
         model.put("average_games", gameService.findAverageGamesPlayed());
+        System.out.println("=6");
         model.put("max_games", gameService.findMaxGamesPlayedADay());
+        System.out.println("=7");
         model.put("min_games", gameService.findMinGamesPlayedADay());
+        System.out.println("=8");
         model.put("average_time_day", gameService.findDailyAverageTimePlayed());
+        System.out.println("=9");
         model.put("max_time_day", gameService.findMaxTimePlayedADay());
+        System.out.println("=10");
         model.put("min_time_day", gameService.findMinTimePlayedADay());
+        System.out.println("=10");
         model.put("average_players_day", gameService.findDailyAveragePlayers());
+        System.out.println("=11");
         model.put("max_players_day", gameService.findMaxPlayersADay());
+        System.out.println("=12");
         model.put("min_players_day", gameService.findMinPlayersADay());
+        System.out.println("=13");
         model.put("average_points_day", gameDetailsService.findDailyAveragePunctuation());
+        System.out.println("=14");
         model.put("max_points_day", gameDetailsService.findMaxPunctuationADay());
+        System.out.println("=15");
         model.put("min_points_day", gameDetailsService.findMinPunctuationADay());
+        System.out.println("=16");
         model.put("average_turns_day", turnService.findDailyAverageTurns());
+        System.out.println("=17");
         model.put("max_turns_day", turnService.findMaxTurnsADay());
+        System.out.println("=18");
         model.put("min_turns_day", turnService.findMinTurnsADay());
         return VIEWS_DAILY_STATISTICS;
     }
