@@ -171,7 +171,6 @@ body::-webkit-scrollbar {
     width: 100%;
 }
 
-
 /* OTHERS */
 
 a {
@@ -186,13 +185,6 @@ a {
 a:hover {
     color: rgb(184, 184, 184) !important;
     text-decoration: none !important;
-}
-
-.two-rows {
-    height: 50%;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
 }
 
 .content-box {
@@ -214,16 +206,22 @@ a:hover {
   display: none;
 }
 
-.first-row {
-    padding-bottom: 5px;
-}
-
-.second-row {
-    padding-top: 5px;
-}
-
 .text {
     color: white;
+}
+
+.player-info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    color: white;
+}
+
+.game-img {
+    height: 25px;
+	width: 25px;
+    margin-right: 10px;
 }
 
 </style>
@@ -258,14 +256,16 @@ a:hover {
             <div id="section1">
                 <h1>Invitaciones recibidas</h1>
                 <div class="content-box">
-                    <div id="content-box-details">
-                        <c:forEach items="${invitations}" var="invitation">
-                            <img src="/resources/images/avatars/${invitation.sender.avatar}" height="25" width="25">
-                            <c:out value="${invitation.sender.nickname}"/>
+                    <c:forEach items="${invitations}" var="invitation">
+                        <div id="content-box-details">
+                            <div class="player-info">
+                                <img class="game-img" src="/resources/images/avatars/${invitation.sender.avatar}">
+                                <c:out value="${invitation.sender.nickname}"/>
+                            </div>
                             <c:out value="${invitation.mode}"/>
                             <a href="/lobby/accept/${invitation.id}">Aceptar</a>
-                        </c:forEach>
-                    </div>
+                        </div>
+                    </c:forEach>
                 </div>
             </div>
 
