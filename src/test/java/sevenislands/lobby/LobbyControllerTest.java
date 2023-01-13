@@ -37,6 +37,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import sevenislands.configuration.SecurityConfiguration;
+import sevenislands.enums.Mode;
 import sevenislands.enums.UserType;
 import sevenislands.game.GameService;
 import sevenislands.game.island.IslandService;
@@ -49,6 +50,7 @@ import sevenislands.register.RegisterService;
 import sevenislands.user.User;
 import sevenislands.user.UserService;
 import sevenislands.user.friend.FriendService;
+import sevenislands.user.invitation.Invitation;
 import sevenislands.user.invitation.InvitationService;
 
 @WebMvcTest(controllers = LobbyController.class, excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = WebSecurityConfigurer.class), excludeAutoConfiguration = SecurityConfiguration.class)
@@ -103,6 +105,7 @@ public class LobbyControllerTest {
     private Lobby lobby;
     List<Lobby> lobbies;
     List<User> users;
+    private Invitation invitation;
 
 
     @BeforeEach
@@ -125,6 +128,13 @@ public class LobbyControllerTest {
 
         lobbies = new ArrayList<>();
         lobbies.add(lobby);
+
+        invitation = new Invitation();
+        invitation.setId(0);
+        invitation.setLobby(lobby);
+        invitation.setMode(Mode.VIEWER);
+        invitation.setReceiver(userController);
+        invitation.setSender(userController);
 
         
     }
@@ -409,6 +419,40 @@ public class LobbyControllerTest {
         mockMvc.perform(get("/lobby").flashAttrs(atr))
         .andExpect(status().isOk())
         .andExpect(view().name(VIEWS_LOBBY));
+
+    }
+
+    @WithMockUser(value = "spring")
+    @Test
+    public void acceptInvitationTest() throws Exception {
+
+        Map<String, Object> atr = new HashMap<>();
+        atr.put("logedUser", userController);
+        
+        given(invitationService.findInvitationById(any())).willReturn(Optional.of(invitation));
+        given(request.getSession()).willReturn(session);
+     
+
+        mockMvc.perform(get("/lobby/accept/{idInvitationReceiver}", userController.getId()).flashAttrs(atr))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(view().name(VIEWS_REDIRECT_LOBBY));
+
+    }
+
+    @WithMockUser(value = "spring")
+    @Test
+    public void acceptInvitationNoPresentTest() throws Exception {
+
+        Map<String, Object> atr = new HashMap<>();
+        atr.put("logedUser", userController);
+        
+        given(invitationService.findInvitationById(any())).willReturn(Optional.empty());
+        given(request.getSession()).willReturn(session);
+     
+
+        mockMvc.perform(get("/lobby/accept/{idInvitationReceiver}", userController.getId()).flashAttrs(atr))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(view().name(VIEWS_REDIRECT_HOME));
 
     }
 

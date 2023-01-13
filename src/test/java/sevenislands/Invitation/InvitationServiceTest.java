@@ -59,8 +59,8 @@ public class InvitationServiceTest {
     private RoundService roundService;
 
     private User userController;
-    private Invitation invitation;
     private Lobby lobby;
+    private Invitation invitation;
     private List<Invitation> invitations;
 
     @BeforeEach
