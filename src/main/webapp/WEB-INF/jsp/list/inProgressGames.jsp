@@ -42,7 +42,7 @@
 		<table class="table table-striped">
 			<tr>
 				<th>Id</th>
-				<th>Creation_date</th>
+				<th>fecha de creacion</th>
 				<th>Creador</th>
 				<th>Participantes</th>
 			</tr>

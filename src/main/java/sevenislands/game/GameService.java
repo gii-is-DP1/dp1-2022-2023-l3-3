@@ -95,12 +95,14 @@ public class GameService {
     }
 
     @Transactional
-    public List<Object []> findGamePlayedByUser(User user) {
+    public List<Object []> findGameAndPlayerByUser(User user) {
         List<Object []> result = new ArrayList<>();
         List<Lobby> lobbies = lobbyUserService.findLobbiesByUserAndMode(user, Mode.PLAYER);
+        System.out.println("--------"+lobbies.size());
         List<Game> games = gameRepository.findGameActive(false).stream().filter(
-            game -> lobbies.contains(game.getLobby())
+        game -> lobbies.contains(game.getLobby())
         ).collect(Collectors.toList());
+        System.out.println("-------1"+games.size());
         games.stream().forEach(
             game -> {
                 lobbyUserService.findUsersByLobby(game.getLobby()).stream().forEach(
@@ -236,7 +238,7 @@ public class GameService {
     @Transactional
     public Double findAverageGamesPlayed() {
         Double average = (double) gameCount() / findTotalGamesPlayedByDay().size();
-        return Math.round(average * 100.0) / 100.0;
+        return Math.round(average * 100.0) / 100.0d;
     }
 
     @Transactional
@@ -263,10 +265,12 @@ public class GameService {
     @Transactional
     public Double findAverageVictoriesPerGameByUser(User user) {
         Long totalVictories = gameRepository.findVictoriesByNickname(user.getNickname());
-        Integer totalGames = findGamePlayedByUser(null).size();
+        Integer totalGames = findTotalGamesPlayedByUser(user);
+        System.out.println("++++++++++++++++++games"+totalGames);
+        System.out.println("++++++++++++++++++victories"+totalVictories);
         Double averageVictories = 0.;
         if(totalVictories != null && totalGames != null) averageVictories = (double) totalVictories / totalGames;
-        return averageVictories;
+        return Math.round(averageVictories*100)/100d;
     }
 
     @Transactional
@@ -311,9 +315,8 @@ public class GameService {
     }
 
     @Transactional
-    public Double findDailyAverageTimePlayed() {
-        Double average = (double) findTotalTimePlayed() / findTotalGamesPlayedByDay().size();
-        return Math.round(average * 100.0) / 100.0;
+    public Long findDailyAverageTimePlayed() {
+        return findTotalTimePlayed() / findTotalGamesPlayedByDay().size();
     }
 
     @Transactional
@@ -363,9 +366,8 @@ public class GameService {
     }
 
     @Transactional
-    public Double findAverageTimePlayed() {
-        Double average = (double) findTotalTimePlayed() / gameCount();
-        return Math.round(average * 100.0) / 100.0;
+    public Long findAverageTimePlayed() {
+        return findTotalTimePlayed() / gameCount();
     }
 
     @Transactional
@@ -396,7 +398,7 @@ public class GameService {
     @Transactional
     public Double findAveragePlayers() {
         Double average = (double) lobbyUserService.findTotalPlayersByMode(Mode.PLAYER) / gameCount();
-        return Math.round(average * 100.0) / 100.0; 
+        return Math.round(average * 100.0) / 100.0d; 
     }
 
     @Transactional
@@ -423,7 +425,7 @@ public class GameService {
     @Transactional
     public Double findDailyAveragePlayers() {
         Double average = (double) lobbyUserService.findTotalPlayersByMode(Mode.PLAYER) / findTotalGamesPlayedByDay().size();
-        return Math.round(average * 100.0) / 100.0; 
+        return Math.round(average * 100.0) / 100.0d; 
     }
 
     @Transactional
@@ -535,7 +537,8 @@ public class GameService {
         if(games.isPresent()) {
             List<Integer> gamesPerDay = gameRepository.findNumberGamesByGameListPerDay(games.get());
             Integer total = gamesPerDay.stream().reduce(0, (a,b) -> a + b);
-            return (double) total / gamesPerDay.size();
+            Double result=(double) total / gamesPerDay.size();
+            return Math.round(result * 100.0) / 100.0d; 
         }
         return 0.0;
     }
@@ -545,7 +548,7 @@ public class GameService {
         Optional<List<Game>> games = findGamesByUser(user);
         if(games.isPresent()) {
             List<Integer> gamesPerDay = gameRepository.findNumberGamesByGameListPerDay(games.get());
-            Integer maxPlayed = gamesPerDay.stream().max(Integer::compareTo).get();
+            Integer maxPlayed = gamesPerDay.stream().max(Comparator.naturalOrder()).get();
             return maxPlayed;
         }
         return 0;
@@ -556,7 +559,7 @@ public class GameService {
         Optional<List<Game>> games = findGamesByUser(user);
         if(games.isPresent()) {
             List<Integer> gamesPerDay = gameRepository.findNumberGamesByGameListPerDay(games.get());
-            Integer minPlayed = gamesPerDay.stream().min(Integer::compareTo).get();
+            Integer minPlayed = gamesPerDay.stream().min(Comparator.naturalOrder()).get();
             return minPlayed;
         }
         return 0;
@@ -564,15 +567,15 @@ public class GameService {
     }
 
     @Transactional
-    public Double findAverageTimePlayedByUserPerDay(User user) {
+    public Long findAverageTimePlayedByUserPerDay(User user) {
         Optional<List<Game>> games = findGamesByUser(user);
         if(games.isPresent()) {
             Long totalTime = findTotalTimePlayedByUser(user);
             List<Integer> gamesPerDay = gameRepository.findNumberGamesByGameListPerDay(games.get());
             Integer totalDays = gamesPerDay.size();
-            return (double) totalTime / totalDays;
+            return totalTime/totalDays; 
         }
-        return 0.0;
+        return 0L;
     }
 
     @Transactional
@@ -587,7 +590,7 @@ public class GameService {
     }
 
     @Transactional
-    public Double findMaxTimePlayedByUser(User user) {
+    public Long findMaxTimePlayedByUser(User user) {
         Optional<List<Game>> games = findGamesByUser(user);
         Long maxTime = 0L;
         if(games.isPresent()) {
@@ -597,11 +600,12 @@ public class GameService {
             .max(Long::compareTo)
             .get();
         }
-        return (double) maxTime;
+        
+        return maxTime;
     }
 
     @Transactional
-    public Double findMinTimePlayedByUser(User user) {
+    public Long findMinTimePlayedByUser(User user) {
         Optional<List<Game>> games = findGamesByUser(user);
         Long minTime = 0L;
         if(games.isPresent()) {
@@ -611,7 +615,8 @@ public class GameService {
             .min(Long::compareTo)
             .get();
         }
-        return (double) minTime;
+       
+        return minTime;
     }
 
 }

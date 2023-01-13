@@ -1,6 +1,7 @@
 package sevenislands.lobby.lobbyUser;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -78,7 +79,7 @@ public class LobbyUserService {
 
     @Transactional
     public List<Lobby> findLobbiesByUserAndMode(User user, Mode mode) {
-        Optional<List<LobbyUser>> lobbyList = lobbyUserRepository.findByUserAndMode(user, mode);
+        Optional<List<LobbyUser>> lobbyList = lobbyUserRepository.findByUserAndMode(user.getNickname(), mode);
         if(lobbyList.isPresent()) {
             return lobbyList.get().stream().map(LobbyUser::getLobby).collect(Collectors.toList());
         } else {
@@ -88,7 +89,7 @@ public class LobbyUserService {
 
     @Transactional
     public Lobby findLobbyByUserAndMode(User user, Mode mode) throws NotExistLobbyException {
-        Optional<List<LobbyUser>> lobbyList = lobbyUserRepository.findByUserAndMode(user, mode);
+        Optional<List<LobbyUser>> lobbyList = lobbyUserRepository.findByUserAndMode(user.getNickname(), mode);
         if(lobbyList.isPresent()) {
             Lobby lobby = lobbyList.get().get(0).getLobby();
             return lobby;
@@ -162,7 +163,8 @@ public class LobbyUserService {
             .reduce(0, (a,b) -> a + b);
             averagePlayers = (double) totalUsers / numGames;
         }
-        return averagePlayers;
+        Double result=(double) averagePlayers;
+        return Math.round(result * 100.0) / 100.0d; 
     }
 
     @Transactional
@@ -172,7 +174,7 @@ public class LobbyUserService {
         if(!allUserLobbies.isEmpty()) {
             maxPlayers = allUserLobbies.stream()
             .map(lobby -> findUsersByLobby(lobby).size())
-            .reduce(0, Integer::max);
+            .max(Comparator.naturalOrder()).get();
         }
         return maxPlayers;
     }
@@ -184,8 +186,12 @@ public class LobbyUserService {
         if(!allUserLobbies.isEmpty()) {
             minPlayers = allUserLobbies.stream()
             .map(lobby -> findUsersByLobby(lobby).size())
-            .reduce(0, Integer::min);
+            .min(Comparator.naturalOrder()).get();
+
+            
         }
+        System.out.println(",,,,,,,,,,->"+allUserLobbies.size());
+        System.out.println(",,,,,,,,->"+minPlayers);
         return minPlayers;
     }
 }
