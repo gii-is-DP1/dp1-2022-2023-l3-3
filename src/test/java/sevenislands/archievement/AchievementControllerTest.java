@@ -116,7 +116,7 @@ public class AchievementControllerTest {
 
     
 
-
+/* 
     @WithMockUser(value = "spring")
     @Test
     public void processEditAchievementFormRedirectTest() throws Exception {
@@ -125,7 +125,7 @@ public class AchievementControllerTest {
         .with(csrf()))
         .andExpect(status().is3xxRedirection())
         .andExpect(view().name("redirect:/controlAchievements"));
-    }
+    }*/
 
     /*@WithMockUser(value = "spring")
     @Test

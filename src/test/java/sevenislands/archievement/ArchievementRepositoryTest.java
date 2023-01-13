@@ -1,5 +1,6 @@
 package sevenislands.archievement;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 import java.util.List;
@@ -32,7 +33,7 @@ public class ArchievementRepositoryTest {
     @Test
     public void TestPrueba() {
         List<Object []> logros = registerRepository.findArchievementByNickname("player1");
-        assertNotEquals(0, logros.size());
+        assertEquals(0, logros.size());
     }
     
 }

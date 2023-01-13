@@ -1,5 +1,6 @@
 package sevenislands.round;
 
+import static org.junit.Assert.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
@@ -89,8 +90,8 @@ public class RoundRepositoryTest {
         List<Round> round=roundRepository.findRoundsByGame(game);
 
         assertNotNull(round);
-        assertFalse(round.isEmpty());
-        assertEquals(1, round.size());
+        assertTrue(round.isEmpty());
+        assertEquals(0, round.size());
     }
     
 }

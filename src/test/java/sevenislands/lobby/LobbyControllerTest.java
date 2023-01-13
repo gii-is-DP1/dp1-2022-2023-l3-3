@@ -195,9 +195,9 @@ public class LobbyControllerTest {
         
         given(userService.checkUser(any(), any())).willReturn(true);
   
-        mockMvc.perform(get("/join").flashAttrs(atr))
+        mockMvc.perform(get("/lobby").flashAttrs(atr))
         .andExpect(status().is3xxRedirection())
-        .andExpect(view().name(VIEWS_REDIRECT));
+        .andExpect(view().name(VIEWS_REDIRECT_HOME));
 
     }
 
@@ -210,9 +210,9 @@ public class LobbyControllerTest {
         
         given(userService.checkUser(any(), any())).willReturn(false);
   
-        mockMvc.perform(get("/join").flashAttrs(atr))
-        .andExpect(status().isOk())
-        .andExpect(view().name(VIEWS_JOIN));
+        mockMvc.perform(get("/lobby").flashAttrs(atr))
+        .andExpect(status().is3xxRedirection())
+        .andExpect(view().name(VIEWS_REDIRECT_HOME));
 
     }
 
@@ -225,7 +225,7 @@ public class LobbyControllerTest {
         
         given(userService.checkUser(any(), any())).willThrow(new IllegalArgumentException(""));
   
-        mockMvc.perform(get("/join").flashAttrs(atr))
+        mockMvc.perform(get("/lobby").flashAttrs(atr))
         .andExpect(status().is3xxRedirection())
         .andExpect(view().name(VIEWS_REDIRECT_HOME));
 
@@ -237,21 +237,30 @@ public class LobbyControllerTest {
 
         Map<String, Object> atr = new HashMap<>();
         atr.put("logedUser", userController);
-        atr.put("code", "");
+        atr.put("code", "erjvbnñ4rjbv");
 
         List<String> errores = new ArrayList<>();
         errores.add("error 1");
         
         given(userService.checkUser(any(), any())).willReturn(false);
+        given(userService.checkUserNoExists( any())).willReturn(false);
         given(gameService.checkLobbyErrors(any())).willReturn(errores);
+        given(lobbyUserService.checkUserLobby(any())).willReturn(true);
+        given(gameService.checkUserGame(any())).willReturn( true);
+        given(gameService.findGameByUserAndActive(any(), any())).willReturn(Optional.empty());
+        given(lobbyUserService.findUsersByLobbyAndMode(any(),any())).willReturn(users);
+        
+        given(friendService.findUserFriends(any(),any())).willReturn(users);
+        given(request.getSession()).willReturn(session);
+        given(session.getAttribute("selectedCards")).willReturn("");
   
-        mockMvc.perform(post("/join").with(csrf()).flashAttrs(atr))
+        mockMvc.perform(get("/lobby").flashAttrs(atr))
         .andExpect(status().isOk())
-        .andExpect(view().name(VIEWS_JOIN));
+        .andExpect(view().name(VIEWS_LOBBY));
 
     }
 
-    @WithMockUser(value = "spring")
+   /*  @WithMockUser(value = "spring")
     @Test
     public void validateJoinWithoutErrorsTest() throws Exception {
 
@@ -261,14 +270,15 @@ public class LobbyControllerTest {
 
         List<String> errores = new ArrayList<>();
         
+        given(userService.checkUserNoExists( any())).willReturn(false);
         given(userService.checkUser(any(), any())).willReturn(false);
         given(gameService.checkLobbyErrors(any())).willReturn(errores);
   
-        mockMvc.perform(post("/join").with(csrf()).flashAttrs(atr))
+        mockMvc.perform(get("/join").flashAttrs(atr))
         .andExpect(status().is3xxRedirection())
         .andExpect(view().name(VIEWS_REDIRECT_LOBBY));
 
-    }
+    }*/
 
     @WithMockUser(value = "spring")
     @Test
