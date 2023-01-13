@@ -190,8 +190,6 @@ public class LobbyUserService {
 
             
         }
-        System.out.println(",,,,,,,,,,->"+allUserLobbies.size());
-        System.out.println(",,,,,,,,->"+minPlayers);
         return minPlayers;
     }
 }
