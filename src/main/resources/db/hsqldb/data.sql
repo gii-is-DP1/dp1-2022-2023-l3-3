@@ -62,9 +62,9 @@ INSERT INTO user(nickname,password,enabled,first_name,last_name,email,creation_d
 -- INSERT INTO details(punctuation, game_id, user_id) VALUES (50, 2, 10);
 
 -- -- LOGROS --
--- INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Inicio', 'Gana LIMIT partida', 'Victories', 1, 'logroJugarGames.png');
--- INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Veterano', 'Juega mas de LIMIT partidas', 'Games', 50, 'logroJugarGames.png');
--- INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Comienzo', 'Juega mas de LIMIT partidas', 'Games', 1, 'logroJugarGames.png');
+INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Inicio', 'Gana LIMIT partida', 'Victories', 1, 'logroJugarGames.png');
+INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Veterano', 'Juega mas de LIMIT partidas', 'Games', 50, 'logroJugarGames.png');
+INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Comienzo', 'Juega mas de LIMIT partidas', 'Games', 1, 'logroJugarGames.png');
 -- -- INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Poco a poco', 'Gana <LIMITE> partida', 'Victories', 1, '/resources/images/grafics/logroVictoria.png');
 -- -- INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Imparable', 'Gana un total de <LIMITE> partidas', 'Victories', 20, '/resources/images/grafics/logroVictoria.png');
 -- -- INSERT INTO achievement(name, description, achievement_type, threshold, badge_image) VALUES ('Valioso', 'Consigue el set de tesoros distintos mas grande (<LIMITE>)', 'Punctuation', 9, '/resources/images/grafics/logroPuntuacion.png');

@@ -91,26 +91,26 @@ public class AchievementService {
 	}
 
 	@Transactional
-    public Achievement updateAchievement(Achievement NewAchievement,Integer id) {
+    public Achievement updateAchievement(Achievement newAchievement,Integer id) {
     
 	try {
 		Achievement oldAchievement=achievementRepository.findById(id).get();
-		if(oldAchievement.getAchievementType().equals(AchievementType.Games)){
+		if(newAchievement.getAchievementType().equals(AchievementType.Games)){
 			oldAchievement.setDescription("Juega mas de LIMIT partidas");
 			oldAchievement.setBadgeImage("logroJugarGames.png");
-		}else if(oldAchievement.getAchievementType().equals(AchievementType.Punctuation)){
+		}else if(newAchievement.getAchievementType().equals(AchievementType.Punctuation)){
 			oldAchievement.setDescription("Consigue LIMIT puntos");
 			oldAchievement.setBadgeImage("logroJugarGames.png");
-		}else if(oldAchievement.getAchievementType().equals(AchievementType.TieBreaker)){
+		}else if(newAchievement.getAchievementType().equals(AchievementType.TieBreaker)){
 			oldAchievement.setDescription("Desempata LIMIT partidas");
 			oldAchievement.setBadgeImage("logroTieBreaker.png");
-		}else if(oldAchievement.getAchievementType().equals(AchievementType.Victories)){
+		}else if(newAchievement.getAchievementType().equals(AchievementType.Victories)){
 			oldAchievement.setDescription("Gana mas de LIMIT partidas");
 			oldAchievement.setBadgeImage("logroVictories.png");
 		}
-		oldAchievement.setName(NewAchievement.getName());
-		oldAchievement.setAchievementType(NewAchievement.getAchievementType());
-		oldAchievement.setThreshold(NewAchievement.getThreshold());
+		oldAchievement.setName(newAchievement.getName());
+		oldAchievement.setAchievementType(newAchievement.getAchievementType());
+		oldAchievement.setThreshold(newAchievement.getThreshold());
 		return saveAchievement(oldAchievement);
 	} catch (Exception e) {
 		throw e;

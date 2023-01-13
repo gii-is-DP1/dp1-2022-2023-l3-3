@@ -101,11 +101,9 @@ public class GameService {
     public List<Object []> findGameAndPlayerByUser(User user) {
         List<Object []> result = new ArrayList<>();
         List<Lobby> lobbies = lobbyUserService.findLobbiesByUserAndMode(user, Mode.PLAYER);
-        System.out.println("--------"+lobbies.size());
         List<Game> games = gameRepository.findGameActive(false).stream().filter(
         game -> lobbies.contains(game.getLobby())
         ).collect(Collectors.toList());
-        System.out.println("-------1"+games.size());
         games.stream().forEach(
             game -> {
                 lobbyUserService.findUsersByLobby(game.getLobby()).stream().forEach(
@@ -269,8 +267,6 @@ public class GameService {
     public Double findAverageVictoriesPerGameByUser(User user) {
         Long totalVictories = gameRepository.findVictoriesByNickname(user.getNickname());
         Integer totalGames = findTotalGamesPlayedByUser(user);
-        System.out.println("++++++++++++++++++games"+totalGames);
-        System.out.println("++++++++++++++++++victories"+totalVictories);
         Double averageVictories = 0.;
         if(totalVictories != null && totalGames != null) averageVictories = (double) totalVictories / totalGames;
         return Math.round(averageVictories*100)/100d;
