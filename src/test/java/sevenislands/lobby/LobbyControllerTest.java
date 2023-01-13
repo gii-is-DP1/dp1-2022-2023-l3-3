@@ -11,15 +11,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.mockito.Mockito.mock;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -96,7 +91,6 @@ public class LobbyControllerTest {
 
     private final String VIEWS_REDIRECT_HOME = "redirect:/home";
     private final String VIEWS_REDIRECT = "redirect:/";
-    private static final String VIEWS_JOIN = "views/join";
     private final String VIEWS_REDIRECT_LOBBY = "redirect:/lobby";
     private static final String VIEWS_LOBBY = "game/lobby";
 

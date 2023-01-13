@@ -21,16 +21,10 @@ import sevenislands.user.User;
 import sevenislands.user.UserService;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.junit.Assert.assertEquals;
-import static org.mockito.Mockito.mock;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -113,31 +107,6 @@ public class AchievementControllerTest {
         .andExpect(status().isOk())
         .andExpect(view().name("achievements/editControlAchievements"));
     }
-
-    
-
-/* 
-    @WithMockUser(value = "spring")
-    @Test
-    public void processEditAchievementFormRedirectTest() throws Exception {
-        
-        mockMvc.perform(post("/controlAchievements/edit/{idAchievement}", 1)
-        .with(csrf()))
-        .andExpect(status().is3xxRedirection())
-        .andExpect(view().name("redirect:/controlAchievements"));
-    }*/
-
-    /*@WithMockUser(value = "spring")
-    @Test
-    public void processEditAchievementFormExceptionTest() throws Exception {
-        given(achievementService.updateAchievement(any(), any())).willThrow(new Exception(""));
-        
-        mockMvc.perform(post("/controlAchievements/edit/{idAchievement}", 1)
-        .with(csrf()))
-        .andExpect(status().is3xxRedirection())
-        .andExpect(view().name("redirect:/controlAchievements"));
-    }*/
-
 
     @WithMockUser(value = "spring")
     @Test

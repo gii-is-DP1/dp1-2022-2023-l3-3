@@ -22,13 +22,9 @@ import org.mockito.Mock;
 
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.TestingAuthenticationToken;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.web.WebSecurityConfigurer;
 import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import sevenislands.configuration.SecurityConfiguration;
 import sevenislands.enums.UserType;
 import sevenislands.lobby.Lobby;
 import sevenislands.lobby.LobbyRepository;
@@ -37,10 +33,6 @@ import sevenislands.lobby.lobbyUser.LobbyUser;
 import sevenislands.lobby.lobbyUser.LobbyUserRepository;
 import sevenislands.lobby.lobbyUser.LobbyUserService;
 
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.FilterType;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
