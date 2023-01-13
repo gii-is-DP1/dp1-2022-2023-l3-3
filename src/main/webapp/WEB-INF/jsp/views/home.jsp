@@ -283,19 +283,21 @@ a:hover {
 
         <div id="content">
             <div id="section1">
-                <h1>Invitaciones recibidas</h1>
-                <div class="content-box">
-                    <c:forEach items="${invitations}" var="invitation">
-                        <div id="content-box-details">
-                            <div class="player-info">
-                                <img class="game-img" src="/resources/images/avatars/${invitation.sender.avatar}">
-                                <c:out value="${invitation.sender.nickname}"/>
+                <sec:authorize access="hasAuthority('player')">
+                    <h1>Invitaciones recibidas</h1>
+                    <div class="content-box">
+                        <c:forEach items="${invitations}" var="invitation">
+                            <div id="content-box-details">
+                                <div class="player-info">
+                                    <img class="game-img" src="/resources/images/avatars/${invitation.sender.avatar}">
+                                    <c:out value="${invitation.sender.nickname}"/>
+                                </div>
+                                <c:out value="${invitation.mode}"/>
+                                <a href="/lobby/accept/${invitation.id}">Aceptar</a>
                             </div>
-                            <c:out value="${invitation.mode}"/>
-                            <a href="/lobby/accept/${invitation.id}">Aceptar</a>
-                        </div>
-                    </c:forEach>
-                </div>
+                        </c:forEach>
+                    </div>
+                </sec:authorize>
             </div>
 
             <div id="section2">
