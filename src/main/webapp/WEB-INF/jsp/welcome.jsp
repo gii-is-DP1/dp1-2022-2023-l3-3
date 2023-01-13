@@ -9,7 +9,15 @@
 <style>
 .content {
 	background: url(resources/images/grafics/fondo1920x1080.jpg);
+	overflow: hidden;
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
 }
+
+.content::-webkit-scrollbar {
+  display: none;
+}
+
 .body {
 	width: 100%;
 	height: 95%;
