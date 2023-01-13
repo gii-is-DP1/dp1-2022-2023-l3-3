@@ -117,7 +117,7 @@ public class StatisticControllerTest {
         given(gameService.findAverageGamesPlayed()).willReturn(0.);
         given(gameService.findMaxGamesPlayedADay()).willReturn(0);
         given(gameService.findMinGamesPlayedADay()).willReturn(0);
-        given(gameService.findDailyAverageTimePlayed()).willReturn(0.);
+        given(gameService.findDailyAverageTimePlayed()).willReturn(0L);
         given(gameService.findMaxTimePlayedADay()).willReturn(0L);
         given(gameService.findMinTimePlayedADay()).willReturn(0L);
         given(gameDetailsService.findMaxPunctuationADay()).willReturn(0);
