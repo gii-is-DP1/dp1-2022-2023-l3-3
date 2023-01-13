@@ -77,15 +77,16 @@ public class AchievementController {
 
     @PostMapping("/controlAchievements/edit/{idAchievement}")
     public String processEditAchievementForm(ModelMap model, @PathVariable("idAchievement") Integer id, @Valid Achievement achievement, BindingResult result) {
-        if(result.hasErrors()){
-            return "/home";
-        }
-        try{
+        List<String> errors = achievementService.checkAchievementErrors(achievement);
+        if(!result.hasErrors() && errors.isEmpty()) {
             achievementService.updateAchievement(achievement,id);
-        }catch(Exception e){
-           throw e;
-        }
-        return "redirect:/controlAchievements";
+			return "redirect:/controlAchievements";
+		}
+        model.put("errors", errors);
+        model.put("tipoLogro",List.of(AchievementType.values()));
+        model.put("achievement", achievement);
+        model.put("idAchievement", id);
+        return "achievements/editControlAchievements";
     }
 
 
@@ -98,13 +99,15 @@ public class AchievementController {
 
     @PostMapping("/controlAchievements/add")
     public String processCreationAchievementForm(ModelMap model,@Valid Achievement achievement,BindingResult result){
-        if(result.hasErrors()) return "/achievements/addAchievement";
-        try {
+        List<String> errors = achievementService.checkAchievementErrors(achievement);
+		if(!result.hasErrors() && errors.isEmpty()) {
             achievementService.addAchievement(achievement);
-        } catch (Exception e) {
-            throw e;
-        }
-        return "redirect:/controlAchievements";
+			return "redirect:/controlAchievements";
+		}
+		model.put("errors", errors);
+        model.put("achievement", achievement);
+        model.put("tipoLogro", List.of(AchievementType.values()));
+        return "/achievements/addAchievement";
     }
 
 }

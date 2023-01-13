@@ -26,8 +26,7 @@
   }
 </style>
 
-
-<sevenislands:layout2 pageName="addUser">
+<sevenislands:layout2 pageName="addAchievement">
     <body>
         <a class="btn btn-default" href='<spring:url value="/controlAchievements" htmlEscape="true"/>'>Volver</a>
         <h2><br/>Añadir Logro</h2>
@@ -50,5 +49,10 @@
           </div>
         </div>
       </form:form>
+      <div id="for" >
+        <c:forEach items="${errors}" var="error">
+          <p id="error">${error}</p>
+        </c:forEach>
+      </div>
       </body>
 </sevenislands:layout2>

@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -106,12 +107,12 @@ public class LobbyController {
 		}
 	}
 
-	@GetMapping("/join/code")
+	@PostMapping("/join")
 	public String validateJoin(ModelMap model, @ModelAttribute("code") String code, @ModelAttribute("logedUser") User logedUser) throws NotExistLobbyException {
 		List<String> errors = gameService.checkLobbyErrors(code);
 		if(errors.isEmpty()) {
-			invitationService.deleteInvitationsByLobbyAndUser(lobbyUserService.findLobbyByUser(logedUser), logedUser);
 			lobbyUserService.joinLobby(code, logedUser, Mode.PLAYER);
+			invitationService.deleteInvitationsByLobbyAndUser(lobbyUserService.findLobbyByUser(logedUser), logedUser);
 			return "redirect:/lobby";
 		} 
 		model.put("errors", errors);
@@ -138,12 +139,17 @@ public class LobbyController {
 	}
 
 	@GetMapping("/lobby/accept/{idInvitationReceiver}")
-	public String acceptInvitation(@ModelAttribute("logedUser") User logedUser, @PathVariable("idInvitationReceiver") Integer id) throws Exception {
+	public String acceptInvitation(HttpServletRequest request, @ModelAttribute("logedUser") User logedUser, @PathVariable("idInvitationReceiver") Integer id) throws Exception {
 		Optional<Invitation> invitation = invitationService.findInvitationById(id);
 		if(!invitation.isPresent()) return "redirect:/home";
 		Lobby lobby = invitation.get().getLobby();
+		Mode mode = invitation.get().getMode();
 		invitationService.deleteInvitationsByLobbyAndUser(invitation.get().getLobby(), logedUser);
-		lobbyUserService.joinLobby(lobby.getCode(), logedUser, invitation.get().getMode());
+		if(gameService.findGameByLobby(lobby).isPresent()) mode = Mode.VIEWER;
+		lobbyUserService.joinLobby(lobby.getCode(), logedUser, mode);
+		
+		HttpSession session = request.getSession();
+		session.setAttribute("selectedCards", new HashMap<>());
 		return "redirect:/lobby";
 	}
 }

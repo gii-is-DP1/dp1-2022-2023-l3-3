@@ -83,7 +83,7 @@ public class StatisticControllerTest {
     @Test
     public void stadisticTest() throws Exception {
         
-        given(gameService.gameCount()).willReturn(0);
+        given(gameService.gameCount()).willReturn(0L);
         given(gameService.findTotalTimePlayed()).willReturn(0L);
         given(gameDetailsService.findTotalPunctuation()).willReturn(0);
         given(turnService.turnCount()).willReturn(0);
@@ -110,7 +110,7 @@ public class StatisticControllerTest {
     @Test
     public void dailyStadisticTest() throws Exception {
         
-        given(gameService.gameCount()).willReturn(0);
+        given(gameService.gameCount()).willReturn(0L);
         given(gameService.findTotalTimePlayed()).willReturn(0L);
         given(gameDetailsService.findTotalPunctuation()).willReturn(0);
         given(turnService.turnCount()).willReturn(0);
