@@ -51,8 +51,8 @@
 			<c:forEach items="${games}" var="game">
 				<tr>
 					<td><c:out value="${game.getFirst().id}"/></td>
-					<td><c:out value="${game.getFirst().creationDate}"/></td>
-					<td><c:out value="${game.getFirst().endingDate}"/></td>	
+					<td><c:out value="${game.getFirst().getFormattedCreationDate()}"/></td>
+					<td><c:out value="${game.getFirst().getFormattedEndingDate()}"/></td>	
 					<td><c:out value="${game.getSecond()[0]}"></c:out></td>
 					<td><c:out value="${fn:join(game.getSecond(), ', ')}"/></td>
 					<td><c:out value="${game.getFirst().winner.nickname}"></c:out></td>

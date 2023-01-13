@@ -128,6 +128,7 @@ public class TurnService {
         Round round = new Round();
         round.setGame(game.get());
         if (roundService.findRoundsByGame(game.get()).isEmpty()) {
+            System.out.println(userList.toString());
             dealtreasures(logedUser, game, userList, roundList);
             Integer prevUser = userList.indexOf(logedUser) == 0 ? userList.size() - 1 : userList.indexOf(logedUser) - 1; 
             roundService.save(round);
@@ -157,7 +158,9 @@ public class TurnService {
         treasureList.add(cardService.findCardByGameAndTreasure(game.get().getId(), Tipo.Doblon));
         treasureList.add(cardService.findCardByGameAndTreasure(game.get().getId(), Tipo.Doblon));
         for (Integer i = 0; i < userList.size(); i++) {
+            System.out.println(userList.toString());
             User user = userList.get((userList.indexOf(logedUser) + i) % userList.size());
+            System.out.println(user.getNickname() + " " + user.toString());
             Turn turn = new Turn();
             turn.setRound(round);
             turn.setStartTime(LocalDateTime.now());

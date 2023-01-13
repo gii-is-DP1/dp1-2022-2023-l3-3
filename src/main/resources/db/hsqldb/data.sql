@@ -28,8 +28,8 @@ INSERT INTO lobby_user(lobby_id, user_id, mode) VALUES (2,10, 'PLAYER');
 INSERT INTO lobby_user(lobby_id, user_id, mode) VALUES (2,7, 'PLAYER');
 
 -- JUEGOS -- 
-INSERT INTO game(id, creation_date, ending_date, active, lobby_id, winner_id, tie_break) VALUES (1, '2022-11-14 01:01:00', '2022-11-14 01:20:00', 'FALSE', 1, 7, 'FALSE');
-INSERT INTO game(id, creation_date, ending_date, active, lobby_id, winner_id, tie_break) VALUES (2, '2022-11-09 01:01:00', '2022-11-09 01:20:00', 'FALSE', 2, 7, 'FALSE');
+INSERT INTO game(id, creation_date, ending_date, active, lobby_id, winner_id, tie_break) VALUES (1, '2022-11-14 01:01:00.00000', '2022-11-14 01:20:00.00000', 'FALSE', 1, 7, 'FALSE');
+INSERT INTO game(id, creation_date, ending_date, active, lobby_id, winner_id, tie_break) VALUES (2, '2022-11-09 01:01:00.00000', '2022-11-09 01:20:00.00000', 'FALSE', 2, 7, 'FALSE');
 
 -- RONDAS --
 INSERT INTO round(game_id) VALUES (1);

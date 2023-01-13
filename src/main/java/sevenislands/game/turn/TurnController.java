@@ -125,7 +125,7 @@ public class TurnController {
         if (userService.checkUserNoExists(request)) return "redirect:/";
         if (!lobbyUserService.checkUserLobby(logedUser) && !gameService.checkUserGame(logedUser)) return "redirect:/home";
         if(!gameService.checkUserGame(logedUser)) return "redirect:/home";
-        if(turnService.endGame(gameService.findGameByUser(logedUser).get())) {
+        if(!turnService.endGame(gameService.findGameByUser(logedUser).get())) {
             if (message != null) {
                 Optional<Game> game = gameService.findGameByUserAndActive(logedUser, true);
                 if(game.isPresent()) {
