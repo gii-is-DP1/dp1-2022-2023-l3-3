@@ -183,8 +183,8 @@ public class gameDetailsServiceTest {
         when(lobbyUserRepository.findByUser(user1)).thenReturn(Optional.of(List.of(lobbyUser1)));
         when(gameRepository.findGameByLobby(lobby1)).thenReturn(Optional.of(game1));
         when(lobbyUserRepository.findUsersByLobbyAndMode(lobby1, Mode.PLAYER)).thenReturn(List.of(user1, user2));
-        when(turnRepository.findTurnByNickname(user1.getNickname())).thenReturn(Optional.of(List.of(turnList.get(0))));
-        when(turnRepository.findTurnByNickname(user2.getNickname())).thenReturn(Optional.of(List.of(turnList.get(1))));
+        when(turnRepository.findTurnByUser(user1)).thenReturn(Optional.of(List.of(turnList.get(0))));
+        when(turnRepository.findTurnByUser(user2)).thenReturn(Optional.of(List.of(turnList.get(1))));
         
         List<GameDetails> gameDetails = gameDetailsService.calculateDetails(user1);
         assertNotNull(gameDetails);

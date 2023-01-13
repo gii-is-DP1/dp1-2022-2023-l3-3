@@ -70,32 +70,4 @@ public class LobbyService {
         lobby.setActive(false);
         return lobbyRepository.save(lobby);
     }
-
-    @Transactional
-    public Double findAveragePlayersInGameById(Integer userId) {
-        Optional<List<Lobby>> allUserLobbies = lobbyRepository.findByPlayerId(userId);
-        Double averagePlayers = 0.;
-        if(allUserLobbies.isPresent()) {
-            Integer numGames = allUserLobbies.get().size();
-            Integer totalUsers = allUserLobbies.get().stream()
-            .map(lobby -> lobby.getUsers().size())
-            .reduce(0, (a,b) -> a + b);
-            averagePlayers = (double) totalUsers / numGames;
-        }
-        return averagePlayers;
-    }
-
-    @Transactional
-    public Integer findMaxPlayersInGameById(Integer userId) {
-        Optional<List<Lobby>> allUserLobbies = lobbyRepository.findByPlayerId(userId);
-        Integer maxPlayers = 0;
-        if(allUserLobbies.isPresent()) {
-            maxPlayers = allUserLobbies.get().stream()
-            .map(lobby -> lobby.getUsers().size())
-            .reduce(0, Integer::max);
-        }
-        return maxPlayers;
-    }
-
-    
 }

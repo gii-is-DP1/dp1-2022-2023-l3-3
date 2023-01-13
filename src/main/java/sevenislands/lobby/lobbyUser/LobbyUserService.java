@@ -150,4 +150,42 @@ public class LobbyUserService {
     public List<User> findUsersByLobbyAndMode(Lobby lobby, Mode mode) {
         return lobbyUserRepository.findUsersByLobbyAndMode(lobby, mode);
     }
+
+    @Transactional
+    public Double findAveragePlayersInGameByUser(User user) {
+        List<Lobby> allUserLobbies = findLobbiesByUser(user);
+        Double averagePlayers = 0.;
+        if(!allUserLobbies.isEmpty()) {
+            Integer numGames = allUserLobbies.size();
+            Integer totalUsers = allUserLobbies.stream()
+            .map(lobby -> findUsersByLobby(lobby).size())
+            .reduce(0, (a,b) -> a + b);
+            averagePlayers = (double) totalUsers / numGames;
+        }
+        return averagePlayers;
+    }
+
+    @Transactional
+    public Integer findMaxPlayersInGameByUser(User user) {
+        List<Lobby> allUserLobbies = findLobbiesByUser(user);
+        Integer maxPlayers = 0;
+        if(!allUserLobbies.isEmpty()) {
+            maxPlayers = allUserLobbies.stream()
+            .map(lobby -> findUsersByLobby(lobby).size())
+            .reduce(0, Integer::max);
+        }
+        return maxPlayers;
+    }
+
+    @Transactional
+    public Integer findMinPlayersInGameByUser(User user) {
+        List<Lobby> allUserLobbies = findLobbiesByUser(user);
+        Integer minPlayers = 0;
+        if(!allUserLobbies.isEmpty()) {
+            minPlayers = allUserLobbies.stream()
+            .map(lobby -> findUsersByLobby(lobby).size())
+            .reduce(0, Integer::min);
+        }
+        return minPlayers;
+    }
 }

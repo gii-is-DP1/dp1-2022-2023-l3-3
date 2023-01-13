@@ -94,7 +94,7 @@ public class TurnController {
         Turn lastTurn = turnList.get(turnList.size() - 1);
         Lobby lobby = lobbyUserService.findLobbyByUser(logedUser);
         List<User> userList = lobbyUserService.findUsersByLobbyAndMode(lobby, Mode.PLAYER);
-        Map<Card, Integer> playerCardsMap = turnService.findPlayerCardsLastTurn(logedUser.getNickname());
+        Map<Card, Integer> playerCardsMap = turnService.findPlayerCardsLastTurn(logedUser);
         List<Island> islasToChose=turnService.islandToChoose(lastTurn,logedUser.getNickname(),islandList, request);
 
         model.put("player", logedUser);
@@ -230,7 +230,7 @@ public class TurnController {
     @RequestMapping(value="/turn/selectCard/{idCard}",method = RequestMethod.GET)
     public String selectCard(@PathVariable("idCard") Integer id, @ModelAttribute("logedUser") User logedUser, HttpServletRequest request) throws NotExistLobbyException {
         if(!turnService.endGame(gameService.findGameByUser(logedUser).get())) {
-            turnService.deleteCard(id, logedUser.getNickname());
+            turnService.deleteCard(id, logedUser);
             turnService.changeCard(id, logedUser, 0, request);
         }
         

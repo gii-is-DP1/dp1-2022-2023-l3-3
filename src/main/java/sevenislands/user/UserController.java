@@ -263,7 +263,7 @@ public class UserController {
 			Integer totalGamesPlayed = gameService.findTotalGamesPlayedByUser(userDetailed.get());
 			Long totalHoursPlayed = gameService.findTotalTimePlayedByUser(userDetailed.get());
 			Long totalPoints = gameDetailsService.findPunctuationByNickname(nickname);
-			Integer totalTurns = turnService.findTotalTurnsByNickname(nickname);
+			Integer totalTurns = turnService.findTotalTurnsByUser(userDetailed.get());
 
 			List<Pair<Achievement, Date>> registers = registerService.findRegistersByNickname(nickname).stream()
 			.map(r -> Pair.of((Achievement)r[0], (Date)r[1])).collect(Collectors.toList());

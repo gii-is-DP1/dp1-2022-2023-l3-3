@@ -96,7 +96,7 @@ public class GameDetailsService {
 
                 doblons = 0;
                 userPoints = 0;
-                Map<Card, Integer> cards = turnService.findPlayerCardsLastTurn(user.getNickname());
+                Map<Card, Integer> cards = turnService.findPlayerCardsLastTurn(user);
 
                 Card doblon = cards.keySet().stream().filter(card -> card.getTipo() == Tipo.Doblon).findFirst().orElse(null);
                 if(doblon != null) {
@@ -136,7 +136,6 @@ public class GameDetailsService {
                 game.get().setTieBreak(tieBreak);
                 game.get().setWinner(winner);
                 save(gameDetails);
-                gameDetailsRes.add(gameDetails);
                 gameService.save(game.get());
                 gameDetailsList.add(gameDetails);
             }
@@ -154,7 +153,6 @@ public class GameDetailsService {
                 }
             }
         }
-        return gameDetailsRes;
     }
 
     @Transactional
@@ -200,9 +198,9 @@ public class GameDetailsService {
     }
 
     @Transactional
-    public Double findAveragePunctuationByNickname(String nickname) {
-        Long totalPunctuation = findPunctuationByNickname(nickname);
-        Integer totalGames = gameService.findTotalGamesPlayedByNickname(nickname);
+    public Double findAveragePunctuationByUser(User user) {
+        Long totalPunctuation = findPunctuationByNickname(user.getNickname());
+        Integer totalGames = gameService.findTotalGamesPlayedByUser(user);
         return (double) totalPunctuation / totalGames;
     }
 

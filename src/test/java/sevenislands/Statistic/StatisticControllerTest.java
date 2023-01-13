@@ -140,7 +140,7 @@ public class StatisticControllerTest {
         given(gameService.findTotalGamesPlayedByUser(any())).willReturn(0);
         given(gameService.findTotalTimePlayedByUser(any())).willReturn(0L);
         given(gameDetailsService.findPunctuationByNickname(any())).willReturn(0L);
-        given(turnService.findTotalTurnsByNickname(any())).willReturn(0);   
+        given(turnService.findTotalTurnsByUser(any())).willReturn(0);   
 
         mockMvc.perform(get("/myStatistics").flashAttr("logedUser", userController))
         .andExpect(status().isOk())

@@ -35,19 +35,15 @@ public interface GameRepository extends CrudRepository<Game, Integer> {
     @Query("SELECT game FROM Game game INNER JOIN game.winner winner WHERE winner.nickname=?1")
     List<Game> findWonGamesByNickname(String nickname);
     
-    
-
     @Query("SELECT COUNT(game) FROM Game game INNER JOIN game.winner winner WHERE winner.nickname=?1 AND game.tieBreak=TRUE")
     public Long findTieBreaksByNickname(String nickname);
 
     @Query("SELECT COUNT(game) FROM Game game GROUP BY TO_CHAR(game.creationDate, 'YYYY-MM-DD')")
     public List<Integer> findTotalGamesPlayedByDay();
 
-    @Query("SELECT COUNT(g) FROM Game g INNER JOIN g.lobby l INNER JOIN l.users u WHERE u.nickname=?1 GROUP BY TO_CHAR(g.creationDate, 'YYYY-MM-DD')")
-    public List<Integer> findNGamesPlayedByNicknamePerDay(String nickname);
+    @Query("SELECT COUNT(game) FROM Game game WHERE game IN ?1  GROUP BY TO_CHAR(game.creationDate, 'YYYY-MM-DD')")
+    public List<Integer> findNumberGamesByGameListPerDay(List<Game> games);
 
-    @Query("SELECT g FROM Game g INNER JOIN g.lobby l INNER JOIN l.users u WHERE u.nickname=?1 GROUP BY TO_CHAR(g.creationDate, 'YYYY-MM-DD')")
-    public List<Game> findGamesPlayedByNicknamePerDay(String nickname);
     @Query("SELECT COUNT(game) FROM Game game INNER JOIN game.lobby lobby WHERE lobby IN ?1")
     public Integer findTotalGamesPlayedByUserLobbies(List<Lobby> lobbies);
 

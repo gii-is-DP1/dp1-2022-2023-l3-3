@@ -10,6 +10,7 @@ import org.springframework.stereotype.Repository;
 
 import sevenislands.game.Game;
 import sevenislands.game.round.Round;
+import sevenislands.user.User;
 
 @Repository
 public interface TurnRepository extends CrudRepository<Turn, Integer> {
@@ -20,11 +21,11 @@ public interface TurnRepository extends CrudRepository<Turn, Integer> {
     public List<Turn> findAll();
 
     //Para obtener el último turno tendriamos que coger el primer elemento de la lista
-    @Query("SELECT t FROM Turn t INNER JOIN t.user u INNER JOIN t.round r INNER JOIN r.game g WHERE u.nickname=?1 ORDER BY t.round.id DESC")
-    public Optional<List<Turn>> findTurnByNickname(String nickname);
+    @Query("SELECT t FROM Turn t INNER JOIN t.user user INNER JOIN t.round r INNER JOIN r.game g WHERE user=?1 ORDER BY t.round.id DESC")
+    public Optional<List<Turn>> findTurnByUser(User user);
 
-    @Query("SELECT COUNT(t) FROM Turn t INNER JOIN t.user u WHERE u.nickname=?1")
-    public Integer findTotalTurnsByNickname(String nickname);
+    @Query("SELECT COUNT(t) FROM Turn t INNER JOIN t.user u WHERE u=?1")
+    public Integer findTotalTurnsByUser(User user);
 
     @Query("SELECT COUNT(t) FROM Turn t INNER JOIN t.round r INNER JOIN r.game g GROUP BY g")
     public List<Integer> findTotalTurnsByGame();
